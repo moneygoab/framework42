@@ -1,6 +1,6 @@
 package org.framework42.web.session;
 
-import com.nummer42.model.users.User;
+import org.framework42.model.users.User;
 
 public class DefaultUserSession<T extends UserSession> extends UserSession<User> {
 
