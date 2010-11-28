@@ -6,39 +6,45 @@ import org.framework42.web.utils.Util;
 
 public class Title extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   public Title(Builder builder) {
+    public Title(String label) {
 
-      this.builder = builder;
+        this.builder = new Builder(label);
 
-   }
+    }
 
-   @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    private Title(Builder builder) {
 
-      htmlBuilder.append(Util.tab(tabs));
-      htmlBuilder.append("<title>");
-      htmlBuilder.append(builder.label);
-      htmlBuilder.append("</title>\n");
+        this.builder = builder;
 
-      html = htmlBuilder.toString();
+    }
 
-   }
+    @Override
+    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
 
-   public static class Builder implements ComponentBuilder<Title> {
+        htmlBuilder.append(Util.tab(tabs));
+        htmlBuilder.append("<title>");
+        htmlBuilder.append(builder.label);
+        htmlBuilder.append("</title>\n");
 
-      private String label;
+        html = htmlBuilder.toString();
 
-      public Builder(String label) {
-         this.label = label;
-      }
+    }
 
-      @Override
-      public Title build() {
-         return new Title(this);
-      }
+    public static class Builder implements ComponentBuilder<Title> {
 
-   }
+        private String label;
+
+        public Builder(String label) {
+            this.label = label;
+        }
+
+        @Override
+        public Title build() {
+            return new Title(this);
+        }
+
+    }
 
 }

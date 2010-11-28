@@ -5,30 +5,20 @@ import org.framework42.exceptions.NotAuthorizedException;
 public abstract class AbstractAuthorizationPerformer implements AuthorizationPerformer {
 
     public AbstractAuthorizationPerformer() {
-
     }
 
     @Override
     public void authorizeAction(AuthorizationAction authorizationAction) throws NotAuthorizedException {
 
-        if (performGeneralAuthorization() != AuthorizationResult.AUTHORIZED) {
-            throw new NotAuthorizedException();
-        }
+        performGeneralAuthorization();
 
-        AuthorizationResult authorizationResult = performAuthorization(authorizationAction);
-
-        if (authorizationResult != AuthorizationResult.AUTHORIZED) {
-            throw new NotAuthorizedException();
-        }
+        performAuthorization(authorizationAction);
 
     }
 
-    protected AuthorizationResult performGeneralAuthorization() {
-
-        return AuthorizationResult.AUTHORIZED;
-
+    protected void performGeneralAuthorization() throws NotAuthorizedException {
     }
 
-    protected abstract AuthorizationResult performAuthorization(AuthorizationAction authorizationAction);
+    protected abstract void performAuthorization(AuthorizationAction authorizationAction) throws NotAuthorizedException;
 
 }
