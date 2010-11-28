@@ -1,17 +1,19 @@
 package org.framework42.web.pages;
 
+import org.apache.log4j.Logger;
+import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.Role;
 import org.framework42.model.users.User;
+import org.framework42.web.authorization.PageAuthorizationAction;
+import org.framework42.web.authorization.PageAuthorizationPerformer;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.standardhtml.Html;
+import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagelogic.PageLogic;
 import org.framework42.web.pagemodel.PageModel;
 import org.framework42.web.session.UserSession;
-import org.framework42.web.exceptions.ManageablePageException;
-import org.framework42.web.exceptions.NotAuthorizedToAccessPageException;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** This class is the base class of all WebPages. */
+/**
+ * This class is the base class of all WebPages.
+ */
 public abstract class WebPage<T extends UserSession, R extends PageModel> extends HttpServlet {
 
     protected final Logger logger;
@@ -71,7 +75,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
      * This method takes an htmlBuilder and simply builds the html code for the page.
      *
      * @param htmlBuilder The htmlBuilder that should build this page
-     *
      * @return String       The html code as a String
      */
     public String getHtml(Html.Builder htmlBuilder) {
@@ -98,10 +101,10 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                 session = createUserSession(req);
                 req.getSession().setAttribute("userSession", session);
 
-            } else if (req.getParameter("userId")!=null) {
+            } else if (req.getParameter("userId") != null) {
 
-                    session = createUserSession(req);
-                    req.getSession().setAttribute("userSession", session);
+                session = createUserSession(req);
+                req.getSession().setAttribute("userSession", session);
 
             } else if (sessionAsObject instanceof UserSession) {
 
@@ -148,20 +151,21 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             writeHtmlPage(resp, htmlBuilder);
 
-        } catch (NotAuthorizedToAccessPageException e) {
+        } catch (NotAuthorizedException e) {
 
+            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
             resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
 
-        } catch(StopServletExecutionException e) {
+        } catch (StopServletExecutionException e) {
 
             logger.debug("Execution stopped of servlet due to need for redirect.");
 
-        } catch(ManageablePageException e) {
+        } catch (ManageablePageException e) {
 
             handleManageablePageException(session, htmlBuilder);
             try {
                 writeHtmlPage(resp, htmlBuilder);
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 logUnhandledException(e);
                 resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
             }
@@ -194,15 +198,16 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             writeHtmlPage(resp, htmlBuilder);
 
-        } catch (NotAuthorizedToAccessPageException e) {
+        } catch (NotAuthorizedException e) {
 
+            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
             resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
 
-        } catch(StopServletExecutionException e) {
+        } catch (StopServletExecutionException e) {
 
             logger.debug("Execution stopped of servlet due to need for redirect.");
 
-        }catch (Exception e) {
+        } catch (Exception e) {
 
             logUnhandledException(e);
             resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
@@ -242,51 +247,15 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     public abstract ComponentGroup getPageSpecificHtml(R pageData, T session);
 
-    protected void mayAccessPage(T session) throws NotAuthorizedToAccessPageException {
+    protected void mayAccessPage(T session) throws NotAuthorizedException {
 
         User user = session.getUser();
 
-        isUserDeniedAccess(user);
+        PageAuthorizationPerformer authorizationPerformer = new PageAuthorizationPerformer(user, accessRoles, denyAccessRoles);
 
-        isUserGrantedAccess(user);
-
-    }
-
-    private void isUserDeniedAccess(User user) throws NotAuthorizedToAccessPageException {
-
-        for (Role role : denyAccessRoles) {
-
-            if (user.getUserRoles().containsKey(role)) {
-                throw new NotAuthorizedToAccessPageException();
-            }
-
-        }
+        authorizationPerformer.authorizeAction(PageAuthorizationAction.VIEW_PAGE);
 
     }
 
-    private void isUserGrantedAccess(User user) throws NotAuthorizedToAccessPageException {
-
-        boolean accessGranted = false;
-
-        if (accessRoles.size() == 0) {
-
-            accessGranted = true;
-
-        } else {
-
-            for (Role role : accessRoles) {
-
-                if (user.getUserRoles().containsKey(role)) {
-                    accessGranted = true;
-                    break;
-                }
-            }
-        }
-
-        if (!accessGranted) {
-            throw new NotAuthorizedToAccessPageException();
-        }
-
-    }
 
 }
