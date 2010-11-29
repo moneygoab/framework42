@@ -8,7 +8,7 @@ public abstract class AbstractAuthorizationPerformer implements AuthorizationPer
     }
 
     @Override
-    public void authorizeAction(AuthorizationAction authorizationAction) throws NotAuthorizedException {
+    public void authorize(AuthorizationAction authorizationAction) throws NotAuthorizedException {
 
         performGeneralAuthorization();
 

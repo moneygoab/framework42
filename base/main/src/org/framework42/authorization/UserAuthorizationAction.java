@@ -1,14 +1,12 @@
-package org.framework42.web.authorization;
+package org.framework42.authorization;
 
-import org.framework42.authorization.AuthorizationAction;
+public enum UserAuthorizationAction implements AuthorizationAction {
 
-public enum PageAuthorizationAction implements AuthorizationAction {
-
-    VIEW_PAGE(100000);
+    HAS_VALID_ROLE(100000);
 
     private final int databaseId;
 
-    PageAuthorizationAction(int databaseId) {
+    UserAuthorizationAction(int databaseId) {
         this.databaseId = databaseId;
     }
 
@@ -17,9 +15,9 @@ public enum PageAuthorizationAction implements AuthorizationAction {
         return databaseId;
     }
 
-    public PageAuthorizationAction getFromDatabaseId(int databaseId) {
+    public UserAuthorizationAction getFromDatabaseId(int databaseId) {
 
-        for (PageAuthorizationAction action : PageAuthorizationAction.values()) {
+        for (UserAuthorizationAction action : UserAuthorizationAction.values()) {
             if (databaseId == action.getDatabaseId()) {
                 return action;
             }
