@@ -1,7 +1,5 @@
 package org.framework42.model.users;
 
-import org.framework42.model.Role;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;

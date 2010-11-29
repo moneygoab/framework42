@@ -1,4 +1,4 @@
-package org.framework42.model;
+package org.framework42.model.users;
 
 public interface RoleStatus {
 
