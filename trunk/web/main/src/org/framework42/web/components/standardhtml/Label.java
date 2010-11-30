@@ -8,6 +8,10 @@ public class Label extends HtmlComponent {
 
     private final String label;
 
+    public Label(String label) {
+        this.label = label;
+    }
+
     private Label(Builder builder) {
 
         this.label = builder.label;
