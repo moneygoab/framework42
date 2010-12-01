@@ -271,6 +271,7 @@ public class MiniConnectionPoolManager {
      * it must close it in order to return it to the pool.
      *
      * @return a new Connection object.
+     * @throws SQLException throws sql exceptions.
      * @throws TimeoutException when no connection becomes available within
      *                          <code>timeout</code> seconds.
      */
