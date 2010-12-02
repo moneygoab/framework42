@@ -1,0 +1,10 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+    <!-- Server base settings -->
+    <entry key="defaultLanguage">sv</entry>
+    <entry key="defaultCountry">SE</entry>
+
+    <entry key="serverBaseUrl">http://localhost:8080/</entry>
+
+</properties>

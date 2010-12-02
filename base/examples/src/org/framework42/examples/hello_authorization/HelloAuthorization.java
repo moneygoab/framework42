@@ -58,7 +58,7 @@ public class HelloAuthorization {
     private User createUser1() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(BaseRole.MEMBER, new UserRoleImpl<Role, RoleStatus>(BaseRole.MEMBER, new BaseRoleStatus(0, "NONE")));
+        userRoles.put(BaseRole.MEMBER, new UserRoleImpl<Role, RoleStatus>(BaseRole.MEMBER, BaseRoleStatus.ACTIVE));
 
         return new BaseUser(1, Calendar.getInstance().getTime(), "user@test.com", "Test User Member", userRoles);
 
@@ -67,7 +67,7 @@ public class HelloAuthorization {
     private User createUser2() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(BaseRole.VISITOR, new UserRoleImpl<Role, RoleStatus>(BaseRole.VISITOR, new BaseRoleStatus(0, "NONE")));
+        userRoles.put(BaseRole.VISITOR, new UserRoleImpl<Role, RoleStatus>(BaseRole.VISITOR, BaseRoleStatus.ACTIVE));
 
         return new BaseUser(2, Calendar.getInstance().getTime(), "visitor@test.com", "Test User Visitor", userRoles);
 

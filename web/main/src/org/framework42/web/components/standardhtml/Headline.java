@@ -6,98 +6,104 @@ import org.framework42.web.utils.Util;
 
 public class Headline extends HtmlComponent {
 
-   public final static String H1 = "1";
-   public final static String H2 = "2";
-   public final static String H3 = "3";
-   public final static String H4 = "4";
-   public final static String H5 = "5";
-   public final static String H6 = "6";
+    public final static String H1 = "1";
+    public final static String H2 = "2";
+    public final static String H3 = "3";
+    public final static String H4 = "4";
+    public final static String H5 = "5";
+    public final static String H6 = "6";
 
-   private Builder builder;
+    private Builder builder;
 
-   private Headline(Builder builder) {
+    public Headline(String size, String label) {
+        
+        builder = new Builder(size, label);
 
-      this.builder = builder;
+    }
 
-   }
+    private Headline(Builder builder) {
 
-   @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+        this.builder = builder;
 
-      htmlBuilder.append(Util.tab(tabs));
-      htmlBuilder.append("<h");
-      htmlBuilder.append(builder.size);
+    }
 
-      htmlBuilder.append(builder.addGeneralComponents());
+    @Override
+    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
 
-      if(builder.className != null){
-         htmlBuilder.append(" class=\"");
-         htmlBuilder.append(builder.className);
-         htmlBuilder.append("\"");
-      }
+        htmlBuilder.append(Util.tab(tabs));
+        htmlBuilder.append("<h");
+        htmlBuilder.append(builder.size);
 
-      if(builder.id != null){
-         htmlBuilder.append(" id=\"");
-         htmlBuilder.append(builder.id);
-         htmlBuilder.append("\"");
-      }
+        htmlBuilder.append(builder.addGeneralComponents());
 
-      if(builder.style != null){
-         htmlBuilder.append(" style=\"");
-         htmlBuilder.append(builder.style);
-         htmlBuilder.append("\"");
-      }
+        if(builder.className != null){
+            htmlBuilder.append(" class=\"");
+            htmlBuilder.append(builder.className);
+            htmlBuilder.append("\"");
+        }
 
-      htmlBuilder.append(">\n");
-      htmlBuilder.append(Util.tab(tabs+1));
-      htmlBuilder.append(builder.label);
+        if(builder.id != null){
+            htmlBuilder.append(" id=\"");
+            htmlBuilder.append(builder.id);
+            htmlBuilder.append("\"");
+        }
 
-      htmlBuilder.append("\n");
-      htmlBuilder.append(Util.tab(tabs));
-      htmlBuilder.append("</h");
-      htmlBuilder.append(builder.size);
-      htmlBuilder.append(">\n");
+        if(builder.style != null){
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
 
-      html = htmlBuilder.toString();
+        htmlBuilder.append(">\n");
+        htmlBuilder.append(Util.tab(tabs+1));
+        htmlBuilder.append(builder.label);
 
-   }
+        htmlBuilder.append("\n");
+        htmlBuilder.append(Util.tab(tabs));
+        htmlBuilder.append("</h");
+        htmlBuilder.append(builder.size);
+        htmlBuilder.append(">\n");
 
-   public static class Builder extends EventComponentBuilder {
+        html = htmlBuilder.toString();
 
-      private final String size;
-      private final String label;
+    }
 
-      private String className = null;
+    public static class Builder extends EventComponentBuilder {
 
-      private String id = null;
+        private final String size;
+        private final String label;
 
-      private String style = null;
+        private String className = null;
 
-      public Builder(String size, String label) {
-         this.size = size;
-         this.label = label;
-      }
+        private String id = null;
 
-      public Builder className(String className){
-         this.className = className;
-         return this;
-      }
+        private String style = null;
 
-      public Builder id(String id){
-         this.id = id;
-         return this;
-      }
+        public Builder(String size, String label) {
+            this.size = size;
+            this.label = label;
+        }
 
-      public Builder style(String style){
-         this.style = style;
-         return this;
-      }
+        public Builder className(String className){
+            this.className = className;
+            return this;
+        }
 
-      @Override
-      public Headline build() {
-         return new Headline(this);
-      }
+        public Builder id(String id){
+            this.id = id;
+            return this;
+        }
 
-   }
+        public Builder style(String style){
+            this.style = style;
+            return this;
+        }
+
+        @Override
+        public Headline build() {
+            return new Headline(this);
+        }
+
+    }
 
 }

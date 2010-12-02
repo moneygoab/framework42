@@ -53,6 +53,16 @@ public class BaseUser implements User {
     }
 
     @Override
+    public void addUserRole(UserRole userRole) {
+        userRoles.put(userRole.getRole(), userRole);
+    }
+
+    @Override
+    public void removeUserRole(UserRole userRole) {
+        userRoles.remove(userRole.getRole());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
