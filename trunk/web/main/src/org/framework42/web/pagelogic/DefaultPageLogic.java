@@ -2,8 +2,7 @@ package org.framework42.web.pagelogic;
 
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
-import org.framework42.web.pagemodel.DefaultPageModel;
-import org.framework42.web.pagemodel.PageModel;
+import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,19 @@ public class DefaultPageLogic<T extends UserSession, R extends PageModel> extend
     }
 
     @Override
-    public PageModel perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageablePageException {
+    protected PageModel createPageModel(HttpServletRequest req, HttpServletResponse resp, T session) {
         return new DefaultPageModel();
+    }
+
+    @Override
+    protected void setupPageParameters(HttpServletRequest req, T session, PageModel pageModel) {
+        
+    }
+
+    @Override
+    protected PageModel performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, PageModel pageModel) throws IOException, StopServletExecutionException, ManageablePageException {
+
+        return pageModel;
+
     }
 }

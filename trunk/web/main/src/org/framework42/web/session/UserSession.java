@@ -14,6 +14,10 @@ public abstract class UserSession<T extends User> {
 
     public UserSession() {
 
+        setLocale(new Locale("sv","SE"));
+
+        this.authenticated = false;
+
     }
 
     public abstract T getUser();

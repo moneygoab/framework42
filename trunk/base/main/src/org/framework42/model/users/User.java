@@ -16,4 +16,8 @@ public interface User extends Serializable {
 
     public Map<Role, UserRole> getUserRoles();
 
+    public void addUserRole(UserRole userRole);
+
+    public void removeUserRole(UserRole userRole);
+    
 }
