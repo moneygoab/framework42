@@ -13,6 +13,10 @@ public abstract class PageModel {
     protected boolean error;
     protected String errorMessage;
 
+    protected String pageTitleKey;
+    protected String pageKeywordsKey;
+    protected String pageDescriptionKey;
+
     protected List<ComponentModel> componentModels;
 
     protected Map<String, Parameter> inParameters;
@@ -27,6 +31,9 @@ public abstract class PageModel {
         componentModels = new ArrayList<ComponentModel>();
         inParameters = new HashMap<String, Parameter>();
         pageParameters = new HashMap<String, Parameter>();
+        pageTitleKey = "page_title";
+        pageKeywordsKey = "page_keywords";
+        pageDescriptionKey = "page_description";
     }
         
     public boolean isError() {
@@ -47,7 +54,19 @@ public abstract class PageModel {
         this.errorMessage = null;
     }
 
-    public Map<Class, ComponentModel> getComponentModels() {
+    public String getPageTitleKey() {
+        return pageTitleKey;
+    }
+
+    public String getPageKeywordsKey() {
+        return pageKeywordsKey;
+    }
+
+    public String getPageDescriptionKey() {
+        return pageDescriptionKey;
+    }
+
+    public List<ComponentModel> getComponentModels() {
         return componentModels;
     }
 

@@ -107,9 +107,14 @@ public enum I18N {
 
     private void checkInstantiation(Locale locale) {
 
-        if (!isInitialized() || hashMap.get(locale) == null) {
+        if (!isInitialized()) {
             String errorMess = "I18N data not yet instantiated for locale " + locale.getDisplayName() + "! " +
                     "You must call the method setUpI18N and send a data provider before use.";
+            logger.fatal(errorMess);
+            throw new InstantiationError(errorMess);
+        } else if(hashMap.get(locale) == null) {
+            String errorMess = "No I18N data found for locale " + locale.getDisplayName() + "! " +
+                    "Have you added this locale to your persistence?";
             logger.fatal(errorMess);
             throw new InstantiationError(errorMess);
         }

@@ -52,7 +52,13 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         addHtmlParameters(req, pageModel);
 
-        return performSpecific(req, resp, session, pageModel);
+        pageModel = performSpecific(req, resp, session, pageModel);
+
+        for(ComponentLogic compLogic : componentLogic) {
+
+        }
+
+        return pageModel;
 
     }
 

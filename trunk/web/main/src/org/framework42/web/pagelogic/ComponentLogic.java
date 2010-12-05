@@ -18,5 +18,5 @@ public abstract class ComponentLogic<T extends UserSession, R extends ComponentM
     }
 
     public abstract R perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException;
-
+            
 }
