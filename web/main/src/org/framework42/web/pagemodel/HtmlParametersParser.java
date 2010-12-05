@@ -49,7 +49,30 @@ public enum HtmlParametersParser {
             }
         }
 
+        isAllRequiredParametersSet(parsedParameters, pageParameters);
+
         return parsedParameters;
+
+    }
+
+    private void isAllRequiredParametersSet(Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
+
+        for(Parameter param : pageParameters.values()) {
+
+            if(param.isRequired()) {
+                if(!parsedParameters.containsKey(param.getParameterName())) {
+
+                    String name = param.getParameterName();
+                    String type = param.getParameterType().name();
+                    
+                    String errorMess = "The parameter "+name+" of type "+type+" is required but not set!";
+                    logger.error(errorMess);
+                    throw new IllegalArgumentException(errorMess);
+
+                }
+            }
+
+        }
 
     }
 
