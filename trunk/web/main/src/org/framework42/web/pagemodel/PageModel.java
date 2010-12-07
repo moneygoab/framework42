@@ -23,6 +23,8 @@ public abstract class PageModel {
 
     protected Map<String, Parameter> pageParameters;
 
+    protected Map<String, String> environmentInformation;
+
     /**
      * The constructor
      * */
@@ -31,6 +33,7 @@ public abstract class PageModel {
         componentModels = new ArrayList<ComponentModel>();
         inParameters = new HashMap<String, Parameter>();
         pageParameters = new HashMap<String, Parameter>();
+        environmentInformation = new HashMap<String, String>();
         pageTitleKey = "page_title";
         pageKeywordsKey = "page_keywords";
         pageDescriptionKey = "page_description";
@@ -102,4 +105,7 @@ public abstract class PageModel {
         pageParameters.put(parameter.getParameterName(), parameter);
     }
 
+    public Map<String, String> getEnvironmentInformation() {
+        return environmentInformation;
+    }
 }

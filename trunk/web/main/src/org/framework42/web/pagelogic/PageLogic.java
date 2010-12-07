@@ -50,6 +50,8 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         setupPageParameters(req, session, pageModel);
 
+        setupEnvironmentInformation(req, session, pageModel);
+
         addHtmlParameters(req, pageModel);
 
         pageModel = performSpecific(req, resp, session, pageModel);
@@ -91,6 +93,12 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @param pageModel     The page model 
      * */
     protected abstract void setupPageParameters(HttpServletRequest req, T session, R pageModel);
+
+    protected void setupEnvironmentInformation(HttpServletRequest req, T session, R pageModel) {
+
+        pageModel.getEnvironmentInformation().put("currentPageURI", req.getRequestURI().substring(1));
+
+    }
 
     /**
      * Parses and adds the html parameters that is sent in to the page model
