@@ -1,5 +1,6 @@
 package org.framework42.web.components.standardhtml;
 
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
@@ -23,7 +24,7 @@ public class Div extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<div id=\"");
@@ -53,7 +54,7 @@ public class Div extends HtmlComponent {
         htmlBuilder.append(">\n");
 
         for(HtmlComponent comp: builder.childComponents){
-            htmlBuilder.append(comp.getHtml(this, false));
+            htmlBuilder.append(comp.getHtml(page, this, false));
         }
 
         htmlBuilder.append(Util.tab(tabs));

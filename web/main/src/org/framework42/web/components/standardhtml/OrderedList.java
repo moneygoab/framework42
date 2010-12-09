@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class OrderedList extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<ol");
@@ -42,7 +43,7 @@ public class OrderedList extends HtmlComponent {
       for(HtmlComponent comp: builder.listItems){
          htmlBuilder.append(Util.tab(tabs+1));
          htmlBuilder.append("<li>");
-         htmlBuilder.append(comp.getHtml(this, false));
+         htmlBuilder.append(comp.getHtml(page, this, false));
          htmlBuilder.append("</li>\n");
       }
 

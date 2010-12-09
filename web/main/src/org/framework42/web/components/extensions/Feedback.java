@@ -2,6 +2,7 @@ package org.framework42.web.components.extensions;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 public class Feedback extends HtmlComponent {
@@ -15,7 +16,7 @@ public class Feedback extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<span id=\"");

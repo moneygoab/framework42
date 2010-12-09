@@ -3,6 +3,7 @@ package org.framework42.web.components.standardhtml.head;
 import org.framework42.web.components.ComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.MimeType;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 public class HeadScript extends HtmlComponent {
@@ -16,7 +17,7 @@ public class HeadScript extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         StringBuilder stringBuilder = new StringBuilder();
 

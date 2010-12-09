@@ -1,32 +1,45 @@
 package org.framework42.web.components.extensions;
 
+import org.framework42.i18n.I18N;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Label;
-import org.framework42.web.utils.Util;
+import org.framework42.web.pages.ChildPage;
+import org.framework42.web.pages.WebPage;
+
+import java.util.Locale;
 
 public class MenuItemText extends MenuItem {
 
     private Label text;
 
-    public MenuItemText(Label text, String pageURL, String backgroundPicture, String backgroundPictureChosen) {
-        super(pageURL, backgroundPicture, backgroundPictureChosen);
+    public MenuItemText(String id, Locale locale, Label text, String pageURL, String backgroundPicture, String backgroundPictureChosen, String backgroundPictureMouseOver) {
+        super(id, locale, pageURL, backgroundPicture, backgroundPictureChosen, backgroundPictureMouseOver);
         this.text = text;
     }
 
-    public MenuItemText(Label text, String pageURL, int padding, String backgroundPicture, String backgroundPictureChosen) {
-        super(pageURL, padding, backgroundPicture, backgroundPictureChosen);
+    public MenuItemText(String id, Locale locale, Label text, String pageURL, int padding, String backgroundPicture, String backgroundPictureChosen, String backgroundPictureMouseOver) {
+        super(id, locale, pageURL, padding, backgroundPicture, backgroundPictureChosen, backgroundPictureMouseOver);
         this.text = text;
     }
 
-    public MenuItemText(Label text, String pageURL, int padding, boolean active, String backgroundPicture, String backgroundPictureChosen) {
-        super(pageURL, padding, active, backgroundPicture, backgroundPictureChosen);
+    public MenuItemText(String id, Locale locale, Label text, String pageURL, int padding, boolean active, String backgroundPicture, String backgroundPictureChosen, String backgroundPictureMouseOver) {
+        super(id, locale, pageURL, padding, active, backgroundPicture, backgroundPictureChosen, backgroundPictureMouseOver);
         this.text = text;
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<span style=\"padding-right: ");
+        if(page instanceof ChildPage) {
+            String parentURL = I18N.INSTANCE.getURL(((ChildPage)page).getParentPageURLKey(), locale);
+            if(parentURL.equalsIgnoreCase(pageURL)) {
+                active = true;
+            }
+        }
+
+        htmlBuilder.append("<span id=\"");
+        htmlBuilder.append(id);
+        htmlBuilder.append("\" style=\"padding-right: ");
         htmlBuilder.append(padding);
         htmlBuilder.append("px; padding-left: 5px; padding-top: 5px; padding-bottom: 10px; ");
         if(active) {
@@ -49,9 +62,15 @@ public class MenuItemText extends MenuItem {
         if(active) {
             htmlBuilder.append(" class=\"main_menu_item_active_link\"");
         }
+
+        if(!active) {
+            //htmlBuilder.append(" onMouseOver=\"changeMenuBackground('"+id+"','"+backgroundPictureMouseOver+"');\"");
+            //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+id+"');\"");
+        }
+
         htmlBuilder.append(">");
 
-        htmlBuilder.append(text.getHtml(parent, true));
+        htmlBuilder.append(text.getHtml(page, parent, true));
 
         htmlBuilder.append("</a>");
 

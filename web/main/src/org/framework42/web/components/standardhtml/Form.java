@@ -1,6 +1,7 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.*;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Form extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<form name=\"");
@@ -58,7 +59,7 @@ public class Form extends HtmlComponent {
       htmlBuilder.append(">\n");
 
       for(HtmlComponent component:builder.formComponents){
-         htmlBuilder.append(component.getHtml(this, false));
+         htmlBuilder.append(component.getHtml(page, this, false));
          htmlBuilder.append("\n");
       }
 

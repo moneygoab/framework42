@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class TableRow extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<tr");
@@ -58,7 +59,7 @@ public class TableRow extends HtmlComponent {
 
         for(HtmlComponent comp:builder.rowComponents){
 
-            htmlBuilder.append(comp.getHtml(this, false));
+            htmlBuilder.append(comp.getHtml(page, this, false));
 
         }
 

@@ -3,6 +3,7 @@ package org.framework42.web.components.js_components;
 import org.framework42.web.components.ComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Div;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ public class JS_Dialog extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         StringBuilder htmlBuilder = new StringBuilder();
 
-        htmlBuilder.append(builder.content.getHtml(this, false));
+        htmlBuilder.append(builder.content.getHtml(page, this, false));
         htmlBuilder.append("\n");
 
         htmlBuilder.append(Util.tab(tabs));
@@ -68,7 +69,7 @@ public class JS_Dialog extends HtmlComponent {
 
         int i = 1;
         for (JS_DialogButton dialogButton : builder.dialogButtons) {
-            htmlBuilder.append(dialogButton.getHtml(this, false));
+            htmlBuilder.append(dialogButton.getHtml(page, this, false));
             if (builder.dialogButtons.size() != i) {
                 htmlBuilder.append(",\n");
             } else {
