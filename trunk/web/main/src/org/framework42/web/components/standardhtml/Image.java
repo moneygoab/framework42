@@ -1,12 +1,17 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.EventComponentBuilder;
 
 public class Image extends HtmlComponent {
 
     private Builder builder;
+
+    public Image(String imageURL, String altDescription) {
+        this.builder = new Builder(imageURL, altDescription);
+    }
 
     public Image(Builder builder) {
 
@@ -15,7 +20,7 @@ public class Image extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         if(!onSameRow){
             htmlBuilder.append(Util.tab(tabs));

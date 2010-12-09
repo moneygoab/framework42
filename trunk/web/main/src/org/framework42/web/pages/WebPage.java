@@ -81,7 +81,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
         Html html = htmlBuilder.build();
 
-        return html.getHtml(new ComponentGroup.Builder().build(), false);
+        return html.getHtml(this, new ComponentGroup.Builder().build(), false);
 
     }
 
@@ -145,9 +145,9 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             mayAccessPage(session);
 
-            R pageData = pageLogic.perform(req, resp, session);
+            R model = pageLogic.perform(req, resp, session);
 
-            doGetSub(pageData, session, htmlBuilder);
+            doGetSub(model, session, htmlBuilder);
 
             writeHtmlPage(resp, htmlBuilder);
 
@@ -179,7 +179,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract void doGetSub(R pageData, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+    protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -192,9 +192,9 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             mayAccessPage(session);
 
-            R pageData = pageLogic.perform(req, resp, session);
+            R model = pageLogic.perform(req, resp, session);
 
-            doPostSub(pageData, session, htmlBuilder);
+            doPostSub(model, session, htmlBuilder);
 
             writeHtmlPage(resp, htmlBuilder);
 
@@ -216,7 +216,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract void doPostSub(R pageData, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+    protected abstract void doPostSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
 
     private void writeHtmlPage(HttpServletResponse resp, Html.Builder htmlBuilder) throws IOException {
 
@@ -245,7 +245,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    public abstract ComponentGroup getPageSpecificHtml(R pageData, T session);
+    public abstract ComponentGroup getPageSpecificHtml(R model, T session);
 
     protected void mayAccessPage(T session) throws NotAuthorizedException {
 

@@ -94,6 +94,12 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * */
     protected abstract void setupPageParameters(HttpServletRequest req, T session, R pageModel);
 
+    /**
+     * Sets up the environment variables.
+     * @param req           The http request
+     * @param session       The end users session
+     * @param pageModel     The page model 
+     * */
     protected void setupEnvironmentInformation(HttpServletRequest req, T session, R pageModel) {
 
         pageModel.getEnvironmentInformation().put("currentPageURI", req.getRequestURI().substring(1));

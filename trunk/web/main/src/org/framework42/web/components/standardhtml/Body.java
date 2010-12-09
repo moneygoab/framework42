@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.HtmlComponentStorage;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.ComponentBuilder;
 
@@ -21,13 +22,13 @@ public class Body extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<body>\n");
 
       for(HtmlComponent component: builder.components){
-         htmlBuilder.append(component.getHtml(this, false));
+         htmlBuilder.append(component.getHtml(page, this, false));
       }
 
       htmlBuilder.append(Util.tab(tabs));

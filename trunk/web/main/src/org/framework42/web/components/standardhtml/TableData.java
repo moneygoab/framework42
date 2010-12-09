@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 public class TableData extends HtmlComponent {
@@ -22,7 +23,7 @@ public class TableData extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<td");
@@ -53,7 +54,7 @@ public class TableData extends HtmlComponent {
 
         htmlBuilder.append(">\n");
 
-        htmlBuilder.append(builder.component.getHtml(this, false));
+        htmlBuilder.append(builder.component.getHtml(page, this, false));
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</td>\n");

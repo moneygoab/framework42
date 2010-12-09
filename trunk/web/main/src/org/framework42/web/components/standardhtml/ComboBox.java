@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ComboBox extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<select");
@@ -37,7 +38,7 @@ public class ComboBox extends HtmlComponent {
         htmlBuilder.append(">\n");
 
         for(Option option: builder.options){
-            htmlBuilder.append(option.getHtml(this, false));
+            htmlBuilder.append(option.getHtml(page, this, false));
             htmlBuilder.append("\n");
         }
 

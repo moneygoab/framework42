@@ -1,6 +1,7 @@
 package org.framework42.web.components.standardhtml.head;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.ComponentBuilder;
 
@@ -15,7 +16,7 @@ public class Meta extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<meta");

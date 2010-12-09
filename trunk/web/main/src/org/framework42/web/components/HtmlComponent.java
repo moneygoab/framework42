@@ -1,6 +1,7 @@
 package org.framework42.web.components;
 
 import org.apache.log4j.Logger;
+import org.framework42.web.pages.WebPage;
 
 public abstract class HtmlComponent {
 
@@ -18,13 +19,13 @@ public abstract class HtmlComponent {
         htmlBuilder = new StringBuilder();
     }
 
-    public String getHtml(HtmlComponent parent, boolean onSameRow) {
+    public String getHtml(WebPage page, HtmlComponent parent, boolean onSameRow) {
         tabs = parent.tabs+tabOffset;
-        generateHtmlSpecific(parent, onSameRow);
+        generateHtmlSpecific(page, parent, onSameRow);
         return html;
     }
 
-    protected abstract void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow);
+    protected abstract void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow);
 
     @Override
     public String toString() {

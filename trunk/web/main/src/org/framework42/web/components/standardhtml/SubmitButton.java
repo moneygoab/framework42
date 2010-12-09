@@ -1,6 +1,7 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.HtmlComponent;
 
@@ -15,7 +16,7 @@ public class SubmitButton extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<input type=\"submit\"");

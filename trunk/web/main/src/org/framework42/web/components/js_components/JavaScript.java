@@ -2,6 +2,7 @@ package org.framework42.web.components.js_components;
 
 import org.framework42.web.components.ComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class JavaScript extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         StringBuilder htmlBuilder = new StringBuilder();
 

@@ -2,6 +2,7 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Table extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<table");
@@ -51,10 +52,10 @@ public class Table extends HtmlComponent {
 
       htmlBuilder.append(">\n");
 
-      htmlBuilder.append(builder.headLines.getHtml(this, false));
+      htmlBuilder.append(builder.headLines.getHtml(page, this, false));
 
       for(TableRow row:builder.tableRows){
-         htmlBuilder.append(row.getHtml(this, false));
+         htmlBuilder.append(row.getHtml(page, this, false));
          htmlBuilder.append("\n");
       }
 

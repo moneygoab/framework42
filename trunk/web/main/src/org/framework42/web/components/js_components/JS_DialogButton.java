@@ -1,6 +1,7 @@
 package org.framework42.web.components.js_components;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.ComponentBuilder;
 
@@ -15,7 +16,7 @@ public class JS_DialogButton extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         StringBuilder htmlBuilder = new StringBuilder();
 

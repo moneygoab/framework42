@@ -1,14 +1,22 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.InputComponentBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Link extends HtmlComponent {
 
     private Builder builder;
+
+    public Link(String name, String href, HtmlComponent linkedComponent) {
+
+        this.builder = new Builder(name, href, new HashMap<String, String>(), linkedComponent);
+
+    }
 
     private Link(Builder builder) {
 
@@ -17,7 +25,7 @@ public class Link extends HtmlComponent {
     }
 
     @Override
-    protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<a href=\"");
@@ -45,7 +53,7 @@ public class Link extends HtmlComponent {
         }
 
         htmlBuilder.append(">");
-        htmlBuilder.append(builder.linkedComponent.getHtml(this, true));
+        htmlBuilder.append(builder.linkedComponent.getHtml(page, this, true));
         //htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</a>\n");
 

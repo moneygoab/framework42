@@ -1,5 +1,7 @@
 package org.framework42.web.components;
 
+import org.framework42.web.pages.WebPage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class ComponentGroup extends HtmlComponent {
    }
 
    @Override
-   protected void generateHtmlSpecific(HtmlComponent parent, boolean onSameRow) {
+   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
       for(HtmlComponent comp: components){
-         htmlBuilder.append(comp.getHtml(this, false));
+         htmlBuilder.append(comp.getHtml(page, this, false));
       }
 
       html = htmlBuilder.toString();
