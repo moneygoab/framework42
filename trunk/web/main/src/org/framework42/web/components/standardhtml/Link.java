@@ -55,7 +55,13 @@ public class Link extends HtmlComponent {
         htmlBuilder.append(">");
         htmlBuilder.append(builder.linkedComponent.getHtml(page, this, true));
         //htmlBuilder.append(Util.tab(tabs));
-        htmlBuilder.append("</a>\n");
+        htmlBuilder.append("</a>");
+
+        if(builder.followString != null) {
+            htmlBuilder.append(builder.followString);
+        }
+
+        htmlBuilder.append("\n");
 
         html = htmlBuilder.toString();
 
@@ -72,6 +78,8 @@ public class Link extends HtmlComponent {
         private HtmlComponent linkedComponent = null;
 
         private String style = null;
+
+        private String followString = null;
 
         public Builder(String name, String href, Map<String, String> parameters, HtmlComponent linkedComponent) {
             super(name, "");
@@ -114,6 +122,11 @@ public class Link extends HtmlComponent {
 
         public Builder style(String style){
             this.style = style;
+            return this;
+        }
+
+        public Builder followString(String followString) {
+            this.followString = followString;
             return this;
         }
 
