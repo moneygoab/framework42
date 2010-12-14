@@ -22,6 +22,13 @@ public class TableData extends HtmlComponent {
         return builder.build();
     }
 
+    public static TableData EMPTY(String dataWidth) {
+
+        TableData.Builder builder = new TableData.Builder(new Label("&nbsp;")).width(dataWidth);
+                
+        return builder.build();
+    }
+
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
