@@ -6,17 +6,17 @@ import org.framework42.web.utils.Util;
 
 public class Break extends HtmlComponent {
 
-   public Break() {
-   }
+    public Break() {
+    }
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
-      htmlBuilder.append("<br>\n");
+        htmlBuilder.append(Util.tab(tabs));
+        htmlBuilder.append("<br>\n");
 
-      html = htmlBuilder.toString();
+        html = htmlBuilder.toString();
 
-   }
+    }
 
 }

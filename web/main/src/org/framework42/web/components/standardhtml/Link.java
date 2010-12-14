@@ -18,6 +18,12 @@ public class Link extends HtmlComponent {
 
     }
 
+    public Link(String name, String href, Map<String, String> linkParameters, HtmlComponent linkedComponent) {
+
+        this.builder = new Builder(name, href, linkParameters, linkedComponent);
+
+    }
+
     private Link(Builder builder) {
 
         this.builder = builder;
