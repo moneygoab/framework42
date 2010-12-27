@@ -8,14 +8,22 @@ public class NullChecker {
 
     public static <T> T notNull(T variable) {
 
-        if(variable == null) {
-            logger.error("Variable can't be null");
-            throw new IllegalArgumentException();
-        }
-        return variable;
+        return notNull(variable, "Variable can't be null", logger);
     }
 
     public static <T> T notNull(T variable, String errorMessage) {
+
+        return notNull(variable, errorMessage, logger);
+    }
+
+    public static <T> T notNull(T variable, String errorMessage, String loggerId) {
+
+        Logger logger = Logger.getLogger(loggerId);
+
+        return notNull(variable, errorMessage, logger);
+    }
+
+    public static <T> T notNull(T variable, String errorMessage, Logger logger) {
 
         if(variable == null) {
             logger.error(errorMessage);
