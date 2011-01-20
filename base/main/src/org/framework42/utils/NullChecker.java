@@ -2,6 +2,8 @@ package org.framework42.utils;
 
 import org.apache.log4j.Logger;
 
+import java.util.Collection;
+
 /**
  * This is a utility class that provides a general null checking capability that handles error handling and
  * logging in the null handling process.
@@ -65,7 +67,40 @@ public class NullChecker {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
+
+        if(variable instanceof Collection) {
+            childrenNotNull((Collection)variable, errorMessage, logger);
+        } else if(variable.getClass().isArray()) {
+            childrenNotNull((Object[])variable, errorMessage, logger);
+        }
+
         return variable;
+    }
+
+    private static void childrenNotNull(Collection variable, String errorMessage, Logger logger) {
+
+        for(Object childObject : variable.toArray()) {
+
+            if(childObject == null) {
+                logger.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
+            }
+
+        }
+
+    }
+
+    private static void childrenNotNull(Object[] variable, String errorMessage, Logger logger) {
+
+        for(Object childObject : variable) {
+
+            if(childObject == null) {
+                logger.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
+            }
+
+        }
+
     }
 
 }
