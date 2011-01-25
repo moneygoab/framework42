@@ -66,7 +66,7 @@ public abstract class InputComponentBuilder<T extends InputComponentBuilder> ext
       }
 
       if(id!=null){
-         html += " id=\""+id+"\"";
+         html += " getId=\""+id+"\"";
       }
 
       return html;

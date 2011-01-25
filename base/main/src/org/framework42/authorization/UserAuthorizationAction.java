@@ -23,7 +23,7 @@ public enum UserAuthorizationAction implements AuthorizationAction {
             }
         }
 
-        throw new RuntimeException("Illegal database id (" + databaseId + ") no matching action found!");
+        throw new RuntimeException("Illegal database getId (" + databaseId + ") no matching action found!");
 
     }
 

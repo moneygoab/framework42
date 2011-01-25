@@ -37,7 +37,7 @@ public class MenuItemText extends MenuItem {
             }
         }
 
-        htmlBuilder.append("<span id=\"");
+        htmlBuilder.append("<span getId=\"");
         htmlBuilder.append(id);
         htmlBuilder.append("\" style=\"padding-right: ");
         htmlBuilder.append(padding);
@@ -64,8 +64,8 @@ public class MenuItemText extends MenuItem {
         }
 
         if(!active) {
-            //htmlBuilder.append(" onMouseOver=\"changeMenuBackground('"+id+"','"+backgroundPictureMouseOver+"');\"");
-            //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+id+"');\"");
+            //htmlBuilder.append(" onMouseOver=\"changeMenuBackground('"+getId+"','"+backgroundPictureMouseOver+"');\"");
+            //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+getId+"');\"");
         }
 
         htmlBuilder.append(">");
