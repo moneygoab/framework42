@@ -51,7 +51,7 @@ public enum Language {
 
         }
 
-        throw new IllegalArgumentException("No language exists with id " + databaseId);
+        throw new IllegalArgumentException("No language exists with getId " + databaseId);
 
     }
 

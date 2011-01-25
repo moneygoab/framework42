@@ -4,16 +4,16 @@ public enum Gender {
 
     MALE(2, "MALE"), FEMALE(1, "FEMALE"), INAPPLICABLE(3, "INAPPLICABLE"), UNKNOWN(0, "UNKNOWN");
 
-    private final int databaseId;
+    private final int id;
     private final String guiTextID;
 
-    Gender(int databaseId, String guiTextID) {
-        this.databaseId = databaseId;
+    Gender(int id, String guiTextID) {
+        this.id = id;
         this.guiTextID = guiTextID;
     }
 
-    public int getDatabaseId() {
-        return databaseId;
+    public int getId() {
+        return id;
     }
 
     public String getGuiTextID() {
@@ -24,7 +24,7 @@ public enum Gender {
 
         for (Gender gender : Gender.values()) {
 
-            if (gender.getDatabaseId() == genderId) {
+            if (gender.getId() == genderId) {
 
                 return gender;
 
@@ -32,14 +32,14 @@ public enum Gender {
 
         }
 
-        throw new IllegalArgumentException("No gender exists with id " + genderId);
+        throw new IllegalArgumentException("No gender exists with getId " + genderId);
 
     }
 
     @Override
     public String toString() {
         return "Gender{" +
-                "databaseId=" + databaseId +
+                "getId=" + id +
                 ", guiTextID='" + guiTextID + '\'' +
                 '}';
     }

@@ -50,7 +50,7 @@ public class Image extends HtmlComponent {
         }
 
         if(builder.id != null){
-            htmlBuilder.append(" id=\"");
+            htmlBuilder.append(" getId=\"");
             htmlBuilder.append(builder.id);
             htmlBuilder.append("\"");
         }

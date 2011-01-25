@@ -47,7 +47,7 @@ public enum Country {
 
         }
 
-        throw new IllegalArgumentException("No country with id "+id+" exists!");
+        throw new IllegalArgumentException("No country with getId "+id+" exists!");
 
     }
 

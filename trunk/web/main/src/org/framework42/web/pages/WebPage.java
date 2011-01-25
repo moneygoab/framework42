@@ -39,7 +39,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     /**
      * Base constructor that allows everyone to access the page
      *
-     * @param loggerId  The log4j logger id.
+     * @param loggerId  The log4j logger getId.
      * @param pageLogic The controller for this view if you think in MVC terms
      */
     protected WebPage(String loggerId, PageLogic<T, R> pageLogic) {
@@ -56,7 +56,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
      * Constructor that lets you configure who should be able to access the page. The Deny access roles take precedence
      * over the access roles, i.e. if a user has both an access and a deny access role it will be denied.
      *
-     * @param loggerId        The log4j logger id.
+     * @param loggerId        The log4j logger getId.
      * @param pageLogic       The controller for this view if you think in MVC terms
      * @param accessRoles     List of roles that should be able to access the page
      * @param denyAccessRoles List of roles that should be denied to access the page
