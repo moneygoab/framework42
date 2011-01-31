@@ -2,6 +2,7 @@ package org.framework42.utils.services.impl;
 
 import org.framework42.utils.services.AgeCalculator;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -16,13 +17,16 @@ public enum AgeCalculatorImpl implements AgeCalculator {
 
         notNull(birthDate, "Birth date can't be null!");
 
-        long mainBirthTimestamp = birthDate.getTime();
-        long nowTimestamp = System.currentTimeMillis();
+        Calendar birthCal = new GregorianCalendar();
+        birthCal.setTime(birthDate);
 
-        GregorianCalendar difference = new GregorianCalendar();
-        difference.setTimeInMillis(nowTimestamp-mainBirthTimestamp);
+        Calendar now = GregorianCalendar.getInstance();
 
-        return difference.get(GregorianCalendar.YEAR);
+        now.add(GregorianCalendar.YEAR, birthCal.get(GregorianCalendar.YEAR)*-1);
+        now.add(GregorianCalendar.MONTH, birthCal.get(GregorianCalendar.MONTH)*-1);
+        now.add(GregorianCalendar.DAY_OF_MONTH, birthCal.get(GregorianCalendar.DAY_OF_MONTH)*-1);
+
+        return now.get(GregorianCalendar.YEAR);
 
     }
     

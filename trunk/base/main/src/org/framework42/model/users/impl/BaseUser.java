@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class BaseUser implements User {
 
-    protected final int userId;
+    protected final int id;
 
     protected final long dateCreated;
 
@@ -19,8 +19,8 @@ public class BaseUser implements User {
 
     protected Map<Role, UserRole> userRoles;
 
-    public BaseUser(int userId, Date dateCreated, String loginName, String displayName, Map<Role, UserRole> userRoles) {
-        this.userId = userId;
+    public BaseUser(int id, Date dateCreated, String loginName, String displayName, Map<Role, UserRole> userRoles) {
+        this.id = id;
         this.dateCreated = dateCreated.getTime();
         this.loginName = loginName;
         this.displayName = displayName;
@@ -28,8 +28,8 @@ public class BaseUser implements User {
     }
 
     @Override
-    public int getUserID() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class BaseUser implements User {
         BaseUser baseUser = (BaseUser) o;
 
         if (dateCreated != baseUser.dateCreated) return false;
-        if (userId != baseUser.userId) return false;
+        if (id != baseUser.id) return false;
         if (!displayName.equals(baseUser.displayName)) return false;
         if (!loginName.equals(baseUser.loginName)) return false;
         if (!userRoles.equals(baseUser.userRoles)) return false;
@@ -80,7 +80,7 @@ public class BaseUser implements User {
 
     @Override
     public int hashCode() {
-        int result = userId;
+        int result = id;
         result = 31 * result + (int) (dateCreated ^ (dateCreated >>> 32));
         result = 31 * result + loginName.hashCode();
         result = 31 * result + displayName.hashCode();
@@ -91,7 +91,7 @@ public class BaseUser implements User {
     @Override
     public String toString() {
         return "BaseUser{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", dateCreated=" + dateCreated +
                 ", loginName='" + loginName + '\'' +
                 ", displayName='" + displayName + '\'' +

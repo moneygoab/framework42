@@ -13,26 +13,26 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
     private final R role;
     private final RS roleStatus;
 
-    private final Date startDate;
-    private final Date endDate;
+    private final Date activeFrom;
+    private final Date activeTo;
 
     /**
      * Constructor that takes a role and role status and gives the other values a default value
      * <p/>
-     * startDate = now; endDate = 9999-01-01;
+     * activeFrom = now; activeTo = 9999-01-01;
      */
     public UserRoleImpl(R role, RS roleStatus) {
         this.role = role;
         this.roleStatus = roleStatus;
-        this.startDate = Calendar.getInstance().getTime();
-        this.endDate = new GregorianCalendar(9999, 0, 1, 00, 00, 00).getTime();
+        this.activeFrom = Calendar.getInstance().getTime();
+        this.activeTo = new GregorianCalendar(9999, 0, 1, 00, 00, 00).getTime();
     }
 
-    public UserRoleImpl(R role, RS roleStatus, Date startDate, Date endDate) {
+    public UserRoleImpl(R role, RS roleStatus, Date activeFrom, Date activeTo) {
         this.role = role;
         this.roleStatus = roleStatus;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.activeFrom = activeFrom;
+        this.activeTo = activeTo;
     }
 
     public R getRole() {
@@ -43,12 +43,12 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
         return roleStatus;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getActiveFrom() {
+        return activeFrom;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getActiveTo() {
+        return activeTo;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
 
         UserRoleImpl userRole = (UserRoleImpl) o;
 
-        if (!endDate.equals(userRole.endDate)) {
+        if (!activeTo.equals(userRole.activeTo)) {
             return false;
         }
         if (role != userRole.role) {
@@ -71,7 +71,7 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
         if (roleStatus != userRole.roleStatus) {
             return false;
         }
-        if (!startDate.equals(userRole.startDate)) {
+        if (!activeFrom.equals(userRole.activeFrom)) {
             return false;
         }
 
@@ -82,8 +82,8 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
     public int hashCode() {
         int result = role.hashCode();
         result = 31 * result + roleStatus.hashCode();
-        result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
+        result = 31 * result + activeFrom.hashCode();
+        result = 31 * result + activeTo.hashCode();
         return result;
     }
 
@@ -92,8 +92,8 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
         return "UserRole{" +
                 "role=" + role +
                 ", roleStatus=" + roleStatus +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", activeFrom=" + activeFrom +
+                ", activeTo=" + activeTo +
                 '}';
     }
 

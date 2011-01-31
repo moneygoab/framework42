@@ -9,7 +9,7 @@ public class BaseAuthorizationAction implements AuthorizationAction {
     }
 
     @Override
-    public int getDatabaseId() {
+    public int getId() {
         return databaseId;
     }
 
