@@ -5,21 +5,21 @@ import org.framework42.model.users.RoleStatus;
 public enum BaseRoleStatus implements RoleStatus {
 
     ACTIVE(1, "ROLE_STATUS_ACTIVE"),
-    LOCKED(2, "ROLE_STATUS_LOCEKD")
+    LOCKED(2, "ROLE_STATUS_LOCKED")
     ;
 
-    private final int databaseId;
+    private final int id;
 
     private final String guiTextId;
 
-    private BaseRoleStatus(int databaseId, String guiTextId) {
-        this.databaseId = databaseId;
+    private BaseRoleStatus(int id, String guiTextId) {
+        this.id = id;
         this.guiTextId = guiTextId;
     }
 
     @Override
-    public int getDatabaseId() {
-        return databaseId;
+    public int getId() {
+        return id;
     }
 
     @Override

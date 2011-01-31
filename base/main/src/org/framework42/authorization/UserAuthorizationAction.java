@@ -4,26 +4,26 @@ public enum UserAuthorizationAction implements AuthorizationAction {
 
     HAS_VALID_ROLE(100000);
 
-    private final int databaseId;
+    private final int id;
 
-    UserAuthorizationAction(int databaseId) {
-        this.databaseId = databaseId;
+    UserAuthorizationAction(int id) {
+        this.id = id;
     }
 
     @Override
-    public int getDatabaseId() {
-        return databaseId;
+    public int getId() {
+        return id;
     }
 
-    public UserAuthorizationAction getFromDatabaseId(int databaseId) {
+    public UserAuthorizationAction getFromId(int id) {
 
         for (UserAuthorizationAction action : UserAuthorizationAction.values()) {
-            if (databaseId == action.getDatabaseId()) {
+            if (id == action.getId()) {
                 return action;
             }
         }
 
-        throw new RuntimeException("Illegal database getId (" + databaseId + ") no matching action found!");
+        throw new RuntimeException("Illegal id (" + id + ") no matching action found!");
 
     }
 

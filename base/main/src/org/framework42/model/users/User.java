@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface User extends Serializable {
 
-    public int getUserID();
+    public int getId();
 
     public Date getDateCreated();
 

@@ -8,9 +8,9 @@ public interface UserRole {
 
     public RoleStatus getRoleStatus();
 
-    public Date getStartDate();
+    public Date getActiveFrom();
 
-    public Date getEndDate();
+    public Date getActiveTo();
 
 }
 

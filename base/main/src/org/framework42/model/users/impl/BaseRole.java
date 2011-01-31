@@ -16,7 +16,7 @@ public enum BaseRole implements Role {
     }
 
     @Override
-    public int getDatabaseId() {
+    public int getId() {
         return databaseId;
     }
 
