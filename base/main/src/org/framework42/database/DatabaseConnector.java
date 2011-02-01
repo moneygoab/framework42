@@ -7,6 +7,8 @@ import javax.sql.ConnectionPoolDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static org.framework42.utils.NullChecker.notNull;
+
 /**
  * Service that handles database connections through a light weight connection pool.
  * */
@@ -30,6 +32,8 @@ public enum DatabaseConnector {
      * */
     public void setUpEnvironment(ConnectionPoolDataSource dataSource, int maxConnections) {
 
+        notNull(dataSource, "Data source can't ber null!");
+
         poolManager = new MiniConnectionPoolManager(dataSource, maxConnections);
 
     }
@@ -43,6 +47,8 @@ public enum DatabaseConnector {
      * */
     public void setUpEnvironment(ConnectionPoolDataSource dataSource, int maxConnections, int timeoutInSeconds, int idleTimeInSeconds) {
 
+        notNull(dataSource, "Data source can't ber null!");
+
         poolManager = new MiniConnectionPoolManager(dataSource, maxConnections, timeoutInSeconds, idleTimeInSeconds);
 
     }
@@ -53,6 +59,8 @@ public enum DatabaseConnector {
      * @return The connection retrieved from the connection pool.
      * */
     public Connection getPooledConnection(CommitType commitType) {
+
+        notNull(commitType, "Commit type can't be null!");
 
         try {
 
@@ -81,15 +89,18 @@ public enum DatabaseConnector {
      * */
     public void releasePooledConnection(Connection con) {
 
-        try{
+        notNull(con, "Connection can't be null!");
 
-            if(!con.getAutoCommit()){
+        try {
+
+            if(!con.getAutoCommit()) {
                 con.commit();
             }
 
             con.close();
 
-        }catch(SQLException e){
+        } catch(SQLException e) {
+
             logger.warn("Problem releasing pooled connection "+e);
         }
 
@@ -101,11 +112,15 @@ public enum DatabaseConnector {
      * */
     public void rollbackPooledConnection(Connection con){
 
-        try{
-            if(con!=null){
-                con.rollback();
-            }
-        }catch(SQLException e){
+        notNull(con, "Connection can't be null!");
+
+        try {
+
+            con.rollback();
+            con.close();
+
+        } catch(SQLException e) {
+
             logger.warn("Problem with rollback of pooled connection "+e);
         }
 
