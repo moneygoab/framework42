@@ -24,4 +24,8 @@ public class DefaultUserSession<T extends UserSession> extends UserSession<User>
     public void logOut() {
     }
 
+    @Override
+    protected void setDefaultLocale() {
+        
+    }
 }

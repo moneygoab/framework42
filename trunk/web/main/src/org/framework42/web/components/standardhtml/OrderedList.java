@@ -33,7 +33,7 @@ public class OrderedList extends HtmlComponent {
       }
 
       if(builder.id != null) {
-         htmlBuilder.append("getId =\"");
+         htmlBuilder.append("id =\"");
          htmlBuilder.append(builder.id);
          htmlBuilder.append("\"");
       }
