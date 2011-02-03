@@ -3,8 +3,10 @@ package org.framework42.model.users.impl;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
 import org.framework42.model.users.UserRole;
+import org.framework42.model.users.UserSetting;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BaseUser implements User {
@@ -19,12 +21,15 @@ public class BaseUser implements User {
 
     protected Map<Role, UserRole> userRoles;
 
+    protected Map<UserSetting, String> userSettings;
+
     public BaseUser(int id, Date dateCreated, String loginName, String displayName, Map<Role, UserRole> userRoles) {
         this.id = id;
         this.dateCreated = dateCreated.getTime();
         this.loginName = loginName;
         this.displayName = displayName;
         this.userRoles = userRoles;
+        this.userSettings = new HashMap<UserSetting, String>();
     }
 
     @Override
@@ -60,6 +65,11 @@ public class BaseUser implements User {
     @Override
     public void removeUserRole(UserRole userRole) {
         userRoles.remove(userRole.getRole());
+    }
+
+    @Override
+    public Map<UserSetting, String> getUserSettings() {
+        return userSettings;
     }
 
     @Override

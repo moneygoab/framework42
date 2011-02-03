@@ -2,6 +2,7 @@ package org.framework42.model.users;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public interface User extends Serializable {
@@ -19,5 +20,7 @@ public interface User extends Serializable {
     public void addUserRole(UserRole userRole);
 
     public void removeUserRole(UserRole userRole);
+
+    public Map<UserSetting, String> getUserSettings();
     
 }

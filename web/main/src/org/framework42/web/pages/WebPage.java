@@ -101,7 +101,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                 session = createUserSession(req);
                 req.getSession().setAttribute("userSession", session);
 
-            } else if (req.getParameter("id") != null) {
+            } else if (req.getParameter("userId") != null) {
 
                 session = createUserSession(req);
                 req.getSession().setAttribute("userSession", session);

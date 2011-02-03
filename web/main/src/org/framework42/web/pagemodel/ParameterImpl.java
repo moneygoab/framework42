@@ -43,5 +43,10 @@ public class ParameterImpl implements Parameter {
     public Object getParameterValue() {
         return parameterValue;
     }
-        
+
+    @Override
+    public String getParameterValueAsString() {
+        return parameterValue.toString();
+    }
+    
 }

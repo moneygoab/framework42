@@ -27,7 +27,7 @@ public class Div extends HtmlComponent {
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append(Util.tab(tabs));
-        htmlBuilder.append("<div getId=\"");
+        htmlBuilder.append("<div id=\"");
         htmlBuilder.append(builder.id);
         htmlBuilder.append("\"");
 

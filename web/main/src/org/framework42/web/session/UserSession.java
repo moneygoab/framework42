@@ -1,8 +1,10 @@
 package org.framework42.web.session;
 
 import org.framework42.model.users.User;
+import org.framework42.model.users.UserSetting;
 
 import java.util.Locale;
+import java.util.Map;
 
 public abstract class UserSession<T extends User> {
 
@@ -14,7 +16,7 @@ public abstract class UserSession<T extends User> {
 
     public UserSession() {
 
-        setLocale(new Locale("sv","SE"));
+        setDefaultLocale();
 
         this.authenticated = false;
 
@@ -41,5 +43,22 @@ public abstract class UserSession<T extends User> {
     public abstract void logIn(T user);
 
     public abstract void logOut();
+
+    protected void setUserLocale(T user) {
+
+        Map<UserSetting, String> userSettings = user.getUserSettings();
+
+        String language = userSettings.get(UserSetting.LANGUAGE);
+        String country = userSettings.get(UserSetting.COUNTRY);
+
+        if (language == null || country == null) {
+            setDefaultLocale();
+        } else {
+            locale = new Locale(language, country);
+        }
+
+    }
+
+    protected abstract void setDefaultLocale(); 
 
 }
