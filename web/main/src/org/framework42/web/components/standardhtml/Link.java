@@ -69,11 +69,9 @@ public class Link extends HtmlComponent {
 
         htmlBuilder.append("\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends InputComponentBuilder<Link.Builder> {
+    public static class Builder extends InputComponentBuilder<Link> {
 
         private final String href;
 

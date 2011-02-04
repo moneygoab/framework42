@@ -32,11 +32,9 @@ public class CheckBox extends HtmlComponent {
       htmlBuilder.append(builder.label);
       htmlBuilder.append("\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends InputComponentBuilder {
+   public static class Builder extends InputComponentBuilder<CheckBox> {
 
       private final Label label;
 

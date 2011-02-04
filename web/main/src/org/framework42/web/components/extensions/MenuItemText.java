@@ -8,7 +8,10 @@ import org.framework42.web.pages.ChildPage;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class MenuItemText extends MenuItem {
 
@@ -57,6 +60,18 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append("<a href=\"");
         htmlBuilder.append(builder.pageURL);
+        boolean first = true;
+        for(String key: builder.linkParameters.keySet()) {
+            if(first) {
+                htmlBuilder.append("?");
+                first = false;
+            }else {
+                htmlBuilder.append("&");
+            }
+            htmlBuilder.append(key);
+            htmlBuilder.append("=");
+            htmlBuilder.append(builder.linkParameters.get(key));
+        }
         htmlBuilder.append("\"");
         if(builder.active) {
             htmlBuilder.append(" class=\"main_menu_item_active_link_");
@@ -81,11 +96,9 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append("</span>");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder {
+    public static class Builder extends EventComponentBuilder<MenuItem> {
 
         private boolean active;
 
@@ -113,11 +126,32 @@ public class MenuItemText extends MenuItem {
 
         private Label text;
 
+        private Map<String, String> linkParameters;
+
         public Builder(String id, Label text, String pageURL, Locale locale) {
             this.pageURL = pageURL;
             this.id = id;
             this.locale = locale;
             this.text = text;
+            this.linkParameters = new HashMap<String, String>();
+
+            this.active = true;
+            this.paddingLeft = 5;
+            this.paddingTop = 5;
+            this.paddingRight = 5;
+            this.paddingBottom = 5;
+            this.level = 1;
+            this.backgroundPicture = "";
+            this.backgroundPictureChosen = "";
+            this.backgroundPictureMouseOver = "";
+        }
+
+        public Builder(String id, Label text, String pageURL, Map<String, String> linkParameters, Locale locale) {
+            this.pageURL = pageURL;
+            this.id = id;
+            this.locale = locale;
+            this.text = text;
+            this.linkParameters = linkParameters;
 
             this.active = true;
             this.paddingLeft = 5;
@@ -132,6 +166,11 @@ public class MenuItemText extends MenuItem {
 
         public Builder active(boolean active) {
             this.active = active;
+            return this;
+        }
+
+        public Builder linkParameters(Map<String, String> linkParameters) {
+            this.linkParameters = linkParameters;
             return this;
         }
 

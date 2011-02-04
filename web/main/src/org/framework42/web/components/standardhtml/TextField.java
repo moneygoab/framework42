@@ -35,11 +35,9 @@ public class TextField extends HtmlComponent {
 
       htmlBuilder.append(">\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends InputComponentBuilder<Builder> {
+   public static class Builder extends InputComponentBuilder<TextField> {
 
       private String readonly = null;
 

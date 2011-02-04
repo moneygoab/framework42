@@ -48,11 +48,9 @@ public class Option extends HtmlComponent {
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</option>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends EventComponentBuilder {
+   public static class Builder extends EventComponentBuilder<Option> {
 
       private final String value;
 

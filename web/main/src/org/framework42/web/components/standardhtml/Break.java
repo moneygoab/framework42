@@ -15,8 +15,6 @@ public class Break extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<br>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
 }

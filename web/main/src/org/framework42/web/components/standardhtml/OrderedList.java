@@ -50,11 +50,9 @@ public class OrderedList extends HtmlComponent {
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</ol>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends EventComponentBuilder {
+   public static class Builder extends EventComponentBuilder<OrderedList> {
 
       private final List<HtmlComponent> listItems;
 

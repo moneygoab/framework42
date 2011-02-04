@@ -34,8 +34,6 @@ public class Body extends HtmlComponent {
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</body>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
    public static class Builder implements ComponentBuilder<Body>, HtmlComponentStorage<HtmlComponent> {

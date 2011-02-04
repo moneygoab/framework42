@@ -66,11 +66,9 @@ public class TableData extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</td>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder {
+    public static class Builder extends EventComponentBuilder<TableData> {
 
         private final HtmlComponent component;
 

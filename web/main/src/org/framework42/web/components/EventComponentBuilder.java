@@ -1,6 +1,6 @@
 package org.framework42.web.components;
 
-public abstract class EventComponentBuilder<T extends EventComponentBuilder> implements ComponentBuilder {
+public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
 
    protected String onClick = null;
 

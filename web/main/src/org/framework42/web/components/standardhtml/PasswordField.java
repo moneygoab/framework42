@@ -35,11 +35,9 @@ public class PasswordField extends HtmlComponent {
 
       htmlBuilder.append(">\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends InputComponentBuilder {
+   public static class Builder extends InputComponentBuilder<PasswordField> {
 
       private String readonly = null;
 

@@ -42,11 +42,9 @@ public class MenuHorizontal extends HtmlComponent {
 
         }
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder implements HtmlComponentStorage<MenuItem> {
+    public static class Builder extends EventComponentBuilder<MenuHorizontal> implements HtmlComponentStorage<MenuItem> {
 
         private List<MenuItem> menuItemList;
 

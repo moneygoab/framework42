@@ -25,11 +25,9 @@ public class Hidden extends HtmlComponent {
 
       htmlBuilder.append(">");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends InputComponentBuilder {
+   public static class Builder extends InputComponentBuilder<Hidden> {
 
       public Builder(String name, String value) {
          super(name, value);

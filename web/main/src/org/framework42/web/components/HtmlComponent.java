@@ -20,8 +20,10 @@ public abstract class HtmlComponent {
     }
 
     public String getHtml(WebPage page, HtmlComponent parent, boolean onSameRow) {
+        htmlBuilder = new StringBuilder();
         tabs = parent.tabs+tabOffset;
         generateHtmlSpecific(page, parent, onSameRow);
+        html = htmlBuilder.toString();
         return html;
     }
 

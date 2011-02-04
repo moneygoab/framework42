@@ -31,11 +31,9 @@ public class SubmitButton extends HtmlComponent {
 
       htmlBuilder.append(">"+"\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends InputComponentBuilder {
+   public static class Builder extends InputComponentBuilder<SubmitButton> {
 
       private String imageURL = null;
 

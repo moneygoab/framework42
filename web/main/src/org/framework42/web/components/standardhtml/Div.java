@@ -60,11 +60,9 @@ public class Div extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</div>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder<Builder> implements HtmlComponentStorage<HtmlComponent> {
+    public static class Builder extends EventComponentBuilder<Div> implements HtmlComponentStorage<HtmlComponent> {
 
         private final String id;
 

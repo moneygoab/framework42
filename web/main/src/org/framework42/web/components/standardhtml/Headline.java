@@ -65,11 +65,9 @@ public class Headline extends HtmlComponent {
         htmlBuilder.append(builder.size);
         htmlBuilder.append(">\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder {
+    public static class Builder extends EventComponentBuilder<Headline> {
 
         private final String size;
         private final String label;
