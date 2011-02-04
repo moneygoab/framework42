@@ -29,8 +29,6 @@ public class Html extends HtmlComponent {
 
       htmlBuilder.append("</html>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
    public static class Builder implements ComponentBuilder<Html>, HtmlComponentStorage<HtmlComponent> {

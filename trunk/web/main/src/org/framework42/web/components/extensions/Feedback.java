@@ -48,11 +48,9 @@ public class Feedback extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</span>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends EventComponentBuilder {
+    public static class Builder extends EventComponentBuilder<Feedback> {
 
         private final String id;
 

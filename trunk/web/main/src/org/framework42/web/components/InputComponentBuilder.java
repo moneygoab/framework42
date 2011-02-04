@@ -1,6 +1,6 @@
 package org.framework42.web.components;
 
-public abstract class InputComponentBuilder<T extends InputComponentBuilder> extends EventComponentBuilder {
+public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> {
 
    protected String onBlur = null;
 

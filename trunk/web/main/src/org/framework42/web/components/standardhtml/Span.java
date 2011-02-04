@@ -46,8 +46,6 @@ public class Span extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</span>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
     public static class Builder implements ComponentBuilder<Span> {

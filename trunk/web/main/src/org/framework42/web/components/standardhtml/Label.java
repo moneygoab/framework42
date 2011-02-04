@@ -31,8 +31,6 @@ public class Label extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        StringBuilder htmlBuilder = new StringBuilder();
-
         if(!onSameRow){
             htmlBuilder.append(Util.tab(tabs));
         }
@@ -46,8 +44,6 @@ public class Label extends HtmlComponent {
         if(!onSameRow){
             htmlBuilder.append("\n");
         }
-
-        html = htmlBuilder.toString();
 
     }
 

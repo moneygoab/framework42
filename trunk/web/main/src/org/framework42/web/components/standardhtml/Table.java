@@ -62,11 +62,9 @@ public class Table extends HtmlComponent {
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</table>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends EventComponentBuilder {
+   public static class Builder extends EventComponentBuilder<Table> {
 
       private final TableRow headLines;
 

@@ -45,11 +45,9 @@ public class ComboBox extends HtmlComponent {
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</select>\n");
 
-        html = htmlBuilder.toString();
-
     }
 
-    public static class Builder extends InputComponentBuilder {
+    public static class Builder extends InputComponentBuilder<ComboBox> {
 
         private final List<Option> options;
 

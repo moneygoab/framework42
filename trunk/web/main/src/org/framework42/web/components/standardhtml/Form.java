@@ -66,11 +66,9 @@ public class Form extends HtmlComponent {
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</form>\n");
 
-      html = htmlBuilder.toString();
-
    }
 
-   public static class Builder extends EventComponentBuilder implements HtmlComponentStorage<HtmlComponent> {
+   public static class Builder extends EventComponentBuilder<Form> implements HtmlComponentStorage<HtmlComponent> {
 
       private final String name;
       private final String action;

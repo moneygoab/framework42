@@ -66,11 +66,9 @@ public class Image extends HtmlComponent {
             htmlBuilder.append("\n");
         }
 
-        html = htmlBuilder.toString();
-
     }
 
-    public final static class Builder extends EventComponentBuilder {
+    public final static class Builder extends EventComponentBuilder<Image> {
 
         private final String imageURL;
 
