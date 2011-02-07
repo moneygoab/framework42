@@ -1,5 +1,6 @@
 package org.framework42.web.components.standardhtml;
 
+import org.framework42.model.MimeType;
 import org.framework42.web.components.*;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;

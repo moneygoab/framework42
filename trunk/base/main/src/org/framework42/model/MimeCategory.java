@@ -1,4 +1,4 @@
-package org.framework42.web.components;
+package org.framework42.model;
 
 public enum MimeCategory {
 
