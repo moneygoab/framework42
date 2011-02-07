@@ -1,10 +1,9 @@
 package org.framework42.web.components.standardhtml.head;
 
+import org.framework42.model.MimeType;
 import org.framework42.web.components.ComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.MimeType;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 
 public class HeadLink extends HtmlComponent {
 
