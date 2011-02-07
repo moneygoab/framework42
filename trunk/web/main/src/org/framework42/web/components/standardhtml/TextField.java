@@ -18,7 +18,6 @@ public class TextField extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<input type=\"text\"");
 
       htmlBuilder.append(builder.addGeneralComponents());

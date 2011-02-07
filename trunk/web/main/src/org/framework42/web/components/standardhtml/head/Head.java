@@ -24,7 +24,6 @@ public class Head extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<head>\n");
 
       for(HtmlComponent component: builder.components){
@@ -33,8 +32,6 @@ public class Head extends HtmlComponent {
 
       htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("</head>\n\n");
-
-      html = htmlBuilder.toString();
 
    }
 

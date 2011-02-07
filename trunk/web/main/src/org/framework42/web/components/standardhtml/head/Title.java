@@ -24,12 +24,9 @@ public class Title extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<title>");
         htmlBuilder.append(builder.label);
         htmlBuilder.append("</title>\n");
-
-        html = htmlBuilder.toString();
 
     }
 

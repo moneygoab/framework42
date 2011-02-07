@@ -19,7 +19,6 @@ public class HeadLink extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<link");
 
       htmlBuilder.append(" rel=\"");
@@ -41,8 +40,6 @@ public class HeadLink extends HtmlComponent {
       }
 
       htmlBuilder.append(">\n");
-
-      html = htmlBuilder.toString();
 
    }
 

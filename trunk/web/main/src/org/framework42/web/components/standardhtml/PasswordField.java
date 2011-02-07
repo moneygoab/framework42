@@ -18,7 +18,6 @@ public class PasswordField extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<input type=\"password\"");
 
       htmlBuilder.append(builder.addGeneralComponents());

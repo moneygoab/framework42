@@ -2,6 +2,7 @@ package org.framework42.web.components;
 
 import org.apache.log4j.Logger;
 import org.framework42.web.pages.WebPage;
+import org.framework42.web.utils.Util;
 
 public abstract class HtmlComponent {
 
@@ -22,7 +23,12 @@ public abstract class HtmlComponent {
     public String getHtml(WebPage page, HtmlComponent parent, boolean onSameRow) {
         htmlBuilder = new StringBuilder();
         tabs = parent.tabs+tabOffset;
+        if(!onSameRow){
+            htmlBuilder.append(Util.tab(tabs));
+        }
+
         generateHtmlSpecific(page, parent, onSameRow);
+        
         html = htmlBuilder.toString();
         return html;
     }

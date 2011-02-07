@@ -20,7 +20,6 @@ public class Form extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<form name=\"");
       htmlBuilder.append(builder.name);
       htmlBuilder.append("\" action=\"");

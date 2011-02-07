@@ -18,7 +18,6 @@ public class Meta extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<meta");
 
       htmlBuilder.append(" name=\"");
@@ -36,8 +35,6 @@ public class Meta extends HtmlComponent {
       }
 
       htmlBuilder.append(">\n");
-
-      html = htmlBuilder.toString();
 
    }
 
