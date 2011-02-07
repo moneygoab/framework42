@@ -31,7 +31,6 @@ public class Headline extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<h");
         htmlBuilder.append(builder.size);
 

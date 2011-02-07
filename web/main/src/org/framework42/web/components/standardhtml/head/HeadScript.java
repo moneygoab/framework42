@@ -19,24 +19,19 @@ public class HeadScript extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        htmlBuilder.append("<script");
 
-        stringBuilder.append(Util.tab(tabs));
-        stringBuilder.append("<script");
-
-        stringBuilder.append(" type=\"");
-        stringBuilder.append(builder.type.toString());
-        stringBuilder.append("\"");
+        htmlBuilder.append(" type=\"");
+        htmlBuilder.append(builder.type.toString());
+        htmlBuilder.append("\"");
 
         if (builder.src != null) {
-            stringBuilder.append("src=\"");
-            stringBuilder.append(builder.src);
-            stringBuilder.append("\"");
+            htmlBuilder.append("src=\"");
+            htmlBuilder.append(builder.src);
+            htmlBuilder.append("\"");
         }
 
-        stringBuilder.append("></script>\n");
-
-        html = stringBuilder.toString();
+        htmlBuilder.append("></script>\n");
 
     }
 

@@ -30,7 +30,6 @@ public class TableRow extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<tr");
 
         htmlBuilder.append(builder.addGeneralComponents());

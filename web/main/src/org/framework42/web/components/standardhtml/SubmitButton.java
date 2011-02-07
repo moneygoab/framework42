@@ -18,7 +18,6 @@ public class SubmitButton extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<input type=\"submit\"");
 
       htmlBuilder.append(builder.addGeneralComponents());

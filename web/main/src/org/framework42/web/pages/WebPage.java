@@ -81,7 +81,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
         Html html = htmlBuilder.build();
 
-        return html.getHtml(this, new ComponentGroup.Builder().build(), false);
+        return html.getHtml(this, new ComponentGroup.Builder().build(), true);
 
     }
 

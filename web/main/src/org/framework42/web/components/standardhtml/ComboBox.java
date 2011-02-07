@@ -20,7 +20,6 @@ public class ComboBox extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<select");
 
         htmlBuilder.append(builder.addGeneralComponents());

@@ -11,8 +11,20 @@ public class TabButton extends HtmlComponent {
 
     private final Builder builder;
 
+    private int id;
+
     public TabButton(Builder builder) {
         this.builder = builder;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        builder.tabLink.getBuilder().removeParameter("apptab");
+        builder.tabLink.getBuilder().addParameter("apptab", Integer.toString(id));
+        this.id = id;
     }
 
     @Override
@@ -22,6 +34,10 @@ public class TabButton extends HtmlComponent {
 
         htmlBuilder.append(builder.tabLink.getHtml(page, this, true));
 
+    }
+
+    public Builder getBuilder() {
+        return builder;
     }
 
     public static class Builder extends EventComponentBuilder<TabButton> {

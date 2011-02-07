@@ -18,7 +18,6 @@ public class Hidden extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<input type=\"hidden\"");
 
       htmlBuilder.append(builder.addGeneralComponents());

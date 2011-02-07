@@ -22,9 +22,6 @@ public class Image extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        if(!onSameRow){
-            htmlBuilder.append(Util.tab(tabs));
-        }
         htmlBuilder.append("<img");
 
         htmlBuilder.append(" src=\"");

@@ -21,7 +21,6 @@ public class OrderedList extends HtmlComponent {
    @Override
    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(Util.tab(tabs));
       htmlBuilder.append("<ol");
 
       htmlBuilder.append(builder.addGeneralComponents());
