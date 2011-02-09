@@ -8,11 +8,18 @@ public enum PasswordGeneratorImpl implements PasswordGenerator {
     BASE_DECK(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}),
 
+    ADVANCED_DECK(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "!", "#", "$", "%", "&", "=", "?", "+", "-", "_", "*", "<", ">", "|"}),
+
     CASE_BASE_DECK(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}),
 
-    private final Logger logger = Logger.getLogger("org.framework42");
+    ADVANCED_CASE_BASE_DECK(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "!", "#", "$", "%", "&", "=", "?", "+", "-", "_", "*", "<", ">", "|"});
+
+    private final Logger logger = Logger.getLogger("org.framework42.utils");
 
     private final String[] deck;
 
@@ -41,15 +48,15 @@ public enum PasswordGeneratorImpl implements PasswordGenerator {
 
     private String generatePasswordFromDeck(int passwordLength) {
 
-        String password = "";
+        StringBuilder passwordBuilder = new StringBuilder();
 
         for (int i = 0; i < passwordLength; i++) {
             int charPos = (int) (Math.random() * deck.length);
-            password += deck[charPos];
+            passwordBuilder.append(deck[charPos]);
         }
 
-        logger.debug("Password generated with value: " + password);
-        return password;
+        logger.debug("Password generated with value: " + passwordBuilder.toString());
+        return passwordBuilder.toString();
 
     }
 

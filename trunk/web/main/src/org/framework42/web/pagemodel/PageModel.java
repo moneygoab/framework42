@@ -17,7 +17,7 @@ public abstract class PageModel {
     protected String pageKeywordsKey;
     protected String pageDescriptionKey;
 
-    protected List<ComponentModel> componentModels;
+    protected PageAction currentPageAction;
 
     protected Map<String, Parameter> inParameters;
 
@@ -30,7 +30,6 @@ public abstract class PageModel {
      * */
     protected PageModel() {
         error = false;
-        componentModels = new ArrayList<ComponentModel>();
         inParameters = new HashMap<String, Parameter>();
         pageParameters = new HashMap<String, Parameter>();
         environmentInformation = new HashMap<String, String>();
@@ -69,8 +68,12 @@ public abstract class PageModel {
         return pageDescriptionKey;
     }
 
-    public List<ComponentModel> getComponentModels() {
-        return componentModels;
+    public PageAction getCurrentPageAction() {
+        return currentPageAction;
+    }
+
+    public void setCurrentPageAction(PageAction currentPageAction) {
+        this.currentPageAction = currentPageAction;
     }
 
     /**

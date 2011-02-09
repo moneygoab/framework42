@@ -6,8 +6,6 @@ import org.framework42.web.utils.Util;
 
 public abstract class HtmlComponent {
 
-    protected String html = null;
-
     protected StringBuilder htmlBuilder;
 
     protected int tabs = 0;
@@ -21,6 +19,7 @@ public abstract class HtmlComponent {
     }
 
     public String getHtml(WebPage page, HtmlComponent parent, boolean onSameRow) {
+
         htmlBuilder = new StringBuilder();
         tabs = parent.tabs+tabOffset;
         if(!onSameRow){
@@ -29,15 +28,14 @@ public abstract class HtmlComponent {
 
         generateHtmlSpecific(page, parent, onSameRow);
         
-        html = htmlBuilder.toString();
-        return html;
+        return htmlBuilder.toString();
     }
 
     protected abstract void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow);
 
     @Override
     public String toString() {
-        return html;
+        return htmlBuilder.toString();
     }
 
 }

@@ -4,6 +4,8 @@ import org.framework42.i18n.I18N;
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Label;
+import org.framework42.web.pagemodel.BasePageAction;
+import org.framework42.web.pagemodel.PageAction;
 import org.framework42.web.pages.ChildPage;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
@@ -60,14 +62,10 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append("<a href=\"");
         htmlBuilder.append(builder.pageURL);
-        boolean first = true;
+        htmlBuilder.append("?action=");
+        htmlBuilder.append(builder.linkPageAction.getIdentifier());
         for(String key: builder.linkParameters.keySet()) {
-            if(first) {
-                htmlBuilder.append("?");
-                first = false;
-            }else {
-                htmlBuilder.append("&");
-            }
+            htmlBuilder.append("&");
             htmlBuilder.append(key);
             htmlBuilder.append("=");
             htmlBuilder.append(builder.linkParameters.get(key));
@@ -128,12 +126,16 @@ public class MenuItemText extends MenuItem {
 
         private Map<String, String> linkParameters;
 
+        private PageAction linkPageAction;
+
         public Builder(String id, Label text, String pageURL, Locale locale) {
             this.pageURL = pageURL;
             this.id = id;
             this.locale = locale;
             this.text = text;
             this.linkParameters = new HashMap<String, String>();
+
+            this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
             this.paddingLeft = 5;
@@ -152,6 +154,8 @@ public class MenuItemText extends MenuItem {
             this.locale = locale;
             this.text = text;
             this.linkParameters = linkParameters;
+
+            this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
             this.paddingLeft = 5;
@@ -231,6 +235,11 @@ public class MenuItemText extends MenuItem {
 
         public Builder text(Label text) {
             this.text = text;
+            return this;
+        }
+
+        public Builder linkPageAction(PageAction linkPageAction) {
+            this.linkPageAction = linkPageAction;
             return this;
         }
 

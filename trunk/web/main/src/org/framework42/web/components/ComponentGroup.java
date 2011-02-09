@@ -24,8 +24,6 @@ public class ComponentGroup extends HtmlComponent {
          htmlBuilder.append(comp.getHtml(page, this, false));
       }
 
-      html = htmlBuilder.toString();
-
    }
 
    public static class Builder implements ComponentBuilder<ComponentGroup>, HtmlComponentStorage<HtmlComponent>{

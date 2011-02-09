@@ -7,22 +7,29 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static org.framework42.utils.NullChecker.notNull;
+
 public enum HashMakerImpl implements HashMaker {
 
     INSTANCE;
 
-    Logger logger = Logger.getLogger("org.framework42");
+    Logger logger = Logger.getLogger("org.framework42.utils");
 
     private HashMakerImpl() {
     }
 
+    /**
+     * Call this method to generate a hash
+     * @param salt              A salt to use to make it harder to reverse engineer the hash to the password. Send in an empty string if you don't want to use any salt.
+     * @param stringToHash      The actual string / password to hash.
+     * @return The hashed string.
+     * */
     public String getHash(String salt, String stringToHash) throws IllegalArgumentException {
 
-        if (salt == null || stringToHash == null) {
-            throw new IllegalArgumentException("Salt or stringToHash has a illegal value. Salt: " + salt + " and stringToHash: " + stringToHash);
-        }
+        notNull(salt, "Salt can't be null!");
+        notNull(stringToHash, "String to hash can't be null!");
 
-        String passHash = "";
+        StringBuilder passBuilder = new StringBuilder();
 
         try {
 
@@ -33,22 +40,26 @@ public enum HashMakerImpl implements HashMaker {
 
             for (byte b : digest) {
                 if (Integer.toHexString(b & 0xff).length() == 1) {
-                    passHash += "0" + Integer.toHexString(b & 0xff);
+                    passBuilder.append("0");
+                    passBuilder.append(Integer.toHexString(b & 0xff));
                 } else {
-                    passHash += Integer.toHexString(b & 0xff);
+                    passBuilder.append(Integer.toHexString(b & 0xff));
                 }
 
             }
 
         } catch (UnsupportedEncodingException e) {
+
             logger.fatal("HashMakerImpl.getHash: " + e);
-            throw new RuntimeException();
+            throw new RuntimeException("HashMakerImpl.getHash: " + e);
+
         } catch (NoSuchAlgorithmException e) {
+
             logger.fatal("HashMakerImpl.getHash: " + e);
-            throw new RuntimeException();
+            throw new RuntimeException("HashMakerImpl.getHash: " + e);
         }
 
-        return passHash;
+        return passBuilder.toString();
 
     }
 

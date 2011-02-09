@@ -26,7 +26,6 @@ public enum ApplicationConfigHandler {
 
         String url = getClass().getClassLoader().getResource("").getPath();
         url = url.replaceAll("%20", " ");
-        url += "resources" + System.getProperty("file.separator");
 
         Properties properties = new Properties();
 
@@ -37,14 +36,14 @@ public enum ApplicationConfigHandler {
         } catch(Exception ex) {
             try{
 
-                properties.loadFromXML(new FileInputStream("/tmp/"+settingsFileName));
+                properties.loadFromXML(new FileInputStream(System.getProperty("java.io.tmpdir")+System.getProperty("file.separator")+settingsFileName));
 
             } catch (Exception e) {
 
                 String errorMess = "Problem loading settings file "+settingsFileName+": ";
 
-                logger.error(errorMess+e);
-                throw new RuntimeException(errorMess+e);
+                logger.fatal(errorMess+"\n"+e+"\n"+ex);
+                throw new RuntimeException(errorMess+"\n"+e+"\n"+ex);
 
             }
         }

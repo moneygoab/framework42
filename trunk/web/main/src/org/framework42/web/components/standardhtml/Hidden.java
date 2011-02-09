@@ -22,7 +22,7 @@ public class Hidden extends HtmlComponent {
 
       htmlBuilder.append(builder.addGeneralComponents());
 
-      htmlBuilder.append(">");
+      htmlBuilder.append(">\n");
 
    }
 
