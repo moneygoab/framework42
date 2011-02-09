@@ -2,7 +2,6 @@ package org.framework42.web.components.extensions;
 
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.standardhtml.Label;
 import org.framework42.web.components.standardhtml.Link;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
@@ -11,20 +10,8 @@ public class TabButton extends HtmlComponent {
 
     private final Builder builder;
 
-    private int id;
-
     public TabButton(Builder builder) {
         this.builder = builder;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        builder.tabLink.getBuilder().removeParameter("apptab");
-        builder.tabLink.getBuilder().addParameter("apptab", Integer.toString(id));
-        this.id = id;
     }
 
     @Override
@@ -37,6 +24,7 @@ public class TabButton extends HtmlComponent {
     }
 
     public Builder getBuilder() {
+
         return builder;
     }
 

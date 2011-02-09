@@ -1,10 +1,10 @@
 package org.framework42.web.pages;
 
 import org.framework42.i18n.I18N;
+import org.framework42.model.MimeType;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.impl.BaseRole;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.MimeType;
 import org.framework42.web.components.standardhtml.Body;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.components.standardhtml.head.*;

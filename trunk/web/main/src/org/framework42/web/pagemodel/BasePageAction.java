@@ -1,7 +1,7 @@
 package org.framework42.web.pagemodel;
 
 public enum BasePageAction implements PageAction {
-    NONE(1, ""), ADD_TAB(2, "createNewTab"), SUBMIT_FORM(3, "submitForm");
+    NONE(1, ""), ADD_TAB(2, "createNewTab"), ACTIVATE_TAB(3, "activateTab"), SUBMIT_FORM(10, "submitForm");
 
     private final int id;
 
