@@ -1,5 +1,6 @@
 package org.framework42.examples.hello_servicebinder;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.apache.log4j.BasicConfigurator;
 import org.framework42.ServiceBinderInterface;
 import org.framework42.configuration.ApplicationConfigHandler;
@@ -22,7 +23,7 @@ public enum HelloServiceBinder implements ServiceBinderInterface {
 
         loadConfigFiles();
 
-        databaseConnector = DatabaseConnector.INSTANCE;
+        setupDatabaseConnector();
 
         defaultLocale = Locale.getDefault();
         
@@ -34,6 +35,25 @@ public enum HelloServiceBinder implements ServiceBinderInterface {
     public void loadConfigFiles() {
 
         applicationProperties = ApplicationConfigHandler.INSTANCE.load("hello_service_binder_settings.xml");
+
+    }
+
+    private void setupDatabaseConnector() {
+
+        databaseConnector = DatabaseConnector.INSTANCE;
+
+        String server = applicationProperties.getProperty("database.server");
+        String port = applicationProperties.getProperty("database.port");
+        String database = applicationProperties.getProperty("database.name");
+        String user = applicationProperties.getProperty("database.user");
+        String password = applicationProperties.getProperty("database.password");
+
+        MysqlConnectionPoolDataSource cpds= new MysqlConnectionPoolDataSource();
+        cpds.setUrl("jdbc:mysql://"+server+":"+port+"/"+database);
+        cpds.setPassword(password);
+        cpds.setUser(user);
+        
+        databaseConnector.setUpEnvironment(cpds, 5);
 
     }
 

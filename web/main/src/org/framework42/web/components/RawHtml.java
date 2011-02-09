@@ -13,7 +13,7 @@ public class RawHtml extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        html = rawHtml;
+        htmlBuilder.append(rawHtml);
 
     }
 }

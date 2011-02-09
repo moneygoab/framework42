@@ -20,6 +20,9 @@ public abstract class UserSession<T extends User> {
 
         this.authenticated = false;
 
+        if(this instanceof TabableApp) {
+            ((TabableApp)this).initTabEnvironment();
+        }
     }
 
     public abstract T getUser();
@@ -34,10 +37,6 @@ public abstract class UserSession<T extends User> {
 
     public boolean isAuthenticated() {
         return authenticated;
-    }
-
-    public void setAuthenticated(boolean authenticated) {
-        this.authenticated = authenticated;
     }
 
     public abstract void logIn(T user);

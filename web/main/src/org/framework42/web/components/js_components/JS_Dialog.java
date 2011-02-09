@@ -22,8 +22,6 @@ public class JS_Dialog extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        StringBuilder htmlBuilder = new StringBuilder();
-
         htmlBuilder.append(builder.content.getHtml(page, this, false));
         htmlBuilder.append("\n");
 
@@ -85,8 +83,6 @@ public class JS_Dialog extends HtmlComponent {
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</script>\n");
-
-        html = htmlBuilder.toString();
 
     }
 

@@ -1,6 +1,8 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.pagemodel.BasePageAction;
+import org.framework42.web.pagemodel.PageAction;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 import org.framework42.web.components.InputComponentBuilder;
@@ -10,7 +12,7 @@ import java.util.Map;
 
 public class Link extends HtmlComponent {
 
-    private Builder builder;
+    protected Builder builder;
 
     public Link(String name, String href, HtmlComponent linkedComponent) {
 
@@ -88,6 +90,8 @@ public class Link extends HtmlComponent {
 
         private String followString = null;
 
+        private PageAction linkedPageAction = BasePageAction.NONE;
+
         private Map<String, String> parameters;
 
         public Builder(String name, String href, Map<String, String> parameters, HtmlComponent linkedComponent) {
@@ -100,17 +104,14 @@ public class Link extends HtmlComponent {
 
         private String generateHref(String href, Map<String, String> parameters) {
 
-            boolean first = true;
             StringBuilder sb = new StringBuilder();
             sb.append(href);
 
+            sb.append("?action=");
+            sb.append(linkedPageAction.getIdentifier());
+
             for(Map.Entry entry : parameters.entrySet()) {
-                if(first) {
-                    sb.append("?");
-                    first = false;
-                } else {
-                    sb.append("&");
-                }
+                sb.append("&");
                 sb.append(entry.getKey());
                 sb.append("=");
                 sb.append(entry.getValue());
@@ -147,6 +148,11 @@ public class Link extends HtmlComponent {
 
         public Builder followString(String followString) {
             this.followString = followString;
+            return this;
+        }
+
+        public Builder linkedPageAction(PageAction linkedPageAction) {
+            this.linkedPageAction = linkedPageAction;
             return this;
         }
 

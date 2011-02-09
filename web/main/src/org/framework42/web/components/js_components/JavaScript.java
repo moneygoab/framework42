@@ -19,9 +19,6 @@ public class JavaScript extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        StringBuilder htmlBuilder = new StringBuilder();
-
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<script language=\"JavaScript\" type=\"text/javascript\">\n");
         for(String row:builder.scriptLines){
             htmlBuilder.append(Util.tab(tabs+1));
@@ -30,8 +27,6 @@ public class JavaScript extends HtmlComponent {
         }
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</script>\n");
-
-        html = htmlBuilder.toString();
 
     }
 
@@ -43,8 +38,9 @@ public class JavaScript extends HtmlComponent {
             scriptLines = new ArrayList<String>();
         }
 
-        public void addScriptLine(String scriptLine){
+        public Builder addScriptLine(String scriptLine){
             scriptLines.add(scriptLine);
+            return this;
         }
 
         @Override

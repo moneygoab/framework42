@@ -18,9 +18,6 @@ public class JS_DialogButton extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        StringBuilder htmlBuilder = new StringBuilder();
-
-        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append(" \"");
         htmlBuilder.append(builder.label);
         htmlBuilder.append("\": function() { \n");
@@ -30,8 +27,6 @@ public class JS_DialogButton extends HtmlComponent {
         htmlBuilder.append(" \n");
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append(" }\n");
-
-        html = htmlBuilder.toString();
 
     }
 

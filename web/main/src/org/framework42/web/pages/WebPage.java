@@ -8,6 +8,8 @@ import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
 import org.framework42.web.components.ComponentGroup;
+import org.framework42.web.components.HtmlPostMethod;
+import org.framework42.web.components.standardhtml.Body;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
@@ -44,11 +46,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
      */
     protected WebPage(String loggerId, PageLogic<T, R> pageLogic) {
 
-        logger = Logger.getLogger(loggerId);
-        this.pageLogic = pageLogic;
-
-        accessRoles = new ArrayList<Role>();
-        denyAccessRoles = new ArrayList<Role>();
+        this(loggerId, pageLogic, new ArrayList<Role>(), new ArrayList<Role>());
 
     }
 
@@ -71,21 +69,72 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    /**
-     * This method takes an htmlBuilder and simply builds the html code for the page.
-     *
-     * @param htmlBuilder The htmlBuilder that should build this page
-     * @return String       The html code as a String
-     */
-    public String getHtml(Html.Builder htmlBuilder) {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Html html = htmlBuilder.build();
-
-        return html.getHtml(this, new ComponentGroup.Builder().build(), true);
+        processCall(HtmlPostMethod.GET, req, resp);
 
     }
 
-    protected abstract T createUserSession(HttpServletRequest req);
+    protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        processCall(HtmlPostMethod.POST, req, resp);
+
+    }
+
+    protected abstract void doPostSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+
+    private void processCall(HtmlPostMethod postMethod, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Html.Builder htmlBuilder = new Html.Builder();
+
+        T session = getSession(req, resp);
+
+        try {
+
+            mayAccessPage(session);
+
+            R model = pageLogic.perform(req, resp, session);
+
+            if(postMethod == HtmlPostMethod.GET) {
+                doGetSub(model, session, htmlBuilder);
+            } else {
+                doPostSub(model, session, htmlBuilder);
+            }
+
+            writeHtmlPage(resp, htmlBuilder);
+
+        } catch (NotAuthorizedException e) {
+
+            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
+            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
+
+        } catch (StopServletExecutionException e) {
+
+            logger.debug("Execution stopped of servlet due to need for redirect.");
+
+        } catch (ManageablePageException e) {
+
+            handleManageablePageException(session, htmlBuilder);
+            try {
+
+                writeHtmlPage(resp, htmlBuilder);
+
+            } catch (IOException ex) {
+
+                logUnhandledException(e);
+                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+            }
+
+        } catch (Exception e) {
+
+            logUnhandledException(e);
+            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private T getSession(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -132,91 +181,16 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract void handleManageablePageException(T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+    protected abstract T createUserSession(HttpServletRequest req);
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void mayAccessPage(T session) throws NotAuthorizedException {
 
-        Html.Builder htmlBuilder = new Html.Builder();
+        User user = session.getUser();
+        UserAuthorizationPerformer authPerformer = new UserAuthorizationPerformer(user, accessRoles, denyAccessRoles);
 
-        T session = getSession(req, resp);
-
-        try {
-
-            mayAccessPage(session);
-
-            R model = pageLogic.perform(req, resp, session);
-
-            doGetSub(model, session, htmlBuilder);
-
-            writeHtmlPage(resp, htmlBuilder);
-
-        } catch (NotAuthorizedException e) {
-
-            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
-
-        } catch (StopServletExecutionException e) {
-
-            logger.debug("Execution stopped of servlet due to need for redirect.");
-
-        } catch (ManageablePageException e) {
-
-            handleManageablePageException(session, htmlBuilder);
-            try {
-                writeHtmlPage(resp, htmlBuilder);
-            } catch (IOException ex) {
-                logUnhandledException(e);
-                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
-            }
-
-        } catch (Exception e) {
-
-            logUnhandledException(e);
-            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
-
-        }
+        authPerformer.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
 
     }
-
-    protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Html.Builder htmlBuilder = new Html.Builder();
-
-        T session = getSession(req, resp);
-
-        try {
-
-            mayAccessPage(session);
-
-            R model = pageLogic.perform(req, resp, session);
-
-            doPostSub(model, session, htmlBuilder);
-
-            writeHtmlPage(resp, htmlBuilder);
-
-        } catch (NotAuthorizedException e) {
-
-            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
-
-        } catch (StopServletExecutionException e) {
-
-            logger.debug("Execution stopped of servlet due to need for redirect.");
-
-        } catch (Exception e) {
-
-            logUnhandledException(e);
-            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
-
-        }
-
-    }
-
-    protected abstract void doPostSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
 
     private void writeHtmlPage(HttpServletResponse resp, Html.Builder htmlBuilder) throws IOException {
 
@@ -228,11 +202,27 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
+    /**
+     * This method takes an htmlBuilder and simply builds the html code for the page.
+     *
+     * @param htmlBuilder   The htmlBuilder that should build this page
+     * @return String       The html code as a String
+     */
+    protected String getHtml(Html.Builder htmlBuilder) {
+
+        Html html = htmlBuilder.build();
+
+        return html.getHtml(this, new ComponentGroup.Builder().build(), true);
+
+    }
+
+    protected abstract void handleManageablePageException(T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+
     private void logUnhandledException(Exception e) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("Ops! an error occurred ");
+        stringBuilder.append("An unhandled error occurred ");
         stringBuilder.append(e);
         stringBuilder.append("\n");
 
@@ -246,15 +236,5 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     }
 
     public abstract ComponentGroup getPageSpecificHtml(R model, T session);
-
-    protected void mayAccessPage(T session) throws NotAuthorizedException {
-
-        User user = session.getUser();
-        UserAuthorizationPerformer authPerformer = new UserAuthorizationPerformer(user, accessRoles, denyAccessRoles);
-
-        authPerformer.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
-
-    }
-
 
 }

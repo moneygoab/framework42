@@ -2,7 +2,9 @@ package org.framework42.web.pagelogic;
 
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
+import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.HtmlParametersParser;
+import org.framework42.web.pagemodel.PageActionImpl;
 import org.framework42.web.pagemodel.PageModel;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +23,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     protected final Logger logger;
 
-    protected List<ComponentLogic> componentLogic;
-
     /**
      * The constructor
      * @param loggerId      The logger getId, used to make it possible to define different log levels in the application.
@@ -29,7 +30,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
     protected PageLogic(String loggerId) {
 
         logger = Logger.getLogger(loggerId);
-        componentLogic = new ArrayList<ComponentLogic>();
     }
 
     /**
@@ -53,10 +53,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         addHtmlParameters(req, pageModel);
 
         pageModel = performSpecific(req, resp, session, pageModel);
-
-        for(ComponentLogic compLogic : componentLogic) {
-
-        }
 
         return pageModel;
 
@@ -112,6 +108,29 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
     protected void addHtmlParameters(HttpServletRequest req, R pageModel) {
 
         pageModel.setInParameters(HtmlParametersParser.INSTANCE.parseRequest(req, pageModel));
+
+        setUpCurrentPageAction(pageModel);
+
+    }
+
+    private void setUpCurrentPageAction(R pageModel) {
+        
+        if(pageModel.getInParameters().containsKey("action")) {
+
+            try {
+                pageModel.setCurrentPageAction(
+                        BasePageAction.getByIdentifier(pageModel.getInParameters().get("action").getParameterValueAsString())
+                );
+            } catch(IllegalArgumentException e) {
+
+                pageModel.setCurrentPageAction(
+                        new PageActionImpl(0, pageModel.getInParameters().get("action").getParameterValueAsString())
+                );
+            }
+        } else {
+
+            pageModel.setCurrentPageAction(BasePageAction.NONE);
+        }
 
     }
 

@@ -67,7 +67,7 @@ public class HelloAuthorization {
     private User createUser2() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(BaseRole.VISITOR, new UserRoleImpl<Role, RoleStatus>(BaseRole.VISITOR, BaseRoleStatus.ACTIVE));
+        userRoles.put(BaseRole.UNKNOWN_PERSON, new UserRoleImpl<Role, RoleStatus>(BaseRole.UNKNOWN_PERSON, BaseRoleStatus.ACTIVE));
 
         return new BaseUser(2, Calendar.getInstance().getTime(), "visitor@test.com", "Test User Visitor", userRoles);
 
