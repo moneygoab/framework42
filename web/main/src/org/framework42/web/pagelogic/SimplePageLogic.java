@@ -16,12 +16,12 @@ public class SimplePageLogic<T extends UserSession, R extends PageModel> extends
     }
 
     @Override
-    protected SimplePageModel createPageModel(HttpServletRequest req, HttpServletResponse resp, T session) {
+    protected SimplePageModel createPageModel(HttpServletRequest req, T session) {
         return new SimplePageModel();
     }
 
     @Override
-    protected void setupPageParameters(HttpServletRequest req, T session, SimplePageModel pageModel) {
+    protected void setupPageParametersSpecific(HttpServletRequest req, T session, SimplePageModel pageModel) {
         
     }
 

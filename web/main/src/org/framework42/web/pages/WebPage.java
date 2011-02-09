@@ -9,7 +9,6 @@ import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.HtmlPostMethod;
-import org.framework42.web.components.standardhtml.Body;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
@@ -89,50 +88,66 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     private void processCall(HtmlPostMethod postMethod, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Html.Builder htmlBuilder = new Html.Builder();
+        /*Enumeration headerNames = req.getHeaderNames();
 
-        T session = getSession(req, resp);
+        while(headerNames.hasMoreElements()) {
 
-        try {
+            Object header = headerNames.nextElement();
+            
+            System.out.println(header.toString()+": "+req.getHeader(header.toString()));
+            
+        }
+        System.out.println("\n\n\n\n\n\n"); */
 
-            mayAccessPage(session);
+        //TODO: Handle Firefox double calls better.
+        if(!req.getHeader("accept").contains("image/*")) {
 
-            R model = pageLogic.perform(req, resp, session);
+            Html.Builder htmlBuilder = new Html.Builder();
 
-            if(postMethod == HtmlPostMethod.GET) {
-                doGetSub(model, session, htmlBuilder);
-            } else {
-                doPostSub(model, session, htmlBuilder);
-            }
+            T session = getSession(req, resp);
 
-            writeHtmlPage(resp, htmlBuilder);
-
-        } catch (NotAuthorizedException e) {
-
-            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
-
-        } catch (StopServletExecutionException e) {
-
-            logger.debug("Execution stopped of servlet due to need for redirect.");
-
-        } catch (ManageablePageException e) {
-
-            handleManageablePageException(session, htmlBuilder);
             try {
+
+                mayAccessPage(session);
+
+                R model = pageLogic.perform(req, resp, session);
+
+                if(postMethod == HtmlPostMethod.GET) {
+                    doGetSub(model, session, htmlBuilder);
+                } else {
+                    doPostSub(model, session, htmlBuilder);
+                }
 
                 writeHtmlPage(resp, htmlBuilder);
 
-            } catch (IOException ex) {
+            } catch (NotAuthorizedException e) {
+
+                logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
+                resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
+
+            } catch (StopServletExecutionException e) {
+
+                logger.debug("Execution stopped of servlet due to need for redirect.");
+
+            } catch (ManageablePageException e) {
+
+                handleManageablePageException(session, htmlBuilder);
+                try {
+
+                    writeHtmlPage(resp, htmlBuilder);
+
+                } catch (IOException ex) {
+
+                    logUnhandledException(e);
+                    resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+                }
+
+            } catch (Exception e) {
 
                 logUnhandledException(e);
                 resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
             }
 
-        } catch (Exception e) {
-
-            logUnhandledException(e);
-            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
         }
     }
 

@@ -2,19 +2,14 @@ package org.framework42.web.pagelogic;
 
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
-import org.framework42.web.pagemodel.BasePageAction;
-import org.framework42.web.pagemodel.HtmlParametersParser;
-import org.framework42.web.pagemodel.PageActionImpl;
-import org.framework42.web.pagemodel.PageModel;
+import org.framework42.web.pagemodel.*;
+import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class represents the base of all page logic.
@@ -44,13 +39,16 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * */
     public R perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageablePageException {
 
-        R pageModel = createPageModel(req, resp, session);
+        R pageModel = createPageModel(req, session);
 
         setupPageParameters(req, session, pageModel);
+        setupPageParametersSpecific(req, session, pageModel);
 
         setupEnvironmentInformation(req, session, pageModel);
 
         addHtmlParameters(req, pageModel);
+
+        performGeneral(req, session, pageModel);
 
         pageModel = performSpecific(req, resp, session, pageModel);
 
@@ -61,11 +59,28 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
     /**
      * Creates a page model of the type of the extending class.
      * @param req           The http request
-     * @param resp           The http response
      * @param session       The users session
      * @return Returns the created page model
      * */
-    protected abstract R createPageModel(HttpServletRequest req, HttpServletResponse resp, T session);
+    protected abstract R createPageModel(HttpServletRequest req, T session);
+
+    protected void performGeneral(HttpServletRequest req, T session, R pageModel) {
+
+        if(pageModel.getInParameters().containsKey("tabId") &&
+                pageModel instanceof TabablePage && session instanceof TabableApp
+                && pageModel.getCurrentPageAction().getId() == BasePageAction.ACTIVATE_TAB.getId()) {
+
+            for(TabEnvironment tabEnv: ((TabableApp)session).getTabEnvironments()) {
+
+                if( tabEnv.getId() == Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString()) ) {
+
+                    ((TabableApp) session).setActiveTabEnvironment(tabEnv);
+                    
+                }
+
+            }
+        }
+    }
 
     /**
      * This method defines what logic is actually done in the extending class in the call.
@@ -80,13 +95,20 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * */
     protected abstract R performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageablePageException;
 
+    protected void setupPageParameters(HttpServletRequest req, T session, R pageModel) {
+
+        pageModel.addPageParameter(new ParameterImpl("action", ParameterType.STRING, false, ""));
+        pageModel.addPageParameter(new ParameterImpl("tabId", ParameterType.STRING, false, ""));
+
+    }
+
     /**
      * Adds the definition of parameters of the page, in other words no values are set.
      * @param req           The http request
      * @param session       The end users session
      * @param pageModel     The page model 
      * */
-    protected abstract void setupPageParameters(HttpServletRequest req, T session, R pageModel);
+    protected abstract void setupPageParametersSpecific(HttpServletRequest req, T session, R pageModel);
 
     /**
      * Sets up the environment variables.
