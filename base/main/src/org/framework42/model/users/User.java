@@ -21,6 +21,8 @@ public interface User extends Serializable {
 
     public void removeUserRole(UserRole userRole);
 
+    public UserRole getUserRole(Role role);
+
     public Map<UserSetting, String> getUserSettings();
     
 }

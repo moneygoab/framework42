@@ -68,6 +68,18 @@ public class BaseUser implements User {
     }
 
     @Override
+    public UserRole getUserRole(Role role) {
+
+        for(Role currentRole: userRoles.keySet()) {
+            if(currentRole.getId() == role.getId()) {
+                return userRoles.get(currentRole);
+            }
+        }
+
+        throw new IllegalArgumentException("No user role with the role "+role+" exists!");
+    }
+
+    @Override
     public Map<UserSetting, String> getUserSettings() {
         return userSettings;
     }

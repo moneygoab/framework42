@@ -2,6 +2,8 @@ package org.framework42.model.users.impl;
 
 import org.framework42.model.users.LoginCredentials;
 
+import static org.framework42.utils.NullChecker.notNull;
+
 public class LoginCredentialsImpl implements LoginCredentials {
 
     private final String userName;
@@ -13,10 +15,10 @@ public class LoginCredentialsImpl implements LoginCredentials {
     private final String userAgent;
 
     public LoginCredentialsImpl(String userName, String hashedPassword, String ip, String userAgent) {
-        this.userName = userName;
-        this.hashedPassword = hashedPassword;
-        this.ip = ip;
-        this.userAgent = userAgent;
+        this.userName = notNull(userName, "User name can't be null!");
+        this.hashedPassword = notNull(hashedPassword, "Hashed password can't be null!");
+        this.ip = notNull(ip, "Ip can't be null!");
+        this.userAgent = notNull(userAgent, "User agent can't be null!");
     }
 
     @Override

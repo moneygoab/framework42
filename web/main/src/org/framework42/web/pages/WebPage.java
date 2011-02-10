@@ -109,6 +109,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             try {
 
                 mayAccessPage(session);
+                mayAccessPageSpecific(session, resp);
 
                 R model = pageLogic.perform(req, resp, session);
 
@@ -206,6 +207,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         authPerformer.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
 
     }
+
+    protected abstract void mayAccessPageSpecific(T session, HttpServletResponse resp) throws IOException, NotAuthorizedException, StopServletExecutionException;
 
     private void writeHtmlPage(HttpServletResponse resp, Html.Builder htmlBuilder) throws IOException {
 

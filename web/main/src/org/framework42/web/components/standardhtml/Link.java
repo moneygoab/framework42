@@ -40,7 +40,7 @@ public class Link extends HtmlComponent {
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder.append("<a href=\"");
-        htmlBuilder.append(builder.generateHref(builder.href, builder.parameters));
+        htmlBuilder.append(builder.generateHref());
         htmlBuilder.append("\"");
 
         htmlBuilder.append(builder.addGeneralComponents());
@@ -102,7 +102,7 @@ public class Link extends HtmlComponent {
             this.linkedComponent = linkedComponent;
         }
 
-        private String generateHref(String href, Map<String, String> parameters) {
+        public String generateHref() {
 
             StringBuilder sb = new StringBuilder();
             sb.append(href);
@@ -121,6 +121,10 @@ public class Link extends HtmlComponent {
 
         }
 
+        public String getHref() {
+            return href;
+        }
+
         public Builder addParameter(String key, String value) {
             parameters.put(key, value);
             return this;
@@ -129,6 +133,10 @@ public class Link extends HtmlComponent {
         public Builder removeParameter(String key) {
             parameters.remove(key);
             return this;
+        }
+
+        public Map<String, String> getParameters() {
+            return parameters;
         }
 
         public Builder accessKey(String accessKey){

@@ -2,7 +2,8 @@ package org.framework42.authorization;
 
 public enum UserAuthorizationAction implements AuthorizationAction {
 
-    HAS_VALID_ROLE(100000);
+    HAS_VALID_ROLE(100000),
+    HAS_ROLE(100001);
 
     private final int id;
 

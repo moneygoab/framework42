@@ -10,7 +10,7 @@ public class TabEnvironment {
 
     private final TabButton tabButton;
 
-    private final PageModel pageModel;
+    private PageModel pageModel;
 
     public TabEnvironment(long id, TabButton tabButton, PageModel pageModel) {
         this.id = id;
@@ -28,6 +28,10 @@ public class TabEnvironment {
 
     public PageModel getPageModel() {
         return pageModel;
+    }
+
+    public void setPageModel(PageModel pageModel) {
+        this.pageModel = pageModel;
     }
 
     @Override
