@@ -57,9 +57,11 @@ public class UserAuthorizationPerformer extends AbstractAuthorizationPerformer {
 
             for (Role role : accessRoles) {
 
-                if (user.getUserRoles().containsKey(role)) {
-                    accessGranted = true;
-                    break;
+                for (Role userRole: user.getUserRoles().keySet()) {
+                    if(role.getId() == userRole.getId()) {
+                        accessGranted = true;
+                        break;
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package org.framework42.web.pagelogic;
 
+import org.framework42.i18n.I18N;
 import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagemodel.*;
@@ -10,6 +11,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * This class represents the base of all page logic.
@@ -48,9 +50,11 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         addHtmlParameters(req, pageModel);
 
-        performGeneral(req, session, pageModel);
+        performGeneral(req, resp, session, pageModel);
 
         pageModel = performSpecific(req, resp, session, pageModel);
+
+        postPerformGeneral(req, resp, session, pageModel);
 
         return pageModel;
 
@@ -64,22 +68,86 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * */
     protected abstract R createPageModel(HttpServletRequest req, T session);
 
-    protected void performGeneral(HttpServletRequest req, T session, R pageModel) {
+    protected void performGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
+
+        if(this instanceof TabablePage) {
+
+            changeTab(req, session, pageModel);
+            removeTab(req, resp, session, pageModel);
+        }
+
+
+    }
+
+    protected void postPerformGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
+
+        if(this instanceof TabablePage) {
+
+            saveTabPageModel(session, pageModel);
+        }
+
+    }
+
+    private void changeTab(HttpServletRequest req, T session, R pageModel) {
 
         if(pageModel.getInParameters().containsKey("tabId") &&
-                pageModel instanceof TabablePage && session instanceof TabableApp
+                pageModel instanceof Tabable && session instanceof TabableApp
                 && pageModel.getCurrentPageAction().getId() == BasePageAction.ACTIVATE_TAB.getId()) {
 
-            for(TabEnvironment tabEnv: ((TabableApp)session).getTabEnvironments()) {
+            TabableApp tabableApp = ((TabableApp)session);
 
-                if( tabEnv.getId() == Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString()) ) {
+            for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
 
-                    ((TabableApp) session).setActiveTabEnvironment(tabEnv);
-                    
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString());
+                if( tabEnv.getId() == tabId) {
+
+                    tabableApp.setActiveTabEnvironment(tabEnv);
+
                 }
 
             }
         }
+
+    }
+
+    private void removeTab(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
+
+        I18N i18n = I18N.INSTANCE;
+        Locale locale = session.getLocale();
+
+        if(pageModel.getInParameters().containsKey("tabId") &&
+                pageModel instanceof Tabable && session instanceof TabableApp
+                && pageModel.getCurrentPageAction().getId() == BasePageAction.REMOVE_TAB.getId()) {
+
+            TabableApp tabableApp = ((TabableApp)session);
+
+            for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
+
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString());
+                if( tabEnv.getId() == tabId) {
+
+                    tabableApp.setActiveTabEnvironment(tabableApp.getTabEnvironments().get(0));
+                    tabableApp.getTabEnvironments().remove(tabEnv);
+
+                    resp.sendRedirect(tabableApp.getActiveTabEnvironment().getTabButton().getBuilder().getTabLink().getBuilder().generateHref());
+                    throw new StopServletExecutionException();
+                }
+
+            }
+
+        }
+
+    }
+
+    private void saveTabPageModel(T session, R pageModel) {
+
+        if(pageModel instanceof Tabable && session instanceof TabableApp) {
+
+            TabableApp tabableApp = ((TabableApp)session);
+
+            tabableApp.getActiveTabEnvironment().setPageModel(pageModel);
+        }
+
     }
 
     /**
@@ -136,7 +204,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
     }
 
     private void setUpCurrentPageAction(R pageModel) {
-        
+
         if(pageModel.getInParameters().containsKey("action")) {
 
             try {

@@ -46,6 +46,9 @@ public enum HtmlParametersParser {
 
                     logger.info(e);
                 }
+            } else {
+
+                logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
             }
         }
 
