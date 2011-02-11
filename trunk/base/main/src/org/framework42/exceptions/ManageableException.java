@@ -1,4 +1,4 @@
-package org.framework42.web.exceptions;
+package org.framework42.exceptions;
 
 public class ManageableException extends Exception {
 

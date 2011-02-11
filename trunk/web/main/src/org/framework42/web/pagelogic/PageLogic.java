@@ -1,7 +1,7 @@
 package org.framework42.web.pagelogic;
 
+import org.framework42.exceptions.ManageableException;
 import org.framework42.i18n.I18N;
-import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.TabableApp;
@@ -36,10 +36,10 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @param session                           The end users session
      * @throws IOException                      Returns any io exceptions
      * @throws StopServletExecutionException    Returned if the page shouldn't be loaded, but the user rather be redirected.
-     * @throws ManageablePageException          Returned if an error occurs that might be handled and the page shown any way.
+     * @throws org.framework42.exceptions.ManageableException          Returned if an error occurs that might be handled and the page shown any way.
      * @return Returns a page model for the page.
      * */
-    public R perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageablePageException {
+    public R perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageableException {
 
         R pageModel = createPageModel(req, session);
 
@@ -158,10 +158,10 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @param pageModel                         The page model
      * @throws IOException                      Returns any io exceptions
      * @throws StopServletExecutionException    Returned if the page shouldn't be loaded, but the user rather be redirected.
-     * @throws ManageablePageException          Returned if an error occurs that might be handled and the page shown any way.
+     * @throws org.framework42.exceptions.ManageableException          Returned if an error occurs that might be handled and the page shown any way.
      * @return Returns a page model for the page.
      * */
-    protected abstract R performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageablePageException;
+    protected abstract R performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageableException;
 
     protected void setupPageParameters(HttpServletRequest req, T session, R pageModel) {
 

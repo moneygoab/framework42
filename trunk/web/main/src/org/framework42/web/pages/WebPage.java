@@ -3,6 +3,7 @@ package org.framework42.web.pages;
 import org.apache.log4j.Logger;
 import org.framework42.authorization.UserAuthorizationAction;
 import org.framework42.authorization.UserAuthorizationPerformer;
+import org.framework42.exceptions.ManageableException;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
@@ -10,7 +11,6 @@ import org.framework42.model.users.User;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.Html;
-import org.framework42.web.exceptions.ManageablePageException;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagelogic.PageLogic;
 import org.framework42.web.pagemodel.PageModel;
@@ -130,7 +130,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 logger.debug("Execution stopped of servlet due to need for redirect.");
 
-            } catch (ManageablePageException e) {
+            } catch (ManageableException e) {
 
                 handleManageablePageException(session, htmlBuilder);
                 try {
