@@ -1,6 +1,6 @@
 package org.framework42.web.pagelogic;
 
-import org.framework42.web.exceptions.ManageablePageException;
+import org.framework42.exceptions.ManageableException;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.UserSession;
@@ -26,7 +26,7 @@ public class SimplePageLogic<T extends UserSession, R extends PageModel> extends
     }
 
     @Override
-    protected SimplePageModel performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, SimplePageModel pageModel) throws IOException, StopServletExecutionException, ManageablePageException {
+    protected SimplePageModel performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, SimplePageModel pageModel) throws IOException, StopServletExecutionException, ManageableException {
 
         return pageModel;
 
