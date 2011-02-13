@@ -1,8 +1,8 @@
 package org.framework42.web.pages;
 
 import org.apache.log4j.Logger;
-import org.framework42.authorization.UserAuthorizationAction;
-import org.framework42.authorization.UserAuthorizationPerformer;
+import org.framework42.authorization.UserAuthAction;
+import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.ManageableException;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
@@ -202,9 +202,9 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     private void mayAccessPage(T session) throws NotAuthorizedException {
 
         User user = session.getUser();
-        UserAuthorizationPerformer authPerformer = new UserAuthorizationPerformer(user, accessRoles, denyAccessRoles);
+        UserAuthPerformer authPerformer = new UserAuthPerformer(user, accessRoles, denyAccessRoles);
 
-        authPerformer.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
+        authPerformer.authorize(UserAuthAction.HAS_VALID_ROLE);
 
     }
 

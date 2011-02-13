@@ -7,7 +7,7 @@ import org.framework42.model.users.User;
 
 import java.util.List;
 
-public class UserAuthorizationPerformer extends AbstractAuthorizationPerformer {
+public class UserAuthPerformer extends AbstractAuthorizationPerformer {
 
     private final User user;
 
@@ -16,7 +16,7 @@ public class UserAuthorizationPerformer extends AbstractAuthorizationPerformer {
 
     private final Logger logger = Logger.getLogger("org.framework42");
 
-    public UserAuthorizationPerformer(User user, List<Role> accessRoles, List<Role> denyAccessRoles) {
+    public UserAuthPerformer(User user, List<Role> accessRoles, List<Role> denyAccessRoles) {
 
         this.user = user;
 
