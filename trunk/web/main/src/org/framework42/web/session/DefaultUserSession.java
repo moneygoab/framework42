@@ -4,10 +4,8 @@ import org.framework42.model.users.User;
 
 public class DefaultUserSession<T extends UserSession> extends UserSession<User> {
 
-    private final User user;
-
     public DefaultUserSession(User user) {
-        this.user = user;
+        super(user);
     }
 
     @Override

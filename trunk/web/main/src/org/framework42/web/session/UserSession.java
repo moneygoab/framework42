@@ -14,10 +14,11 @@ public abstract class UserSession<T extends User> {
 
     protected T user;
 
-    public UserSession() {
+    public UserSession(T user) {
 
         setDefaultLocale();
 
+        this.user = user;
         this.authenticated = false;
 
         if(this instanceof TabableApp) {

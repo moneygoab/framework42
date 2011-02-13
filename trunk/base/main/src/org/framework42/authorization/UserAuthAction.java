@@ -1,13 +1,13 @@
 package org.framework42.authorization;
 
-public enum UserAuthorizationAction implements AuthorizationAction {
+public enum UserAuthAction implements AuthorizationAction {
 
     HAS_VALID_ROLE(100000),
     HAS_ROLE(100001);
 
     private final int id;
 
-    UserAuthorizationAction(int id) {
+    UserAuthAction(int id) {
         this.id = id;
     }
 
@@ -16,9 +16,9 @@ public enum UserAuthorizationAction implements AuthorizationAction {
         return id;
     }
 
-    public UserAuthorizationAction getFromId(int id) {
+    public UserAuthAction getFromId(int id) {
 
-        for (UserAuthorizationAction action : UserAuthorizationAction.values()) {
+        for (UserAuthAction action : UserAuthAction.values()) {
             if (id == action.getId()) {
                 return action;
             }
