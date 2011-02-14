@@ -50,9 +50,10 @@ public class TabEnvironment {
 
     @Override
     public int hashCode() {
-        int result = 31 * Long.toString(id).hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + tabButton.hashCode();
         result = 31 * result + pageModel.hashCode();
         return result;
     }
+
 }

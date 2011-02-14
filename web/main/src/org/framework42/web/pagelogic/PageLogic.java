@@ -3,6 +3,8 @@ package org.framework42.web.pagelogic;
 import org.framework42.exceptions.ManageableException;
 import org.framework42.i18n.I18N;
 import org.framework42.web.exceptions.StopServletExecutionException;
+import org.framework42.web.pageflow.Flowable;
+import org.framework42.web.pageflow.FlowableApp;
 import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
@@ -11,6 +13,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -48,7 +51,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         setupEnvironmentInformation(req, session, pageModel);
 
-        addHtmlParameters(req, pageModel);
+        addHtmlParameters(req, pageModel, session);
 
         performGeneral(req, resp, session, pageModel);
 
@@ -70,6 +73,11 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     protected void performGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
 
+        if(pageModel instanceof Flowable && session instanceof FlowableApp) {
+
+            checkFlowable(resp, session, pageModel);
+        }
+
         if(this instanceof TabablePage) {
 
             changeTab(req, session, pageModel);
@@ -81,11 +89,51 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     protected void postPerformGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
 
+        if(session instanceof FlowableApp) {
+
+            FlowableApp flowableApp = ((FlowableApp)session);
+
+            flowableApp.setLastPageClassName(pageModel.getClass().getCanonicalName());
+            flowableApp.setLastPageAction(pageModel.getCurrentPageAction());
+        }
+
         if(this instanceof TabablePage) {
 
             saveTabPageModel(session, pageModel);
         }
 
+    }
+
+    private void checkFlowable(HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
+
+        I18N i18n = I18N.INSTANCE;
+        Locale locale = session.getLocale();
+
+        FlowableApp flowableApp = ((FlowableApp)session);
+
+        List<Flowable> originatingPages = ((Flowable)pageModel).getOriginatingPages(flowableApp.getLastPageAction());
+        boolean notInFlow = true;
+        
+        if(originatingPages.size() == 0) {
+            notInFlow = false;
+        } else {
+            for(Flowable flowablePage: originatingPages) {
+
+                String lastPageClass = flowableApp.getLastPageClassName();
+                String pageClass = flowablePage.getClass().getCanonicalName();
+
+                if(lastPageClass.equals(pageClass)) {
+
+                    notInFlow = false;
+                    break;
+                }
+            }
+        }
+
+        if(notInFlow) {
+            resp.sendRedirect(i18n.getURL("error_page", locale));
+            throw new StopServletExecutionException();
+        }
     }
 
     private void changeTab(HttpServletRequest req, T session, R pageModel) {
@@ -195,9 +243,9 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @param req       The http request
      * @param pageModel The page model
      * */
-    protected void addHtmlParameters(HttpServletRequest req, R pageModel) {
+    protected void addHtmlParameters(HttpServletRequest req, R pageModel, T session) {
 
-        pageModel.setInParameters(HtmlParametersParser.INSTANCE.parseRequest(req, pageModel));
+        pageModel.setInParameters(HtmlParametersParser.INSTANCE.parseRequest(req, pageModel, session));
 
         setUpCurrentPageAction(pageModel);
 

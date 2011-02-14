@@ -2,6 +2,7 @@ package org.framework42.web.pagemodel;
 
 import org.apache.log4j.Logger;
 import org.framework42.web.exceptions.ParseUnrequiredException;
+import org.framework42.web.session.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -24,7 +25,7 @@ public enum HtmlParametersParser {
      * @param pageModel     The page model.
      * @return Returns all the http parameters sent to the page.
      * */
-    public Map<String,Parameter> parseRequest(HttpServletRequest req, PageModel pageModel) {
+    public Map<String,Parameter> parseRequest(HttpServletRequest req, PageModel pageModel, UserSession session) {
 
         Map<String,Parameter> parsedParameters = new HashMap<String,Parameter>();
         Map<String,Parameter> pageParameters = pageModel.getPageParameters();
@@ -40,15 +41,24 @@ public enum HtmlParametersParser {
 
                 try {
 
-                    parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
-
+                    if(parentParameter.getParameterType() != ParameterType.IGNORE) {
+                        parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
+                    }
                 } catch(ParseUnrequiredException e) {
 
                     logger.info(e);
                 }
             } else {
 
-                logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
+                if(session.isAllowUndefinedParameters()) {
+
+                    String value = req.getParameter(keyValue);
+                    parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
+
+                } else {
+
+                    logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
+                }
             }
         }
 
