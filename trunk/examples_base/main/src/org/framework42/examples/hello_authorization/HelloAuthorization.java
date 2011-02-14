@@ -1,8 +1,8 @@
 package org.framework42.examples.hello_authorization;
 
 import org.apache.log4j.BasicConfigurator;
-import org.framework42.authorization.UserAuthorizationAction;
-import org.framework42.authorization.UserAuthorizationPerformer;
+import org.framework42.authorization.UserAuthAction;
+import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.RoleStatus;
@@ -30,20 +30,20 @@ public class HelloAuthorization {
         User user1 = createUser1();
         User user2 = createUser2();
 
-        UserAuthorizationPerformer authPerformer1 = createUserAuthorizationPerformer(user1);
+        UserAuthPerformer authPerformer1 = createUserAuthPerformer(user1);
 
-        UserAuthorizationPerformer authPerformer2 = createUserAuthorizationPerformer(user2);
+        UserAuthPerformer authPerformer2 = createUserAuthPerformer(user2);
 
         try {
 
             System.out.println("Authorizing user: " + user1);
 
-            authPerformer1.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
+            authPerformer1.authorize(UserAuthAction.HAS_VALID_ROLE);
 
             System.out.println("Authorized user: " + user1);
             System.out.println("Authorizing user: " + user2);
 
-            authPerformer2.authorize(UserAuthorizationAction.HAS_VALID_ROLE);
+            authPerformer2.authorize(UserAuthAction.HAS_VALID_ROLE);
 
             System.out.println("Authorized user: " + user2);
 
@@ -73,12 +73,12 @@ public class HelloAuthorization {
 
     }
 
-    private UserAuthorizationPerformer createUserAuthorizationPerformer(User user) {
+    private UserAuthPerformer createUserAuthPerformer(User user) {
 
         List<Role> accessRoles = Arrays.asList((Role) BaseRole.ADMIN, BaseRole.MEMBER);
         List<Role> denyRoles = Arrays.asList((Role) BaseRole.LOCKED);
 
-        return new UserAuthorizationPerformer(user, accessRoles, denyRoles);
+        return new UserAuthPerformer(user, accessRoles, denyRoles);
 
     }
 

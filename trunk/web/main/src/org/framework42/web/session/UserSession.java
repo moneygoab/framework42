@@ -12,13 +12,16 @@ public abstract class UserSession<T extends User> {
 
     protected boolean authenticated;
 
+    protected boolean allowUndefinedParameters;
+
     protected T user;
 
-    public UserSession(T user) {
+    public UserSession(T user, boolean allowUndefinedParameters) {
 
         setDefaultLocale();
 
         this.user = user;
+        this.allowUndefinedParameters = allowUndefinedParameters;
         this.authenticated = false;
 
         if(this instanceof TabableApp) {
@@ -26,7 +29,13 @@ public abstract class UserSession<T extends User> {
         }
     }
 
-    public abstract T getUser();
+    public T getUser() {
+        return user;
+    }
+
+    public boolean isAllowUndefinedParameters() {
+        return allowUndefinedParameters;
+    }
 
     public Locale getLocale() {
         return locale;
