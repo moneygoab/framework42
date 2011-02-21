@@ -10,6 +10,6 @@ public interface Parameter {
     
     public Object getParameterValue();
 
-    public String getParameterValueAsString();
+    public String getValueAsString();
 
 }
