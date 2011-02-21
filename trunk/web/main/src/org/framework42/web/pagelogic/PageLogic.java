@@ -146,7 +146,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
 
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString());
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getValueAsString());
                 if( tabEnv.getId() == tabId) {
 
                     tabableApp.setActiveTabEnvironment(tabEnv);
@@ -171,7 +171,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
 
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getParameterValueAsString());
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getValueAsString());
                 if( tabEnv.getId() == tabId) {
 
                     tabableApp.setActiveTabEnvironment(tabableApp.getTabEnvironments().get(0));
@@ -257,12 +257,12 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             try {
                 pageModel.setCurrentPageAction(
-                        BasePageAction.getByIdentifier(pageModel.getInParameters().get("action").getParameterValueAsString())
+                        BasePageAction.getByIdentifier(pageModel.getInParameters().get("action").getValueAsString())
                 );
             } catch(IllegalArgumentException e) {
 
                 pageModel.setCurrentPageAction(
-                        new PageActionImpl(0, pageModel.getInParameters().get("action").getParameterValueAsString())
+                        new PageActionImpl(0, pageModel.getInParameters().get("action").getValueAsString())
                 );
             }
         } else {
