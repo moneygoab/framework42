@@ -72,6 +72,8 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
 
         Head.Builder head = new Head.Builder();
 
+        head.add(new Meta.Builder(MetaName.CHARSET, model.getPageCharacterSet()).build());
+        
         head.add(new Title(i18n.get(model.getPageTitleKey(), locale)));
         head.add(new Meta.Builder(MetaName.KEYWORDS, i18n.get(model.getPageKeywordsKey(),locale)).build());
         head.add(new Meta.Builder(MetaName.DESCRIPTION, i18n.get(model.getPageDescriptionKey(),locale)).build());
