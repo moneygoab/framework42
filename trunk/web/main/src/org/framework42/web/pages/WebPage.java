@@ -88,16 +88,21 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     private void processCall(HtmlPostMethod postMethod, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if (req.getCharacterEncoding() == null) {
+            req.setCharacterEncoding("utf-8");
+        }
+
+
         /*Enumeration headerNames = req.getHeaderNames();
 
-        while(headerNames.hasMoreElements()) {
+       while(headerNames.hasMoreElements()) {
 
-            Object header = headerNames.nextElement();
-            
-            System.out.println(header.toString()+": "+req.getHeader(header.toString()));
-            
-        }
-        System.out.println("\n\n\n\n\n\n"); */
+           Object header = headerNames.nextElement();
+
+           System.out.println(header.toString()+": "+req.getHeader(header.toString()));
+
+       }
+       System.out.println("\n\n\n\n\n\n"); */
 
         //TODO: Handle Firefox double calls better.
         if(!req.getHeader("accept").contains("image/*")) {

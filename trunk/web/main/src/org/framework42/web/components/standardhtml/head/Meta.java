@@ -7,59 +7,69 @@ import org.framework42.web.components.ComponentBuilder;
 
 public class Meta extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   private Meta(Builder builder) {
+    private Meta(Builder builder) {
 
-      this.builder = builder;
+        this.builder = builder;
 
-   }
+    }
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append("<meta");
+        htmlBuilder.append("<meta");
 
-      htmlBuilder.append(" name=\"");
-      htmlBuilder.append(builder.metaName.getId());
-      htmlBuilder.append("\"");
+        if(MetaName.CHARSET == builder.metaName) {
 
-      htmlBuilder.append(" content=\"");
-      htmlBuilder.append(builder.content);
-      htmlBuilder.append("\"");
+            htmlBuilder.append(" charset=\"");
+            htmlBuilder.append(builder.content);
+            htmlBuilder.append("\"");
 
-      if(builder.httpEquivalent != null) {
-         htmlBuilder.append(" http-equiv=\"");
-         htmlBuilder.append(builder.httpEquivalent.getId());
-         htmlBuilder.append("\"");
-      }
+        } else {
 
-      htmlBuilder.append(">\n");
+            htmlBuilder.append(" name=\"");
+            htmlBuilder.append(builder.metaName.getId());
+            htmlBuilder.append("\"");
 
-   }
+            htmlBuilder.append(" content=\"");
+            htmlBuilder.append(builder.content);
+            htmlBuilder.append("\"");
 
-   public static class Builder implements ComponentBuilder<Meta> {
+            if(builder.httpEquivalent != null) {
+                htmlBuilder.append(" http-equiv=\"");
+                htmlBuilder.append(builder.httpEquivalent.getId());
+                htmlBuilder.append("\"");
+            }
 
-      private final MetaName metaName;
+        }
 
-      private final String content;
+        htmlBuilder.append(">\n");
 
-      private HttpEquivalent httpEquivalent = null;
+    }
 
-      public Builder(MetaName metaName, String content) {
-         this.metaName = metaName;
-         this.content = content;
-      }
+    public static class Builder implements ComponentBuilder<Meta> {
 
-      public Builder httpEquivalent(HttpEquivalent httpEquivalent){
-         this.httpEquivalent = httpEquivalent;
-         return this;
-      }
+        private final MetaName metaName;
 
-      @Override
-      public Meta build() {
-         return new Meta(this);
-      }
-   }
+        private final String content;
+
+        private HttpEquivalent httpEquivalent = null;
+
+        public Builder(MetaName metaName, String content) {
+            this.metaName = metaName;
+            this.content = content;
+        }
+
+        public Builder httpEquivalent(HttpEquivalent httpEquivalent){
+            this.httpEquivalent = httpEquivalent;
+            return this;
+        }
+
+        @Override
+        public Meta build() {
+            return new Meta(this);
+        }
+    }
 
 }

@@ -101,7 +101,7 @@ public enum DatabaseConnector {
 
         } catch(SQLException e) {
 
-            logger.warn("Problem releasing pooled connection "+e);
+            logger.error("Problem releasing pooled connection "+e);
         }
 
     }
@@ -121,7 +121,26 @@ public enum DatabaseConnector {
 
         } catch(SQLException e) {
 
-            logger.warn("Problem with rollback of pooled connection "+e);
+            logger.error("Problem with rollback of pooled connection "+e);
+        }
+
+    }
+
+    /**
+     * Rollbacks the connections activities.
+     * @param con       The connection to rollback.
+     * */
+    public void commitPooledConnection(Connection con){
+
+        notNull(con, "Connection can't be null!");
+
+        try {
+
+            con.commit();
+
+        } catch(SQLException e) {
+
+            logger.error("Problem with commit of pooled connection "+e);
         }
 
     }

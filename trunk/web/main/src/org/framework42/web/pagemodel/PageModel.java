@@ -16,6 +16,7 @@ public abstract class PageModel {
     protected String pageTitleKey;
     protected String pageKeywordsKey;
     protected String pageDescriptionKey;
+    protected String pageCharacterSet;
 
     protected PageAction currentPageAction;
 
@@ -36,6 +37,7 @@ public abstract class PageModel {
         pageTitleKey = "page_title";
         pageKeywordsKey = "page_keywords";
         pageDescriptionKey = "page_description";
+        pageCharacterSet = "utf-8";
     }
         
     public boolean isError() {
@@ -66,6 +68,10 @@ public abstract class PageModel {
 
     public String getPageDescriptionKey() {
         return pageDescriptionKey;
+    }
+
+    public String getPageCharacterSet() {
+        return pageCharacterSet;
     }
 
     public PageAction getCurrentPageAction() {

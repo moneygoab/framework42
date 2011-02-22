@@ -2,7 +2,7 @@ package org.framework42.web.components.standardhtml.head;
 
 public enum MetaName {
    AUTHOR("author"), CONTENT_TYPE("content-type"), DESCRIPTION("description"),
-   KEYWORDS("keywords"), GENERATOR("generator"), REVISED("revised");
+   KEYWORDS("keywords"), GENERATOR("generator"), REVISED("revised"), CHARSET("charset");
 
    private final String id;
 
