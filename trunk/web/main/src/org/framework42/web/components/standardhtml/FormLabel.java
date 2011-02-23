@@ -19,7 +19,15 @@ public class FormLabel extends HtmlComponent {
 
         htmlBuilder.append("<label for=\"");
         htmlBuilder.append(builder.labelForComponentName);
-        htmlBuilder.append("\">");
+        htmlBuilder.append("\"");
+
+        if(builder.className!=null) {
+            htmlBuilder.append(" class=\"");
+            htmlBuilder.append(builder.className);
+            htmlBuilder.append("\"");
+        }
+
+        htmlBuilder.append(">");
         htmlBuilder.append(builder.labelText);
         htmlBuilder.append("</label>");
 
@@ -30,6 +38,8 @@ public class FormLabel extends HtmlComponent {
         private String labelText;
 
         private String labelForComponentName;
+
+        private String className = null;
 
         public Builder(String labelText, String labelForComponentName) {
 
@@ -46,6 +56,12 @@ public class FormLabel extends HtmlComponent {
         public Builder labelForComponentName(String formName) {
 
             this.labelForComponentName = formName;
+            return this;
+        }
+
+        public Builder className(String className) {
+
+            this.className = className;
             return this;
         }
 
