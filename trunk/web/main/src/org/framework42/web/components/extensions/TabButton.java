@@ -76,6 +76,7 @@ public class TabButton extends HtmlComponent {
             }
 
             this.span = new Span.Builder(components.build())
+                    //TODO: Move to CSS!
                     .style("border-width: 1px; border-style: solid; border-color: #e4e4e4; padding: 2px;")
                     .build();
 

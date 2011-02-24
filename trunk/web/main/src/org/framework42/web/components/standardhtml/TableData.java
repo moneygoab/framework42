@@ -9,6 +9,18 @@ public class TableData extends HtmlComponent {
 
     private Builder builder;
 
+    public TableData(String label) {
+
+        this.builder = new Builder(new Label(label));
+
+    }
+
+    public TableData(HtmlComponent component) {
+
+        this.builder = new Builder(component);
+
+    }
+
     private  TableData(Builder builder) {
 
         this.builder = builder;
