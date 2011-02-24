@@ -22,4 +22,26 @@ public class StringManipulatorImpl implements StringManipulator {
 
         return newString;
     }
+
+    @Override
+    public String divideInGroups(String originalString, int groupSize, String inBetweenString) {
+
+        String returnString = "";
+
+        for(int i=0; i < originalString.length(); i+=groupSize) {
+
+            if(i+groupSize < originalString.length()) {
+
+                returnString += originalString.substring(i, i+groupSize);
+
+            } else {
+
+                returnString += originalString.substring(i);
+            }
+
+            returnString += inBetweenString;
+        }
+
+        return returnString;
+    }
 }
