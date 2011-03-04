@@ -3,7 +3,6 @@ package org.framework42.web.pages;
 import org.framework42.i18n.I18N;
 import org.framework42.model.MimeType;
 import org.framework42.model.users.Role;
-import org.framework42.model.users.impl.BaseRole;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Body;
 import org.framework42.web.components.standardhtml.Html;
@@ -22,7 +21,7 @@ import java.util.Locale;
 public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageModel> extends WebPage<T, R> {
 
     protected AbstractBaseWebPage(String loggerId, PageLogic<T, R> pageLogic) {
-        super(loggerId, pageLogic, new ArrayList<Role>(), Arrays.asList((Role)BaseRole.LOCKED, BaseRole.DISMISSED, BaseRole.UNKNOWN_PERSON));
+        super(loggerId, pageLogic, new ArrayList<Role>(), Arrays.asList(Role.LOCKED, Role.DISMISSED, Role.UNKNOWN_PERSON));
     }
 
     protected AbstractBaseWebPage(String loggerId, PageLogic<T, R> pageLogic, List<Role> accessRoles, List<Role> denyAccessRoles) {
