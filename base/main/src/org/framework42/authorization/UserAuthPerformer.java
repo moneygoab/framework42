@@ -39,7 +39,7 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
         for (Role role : denyAccessRoles) {
 
             if (user.getUserRoles().containsKey(role)) {
-                logger.debug("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " denied access on role: " + role);
+                logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " denied access on role: " + role);
                 throw new NotAuthorizedException();
             }
         }
@@ -67,7 +67,7 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
         }
 
         if (!accessGranted) {
-            logger.debug("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " not granted access, has not any of roles: " + accessRoles);
+            logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " not granted access, has not any of roles: " + accessRoles);
             throw new NotAuthorizedException();
         }
 

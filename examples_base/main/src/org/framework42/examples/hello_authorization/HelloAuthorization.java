@@ -5,11 +5,9 @@ import org.framework42.authorization.UserAuthAction;
 import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.model.users.Role;
-import org.framework42.model.users.RoleStatus;
 import org.framework42.model.users.User;
 import org.framework42.model.users.UserRole;
-import org.framework42.model.users.impl.BaseRole;
-import org.framework42.model.users.impl.BaseRoleStatus;
+import org.framework42.model.users.RoleStatus;
 import org.framework42.model.users.impl.BaseUser;
 import org.framework42.model.users.impl.UserRoleImpl;
 
@@ -58,7 +56,7 @@ public class HelloAuthorization {
     private User createUser1() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(BaseRole.MEMBER, new UserRoleImpl<Role, RoleStatus>(BaseRole.MEMBER, BaseRoleStatus.ACTIVE));
+        userRoles.put(Role.MEMBER, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.MEMBER, RoleStatus.ACTIVE));
 
         return new BaseUser(1, Calendar.getInstance().getTime(), "user@test.com", "Test User Member", userRoles);
 
@@ -67,7 +65,7 @@ public class HelloAuthorization {
     private User createUser2() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(BaseRole.UNKNOWN_PERSON, new UserRoleImpl<Role, RoleStatus>(BaseRole.UNKNOWN_PERSON, BaseRoleStatus.ACTIVE));
+        userRoles.put(Role.UNKNOWN_PERSON, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.UNKNOWN_PERSON, RoleStatus.ACTIVE));
 
         return new BaseUser(2, Calendar.getInstance().getTime(), "visitor@test.com", "Test User Visitor", userRoles);
 
@@ -75,8 +73,8 @@ public class HelloAuthorization {
 
     private UserAuthPerformer createUserAuthPerformer(User user) {
 
-        List<Role> accessRoles = Arrays.asList((Role) BaseRole.ADMIN, BaseRole.MEMBER);
-        List<Role> denyRoles = Arrays.asList((Role) BaseRole.LOCKED);
+        List<Role> accessRoles = Arrays.asList(Role.ADMIN, Role.MEMBER);
+        List<Role> denyRoles = Arrays.asList(Role.LOCKED);
 
         return new UserAuthPerformer(user, accessRoles, denyRoles);
 

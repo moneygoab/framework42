@@ -1,20 +1,28 @@
 package org.framework42.services;
 
-import org.framework42.annotations.AllowNull;
+import org.apache.log4j.Logger;
+import org.framework42.annotations.Authorization;
+import org.framework42.authorization.AuthType;
+import org.framework42.authorization.UserAuthAction;
+import org.framework42.authorization.UserAuthPerformer;
+import org.framework42.exceptions.NotAuthorizedException;
+import org.framework42.model.users.User;
+import org.framework42.utils.AbstractNullChecker;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.util.Arrays;
 
-import static org.framework42.utils.NullChecker.notNull;
-
-public class ServiceHandler<T> implements InvocationHandler {
+public class ServiceHandler<T> extends AbstractNullChecker implements InvocationHandler {
 
     protected T delegate;
 
+    private final Logger logger = Logger.getLogger("org.framework42.base");
+    
     public ServiceHandler(T delegate) {
+        
         this.delegate = delegate;
     }
 
@@ -24,58 +32,67 @@ public class ServiceHandler<T> implements InvocationHandler {
 
             notNullChecks(method, argumentList);
 
-            Object result = method.invoke(delegate, argumentList);
-            return result;
+            authorization(method, argumentList);
+
+            return method.invoke(delegate, argumentList);
 
         } catch (InvocationTargetException e) {
-
-            throw e.getTargetException();
-
-        } finally {
-
-
-        }
-
-    }
-
-    private void notNullChecks(Method method, Object[] argumentList) {
-
-        int i = 1;
-        for(Object argument: argumentList) {
-
-            if(checkNull(method.getParameterAnnotations()[i-1])) {
-                notNull(argument, generateErrorMessage(method, i));
-            }
-            i++;
+            String msg = method.getDeclaringClass().getName()+"."+method.getName() + " - " + e.getCause();
+            logger.fatal(msg);
+            throw e.getCause();
         }
     }
 
-    private boolean checkNull(Annotation[] parameterAnnotations) {
+    private void authorization(Method method, Object[] argumentList) throws NotAuthorizedException {
 
-        for(Annotation annotation: parameterAnnotations) {
+        for(Annotation annotation: method.getAnnotations()) {
 
-            if(annotation.annotationType() == AllowNull.class) {
+            if(annotation.annotationType() == Authorization.class) {
 
-                return false;
+                performAuthorization((Authorization)annotation, method, argumentList);
             }
         }
-
-        return true;
     }
 
-    private String generateErrorMessage(Method method, int parameterId) {
+    private void performAuthorization(Authorization authAnnotation, Method method, Object[] argumentList) throws NotAuthorizedException {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        if(authAnnotation.authType() == AuthType.USER_AUTH) {
 
-            stringBuilder.append("Parameter number ");
-            stringBuilder.append(parameterId);
-            stringBuilder.append(" in class ");
-            stringBuilder.append(method.getDeclaringClass().getName());
-            stringBuilder.append(" and method ");
-            stringBuilder.append(method.getName());
-            stringBuilder.append(" can't be null!");
+            UserAuthPerformer userAuthPerformer = new UserAuthPerformer(
+                    getInvocationUser(method, argumentList),
+                    Arrays.asList(authAnnotation.accessRoles()),
+                    Arrays.asList(authAnnotation.denyRoles())
+            );
 
-        return stringBuilder.toString();        
+            userAuthPerformer.authorize(UserAuthAction.HAS_VALID_ROLE);
+        }
+    }
+
+    private User getInvocationUser(Method method, Object[] argumentList) {
+
+        for(Object obj: argumentList) {
+
+            if(obj instanceof User) {
+
+                return (User)obj;
+            }
+        }
+
+        String message = generateInvocationUserErrorMessage(method);
+        logger.fatal(message);
+        throw new IllegalArgumentException(message);
+    }
+
+    private String generateInvocationUserErrorMessage(Method method) {
+
+        StringBuilder messageBuilder = new StringBuilder();
+
+        messageBuilder.append("No invocation user sent into method ");
+        messageBuilder.append(method.getName());
+        messageBuilder.append(" of class ");
+        messageBuilder.append(method.getDeclaringClass().getName());
+
+        return messageBuilder.toString();
     }
 
 }

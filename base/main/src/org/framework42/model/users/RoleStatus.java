@@ -1,9 +1,19 @@
 package org.framework42.model.users;
 
-public interface RoleStatus {
+public enum RoleStatus {
 
-    public int getId();
+    ACTIVE(1),
+    LOCKED(2)
+    ;
 
-    public String getGuiTextId();
+    private final int id;
+
+    private RoleStatus(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
 }
