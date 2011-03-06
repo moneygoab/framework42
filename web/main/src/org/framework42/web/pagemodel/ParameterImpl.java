@@ -48,5 +48,14 @@ public class ParameterImpl implements Parameter {
     public String getValueAsString() {
         return parameterValue.toString();
     }
-    
+
+    @Override
+    public String toString() {
+        return "ParameterImpl{" +
+                "parameterName='" + parameterName + '\'' +
+                ", parameterType=" + parameterType +
+                ", required=" + required +
+                ", parameterValue=" + parameterValue +
+                '}';
+    }
 }

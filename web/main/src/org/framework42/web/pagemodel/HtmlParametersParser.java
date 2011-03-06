@@ -1,14 +1,19 @@
 package org.framework42.web.pagemodel;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.FileRenamePolicy;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.framework42.web.exceptions.ParseUnrequiredException;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This service class handles the parsing of html parameters that is sent to a page (both post and get parameters).
@@ -23,6 +28,7 @@ public enum HtmlParametersParser {
      * Parses an http request for it's parameters.
      * @param req           The http request.
      * @param pageModel     The page model.
+     * @param session       The current session.
      * @return Returns all the http parameters sent to the page.
      * */
     public Map<String,Parameter> parseRequest(HttpServletRequest req, PageModel pageModel, UserSession session) {
@@ -30,34 +36,50 @@ public enum HtmlParametersParser {
         Map<String,Parameter> parsedParameters = new HashMap<String,Parameter>();
         Map<String,Parameter> pageParameters = pageModel.getPageParameters();
 
-        for(Object key : req.getParameterMap().keySet().toArray()) {
+        if(ServletFileUpload.isMultipartContent(req)) {
+            
+            try {
 
-            String keyValue = key.toString();
+                new MultipartRequest(req, "/home/drbizzaro/Downloads/rajraj.jpg", 12582912);
 
-            if(pageParameters.containsKey(keyValue)) {
+            } catch(IOException e) {
 
-                Parameter parentParameter = pageParameters.get(keyValue);
-                String value = req.getParameter(keyValue);
+                logger.error("Could not save file!");
+                throw new RuntimeException("Could not save file!"+e);
+            }
 
-                try {
+        } else {
 
-                    if(parentParameter.getParameterType() != ParameterType.IGNORE) {
-                        parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
-                    }
-                } catch(ParseUnrequiredException e) {
+            for(Object key : req.getParameterMap().keySet().toArray()) {
 
-                    logger.info(e);
-                }
-            } else {
+                String keyValue = key.toString();
 
-                if(session.isAllowUndefinedParameters()) {
+                if(pageParameters.containsKey(keyValue)) {
 
+                    Parameter parentParameter = pageParameters.get(keyValue);
                     String value = req.getParameter(keyValue);
-                    parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
+
+                    try {
+
+                        if(parentParameter.getParameterType() != ParameterType.IGNORE) {
+                            parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
+                        }
+                    } catch(ParseUnrequiredException e) {
+
+                        logger.info(e);
+                    }
 
                 } else {
 
-                    logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
+                    if(session.isAllowUndefinedParameters()) {
+
+                        String value = req.getParameter(keyValue);
+                        parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
+
+                    } else {
+
+                        logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
+                    }
                 }
             }
         }
@@ -77,7 +99,7 @@ public enum HtmlParametersParser {
 
                     String name = param.getParameterName();
                     String type = param.getParameterType().name();
-                    
+
                     String errorMess = "The parameter "+name+" of type "+type+" is required but not set!";
                     logger.error(errorMess);
                     throw new IllegalArgumentException(errorMess);

@@ -65,8 +65,15 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
             );
 
             userAuthPerformer.authorize(UserAuthAction.HAS_VALID_ROLE);
+
+        } else if(authAnnotation.authType() == AuthType.SPECIAL_SUB_CLASSED) {
+
+            subClassedAuthorization(authAnnotation, method, argumentList, getInvocationUser(method, argumentList));
+            
         }
     }
+
+    protected void subClassedAuthorization(Authorization authAnnotation, Method method, Object[] argumentList, User invocationUser) throws NotAuthorizedException {}
 
     private User getInvocationUser(Method method, Object[] argumentList) {
 

@@ -7,71 +7,76 @@ import org.framework42.web.utils.Util;
 
 public class TextField extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   private TextField(Builder builder) {
+    public TextField(String name, String value) {
 
-      this.builder = builder;
+        this.builder = new Builder(name, value);
+    }
 
-   }
+    private TextField(Builder builder) {
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+        this.builder = builder;
 
-      htmlBuilder.append("<input type=\"text\"");
+    }
 
-      htmlBuilder.append(builder.addGeneralComponents());
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      if(builder.readonly!=null){
-         htmlBuilder.append(" readonly");
-      }
+        htmlBuilder.append("<input type=\"text\"");
 
-      if(builder.maxLength!=null){
-         htmlBuilder.append(" maxlength=\"");
-         htmlBuilder.append(builder.maxLength);
-         htmlBuilder.append("\"");
-      }
+        htmlBuilder.append(builder.addGeneralComponents());
 
-      htmlBuilder.append(">\n");
+        if(builder.readonly!=null){
+            htmlBuilder.append(" readonly");
+        }
 
-   }
+        if(builder.maxLength!=null){
+            htmlBuilder.append(" maxlength=\"");
+            htmlBuilder.append(builder.maxLength);
+            htmlBuilder.append("\"");
+        }
 
-   public static class Builder extends InputComponentBuilder<TextField> {
+        htmlBuilder.append(">\n");
 
-      private String readonly = null;
+    }
 
-      private String maxLength = null;
+    public static class Builder extends InputComponentBuilder<TextField> {
 
-      public Builder(String name, String value) {
-         super(name, value);
-      }
+        private String readonly = null;
 
-      public Builder readonly(boolean readonly){
+        private String maxLength = null;
 
-         if(readonly){
-            this.readonly = "readonly";
-         }else{
-            this.readonly = null;
-         }
-         return this;
+        public Builder(String name, String value) {
+            super(name, value);
+        }
 
-      }
+        public Builder readonly(boolean readonly){
 
-      public Builder maxLength(int maxLength){
+            if(readonly){
+                this.readonly = "readonly";
+            }else{
+                this.readonly = null;
+            }
+            return this;
 
-         if(maxLength>0){
-            this.maxLength = Integer.toString(maxLength);
-         }else{
-            this.maxLength = null;
-         }
-         return this;
-      }
+        }
 
-      @Override
-      public TextField build() {
-         return new TextField(this);
-      }
-   }
+        public Builder maxLength(int maxLength){
+
+            if(maxLength>0){
+                this.maxLength = Integer.toString(maxLength);
+            }else{
+                this.maxLength = null;
+            }
+            return this;
+        }
+
+        @Override
+        public TextField build() {
+            return new TextField(this);
+        }
+    }
 
 
 }
