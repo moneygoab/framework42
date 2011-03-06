@@ -9,7 +9,7 @@ public class Span extends HtmlComponent {
 
     private Builder builder;
 
-    public Span(Builder builder) {
+    private Span(Builder builder) {
 
         this.builder = builder;
 

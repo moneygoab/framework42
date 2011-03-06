@@ -7,94 +7,104 @@ import org.framework42.web.utils.Util;
 
 public class Option extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   private Option(Builder builder) {
+    public Option(String value, String text) {
 
-      this.builder = builder;
+        this.builder = new Builder(value, text);
+    }
 
-   }
+    public Option(String value, String text, boolean selected) {
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+        this.builder = new Builder(value, text);
+        this.builder.selected(selected);
+    }
 
-      htmlBuilder.append("<option value=\"");
-      htmlBuilder.append(builder.value);
-      htmlBuilder.append("\"");
+    private Option(Builder builder) {
 
-      htmlBuilder.append(builder.addGeneralComponents());
+        this.builder = builder;
+    }
 
-      if(builder.selected != null){
-         htmlBuilder.append(" selected");
-      }
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      if(builder.disabled!=null){
-         htmlBuilder.append(" disabled");
-      }
+        htmlBuilder.append("<option value=\"");
+        htmlBuilder.append(builder.value);
+        htmlBuilder.append("\"");
 
-      if(builder.label!=null){
-         htmlBuilder.append(" label=\"");
-         htmlBuilder.append(builder.label);
-         htmlBuilder.append("\"");
-      }
+        htmlBuilder.append(builder.addGeneralComponents());
 
-      htmlBuilder.append(">\n");
+        if(builder.selected != null){
+            htmlBuilder.append(" selected");
+        }
 
-      htmlBuilder.append(Util.tab(tabs+1));
-      htmlBuilder.append(builder.text);
-      htmlBuilder.append("\n");
+        if(builder.disabled!=null){
+            htmlBuilder.append(" disabled");
+        }
 
-      htmlBuilder.append(Util.tab(tabs));
-      htmlBuilder.append("</option>\n");
+        if(builder.label!=null){
+            htmlBuilder.append(" label=\"");
+            htmlBuilder.append(builder.label);
+            htmlBuilder.append("\"");
+        }
 
-   }
+        htmlBuilder.append(">\n");
 
-   public static class Builder extends EventComponentBuilder<Option> {
+        htmlBuilder.append(Util.tab(tabs+1));
+        htmlBuilder.append(builder.text);
+        htmlBuilder.append("\n");
 
-      private final String value;
+        htmlBuilder.append(Util.tab(tabs));
+        htmlBuilder.append("</option>\n");
 
-      private final String text;
+    }
 
-      private String selected;
+    public static class Builder extends EventComponentBuilder<Option> {
 
-      private String disabled;
+        private final String value;
 
-      private String label;
+        private final String text;
 
-      public Builder(String value, String text) {
-         this.value = value;
-         this.text = text;
-      }
+        private String selected;
 
-      public Builder selected(boolean selected){
+        private String disabled;
 
-         if(selected){
-            this.selected = "selected";
-         }else{
-            this.selected = null;
-         }
-         return this;
-      }
+        private String label;
 
-      public Builder disabled(boolean disabled){
-         if(disabled){
-            this.disabled = "disabled";
-         }else{
-            this.disabled = null;
-         }
-         return this;
-      }
+        public Builder(String value, String text) {
+            this.value = value;
+            this.text = text;
+        }
 
-      public Builder label(String label){
-         this.label = label;
-         return this;
-      }
+        public Builder selected(boolean selected){
 
-      @Override
-      public Option build() {
-         return new Option(this);
-      }
-   }
+            if(selected){
+                this.selected = "selected";
+            }else{
+                this.selected = null;
+            }
+            return this;
+        }
+
+        public Builder disabled(boolean disabled){
+            if(disabled){
+                this.disabled = "disabled";
+            }else{
+                this.disabled = null;
+            }
+            return this;
+        }
+
+        public Builder label(String label){
+            this.label = label;
+            return this;
+        }
+
+        @Override
+        public Option build() {
+            return new Option(this);
+        }
+    }
 
 }
 

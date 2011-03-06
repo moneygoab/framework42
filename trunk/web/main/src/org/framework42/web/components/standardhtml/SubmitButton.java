@@ -2,53 +2,57 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.InputComponentBuilder;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 import org.framework42.web.components.HtmlComponent;
 
 public class SubmitButton extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   private SubmitButton(Builder builder) {
+    public SubmitButton(String name, String value) {
 
-      this.builder = builder;
+        this.builder = new Builder(name, value);
+    }
 
-   }
+    private SubmitButton(Builder builder) {
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+        this.builder = builder;
 
-      htmlBuilder.append("<input type=\"submit\"");
+    }
 
-      htmlBuilder.append(builder.addGeneralComponents());
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      if(builder.imageURL!=null){
-         htmlBuilder.append(" src=\"");
-         htmlBuilder.append(builder.imageURL);
-         htmlBuilder.append("\"");
-      }
+        htmlBuilder.append("<input type=\"submit\"");
 
-      htmlBuilder.append(">"+"\n");
+        htmlBuilder.append(builder.addGeneralComponents());
 
-   }
+        if(builder.imageURL!=null){
+            htmlBuilder.append(" src=\"");
+            htmlBuilder.append(builder.imageURL);
+            htmlBuilder.append("\"");
+        }
 
-   public static class Builder extends InputComponentBuilder<SubmitButton> {
+        htmlBuilder.append(">"+"\n");
 
-      private String imageURL = null;
+    }
 
-      public Builder(String name, String value) {
-         super(name, value);
-      }
+    public static class Builder extends InputComponentBuilder<SubmitButton> {
 
-      public Builder className(String className){
-         this.className = className;
-         return this;
-      }
+        private String imageURL = null;
 
-      @Override
-      public SubmitButton build() {
-         return new SubmitButton(this);
-      }
-   }
+        public Builder(String name, String value) {
+            super(name, value);
+        }
+
+        public Builder className(String className){
+            this.className = className;
+            return this;
+        }
+
+        @Override
+        public SubmitButton build() {
+            return new SubmitButton(this);
+        }
+    }
 
 }
