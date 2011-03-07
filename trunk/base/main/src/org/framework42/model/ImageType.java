@@ -49,4 +49,23 @@ public enum ImageType {
         throw new IllegalArgumentException(mess);
     }
 
+    public static ImageType getByMimeType(String mimeType) {
+
+        if("image/jpeg".equalsIgnoreCase(mimeType)) {
+            return JPG;
+        }
+
+        else if("image/png".equalsIgnoreCase(mimeType)) {
+            return PNG;
+        }
+
+        else if("image/gif".equalsIgnoreCase(mimeType)) {
+            return GIF;
+        }
+
+        String mess = "No image type for mime type "+mimeType+" exists!";
+        logger.warn(mess);
+        throw new IllegalArgumentException(mess);
+    }
+
 }

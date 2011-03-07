@@ -1,9 +1,6 @@
 package org.framework42.web.pagemodel;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.FileRenamePolicy;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -12,7 +9,6 @@ import org.framework42.web.exceptions.ParseUnrequiredException;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,15 +33,35 @@ public enum HtmlParametersParser {
         Map<String,Parameter> pageParameters = pageModel.getPageParameters();
 
         if(ServletFileUpload.isMultipartContent(req)) {
-            
+
+            // Create a factory for disk-based file items
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+
+            // Create a new file upload handler
+            ServletFileUpload upload = new ServletFileUpload(factory);
+
             try {
+                // Parse the request
+                List<FileItem> itemList = upload.parseRequest(req);
 
-                new MultipartRequest(req, "/home/drbizzaro/Downloads/rajraj.jpg", 12582912);
+                for(FileItem item: itemList) {
 
-            } catch(IOException e) {
+                    if (item.isFormField()) {
 
-                logger.error("Could not save file!");
-                throw new RuntimeException("Could not save file!"+e);
+                        String keyValue = item.getFieldName();
+                        String value = item.getString();
+
+                        parseParameter(req, pageModel, session, keyValue, value, parsedParameters, pageParameters);
+
+                    } else {
+
+                        pageModel.getFileItemList().add(item);
+                    }
+                }
+
+            } catch(FileUploadException e) {
+
+                logger.error(e);
             }
 
         } else {
@@ -53,40 +69,45 @@ public enum HtmlParametersParser {
             for(Object key : req.getParameterMap().keySet().toArray()) {
 
                 String keyValue = key.toString();
+                String value = req.getParameter(keyValue);
 
-                if(pageParameters.containsKey(keyValue)) {
-
-                    Parameter parentParameter = pageParameters.get(keyValue);
-                    String value = req.getParameter(keyValue);
-
-                    try {
-
-                        if(parentParameter.getParameterType() != ParameterType.IGNORE) {
-                            parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
-                        }
-                    } catch(ParseUnrequiredException e) {
-
-                        logger.info(e);
-                    }
-
-                } else {
-
-                    if(session.isAllowUndefinedParameters()) {
-
-                        String value = req.getParameter(keyValue);
-                        parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
-
-                    } else {
-
-                        logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
-                    }
-                }
+                parseParameter(req, pageModel, session, keyValue, value, parsedParameters, pageParameters);
             }
         }
 
         isAllRequiredParametersSet(parsedParameters, pageParameters);
 
         return parsedParameters;
+
+    }
+
+    private void parseParameter(HttpServletRequest req, PageModel pageModel, UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
+
+        if(pageParameters.containsKey(keyValue)) {
+
+            Parameter parentParameter = pageParameters.get(keyValue);
+
+            try {
+
+                if(parentParameter.getParameterType() != ParameterType.IGNORE) {
+                    parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
+                }
+            } catch(ParseUnrequiredException e) {
+
+                logger.info(e);
+            }
+
+        } else {
+
+            if(session.isAllowUndefinedParameters()) {
+
+                parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
+
+            } else {
+
+                logger.error("Undefined variable sent with id "+keyValue+" it should be defined in the page logic setupPageParametersSpecific method!");
+            }
+        }
 
     }
 

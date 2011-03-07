@@ -10,6 +10,7 @@ import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,6 +35,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     /**
      * Performs the logic of the class.
+     * @param servlet                           The servlet
      * @param req                               The http request
      * @param resp                              The http response
      * @param session                           The end users session
@@ -42,14 +44,14 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @throws org.framework42.exceptions.ManageableException          Returned if an error occurs that might be handled and the page shown any way.
      * @return Returns a page model for the page.
      * */
-    public R perform(HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageableException {
+    public R perform(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageableException {
 
         R pageModel = createPageModel(req, session);
 
         setupPageParameters(req, session, pageModel);
         setupPageParametersSpecific(req, session, pageModel);
 
-        setupEnvironmentInformation(req, session, pageModel);
+        setupEnvironmentInformation(servlet, req, session, pageModel);
 
         addHtmlParameters(req, pageModel, session);
 
@@ -228,13 +230,15 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     /**
      * Sets up the environment variables.
+     * @param servlet       The servlet
      * @param req           The http request
      * @param session       The end users session
      * @param pageModel     The page model 
      * */
-    protected void setupEnvironmentInformation(HttpServletRequest req, T session, R pageModel) {
+    protected void setupEnvironmentInformation(HttpServlet servlet, HttpServletRequest req, T session, R pageModel) {
 
         pageModel.getEnvironmentInformation().put("currentPageURI", req.getRequestURI().substring(1));
+        pageModel.getEnvironmentInformation().put("localRootDir", servlet.getServletContext().getRealPath("/"));
 
     }
 
