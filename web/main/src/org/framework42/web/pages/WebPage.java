@@ -116,7 +116,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                 mayAccessPage(session);
                 mayAccessPageSpecific(session, resp);
 
-                R model = pageLogic.perform(req, resp, session);
+                R model = pageLogic.perform(this, req, resp, session);
 
                 if(postMethod == HtmlPostMethod.GET) {
                     doGetSub(model, session, htmlBuilder);

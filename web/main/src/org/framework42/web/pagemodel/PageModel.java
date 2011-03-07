@@ -1,5 +1,7 @@
 package org.framework42.web.pagemodel;
 
+import org.apache.commons.fileupload.FileItem;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,8 @@ public abstract class PageModel {
 
     protected Map<String, Parameter> pageParameters;
 
+    protected List<FileItem> fileItemList;
+
     protected Map<String, String> environmentInformation;
 
     /**
@@ -33,6 +37,7 @@ public abstract class PageModel {
         error = false;
         inParameters = new HashMap<String, Parameter>();
         pageParameters = new HashMap<String, Parameter>();
+        fileItemList = new ArrayList<FileItem>();
         environmentInformation = new HashMap<String, String>();
         pageTitleKey = "page_title";
         pageKeywordsKey = "page_keywords";
@@ -112,6 +117,10 @@ public abstract class PageModel {
      * */
     public void addPageParameter(Parameter parameter) {
         pageParameters.put(parameter.getParameterName(), parameter);
+    }
+
+    public List<FileItem> getFileItemList() {
+        return fileItemList;
     }
 
     public Map<String, String> getEnvironmentInformation() {
