@@ -3,64 +3,67 @@ package org.framework42.web.components.standardhtml;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.InputComponentBuilder;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 
 public class CheckBox extends HtmlComponent {
 
-   private Builder builder;
+    private Builder builder;
 
-   private CheckBox(Builder builder){
+    public CheckBox(String name, String value, Label label) {
 
-      this.builder = builder;
+        this.builder = new Builder(name, value, label);
+    }
 
-   }
+    private CheckBox(Builder builder){
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+        this.builder = builder;
+    }
 
-      htmlBuilder.append("<input type=\"checkbox\"");
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append(builder.addGeneralComponents());
+        htmlBuilder.append("<input type=\"checkbox\"");
 
-      if(builder.checked!=null){
-         htmlBuilder.append(" ");
-         htmlBuilder.append(builder.checked);
-      }
+        htmlBuilder.append(builder.addGeneralComponents());
 
-      htmlBuilder.append("> ");
-      htmlBuilder.append(builder.label);
-      htmlBuilder.append("\n");
+        if(builder.checked!=null){
+            htmlBuilder.append(" ");
+            htmlBuilder.append(builder.checked);
+        }
 
-   }
+        htmlBuilder.append("> ");
+        htmlBuilder.append(builder.label.getHtml(page, this, true));
+        htmlBuilder.append("\n");
 
-   public static class Builder extends InputComponentBuilder<CheckBox> {
+    }
 
-      private final Label label;
+    public static class Builder extends InputComponentBuilder<CheckBox> {
 
-      private String checked = null;
+        private final Label label;
 
-      public Builder(String name, String value, Label label) {
-         super(name, value);
-         this.label = label;
-      }
+        private String checked = null;
 
-      public Builder checked(boolean checked){
-         if(checked){
-            this.checked = "checked";
-         }else{
-            this.checked = null;
-         }
-         return this;
-      }
+        public Builder(String name, String value, Label label) {
+            super(name, value);
+            this.label = label;
+        }
 
-      @Override
-      public CheckBox build() {
-         return new CheckBox(this);
-      }
+        public Builder checked(boolean checked){
+            if(checked){
+                this.checked = "checked";
+            }else{
+                this.checked = null;
+            }
+            return this;
+        }
+
+        @Override
+        public CheckBox build() {
+            return new CheckBox(this);
+        }
 
 
 
-   }
+    }
 
 
 }
