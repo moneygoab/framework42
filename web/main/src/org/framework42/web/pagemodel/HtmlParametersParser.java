@@ -158,6 +158,10 @@ public enum HtmlParametersParser {
 
             parameter = parseDate(name,type,required,value);
 
+        } else if(ParameterType.CHECKBOX == type) {
+            
+            parameter = parseInteger(name,type,required,value);
+
         } else {
 
             parameter = new ParameterImpl(name, type, required, value);
