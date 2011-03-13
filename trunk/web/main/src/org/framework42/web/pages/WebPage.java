@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.framework42.authorization.UserAuthAction;
 import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.ManageableException;
+import org.framework42.exceptions.NotAuthenticatedException;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
@@ -168,12 +169,12 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             if (sessionAsObject == null) {
 
-                session = createUserSession(req);
+                session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
             } else if (req.getParameter("userId") != null) {
 
-                session = createUserSession(req);
+                session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
             } else if (sessionAsObject instanceof UserSession) {
@@ -184,14 +185,14 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 logger.fatal("You have saved an object in the session attribute userSession that dose not " +
                         "inherit UserSession. Faulty object: " + sessionAsObject);
-                session = createUserSession(req);
+                session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
             }
 
         } catch (Exception e) {
 
-            session = createUserSession(req);
+            session = createUserSession(req, resp);
             req.getSession().setAttribute("userSession", session);
             logger.fatal("Ops! an error occurred " + e);
             resp.sendRedirect(I18N.INSTANCE.getURL("error_page", Locale.getDefault()));
@@ -202,7 +203,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract T createUserSession(HttpServletRequest req);
+    protected abstract T createUserSession(HttpServletRequest req, HttpServletResponse resp);
 
     private void mayAccessPage(T session) throws NotAuthorizedException {
 
