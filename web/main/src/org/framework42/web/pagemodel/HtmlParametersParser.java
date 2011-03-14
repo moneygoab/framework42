@@ -42,6 +42,7 @@ public enum HtmlParametersParser {
 
             try {
                 // Parse the request
+                @SuppressWarnings("unchecked")
                 List<FileItem> itemList = upload.parseRequest(req);
 
                 for(FileItem item: itemList) {
@@ -51,7 +52,7 @@ public enum HtmlParametersParser {
                         String keyValue = item.getFieldName();
                         String value = item.getString();
 
-                        parseParameter(req, pageModel, session, keyValue, value, parsedParameters, pageParameters);
+                        parseParameter(session, keyValue, value, parsedParameters, pageParameters);
 
                     } else {
 
@@ -71,7 +72,7 @@ public enum HtmlParametersParser {
                 String keyValue = key.toString();
                 String value = req.getParameter(keyValue);
 
-                parseParameter(req, pageModel, session, keyValue, value, parsedParameters, pageParameters);
+                parseParameter(session, keyValue, value, parsedParameters, pageParameters);
             }
         }
 
@@ -81,7 +82,7 @@ public enum HtmlParametersParser {
 
     }
 
-    private void parseParameter(HttpServletRequest req, PageModel pageModel, UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
+    private void parseParameter(UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
 
         if(pageParameters.containsKey(keyValue)) {
 
