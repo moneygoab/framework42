@@ -30,4 +30,15 @@ public class DateUtil {
         return toCal.getTime();
     }
 
+    public static Date stepBackMonths(Date currentMonth, int monthsToStepBack) {
+
+        notNull(currentMonth, "Current month can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(currentMonth);
+        cal.add(Calendar.MONTH, monthsToStepBack*-1);
+
+        return cal.getTime();
+    }
+
 }
