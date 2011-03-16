@@ -1,9 +1,6 @@
 package org.framework42.model.users.impl;
 
-import org.framework42.model.users.Role;
-import org.framework42.model.users.User;
-import org.framework42.model.users.UserRole;
-import org.framework42.model.users.UserSetting;
+import org.framework42.model.users.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +19,16 @@ public class BaseUser implements User {
     protected Map<Role, UserRole> userRoles;
 
     protected Map<UserSetting, String> userSettings;
+
+    public BaseUser() {
+        this.id = 0;
+        this.dateCreated = new Date().getTime();
+        this.loginName = "";
+        this.displayName = "";
+        this.userRoles = new HashMap<Role, UserRole>();
+        this.userRoles.put(Role.UNKNOWN_PERSON, new UserRoleImpl<Role,RoleStatus>(Role.UNKNOWN_PERSON, RoleStatus.ACTIVE));
+        this.userSettings = new HashMap<UserSetting, String>();
+    }
 
     public BaseUser(int id, Date dateCreated, String loginName, String displayName, Map<Role, UserRole> userRoles) {
         this.id = id;

@@ -9,12 +9,14 @@ import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
+import org.framework42.model.users.impl.BaseUser;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagelogic.PageLogic;
 import org.framework42.web.pagemodel.PageModel;
+import org.framework42.web.session.DefaultUserSession;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.ServletException;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -110,9 +113,11 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             Html.Builder htmlBuilder = new Html.Builder();
 
-            T session = getSession(req, resp);
+            T session = null;
 
             try {
+
+                session = getSession(req, resp);
 
                 mayAccessPage(session);
                 mayAccessPageSpecific(session, resp);
@@ -159,7 +164,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     }
 
     @SuppressWarnings("unchecked")
-    private T getSession(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private T getSession(HttpServletRequest req, HttpServletResponse resp) throws IOException, StopServletExecutionException {
 
         T session;
 
@@ -190,7 +195,11 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             }
 
-        } catch (Exception e) {
+        } catch(StopServletExecutionException e) {
+
+            throw new StopServletExecutionException();
+            
+        }catch (Exception e) {
 
             session = createUserSession(req, resp);
             req.getSession().setAttribute("userSession", session);
@@ -203,7 +212,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract T createUserSession(HttpServletRequest req, HttpServletResponse resp);
+    protected abstract T createUserSession(HttpServletRequest req, HttpServletResponse resp) throws StopServletExecutionException;
 
     private void mayAccessPage(T session) throws NotAuthorizedException {
 
