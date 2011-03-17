@@ -8,6 +8,17 @@ import static org.framework42.utils.NullChecker.notNull;
 
 public class DateUtil {
 
+    public static Date toDayInMonth(Date dateToTransform, int day) {
+
+        notNull(dateToTransform, "Date to transform can't be null!");
+
+        Calendar fromCal = new GregorianCalendar();
+        fromCal.setTime(dateToTransform);
+        fromCal.set(Calendar.DAY_OF_MONTH, day);
+
+        return fromCal.getTime();
+    }
+
     public static Date toFirstInMonth(Date dateToTransform) {
 
         notNull(dateToTransform, "Date to transform can't be null!");
