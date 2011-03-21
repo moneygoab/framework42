@@ -11,10 +11,14 @@ public class ComboBox extends HtmlComponent {
 
     private Builder builder;
 
+    public ComboBox(String name, String value, List<Option> options) {
+
+        this.builder = new Builder(name, value, options);
+    }
+
     private ComboBox(Builder builder) {
 
         this.builder = builder;
-
     }
 
     @Override
