@@ -109,7 +109,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
        System.out.println("\n\n\n\n\n\n"); */
 
         //TODO: Handle Firefox double calls better.
-        if(!req.getHeader("accept").contains("image/*")) {
+        //System.out.println(req.getHeader("accept")+"*****");
+        if(!req.getHeader("accept").contains("image/*") && req.getHeader("accept").contains("text/html")) {
 
             Html.Builder htmlBuilder = new Html.Builder();
 
