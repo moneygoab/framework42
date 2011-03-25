@@ -6,4 +6,8 @@ public interface StringManipulator {
 
     public String divideInGroups(String originalString, int groupSize, String inBetweenString);
 
+    public String formatGovernmentId(String governmentId);
+
+    public String formatMoney(String moneyString);
+
 }
