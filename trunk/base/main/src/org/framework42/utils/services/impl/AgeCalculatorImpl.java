@@ -13,14 +13,12 @@ public enum AgeCalculatorImpl implements AgeCalculator {
     INSTANCE;
 
     @Override
-    public int calculateFromBirthDate(Date birthDate) {
+    public int calculateFromBirthDate(Date birthDate, Calendar now) {
 
         notNull(birthDate, "Birth date can't be null!");
 
         Calendar birthCal = new GregorianCalendar();
         birthCal.setTime(birthDate);
-
-        Calendar now = GregorianCalendar.getInstance();
 
         now.add(GregorianCalendar.YEAR, birthCal.get(GregorianCalendar.YEAR)*-1);
         now.add(GregorianCalendar.MONTH, birthCal.get(GregorianCalendar.MONTH)*-1);

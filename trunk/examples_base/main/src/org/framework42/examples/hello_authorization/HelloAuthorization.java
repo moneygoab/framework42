@@ -56,18 +56,18 @@ public class HelloAuthorization {
     private User createUser1() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(Role.MEMBER, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.MEMBER, RoleStatus.ACTIVE));
+        userRoles.put(Role.MEMBER, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.MEMBER, RoleStatus.ACTIVE, new Date()));
 
-        return new BaseUser(1, Calendar.getInstance().getTime(), "user@test.com", "Test User Member", userRoles);
+        return new BaseUser(1, new Date(), "user@test.com", "Test User Member", userRoles);
 
     }
 
     private User createUser2() {
 
         Map<Role, UserRole> userRoles = new HashMap<Role, UserRole>();
-        userRoles.put(Role.UNKNOWN_PERSON, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.UNKNOWN_PERSON, RoleStatus.ACTIVE));
+        userRoles.put(Role.UNKNOWN_PERSON, new UserRoleImpl<Role, org.framework42.model.users.RoleStatus>(Role.UNKNOWN_PERSON, RoleStatus.ACTIVE, new Date()));
 
-        return new BaseUser(2, Calendar.getInstance().getTime(), "visitor@test.com", "Test User Visitor", userRoles);
+        return new BaseUser(2, new Date(), "visitor@test.com", "Test User Visitor", userRoles);
 
     }
 
