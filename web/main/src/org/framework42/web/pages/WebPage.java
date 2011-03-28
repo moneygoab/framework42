@@ -1,22 +1,20 @@
 package org.framework42.web.pages;
 
 import org.apache.log4j.Logger;
+import org.framework42.ServiceBinderInterface;
 import org.framework42.authorization.UserAuthAction;
 import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.ManageableException;
-import org.framework42.exceptions.NotAuthenticatedException;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
-import org.framework42.model.users.impl.BaseUser;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagelogic.PageLogic;
 import org.framework42.web.pagemodel.PageModel;
-import org.framework42.web.session.DefaultUserSession;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.ServletException;
@@ -25,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -158,7 +155,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             } catch (Exception e) {
 
                 logUnhandledException(e);
-                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", Locale.getDefault()));
             }
 
         }
@@ -178,7 +175,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
-            } else if (req.getParameter("userId") != null) {
+            } else if (req.getParameter("user_id") != null) {
 
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
@@ -205,7 +202,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             session = createUserSession(req, resp);
             req.getSession().setAttribute("userSession", session);
             logger.fatal("Ops! an error occurred " + e);
-            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", Locale.getDefault()));
+            //TODO: Handle locale.
+            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv", "SE")));
 
         }
 

@@ -77,12 +77,17 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
 
     private User getInvocationUser(Method method, Object[] argumentList) {
 
-        for(Object obj: argumentList) {
+        try {
+            for(Object obj: argumentList) {
 
-            if(obj instanceof User) {
+                if(obj instanceof User) {
 
-                return (User)obj;
+                    return (User)obj;
+                }
             }
+        } catch(NullPointerException e) {
+
+            logger.fatal(method.getName()+" has authorization annotation and must have a invocation user as in parameter!");
         }
 
         String message = generateInvocationUserErrorMessage(method);
