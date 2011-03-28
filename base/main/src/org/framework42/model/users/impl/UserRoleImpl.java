@@ -4,7 +4,6 @@ import org.framework42.model.users.Role;
 import org.framework42.model.users.RoleStatus;
 import org.framework42.model.users.UserRole;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -18,14 +17,17 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
 
     /**
      * Constructor that takes a role and role status and gives the other values a default value
-     * <p/>
-     * activeFrom = now; activeTo = 9999-01-01;
+     * activeTo = 9999-01-01;
+     * @param role          The role
+     * @param roleStatus    The role status
+     * @param activeFrom    The date the user role is active from
+     *
      */
-    public UserRoleImpl(R role, RS roleStatus) {
+    public UserRoleImpl(R role, RS roleStatus, Date activeFrom) {
         this.role = role;
         this.roleStatus = roleStatus;
-        this.activeFrom = Calendar.getInstance().getTime();
-        this.activeTo = new GregorianCalendar(9999, 0, 1, 00, 00, 00).getTime();
+        this.activeFrom = activeFrom;
+        this.activeTo = new GregorianCalendar(9999, 0, 1, 0, 0, 0).getTime();
     }
 
     public UserRoleImpl(R role, RS roleStatus, Date activeFrom, Date activeTo) {
@@ -35,18 +37,22 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
         this.activeTo = activeTo;
     }
 
+    @Override
     public R getRole() {
         return role;
     }
 
+    @Override
     public RS getRoleStatus() {
         return roleStatus;
     }
 
+    @Override
     public Date getActiveFrom() {
         return activeFrom;
     }
 
+    @Override
     public Date getActiveTo() {
         return activeTo;
     }

@@ -5,6 +5,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.framework42.ServiceBinderInterface;
 import org.framework42.configuration.ApplicationConfigHandler;
 import org.framework42.database.DatabaseConnector;
+import org.framework42.utils.TimeSource;
+import org.framework42.utils.TimeSourceSystem;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -71,5 +73,12 @@ public enum HelloServiceBinder implements ServiceBinderInterface {
     public DatabaseConnector getDatabaseConnector() {
         return databaseConnector;
     }
+
+    @Override
+    public TimeSource getTimeSource() {
+
+        return new TimeSourceSystem();
+    }
+
 
 }

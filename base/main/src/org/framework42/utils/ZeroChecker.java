@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 public class ZeroChecker {
 
-    private final static Logger logger = Logger.getLogger("org.framework42");
+    private static final Logger logger = Logger.getLogger("org.framework42");
 
     public static int notZero(int variable) {
 
