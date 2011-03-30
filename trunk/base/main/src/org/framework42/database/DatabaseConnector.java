@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import javax.sql.ConnectionPoolDataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import static org.framework42.utils.NullChecker.notNull;
@@ -86,8 +87,9 @@ public enum DatabaseConnector {
      * Releases the connection back to the pool so other calls might use it. If this isn't called the connection
      * will eventually timeout.
      * @param con       The connection to release.
+     * @param ps        The prepared statement to release.
      * */
-    public void releasePooledConnection(Connection con) {
+    public void releasePooledConnection(Connection con, PreparedStatement ps) {
 
         notNull(con, "Connection can't be null!");
 
@@ -95,6 +97,10 @@ public enum DatabaseConnector {
 
             if(!con.getAutoCommit()) {
                 con.commit();
+            }
+
+            if(ps!=null) {
+                ps.close();
             }
 
             con.close();
@@ -127,7 +133,7 @@ public enum DatabaseConnector {
     }
 
     /**
-     * Rollbacks the connections activities.
+     * Commits the connections activities.
      * @param con       The connection to rollback.
      * */
     public void commitPooledConnection(Connection con){

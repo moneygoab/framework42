@@ -39,9 +39,10 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
         HashMap<Locale, HashMap<String, String>> hashMap = new HashMap<Locale, HashMap<String, String>>();
 
         Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
+        PreparedStatement ps = null;
         try {
 
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM i18n_text ORDER BY keyValue");
+            ps = con.prepareStatement("SELECT * FROM i18n_text ORDER BY keyValue");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -64,7 +65,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
             logger.fatal("SimpleDatabaseI18NDataProvider.getLocalizedTexts: " + e);
             throw new RuntimeException("SimpleDatabaseI18NDataProvider.getLocalizedTexts: " + e);
         } finally {
-            databaseConnector.releasePooledConnection(con);
+            databaseConnector.releasePooledConnection(con, ps);
         }
 
         return hashMap;
@@ -82,10 +83,10 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
         HashMap<Locale, HashMap<String, String>> hashMapURL = new HashMap<Locale, HashMap<String, String>>();
 
         Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
-
+        PreparedStatement ps = null;
         try {
 
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM i18n_url ORDER BY keyValue");
+            ps = con.prepareStatement("SELECT * FROM i18n_url ORDER BY keyValue");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -108,7 +109,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
             logger.fatal("SimpleDatabaseI18NDataProvider.getLocalizedURLs: " + e);
             throw new RuntimeException("SimpleDatabaseI18NDataProvider.getLocalizedURLs: " + e);
         } finally {
-            databaseConnector.releasePooledConnection(con);
+            databaseConnector.releasePooledConnection(con, ps);
         }
 
         return hashMapURL;
