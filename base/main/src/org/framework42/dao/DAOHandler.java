@@ -28,8 +28,8 @@ public class DAOHandler<T> extends AbstractNullChecker implements InvocationHand
 
         } catch (InvocationTargetException e) {
             
-            String msg = method.getDeclaringClass().getName()+"."+method.getName() + " - " + e.getCause();
-            logger.fatal(msg);
+            String msg = "DAOHandler reports: "+method.getDeclaringClass().getName()+"."+method.getName() + " - " + e.getCause();
+            logger.debug(msg);
             throw e.getCause();
         }
     }
