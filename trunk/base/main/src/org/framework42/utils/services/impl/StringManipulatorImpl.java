@@ -61,12 +61,33 @@ public class StringManipulatorImpl implements StringManipulator {
     }
 
     @Override
+    public String formatInterest(String interestString) {
+
+        String returnString;
+
+        returnString = interestString.split("\\.")[0];
+        returnString = returnString.split(",")[0];
+
+        if(interestString.split("\\.").length>1 && !interestString.split("\\.")[1].startsWith("0")) {
+            returnString += ","+interestString.split("\\.")[1];
+        }
+
+        returnString += " %";
+
+        return returnString;
+    }
+
+    @Override
     public String formatMoney(String moneyString) {
 
         String returnString;
 
         returnString = moneyString.split("\\.")[0];
         returnString = returnString.split(",")[0];
+
+        if(moneyString.split("\\.").length>1 && !moneyString.split("\\.")[1].equals("00")) {
+            returnString += ","+moneyString.split("\\.")[1];
+        }
 
         if(returnString.length() > 3) {
 

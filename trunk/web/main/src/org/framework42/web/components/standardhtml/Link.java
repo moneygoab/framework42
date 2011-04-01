@@ -107,8 +107,10 @@ public class Link extends HtmlComponent {
             StringBuilder sb = new StringBuilder();
             sb.append(href);
 
-            sb.append("?action=");
-            sb.append(linkedPageAction.getIdentifier());
+            if(!"".equals(linkedPageAction.getIdentifier())) {
+                sb.append("?action=");
+                sb.append(linkedPageAction.getIdentifier());
+            }
 
             for(Map.Entry entry : parameters.entrySet()) {
                 sb.append("&");
