@@ -8,6 +8,8 @@ public interface StringManipulator {
 
     public String formatGovernmentId(String governmentId);
 
+    public String formatInterest(String interest);
+
     public String formatMoney(String moneyString);
 
 }
