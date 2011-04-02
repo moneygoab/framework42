@@ -107,13 +107,22 @@ public class Link extends HtmlComponent {
             StringBuilder sb = new StringBuilder();
             sb.append(href);
 
-            if(!"".equals(linkedPageAction.getIdentifier())) {
+            boolean hasPageAction = "".equals(linkedPageAction.getIdentifier());
+
+            if(!hasPageAction) {
                 sb.append("?action=");
                 sb.append(linkedPageAction.getIdentifier());
             }
 
+            boolean first = true;
+
             for(Map.Entry entry : parameters.entrySet()) {
-                sb.append("&");
+                if(first && hasPageAction) {
+                    sb.append("?");
+                    first = false;
+                } else {
+                    sb.append("&");
+                }
                 sb.append(entry.getKey());
                 sb.append("=");
                 sb.append(entry.getValue());

@@ -1,11 +1,11 @@
 package org.framework42.web.pages;
 
 import org.apache.log4j.Logger;
-import org.framework42.ServiceBinderInterface;
 import org.framework42.authorization.UserAuthAction;
 import org.framework42.authorization.UserAuthPerformer;
 import org.framework42.exceptions.ManageableException;
 import org.framework42.exceptions.NotAuthorizedException;
+import org.framework42.exceptions.UserBlockedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
@@ -117,10 +117,12 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 session = getSession(req, resp);
 
-                mayAccessPage(session);
-                mayAccessPageSpecific(session, resp);
+                R model = pageLogic.setupParameters(this, req, resp, session);
 
-                R model = pageLogic.perform(this, req, resp, session);
+                mayAccessPage(session);
+                mayAccessPageSpecific(session, model, resp);
+
+                model = pageLogic.perform(this, req, resp, session, model);
 
                 if(postMethod == HtmlPostMethod.GET) {
                     doGetSub(model, session, htmlBuilder);
@@ -135,7 +137,12 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                 logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
                 resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
 
-            } catch (StopServletExecutionException e) {
+            } catch (UserBlockedException e) {
+
+                logger.debug(e.getMessage()+" regarding viewing page " + this.getServletName());
+                resp.sendRedirect(I18N.INSTANCE.getURL("blocked_page", session.getLocale()));
+
+            }catch (StopServletExecutionException e) {
 
                 logger.debug("Execution stopped of servlet due to need for redirect.");
 
@@ -155,7 +162,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             } catch (Exception e) {
 
                 logUnhandledException(e);
-                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", Locale.getDefault()));
+                //TODO: Remove hardcoded fallback locale!
+                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv","SE")));
             }
 
         }
@@ -222,7 +230,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract void mayAccessPageSpecific(T session, HttpServletResponse resp) throws IOException, NotAuthorizedException, StopServletExecutionException;
+    protected abstract void mayAccessPageSpecific(T session, R pageModel, HttpServletResponse resp) throws IOException, NotAuthorizedException,
+            UserBlockedException, StopServletExecutionException;
 
     private void writeHtmlPage(HttpServletResponse resp, Html.Builder htmlBuilder) throws IOException {
 
