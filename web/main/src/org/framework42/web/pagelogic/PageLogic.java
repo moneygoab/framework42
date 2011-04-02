@@ -9,6 +9,7 @@ import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,21 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         logger = Logger.getLogger(loggerId);
     }
 
+    public R setupParameters(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session) {
+
+        R pageModel = createPageModel(req, session);
+
+        setupPageParameters(req, session, pageModel);
+        setupPageParametersSpecific(req, session, pageModel);
+
+        setupEnvironmentInformation(servlet, req, session, pageModel);
+
+        addHtmlParameters(req, pageModel, session);
+
+        return pageModel;
+
+    }
+
     /**
      * Performs the logic of the class.
      * @param servlet                           The servlet
@@ -44,16 +60,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @throws org.framework42.exceptions.ManageableException          Returned if an error occurs that might be handled and the page shown any way.
      * @return Returns a page model for the page.
      * */
-    public R perform(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session) throws IOException, StopServletExecutionException, ManageableException {
-
-        R pageModel = createPageModel(req, session);
-
-        setupPageParameters(req, session, pageModel);
-        setupPageParametersSpecific(req, session, pageModel);
-
-        setupEnvironmentInformation(servlet, req, session, pageModel);
-
-        addHtmlParameters(req, pageModel, session);
+    public R perform(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageableException {
 
         performGeneral(req, resp, session, pageModel);
 
