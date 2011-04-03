@@ -63,6 +63,12 @@ public class Link extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.rel != null) {
+            htmlBuilder.append(" rel=\"");
+            htmlBuilder.append(builder.rel);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">");
         htmlBuilder.append(builder.linkedComponent.getHtml(page, this, true));
         //htmlBuilder.append(Util.tab(tabs));
@@ -93,6 +99,8 @@ public class Link extends HtmlComponent {
         private PageAction linkedPageAction = BasePageAction.NONE;
 
         private Map<String, String> parameters;
+
+        private String rel = null;
 
         public Builder(String name, String href, Map<String, String> parameters, HtmlComponent linkedComponent) {
             super(name, "");
@@ -162,6 +170,11 @@ public class Link extends HtmlComponent {
 
         public Builder style(String style){
             this.style = style;
+            return this;
+        }
+
+        public Builder rel(String rel) {
+            this.rel = rel;
             return this;
         }
 

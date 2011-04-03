@@ -2,7 +2,6 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 import org.framework42.web.components.EventComponentBuilder;
 
 public class Image extends HtmlComponent {
@@ -71,6 +70,7 @@ public class Image extends HtmlComponent {
 
         private final String altDescription;
 
+        //TODO: Deprecated in html5
         private String longDescription = null;
 
         private String className = null;
