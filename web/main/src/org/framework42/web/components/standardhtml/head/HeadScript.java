@@ -30,7 +30,13 @@ public class HeadScript extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
-        htmlBuilder.append("></script>\n");
+        htmlBuilder.append(">");
+
+        if(builder.code!=null) {
+            htmlBuilder.append(builder.code);
+        }
+
+        htmlBuilder.append("</script>\n");
 
     }
 
@@ -39,6 +45,8 @@ public class HeadScript extends HtmlComponent {
         private final MimeType type;
 
         private String src = null;
+
+        private String code = null;
 
         public Builder(MimeType type) {
             this.type = type;
@@ -51,6 +59,11 @@ public class HeadScript extends HtmlComponent {
 
         public Builder src(String src) {
             this.src = src;
+            return this;
+        }
+
+        public Builder code(String code) {
+            this.code = code;
             return this;
         }
 
