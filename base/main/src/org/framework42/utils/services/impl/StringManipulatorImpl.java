@@ -85,6 +85,10 @@ public class StringManipulatorImpl implements StringManipulator {
         returnString = moneyString.split("\\.")[0];
         returnString = returnString.split(",")[0];
 
+        if(moneyString.startsWith("-")) {
+            returnString = returnString.split("-")[1];
+        }
+
         if(moneyString.split("\\.").length>1 && !moneyString.split("\\.")[1].equals("00")) {
             returnString += ","+moneyString.split("\\.")[1];
         }
@@ -104,6 +108,10 @@ public class StringManipulatorImpl implements StringManipulator {
             }
 
             returnString = tempString;
+        }
+
+        if(moneyString.startsWith("-")) {
+            returnString = "-"+returnString;
         }
 
         return  returnString;

@@ -10,6 +10,8 @@ public class TabEnvironment {
 
     private final TabButton tabButton;
 
+    private String savedPageContentState;
+
     private PageModel pageModel;
 
     public TabEnvironment(long id, TabButton tabButton, PageModel pageModel) {
@@ -34,26 +36,47 @@ public class TabEnvironment {
         this.pageModel = pageModel;
     }
 
+    public String getSavedPageContentState() {
+
+        return savedPageContentState;
+    }
+
+    public void setSavedPageContentState(String savedPageContentState) {
+
+        this.savedPageContentState = savedPageContentState;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TabEnvironment that = (TabEnvironment) o;
 
-        if (id != that.id) return false;
-        if (!pageModel.equals(that.pageModel)) return false;
-        if (!tabButton.equals(that.tabButton)) return false;
+        if (id != that.id) {
+            return false;
+        }
+        if (!pageModel.equals(that.pageModel)) {
+            return false;
+        }
+        if (!tabButton.equals(that.tabButton)) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public int hashCode() {
+
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + tabButton.hashCode();
         result = 31 * result + pageModel.hashCode();
         return result;
     }
-
 }
