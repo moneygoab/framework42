@@ -1,6 +1,8 @@
 package org.framework42.web.pages;
 
+import org.framework42.web.pagemodel.TabCacheType;
 import org.framework42.web.pagemodel.TabEnvironment;
+import org.framework42.web.pagemodel.Tabable;
 import org.framework42.web.session.TabableApp;
 
 import javax.servlet.ServletException;
@@ -19,13 +21,16 @@ public class SaveTabView extends HttpServlet {
 
         if(sessionAsObject instanceof TabableApp) {
 
-            System.out.println(req.getParameter("tabId")+" save tab view.");
-            //System.out.println(req.getParameter("pageData"));
+            Tabable tabable = ((TabableApp)sessionAsObject).getActiveTabEnvironment().getPageModel().getClass().getAnnotation(Tabable.class);
 
-            TabEnvironment tabEnvironment = ((TabableApp)sessionAsObject).getActiveTabEnvironment();
-            tabEnvironment.setSavedPageContentState(URLDecoder.decode(req.getParameter("pageData"), "UTF-8"));
+            if(tabable.tabCacheType() == TabCacheType.CACHE_ON_LEAVING_TAB) {
+
+                TabEnvironment tabEnvironment = ((TabableApp)sessionAsObject).getActiveTabEnvironment();
+                //TODO: Don't use own escape for % sign.
+                tabEnvironment.setSavedPageContentState(URLDecoder.decode(req.getParameter("pageData"), "UTF-8").replaceAll("!PERCENT_SIGN!", "%"));
+            }
 
         }
-
     }
+
 }

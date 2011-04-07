@@ -10,6 +10,8 @@ public class TabEnvironment {
 
     private final TabButton tabButton;
 
+    private TabCacheType cacheType;
+
     private String savedPageContentState;
 
     private PageModel pageModel;
@@ -17,6 +19,14 @@ public class TabEnvironment {
     public TabEnvironment(long id, TabButton tabButton, PageModel pageModel) {
         this.id = id;
         this.tabButton = notNull(tabButton, "Tab button can't be null!");
+        this.cacheType = TabCacheType.CACHE_ON_LEAVING_TAB;
+        this.pageModel = notNull(pageModel, "Page model can't be null!");
+    }
+
+    public TabEnvironment(long id, TabButton tabButton, TabCacheType cacheType, PageModel pageModel) {
+        this.id = id;
+        this.tabButton = notNull(tabButton, "Tab button can't be null!");
+        this.cacheType = notNull(cacheType, "Tab cache type can't be null!");
         this.pageModel = notNull(pageModel, "Page model can't be null!");
     }
 

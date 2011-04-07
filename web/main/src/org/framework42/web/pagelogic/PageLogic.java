@@ -147,8 +147,9 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     private void changeTab(HttpServletRequest req, T session, R pageModel) {
 
-        if(pageModel.getInParameters().containsKey("tabId") &&
-                pageModel instanceof Tabable && session instanceof TabableApp
+        if(pageModel.getInParameters().containsKey("tabId")
+                && pageModel.getClass().getAnnotation(Tabable.class) != null
+                && session instanceof TabableApp
                 && pageModel.getCurrentPageAction().getId() == BasePageAction.ACTIVATE_TAB.getId()) {
 
             TabableApp tabableApp = ((TabableApp)session);
@@ -172,8 +173,9 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         I18N i18n = I18N.INSTANCE;
         Locale locale = session.getLocale();
 
-        if(pageModel.getInParameters().containsKey("tabId") &&
-                pageModel instanceof Tabable && session instanceof TabableApp
+        if(pageModel.getInParameters().containsKey("tabId")
+                && pageModel.getClass().getAnnotation(Tabable.class) != null
+                && session instanceof TabableApp
                 && pageModel.getCurrentPageAction().getId() == BasePageAction.REMOVE_TAB.getId()) {
 
             TabableApp tabableApp = ((TabableApp)session);
@@ -198,7 +200,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     private void saveTabPageModel(T session, R pageModel) {
 
-        if(pageModel instanceof Tabable && session instanceof TabableApp) {
+        if(pageModel.getClass().getAnnotation(Tabable.class) != null && session instanceof TabableApp) {
 
             TabableApp tabableApp = ((TabableApp)session);
 
