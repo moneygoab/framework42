@@ -11,6 +11,7 @@ import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.components.standardhtml.head.*;
 import org.framework42.web.pagelogic.PageLogic;
 import org.framework42.web.pagemodel.PageModel;
+import org.framework42.web.pagemodel.TabCacheType;
 import org.framework42.web.pagemodel.Tabable;
 import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
@@ -83,8 +84,8 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
         //TODO: Configurable stylesheet files.
         head.add(new HeadLink.Builder(HeadLinkRelationship.STYLESHEET, "css/base_style.css", MimeType.CSS).build());
 
-        if(model instanceof Tabable) {
-
+        if(model.getClass().getAnnotation(Tabable.class) != null && model.getClass().getAnnotation(Tabable.class).tabCacheType() != TabCacheType.NEVER_CACHE) {
+            //TODO: Import instead?
             JavaScript.Builder javascript = new JavaScript.Builder();
             javascript.addScriptLine("function saveTabState() {");
             javascript.addScriptLine("\tvar params = \"tabId="+((TabableApp)session).getActiveTabEnvironment().getId()+"&pageData=\"+escapeParameters(serializeXML(document.getElementById('page_area')));");
@@ -112,7 +113,9 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
             javascript.addScriptLine("");
             javascript.addScriptLine("function escapeParameters(parameters) {");
             javascript.addScriptLine("\t");
-            javascript.addScriptLine("\tvar replacedParameters = parameters.replace(/&/g,\"%26\");");
+            //TODO: Fix this, bad to have our own escape sequence.%25 fails to save state but leaves no traces in SaveTabView servlet.
+            javascript.addScriptLine("\tvar replacedParameters = parameters.replace(/\\%/g,\"!PERCENT_SIGN!\");");
+            javascript.addScriptLine("\treplacedParameters = replacedParameters.replace(/&/g,\"%26\");");
             javascript.addScriptLine("\treturn replacedParameters;");
             javascript.addScriptLine("}");
             javascript.addScriptLine("");
@@ -135,6 +138,7 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
 
             javascript.addScriptLine("window.onbeforeunload = saveTabState;");
             head.add(javascript.build());
+
         }
 
         //TODO: Handle Google Analytics
