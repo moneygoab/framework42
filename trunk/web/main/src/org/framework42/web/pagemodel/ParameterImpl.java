@@ -1,6 +1,6 @@
 package org.framework42.web.pagemodel;
 
-public class ParameterImpl implements Parameter {
+public class ParameterImpl<T> implements Parameter<T> {
 
     private final String parameterName;
 
@@ -8,16 +8,16 @@ public class ParameterImpl implements Parameter {
 
     private final boolean required;
 
-    private Object parameterValue;
+    private T parameterValue;
 
-    public ParameterImpl(String parameterName, ParameterType parameterType, Object parameterValue) {
+    public ParameterImpl(String parameterName, ParameterType parameterType, T parameterValue) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
         this.parameterValue = parameterValue;
         this.required = false;
     }
 
-    public ParameterImpl(String parameterName, ParameterType parameterType, boolean required, Object parameterValue) {
+    public ParameterImpl(String parameterName, ParameterType parameterType, boolean required, T parameterValue) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
         this.required = required;
@@ -40,7 +40,7 @@ public class ParameterImpl implements Parameter {
     }
 
     @Override
-    public Object getParameterValue() {
+    public T getValue() {
         return parameterValue;
     }
 

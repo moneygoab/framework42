@@ -5,4 +5,9 @@ public class SimplePageModel extends PageModel {
     public SimplePageModel() {
         super();
     }
+
+    @Override
+    protected void setInParametersSpecific() {
+
+    }
 }
