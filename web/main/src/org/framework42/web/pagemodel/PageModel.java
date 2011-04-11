@@ -87,6 +87,14 @@ public abstract class PageModel {
         this.currentPageAction = currentPageAction;
     }
 
+    public boolean isCurrentPageAction(PageAction pageAction) {
+
+        if(currentPageAction.getIdentifier().equals(pageAction.getIdentifier())) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Returns the html parameters that was sent to the page.
      * @return Returns the html parameters that was sent to the page.
@@ -100,8 +108,13 @@ public abstract class PageModel {
      * @param inParameters      The html parameters that was sent to the page.
      * */
     public void setInParameters(Map<String, Parameter> inParameters) {
+
         this.inParameters = inParameters;
+
+        setInParametersSpecific();
     }
+
+    protected abstract void setInParametersSpecific();
 
     /**
      * Returns the html parameters that is defined as page parameters. They don't contain any values only definition of parameters,

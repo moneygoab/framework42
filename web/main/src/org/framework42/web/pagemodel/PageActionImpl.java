@@ -1,7 +1,5 @@
 package org.framework42.web.pagemodel;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class PageActionImpl implements PageAction {
 
     private final int id;

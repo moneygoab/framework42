@@ -26,6 +26,11 @@ public class SimplePageLogic<T extends UserSession, R extends PageModel> extends
     }
 
     @Override
+    protected void addFormListeners() {
+
+    }
+
+    @Override
     protected SimplePageModel performSpecific(HttpServletRequest req, HttpServletResponse resp, T session, SimplePageModel pageModel) throws IOException, StopServletExecutionException, ManageableException {
 
         return pageModel;

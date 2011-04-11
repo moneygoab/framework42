@@ -1,6 +1,6 @@
 package org.framework42.web.pagemodel;
 
-public interface Parameter {
+public interface Parameter <T> {
 
     public String getParameterName();
 
@@ -8,7 +8,7 @@ public interface Parameter {
 
     public boolean isRequired();
     
-    public Object getParameterValue();
+    public T getValue();
 
     public String getValueAsString();
 

@@ -10,6 +10,8 @@ import org.framework42.web.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.framework42.utils.NullChecker.notNull;
+
 public class Form extends HtmlComponent {
 
     private Builder builder;
@@ -60,6 +62,8 @@ public class Form extends HtmlComponent {
 
         htmlBuilder.append(">\n");
 
+        htmlBuilder.append(new Hidden("form_action", builder.actionId).getHtml(page, parent, false));
+
         for(HtmlComponent component:builder.formComponents){
             htmlBuilder.append(component.getHtml(page, this, false));
             htmlBuilder.append("\n");
@@ -76,6 +80,7 @@ public class Form extends HtmlComponent {
 
         private final String name;
         private final String action;
+        private final String actionId;
         private final HtmlPostMethod postMethod;
         private final List<HtmlComponent> formComponents;
 
@@ -89,10 +94,11 @@ public class Form extends HtmlComponent {
 
         private PageAction submitPageAction = BasePageAction.SUBMIT_FORM;
 
-        public Builder(String name, String action, HtmlPostMethod postMethod) {
-            this.name = name;
-            this.action = action;
-            this.postMethod = postMethod;
+        public Builder(String name, String action, String actionId, HtmlPostMethod postMethod) {
+            this.name = notNull(name, "Name can't be null!");
+            this.action = notNull(action, "Action can't be null!");
+            this.actionId = notNull(actionId, "Action id can't be null!");
+            this.postMethod = notNull(postMethod, "Post method can't be null!");
             this.formComponents = new ArrayList<HtmlComponent>();
         }
 

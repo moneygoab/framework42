@@ -7,6 +7,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.framework42.web.exceptions.ParseUnrequiredException;
 import org.framework42.web.session.UserSession;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -102,7 +103,7 @@ public enum HtmlParametersParser {
 
             if(session.isAllowUndefinedParameters()) {
 
-                parsedParameters.put(keyValue, new ParameterImpl(keyValue, ParameterType.STRING, value));
+                parsedParameters.put(keyValue, new ParameterImpl<String>(keyValue, ParameterType.STRING, value));
 
             } else {
 
@@ -143,7 +144,7 @@ public enum HtmlParametersParser {
 
         if(ParameterType.STRING == type) {
 
-            parameter = new ParameterImpl(name, type, required, value);
+            parameter = new ParameterImpl<String>(name, type, required, value);
 
 
 
@@ -160,12 +161,13 @@ public enum HtmlParametersParser {
             parameter = parseDate(name,type,required,value);
 
         } else if(ParameterType.CHECKBOX == type) {
-            
-            parameter = parseInteger(name,type,required,value);
+            //TODO: Implement
+            throw new NotImplementedException();
+            //parameter = parseInteger(name,type,required,value);
 
         } else {
 
-            parameter = new ParameterImpl(name, type, required, value);
+            parameter = new ParameterImpl<Object>(name, type, required, value);
 
         }
 
@@ -179,7 +181,7 @@ public enum HtmlParametersParser {
 
             Integer parsedValue = Integer.parseInt(value);
 
-            return new ParameterImpl(name, type, required, parsedValue);
+            return new ParameterImpl<Integer>(name, type, required, parsedValue);
 
         } catch(NumberFormatException e) {
 
@@ -202,7 +204,7 @@ public enum HtmlParametersParser {
 
             Float parsedValue = Float.parseFloat(value);
 
-            return new ParameterImpl(name, type, required, parsedValue);
+            return new ParameterImpl<Float>(name, type, required, parsedValue);
 
         } catch (NumberFormatException e) {
 
@@ -232,7 +234,7 @@ public enum HtmlParametersParser {
 
             Date parsedValue = new GregorianCalendar(year, month, day).getTime();
 
-            return new ParameterImpl(name, type, required, parsedValue);
+            return new ParameterImpl<Date>(name, type, required, parsedValue);
 
         } catch (NumberFormatException e) {
 
