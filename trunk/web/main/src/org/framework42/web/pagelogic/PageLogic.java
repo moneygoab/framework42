@@ -87,14 +87,16 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     protected abstract void addFormListeners();
 
+    @SuppressWarnings("unchecked")
     protected void performGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
 
         checkFlowable(resp, session, pageModel);
 
         if(this instanceof TabablePage) {
 
-            changeTab(req, session, pageModel);
+            changeTab(session, pageModel);
             removeTab(resp, session, pageModel);
+
             ((TabablePage<T,R>)this).addTab(req, resp, session, pageModel);
         }
 
@@ -169,7 +171,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         }
     }
 
-    private void changeTab(HttpServletRequest req, T session, R pageModel) {
+    private void changeTab(T session, R pageModel) {
 
         if(pageModel.getInParameters().containsKey("tabId")
            && pageModel.getClass().getAnnotation(Tabable.class) != null
