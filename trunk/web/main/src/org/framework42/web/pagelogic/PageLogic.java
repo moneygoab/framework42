@@ -35,6 +35,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         logger = Logger.getLogger(loggerId);
         formListenerList = new ArrayList<FormListener<T,R>>();
+        addFormListeners();
     }
 
     public R setupParameters(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session) {
@@ -43,7 +44,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         setupPageParameters(req, session, pageModel);
         setupPageParametersSpecific(req, session, pageModel);
-        addFormListeners();
 
         setupEnvironmentInformation(servlet, req, session, pageModel);
 
