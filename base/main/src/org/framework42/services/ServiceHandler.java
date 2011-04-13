@@ -26,6 +26,7 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
         this.delegate = delegate;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] argumentList) throws Throwable {
 
         try {
