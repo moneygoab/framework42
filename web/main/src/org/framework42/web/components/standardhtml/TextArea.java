@@ -38,8 +38,14 @@ public class TextArea extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
-        if(builder.readonly!=null){
+        if(builder.readonly!=null) {
             htmlBuilder.append(" readonly");
+        }
+
+        if(builder.style!=null) {
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
         }
 
         htmlBuilder.append(">");
@@ -59,6 +65,8 @@ public class TextArea extends HtmlComponent {
         private int rows;
 
         private String value;
+
+        private String style;
 
         public Builder(String name, String value) {
             super(name, "");
@@ -86,6 +94,13 @@ public class TextArea extends HtmlComponent {
         public Builder rows(int rows) {
             
             this.rows = rows;
+
+            return this;
+        }
+
+        public Builder style(String style) {
+
+            this.style = style;
 
             return this;
         }
