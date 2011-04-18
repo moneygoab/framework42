@@ -42,6 +42,7 @@ public class SubmitButton extends HtmlComponent {
 
         public Builder(String name, String value) {
             super(name, value);
+            this.className = "submit";
         }
 
         public Builder className(String className){

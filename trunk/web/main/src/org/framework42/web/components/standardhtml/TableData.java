@@ -91,6 +91,10 @@ public class TableData extends HtmlComponent {
 
         private String verticalAlign = null;
 
+        public Builder(String label) {
+            this.component = new Label(label);
+        }
+
         public Builder(HtmlComponent component) {
             this.component = component;
         }

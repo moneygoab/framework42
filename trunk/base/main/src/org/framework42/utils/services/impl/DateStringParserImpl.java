@@ -12,7 +12,7 @@ public class DateStringParserImpl implements DateStringParser {
 
         String[] splitStrings = dateString.split("-");
 
-        return new GregorianCalendar(Integer.parseInt(splitStrings[0]), Integer.parseInt(splitStrings[1]), Integer.parseInt(splitStrings[2])).getTime();
+        return new GregorianCalendar(Integer.parseInt(splitStrings[0]), Integer.parseInt(splitStrings[1])-1, Integer.parseInt(splitStrings[2])).getTime();
         
     }
 
