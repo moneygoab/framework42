@@ -3,6 +3,7 @@ package org.framework42.web.components.extensions;
 import org.framework42.i18n.I18N;
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.components.standardhtml.Break;
 import org.framework42.web.components.standardhtml.Label;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
@@ -13,7 +14,6 @@ import org.framework42.web.utils.Util;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 public class MenuItemText extends MenuItem {
 
@@ -33,17 +33,13 @@ public class MenuItemText extends MenuItem {
             }
         }
 
+        if(builder.level==1) {
+            htmlBuilder.append(new Break().getHtml(page,parent,false));
+        }
+
         htmlBuilder.append("<span id=\"");
         htmlBuilder.append(builder.id);
-        htmlBuilder.append("\" style=\"padding: ");
-        htmlBuilder.append(builder.paddingTop);
-        htmlBuilder.append("px ");
-        htmlBuilder.append(builder.paddingRight);
-        htmlBuilder.append("px ");
-        htmlBuilder.append(builder.paddingBottom);
-        htmlBuilder.append("px ");
-        htmlBuilder.append(builder.paddingLeft);
-        htmlBuilder.append("px; ");
+        htmlBuilder.append("\"");
         if(builder.active) {
             htmlBuilder.append("background-image: url('");
             htmlBuilder.append(builder.backgroundPictureChosen);
@@ -60,6 +56,8 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append(">");
 
+        htmlBuilder.append(Util.spacer((builder.level-1)*4));
+
         htmlBuilder.append("<a href=\"");
         htmlBuilder.append(builder.pageURL);
         htmlBuilder.append("?action=");
@@ -71,7 +69,9 @@ public class MenuItemText extends MenuItem {
             htmlBuilder.append(builder.linkParameters.get(key));
         }
         htmlBuilder.append("\"");
-        if(builder.active) {
+        if(builder.notLink) {
+            htmlBuilder.append(" class=\"main_menu_item_not_link_");
+        } else if(builder.active) {
             htmlBuilder.append(" class=\"main_menu_item_active_link_");
         } else {
             htmlBuilder.append(" class=\"main_menu_item_inactive_link_");
@@ -86,8 +86,6 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append(">");
 
-        htmlBuilder.append(Util.spacer((builder.level-1)*4));
-        
         htmlBuilder.append(builder.text.getHtml(page, parent, true));
 
         htmlBuilder.append("</a>");
@@ -100,15 +98,9 @@ public class MenuItemText extends MenuItem {
 
         private boolean active;
 
+        private boolean notLink;
+
         private String pageURL;
-
-        private int paddingLeft;
-
-        private int paddingTop;
-
-        private int paddingRight;
-
-        private int paddingBottom;
 
         private String id;
 
@@ -138,10 +130,7 @@ public class MenuItemText extends MenuItem {
             this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
-            this.paddingLeft = 5;
-            this.paddingTop = 5;
-            this.paddingRight = 5;
-            this.paddingBottom = 5;
+            this.notLink = false;
             this.level = 1;
             this.backgroundPicture = "";
             this.backgroundPictureChosen = "";
@@ -158,10 +147,7 @@ public class MenuItemText extends MenuItem {
             this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
-            this.paddingLeft = 5;
-            this.paddingTop = 5;
-            this.paddingRight = 5;
-            this.paddingBottom = 5;
+            this.notLink = false;
             this.level = 1;
             this.backgroundPicture = "";
             this.backgroundPictureChosen = "";
@@ -173,6 +159,11 @@ public class MenuItemText extends MenuItem {
             return this;
         }
 
+        public Builder notLink(boolean notLink) {
+            this.notLink = notLink;
+            return this;
+        }
+
         public Builder linkParameters(Map<String, String> linkParameters) {
             this.linkParameters = linkParameters;
             return this;
@@ -180,26 +171,6 @@ public class MenuItemText extends MenuItem {
 
         public Builder pageURL(String pageURL) {
             this.pageURL = pageURL;
-            return this;
-        }
-
-        public Builder paddingLeft(int paddingLeft) {
-            this.paddingLeft = paddingLeft;
-            return this;
-        }
-
-        public Builder paddingTop(int paddingTop) {
-            this.paddingTop = paddingTop;
-            return this;
-        }
-
-        public Builder paddingRight(int paddingRight) {
-            this.paddingRight = paddingRight;
-            return this;
-        }
-
-        public Builder paddingBottom(int paddingBottom) {
-            this.paddingBottom = paddingBottom;
             return this;
         }
 
