@@ -29,29 +29,42 @@ public class MenuItemText extends MenuItem {
         if(page instanceof ChildPage) {
             String parentURL = I18N.INSTANCE.getURL(((ChildPage)page).getParentPageURLKey(), builder.locale);
             if(parentURL.equalsIgnoreCase(builder.pageURL)) {
-                builder.active = true;
+                builder.chosen = true;
             }
         }
 
-        if(builder.level==1) {
+        if(builder.level==1 && parent.getClass() != MenuHorizontal.class) {
             htmlBuilder.append(new Break().getHtml(page,parent,false));
         }
 
         htmlBuilder.append("<span id=\"");
         htmlBuilder.append(builder.id);
-        htmlBuilder.append("\"");
-        if(builder.active) {
-            htmlBuilder.append("background-image: url('");
+        htmlBuilder.append("\" ");
+
+        // Background pic and width
+        htmlBuilder.append("style=\"");
+        htmlBuilder.append("background-image: url('");
+        if(builder.chosen) {
             htmlBuilder.append(builder.backgroundPictureChosen);
-            htmlBuilder.append("');");
-            htmlBuilder.append("\" ");
+        } else {
+            htmlBuilder.append(builder.backgroundPicture);
+        }
+        htmlBuilder.append("');");
+        if(builder.width>0) {
+            htmlBuilder.append("padding-right: ");
+            htmlBuilder.append(builder.width);
+            htmlBuilder.append("px;");
+        }
+        htmlBuilder.append("\" ");
+
+        if(builder.active) {
 
             htmlBuilder.append("class=\"main_menu_item_active_");
             htmlBuilder.append(builder.level);
             htmlBuilder.append("\"");
 
         } else{
-            htmlBuilder.append("\"");
+            //htmlBuilder.append("\"");
         }
 
         htmlBuilder.append(">");
@@ -98,6 +111,8 @@ public class MenuItemText extends MenuItem {
 
         private boolean active;
 
+        private boolean chosen;
+
         private boolean notLink;
 
         private String pageURL;
@@ -113,6 +128,8 @@ public class MenuItemText extends MenuItem {
         private String backgroundPictureChosen;
 
         private String backgroundPictureMouseOver;
+
+        private int width;
 
         private Label text;
 
@@ -130,6 +147,7 @@ public class MenuItemText extends MenuItem {
             this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
+            this.chosen = false;
             this.notLink = false;
             this.level = 1;
             this.backgroundPicture = "";
@@ -147,6 +165,7 @@ public class MenuItemText extends MenuItem {
             this.linkPageAction = BasePageAction.NONE;
 
             this.active = true;
+            this.chosen = false;
             this.notLink = false;
             this.level = 1;
             this.backgroundPicture = "";
@@ -156,6 +175,11 @@ public class MenuItemText extends MenuItem {
 
         public Builder active(boolean active) {
             this.active = active;
+            return this;
+        }
+
+        public Builder chosen(boolean chosen){
+            this.chosen = chosen;
             return this;
         }
 
@@ -201,6 +225,11 @@ public class MenuItemText extends MenuItem {
 
         public Builder backgroundPictureMouseOver(String backgroundPictureMouseOver) {
             this.backgroundPictureMouseOver = backgroundPictureMouseOver;
+            return this;
+        }
+
+        public Builder width(int width) {
+            this.width = width;
             return this;
         }
 
