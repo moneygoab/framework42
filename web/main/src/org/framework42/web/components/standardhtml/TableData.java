@@ -12,12 +12,14 @@ public class TableData extends HtmlComponent {
     public TableData(String label) {
 
         this.builder = new Builder(new Label(label));
+        this.builder.verticalAlign("top");
 
     }
 
     public TableData(HtmlComponent component) {
 
         this.builder = new Builder(component);
+        this.builder.verticalAlign("top");
 
     }
 

@@ -2,127 +2,138 @@ package org.framework42.web.components;
 
 public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
 
-   protected String onClick = null;
+    protected String onClick = null;
 
-   protected String onDoubleClick = null;
+    protected String onDoubleClick = null;
 
-   protected String onMouseDown = null;
+    protected String onMouseDown = null;
 
-   protected String onMouseMove = null;
+    protected String onMouseMove = null;
 
-   protected String onMouseOut = null;
+    protected String onMouseDrag = null;
 
-   protected String onMouseOver = null;
+    protected String onMouseOut = null;
 
-   protected String onMouseUp = null;
+    protected String onMouseOver = null;
 
-   protected String onKeyDown = null;
+    protected String onMouseUp = null;
 
-   protected String onKeyPress = null;
+    protected String onKeyDown = null;
 
-   protected String onKeyUp = null;
+    protected String onKeyPress = null;
 
-   /**
-    * This method should be called from the html generation in the extending class constructor.
-    * @return String The generated html code to be included in the extending class constructor.
-    * */
-   public String addGeneralComponents(){
+    protected String onKeyUp = null;
 
-      String html = "";
+    /**
+     * This method should be called from the html generation in the extending class constructor.
+     * @return String The generated html code to be included in the extending class constructor.
+     * */
+    public String addGeneralComponents(){
 
-      if(onClick != null){
-         html += " onclick=\""+onClick+"\"";
-      }
+        StringBuilder html = new StringBuilder();
 
-      if(onDoubleClick != null){
-         html += " ondblclick=\""+onDoubleClick+"\"";
-      }
+        if(onClick != null){
+            html.append(" onclick=\""+onClick+"\"");
+        }
 
-      if(onMouseDown != null){
-         html += " onmousedown=\""+onMouseDown+"\"";
-      }
+        if(onDoubleClick != null){
+            html.append(" ondblclick=\""+onDoubleClick+"\"");
+        }
 
-      if(onMouseMove != null){
-         html += " onmousemove=\""+onMouseMove+"\"";
-      }
+        if(onMouseDown != null){
+            html.append(" onmousedown=\""+onMouseDown+"\"");
+        }
 
-      if(onMouseOut != null){
-         html += " onmouseout=\""+onMouseOut+"\"";
-      }
+        if(onMouseMove != null){
+            html.append(" onmousemove=\""+onMouseMove+"\"");
+        }
 
-      if(onMouseOver != null){
-         html += " onmouseover=\""+onMouseOver+"\"";
-      }
+        if(onMouseDrag != null){
+            html.append(" onmousedrag=\""+onMouseDrag+"\"");
+        }
 
-      if(onMouseUp != null){
-         html += " onmouseup=\""+onMouseUp+"\"";
-      }
+        if(onMouseOut != null){
+            html.append(" onmouseout=\""+onMouseOut+"\"");
+        }
 
-      if(onKeyDown != null){
-         html += " onkeydown=\""+onKeyDown+"\"";
-      }
+        if(onMouseOver != null){
+            html.append(" onmouseover=\""+onMouseOver+"\"");
+        }
 
-      if(onKeyPress != null){
-         html += " onkeypress=\""+onKeyPress+"\"";
-      }
+        if(onMouseUp != null){
+            html.append(" onmouseup=\""+onMouseUp+"\"");
+        }
 
-      if(onKeyUp != null){
-         html += " onkeyup=\""+onKeyUp+"\"";
-      }
+        if(onKeyDown != null){
+            html.append(" onkeydown=\""+onKeyDown+"\"");
+        }
+
+        if(onKeyPress != null){
+            html.append(" onkeypress=\""+onKeyPress+"\"");
+        }
+
+        if(onKeyUp != null){
+            html.append(" onkeyup=\""+onKeyUp+"\"");
+        }
 
 
-      return html;
+        return html.toString();
 
-   }
+    }
 
-   public EventComponentBuilder<T> onClick(String onClickEvent){
-      this.onClick = onClickEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onClick(String onClickEvent){
+        this.onClick = onClickEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onDoubleClick(String onDoubleClickEvent){
-      this.onDoubleClick = onDoubleClickEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onDoubleClick(String onDoubleClickEvent){
+        this.onDoubleClick = onDoubleClickEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onMouseDown(String onMouseDownEvent){
-      this.onMouseDown = onMouseDownEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseDown(String onMouseDownEvent){
+        this.onMouseDown = onMouseDownEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onMouseMove(String onMouseMoveEvent){
-      this.onMouseMove = onMouseMoveEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseDrag(String onMouseDragEvent){
+        this.onMouseDrag = onMouseDragEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onMouseOut(String onMouseOutEvent){
-      this.onMouseOut = onMouseOutEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseMove(String onMouseMoveEvent){
+        this.onMouseMove = onMouseMoveEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onMouseOver(String onMouseOverEvent){
-      this.onMouseOver = onMouseOverEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseOut(String onMouseOutEvent){
+        this.onMouseOut = onMouseOutEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onMouseUp(String onMouseUpEvent){
-      this.onMouseUp = onMouseUpEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseOver(String onMouseOverEvent){
+        this.onMouseOver = onMouseOverEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onKeyDown(String onKeyDownEvent){
-      this.onKeyDown = onKeyDownEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onMouseUp(String onMouseUpEvent){
+        this.onMouseUp = onMouseUpEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onKeyPress(String onKeyPressEvent){
-      this.onKeyPress = onKeyPressEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onKeyDown(String onKeyDownEvent){
+        this.onKeyDown = onKeyDownEvent;
+        return this;
+    }
 
-   public EventComponentBuilder<T> onKeyUp(String onKeyUpEvent){
-      this.onKeyUp = onKeyUpEvent;
-      return this;
-   }
+    public EventComponentBuilder<T> onKeyPress(String onKeyPressEvent){
+        this.onKeyPress = onKeyPressEvent;
+        return this;
+    }
+
+    public EventComponentBuilder<T> onKeyUp(String onKeyUpEvent){
+        this.onKeyUp = onKeyUpEvent;
+        return this;
+    }
 
 }

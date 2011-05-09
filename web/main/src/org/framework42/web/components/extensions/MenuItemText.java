@@ -43,6 +43,7 @@ public class MenuItemText extends MenuItem {
 
         // Background pic and width
         htmlBuilder.append("style=\"");
+        htmlBuilder.append("z-index: 10;");
         htmlBuilder.append("background-image: url('");
         if(builder.chosen) {
             htmlBuilder.append(builder.backgroundPictureChosen);
@@ -84,7 +85,7 @@ public class MenuItemText extends MenuItem {
         htmlBuilder.append("\"");
         if(builder.notLink) {
             htmlBuilder.append(" class=\"main_menu_item_not_link_");
-        } else if(builder.active) {
+        } else if(builder.chosen) {
             htmlBuilder.append(" class=\"main_menu_item_active_link_");
         } else {
             htmlBuilder.append(" class=\"main_menu_item_inactive_link_");
