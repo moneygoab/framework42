@@ -9,6 +9,7 @@ import org.framework42.web.exceptions.ParseUnrequiredException;
 import org.framework42.web.session.UserSession;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -53,7 +54,7 @@ public enum HtmlParametersParser {
                         String keyValue = item.getFieldName();
                         String value = item.getString();
 
-                        parseParameter(session, keyValue, value, parsedParameters, pageParameters);
+                        parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
 
                     } else {
 
@@ -73,7 +74,7 @@ public enum HtmlParametersParser {
                 String keyValue = key.toString();
                 String value = req.getParameter(keyValue);
 
-                parseParameter(session, keyValue, value, parsedParameters, pageParameters);
+                parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
             }
         }
 
@@ -83,7 +84,7 @@ public enum HtmlParametersParser {
 
     }
 
-    private void parseParameter(UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
+    private void parseParameter(HttpServletRequest req, UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
 
         if(pageParameters.containsKey(keyValue)) {
 
@@ -92,7 +93,7 @@ public enum HtmlParametersParser {
             try {
 
                 if(parentParameter.getParameterType() != ParameterType.IGNORE) {
-                    parsedParameters.put(keyValue, createExistingParameter(parentParameter, value));
+                    parsedParameters.put(keyValue, createExistingParameter(req, parentParameter, value));
                 }
             } catch(ParseUnrequiredException e) {
 
@@ -134,7 +135,7 @@ public enum HtmlParametersParser {
 
     }
 
-    private Parameter createExistingParameter(Parameter parentParameter, String value) throws ParseUnrequiredException {
+    private Parameter createExistingParameter(HttpServletRequest req, Parameter parentParameter, String value) throws ParseUnrequiredException {
 
         Parameter parameter;
 
@@ -145,8 +146,6 @@ public enum HtmlParametersParser {
         if(ParameterType.STRING == type) {
 
             parameter = new ParameterImpl<String>(name, type, required, value);
-
-
 
         } else if(ParameterType.INTEGER == type) {
 
@@ -161,9 +160,8 @@ public enum HtmlParametersParser {
             parameter = parseDate(name,type,required,value);
 
         } else if(ParameterType.CHECKBOX == type) {
-            //TODO: Implement
-            throw new NotImplementedException();
-            //parameter = parseInteger(name,type,required,value);
+
+            parameter = parseCheckBox(req, name, type, required, value);
 
         } else {
 
@@ -247,7 +245,23 @@ public enum HtmlParametersParser {
 
                 throw new ParseUnrequiredException("The unrequired parameter "+name+" of type "+type+" contains an illegal value of "+value);
             }
+        }
+    }
 
+    private Parameter parseCheckBox(HttpServletRequest req, String name, ParameterType type, boolean required, String value) throws ParseUnrequiredException {
+
+        if(req.getParameterValues(name)!=null) {
+
+            Boolean checked = "true".equalsIgnoreCase(req.getParameterValues(name)[0]);
+
+            /*System.out.println(req.getParameterValues(name)[0]+"*");
+            System.out.println(checked+"**");
+              */
+            return new ParameterImpl<Boolean>(name, type, required, checked);
+
+        } else {
+
+            return new ParameterImpl<Boolean>(name, type, required, false);
         }
 
     }

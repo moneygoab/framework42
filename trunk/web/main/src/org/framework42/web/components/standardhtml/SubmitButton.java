@@ -22,7 +22,11 @@ public class SubmitButton extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<input type=\"submit\"");
+        if(builder.imageURL==null) {
+            htmlBuilder.append("<input type=\"submit\"");
+        } else {
+            htmlBuilder.append("<input type=\"image\"");
+        }
 
         htmlBuilder.append(builder.addGeneralComponents());
 
@@ -45,8 +49,13 @@ public class SubmitButton extends HtmlComponent {
             this.className = "submit";
         }
 
-        public Builder className(String className){
+        public Builder className(String className) {
             this.className = className;
+            return this;
+        }
+
+        public Builder imageURL(String imageURL) {
+            this.imageURL = imageURL;
             return this;
         }
 
