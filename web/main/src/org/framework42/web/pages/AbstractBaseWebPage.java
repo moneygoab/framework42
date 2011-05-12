@@ -1,5 +1,6 @@
 package org.framework42.web.pages;
 
+import org.framework42.ServiceBinderInterface;
 import org.framework42.i18n.I18N;
 import org.framework42.model.MimeType;
 import org.framework42.model.users.Role;
@@ -37,11 +38,15 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
     public void init() throws ServletException {
         super.init();
 
-        if (!I18N.INSTANCE.isInitialized()) {
+        initServiceBinder();
+
+        if(!I18N.INSTANCE.isInitialized()) {
 
             initI18N();
         }
     }
+
+    protected abstract void initServiceBinder();
 
     protected abstract void initI18N();
 
