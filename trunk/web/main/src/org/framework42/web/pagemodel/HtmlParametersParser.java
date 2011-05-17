@@ -254,9 +254,6 @@ public enum HtmlParametersParser {
 
             Boolean checked = "true".equalsIgnoreCase(req.getParameterValues(name)[0]);
 
-            /*System.out.println(req.getParameterValues(name)[0]+"*");
-            System.out.println(checked+"**");
-              */
             return new ParameterImpl<Boolean>(name, type, required, checked);
 
         } else {

@@ -74,10 +74,19 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append("<a href=\"");
         htmlBuilder.append(builder.pageURL);
-        htmlBuilder.append("?action=");
-        htmlBuilder.append(builder.linkPageAction.getIdentifier());
+        if(!"".equals(builder.linkPageAction.getIdentifier())) {
+            htmlBuilder.append("?action=");
+            htmlBuilder.append(builder.linkPageAction.getIdentifier());
+        }
+        boolean first = "".equals(builder.linkPageAction.getIdentifier());
         for(String key: builder.linkParameters.keySet()) {
-            htmlBuilder.append("&");
+            if(first) {
+                htmlBuilder.append("?");
+                first = false;
+            } else {
+                htmlBuilder.append("&");
+            }
+
             htmlBuilder.append(key);
             htmlBuilder.append("=");
             htmlBuilder.append(builder.linkParameters.get(key));
