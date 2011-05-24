@@ -99,7 +99,7 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
         }
 
         if(id!=null){
-            html.append(" getId=\"");
+            html.append(" id=\"");
             html.append(id);
             html.append("\"");
         }
