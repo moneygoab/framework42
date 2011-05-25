@@ -71,11 +71,11 @@ public enum Country {
 
         notNull(country, "Country can't be null!");
 
-        if(country.equalsIgnoreCase("Sverige") ||
-                country.equalsIgnoreCase("Svergie") ||
-                country.equalsIgnoreCase("Sve") ||
-                country.equalsIgnoreCase("SWE") ||
-                country.equalsIgnoreCase("Sweden")
+        if("Sverige".equalsIgnoreCase(country) ||
+                "Svergie".equalsIgnoreCase(country) ||
+                "Sve".equalsIgnoreCase(country) ||
+                "SWE".equalsIgnoreCase(country) ||
+                "Sweden".equalsIgnoreCase(country)
                 ){
 
             return SWEDEN;
