@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface Address {
 
-    public String getName();
+    public String getAddressee();
 
     public String getCareOf();
 

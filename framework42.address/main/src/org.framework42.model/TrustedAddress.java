@@ -1,6 +1,6 @@
 package org.framework42.model;
 
-public interface TrustedAddress extends Address {
+public interface TrustedAddress {
 
     public InformationProvider getInformationProvider();
 
