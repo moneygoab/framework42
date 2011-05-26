@@ -13,7 +13,7 @@ import static org.framework42.utils.NullChecker.notNull;
 
 public class SimpleAddressImpl implements Address {
 
-    protected final String name;
+    protected final String addressee;
 
     protected final String careOf;
 
@@ -31,9 +31,9 @@ public class SimpleAddressImpl implements Address {
 
     protected final long validTo;
 
-    public SimpleAddressImpl(String name, String careOf, String streetAddress, PostalCode postalCode, String city, Country country) {
+    public SimpleAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country) {
 
-        this.name = notNull(name, "Name can't be null!");
+        this.addressee = notNull(addressee, "Addressee can't be null!");
         this.careOf = notNull(careOf, "Care of can't be null!");
         this.streetAddress = notNull(streetAddress, "Street address can't be null!");
         this.postalCode = notNull(postalCode, "Postal code can't be null!");
@@ -44,10 +44,10 @@ public class SimpleAddressImpl implements Address {
         this.validTo = new GregorianCalendar(9999, Calendar.JANUARY, 1).getTime().getTime();
     }
 
-    public SimpleAddressImpl(String name, String careOf, String streetAddress, PostalCode postalCode, String city,
+    public SimpleAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city,
                              Country country, AddressType type, Date validFrom, Date validTo) {
 
-        this.name = notNull(name, "Name can't be null!");
+        this.addressee = notNull(addressee, "Name can't be null!");
         this.careOf = notNull(careOf, "Care of can't be null!");
         this.streetAddress = notNull(streetAddress, "Street address can't be null!");
         this.postalCode = notNull(postalCode, "Postal code can't be null!");
@@ -59,8 +59,8 @@ public class SimpleAddressImpl implements Address {
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getAddressee() {
+        return addressee;
     }
 
     @Override
@@ -101,5 +101,21 @@ public class SimpleAddressImpl implements Address {
     @Override
     public Date getValidTo() {
         return new Date(validTo);
+    }
+
+    @Override
+    public String toString() {
+
+        return "SimpleAddressImpl{" +
+               "name='" + addressee + '\'' +
+               ", careOf='" + careOf + '\'' +
+               ", streetAddress='" + streetAddress + '\'' +
+               ", postalCode=" + postalCode +
+               ", city='" + city + '\'' +
+               ", country=" + country +
+               ", type=" + type +
+               ", validFrom=" + validFrom +
+               ", validTo=" + validTo +
+               '}';
     }
 }
