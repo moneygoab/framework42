@@ -10,20 +10,20 @@ public class SimpleSecureAddressImpl extends SimpleAddressImpl implements Truste
 
     private final InformationProvider informationProvider;
 
-    public SimpleSecureAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, InformationProvider informationProvider) {
-        super(addressee, careOf, streetAddress, postalCode, city, country);
+    public SimpleSecureAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, InformationProvider informationProvider) {
+        super(id, addressee, careOf, streetAddress, postalCode, city, country);
 
         this.informationProvider = notNull(informationProvider, "Information provider can't be null!");
     }
 
-    public SimpleSecureAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, AddressType type, Date validFrom, Date validTo, InformationProvider informationProvider) {
-        super(addressee, careOf, streetAddress, postalCode, city, country, type, validFrom, validTo);
+    public SimpleSecureAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, AddressType type, Date validFrom, Date validTo, InformationProvider informationProvider) {
+        super(id, addressee, careOf, streetAddress, postalCode, city, country, type, validFrom, validTo);
 
         this.informationProvider = notNull(informationProvider, "Information provider can't be null!");
     }
 
     @Override
-    public InformationProvider getInformationProvider() {
+    public InformationProvider getProvider() {
         return informationProvider;
     }
 }

@@ -1,5 +1,6 @@
 package org.framework42.model.impl;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.framework42.model.Address;
 import org.framework42.model.AddressType;
 import org.framework42.model.Country;
@@ -12,6 +13,8 @@ import java.util.GregorianCalendar;
 import static org.framework42.utils.NullChecker.notNull;
 
 public class SimpleAddressImpl implements Address {
+
+    protected final int id;
 
     protected final String addressee;
 
@@ -31,8 +34,9 @@ public class SimpleAddressImpl implements Address {
 
     protected final long validTo;
 
-    public SimpleAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country) {
+    public SimpleAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country) {
 
+        this.id = id;
         this.addressee = notNull(addressee, "Addressee can't be null!");
         this.careOf = notNull(careOf, "Care of can't be null!");
         this.streetAddress = notNull(streetAddress, "Street address can't be null!");
@@ -44,9 +48,9 @@ public class SimpleAddressImpl implements Address {
         this.validTo = new GregorianCalendar(9999, Calendar.JANUARY, 1).getTime().getTime();
     }
 
-    public SimpleAddressImpl(String addressee, String careOf, String streetAddress, PostalCode postalCode, String city,
+    public SimpleAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city,
                              Country country, AddressType type, Date validFrom, Date validTo) {
-
+        this.id = id;
         this.addressee = notNull(addressee, "Name can't be null!");
         this.careOf = notNull(careOf, "Care of can't be null!");
         this.streetAddress = notNull(streetAddress, "Street address can't be null!");
@@ -56,6 +60,11 @@ public class SimpleAddressImpl implements Address {
         this.type = notNull(type, "Type can't be null!");
         this.validFrom = validFrom.getTime();
         this.validTo = validTo.getTime();
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override
