@@ -35,8 +35,6 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
         
     } */
 
-
-
     @Override
     public int getMinimumToPay(BigDecimal initialAmount, BigDecimal interest, int monthsToPayBack) {
 
@@ -51,7 +49,6 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
 
         //return initialAmount.multiply( stuff ).intValue();
         return (int) (initialAmount.doubleValue()* stuff);
-
     }
 
 }
