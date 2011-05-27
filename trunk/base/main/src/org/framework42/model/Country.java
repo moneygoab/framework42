@@ -75,6 +75,7 @@ public enum Country {
                 "Svergie".equalsIgnoreCase(country) ||
                 "Sve".equalsIgnoreCase(country) ||
                 "SWE".equalsIgnoreCase(country) ||
+                "SE".equalsIgnoreCase(country) ||
                 "Sweden".equalsIgnoreCase(country)
                 ){
 
