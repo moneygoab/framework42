@@ -25,7 +25,7 @@ public class GreaterThenZeroChecker {
 
     public static int greaterThenZero(int variable, String errorMessage, Logger logger) {
 
-        if(variable == 0) {
+        if(variable <= 0) {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
@@ -52,7 +52,7 @@ public class GreaterThenZeroChecker {
 
     public static long greaterThenZero(long variable, String errorMessage, Logger logger) {
 
-        if(variable == 0) {
+        if(variable <= 0) {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
@@ -79,7 +79,7 @@ public class GreaterThenZeroChecker {
 
     public static float greaterThenZero(float variable, String errorMessage, Logger logger) {
 
-        if(variable == 0) {
+        if(variable <= 0) {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
@@ -106,7 +106,7 @@ public class GreaterThenZeroChecker {
 
     public static double greaterThenZero(double variable, String errorMessage, Logger logger) {
 
-        if(variable < 1) {
+        if(variable <= 0) {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
