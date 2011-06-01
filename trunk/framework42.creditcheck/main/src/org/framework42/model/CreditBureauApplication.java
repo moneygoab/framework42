@@ -20,6 +20,6 @@ public interface CreditBureauApplication {
 
     public Applicant getCoApplicant();
 
-
+    public CreditBureauApplicationResponse getCreditBureauResponse();
 
 }

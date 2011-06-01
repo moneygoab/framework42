@@ -8,41 +8,41 @@ import java.util.Date;
 import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;
 
-public class AbstractCreditBureauApplication implements CreditBureauApplication {
+public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
-    protected final int id;
+    private final int id;
 
-    protected final ApplicationStatus applicationStatus;
+    private final ApplicationStatus status;
 
-    protected final long applicationDate;
+    private final long applicationDate;
 
-    protected final Money appliedAmount;
+    private final Money appliedAmount;
 
-    protected final ApplicationChannel applicationChannel;
+    private final ApplicationChannel applicationChannel;
 
-    protected final Applicant mainApplicant;
+    private final Applicant mainApplicant;
 
-    protected final Applicant coApplicant;
+    private final Applicant coApplicant;
 
     private final CreditBureauApplicationResponse creditBureauResponse;
 
-    public AbstractCreditBureauApplication(int id, ApplicationStatus applicationStatus, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant) {
+    public CreditBureauApplicationImpl(int id, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
-        this.applicationStatus = notNull(applicationStatus, "Application status can't be null!");
-        this.applicationDate = notNull(applicationDate, "Application date can't be null!").getTime();
+        this.status = notNull(status, "Status can't be null!");
+        this.applicationDate = notNull(applicationDate.getTime(), "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
-        this.mainApplicant = notNull(mainApplicant, "Main applicant can't ve null!");
+        this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");
         this.coApplicant = coApplicant;
 
         this.creditBureauResponse = null;
     }
 
-    public AbstractCreditBureauApplication(int id, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse) {
+    public CreditBureauApplicationImpl(int id, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
-        this.applicationStatus = notNull(status, "Status can't be null!");
+        this.status = notNull(status, "Status can't be null!");
         this.applicationDate = notNull(applicationDate.getTime(), "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
@@ -58,7 +58,7 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
 
     @Override
     public ApplicationStatus getStatus() {
-        return applicationStatus;
+        return status;
     }
 
     @Override

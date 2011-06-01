@@ -1,8 +1,12 @@
 package org.framework42.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum CreditBureau {
 
-    UC(1, Country.SWEDEN);
+    UC(1, Country.SWEDEN), EMULATOR_SWEDEN(2, Country.SWEDEN);
+
 
     private final int id;
 
@@ -34,6 +38,21 @@ public enum CreditBureau {
         }
 
         throw new IllegalArgumentException("No credit bureau with id "+id+" exists!");
+    }
+
+    public static List<CreditBureau> getAllInCountry(Country country) {
+
+        List<CreditBureau> found = new ArrayList<CreditBureau>();
+
+        for(CreditBureau creditBureau: CreditBureau.values()) {
+
+            if(creditBureau.getCountry() == country) {
+
+                found.add(creditBureau);
+            }
+        }
+
+        return found;
     }
 
 }
