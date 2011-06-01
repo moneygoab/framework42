@@ -12,7 +12,12 @@ public class CreditCheckServiceFactoryImpl implements CreditCheckServiceFactory 
         if(bureau == CreditBureau.UC) {
 
             return new CreditCheckServiceUC();
+
+        } else if(bureau == CreditBureau.EMULATOR_SWEDEN) {
+
+            return new CreditCheckServiceEmulatorSweden();
         }
+
 
         throw new IllegalArgumentException("Can't create service, no implementation for credit bureau "+bureau.name()+" exists!");
     }

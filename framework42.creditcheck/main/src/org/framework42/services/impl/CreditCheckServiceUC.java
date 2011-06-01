@@ -9,6 +9,6 @@ public class CreditCheckServiceUC implements CreditCheckService {
     @Override
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) {
 
-        return null;
+        return application;
     }
 }

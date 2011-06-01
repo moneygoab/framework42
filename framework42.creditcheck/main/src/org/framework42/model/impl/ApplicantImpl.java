@@ -31,7 +31,7 @@ public class ApplicantImpl implements Applicant {
     private final int annualIncome;
 
     public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, Date birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome) {
-        this.id = id;
+        this.id = notNegative(id, "Id can't be of negative value!");
         this.governmentId = notNull(governmentId, "Government id can't be null!");
         this.riskLevel = notNull(riskLevel, "Risk level can't be null!");
         this.birthDate = notNull(birthDate, "Birth date can't be null!").getTime();

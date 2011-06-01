@@ -1,5 +1,7 @@
 package org.framework42.model;
 
+import org.framework42.model.users.Gender;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
