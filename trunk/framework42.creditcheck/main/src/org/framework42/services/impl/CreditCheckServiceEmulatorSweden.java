@@ -12,6 +12,7 @@ import org.framework42.datageneration.impl.SurnamesContainerSweden;
 import org.framework42.exceptions.CreditCheckException;
 import org.framework42.model.*;
 import org.framework42.model.impl.*;
+import org.framework42.model.users.Gender;
 import org.framework42.services.CreditCheckService;
 
 import java.math.BigDecimal;
@@ -83,9 +84,12 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
     private Applicant createApplicant(Applicant applicant) {
 
+        Gender gender = Gender.MALE;
+        if(Long.parseLong(applicant.getGovernmentId().substring(6, 9))%2 == 0) {
+            gender = Gender.FEMALE;
+        }
 
-
-        String firstName = firstNamesContainer.getRandomName();
+        String firstName = firstNamesContainer.getRandomName(gender);
         String surname = surnamesContainer.getRandomSurname();
 
         return new ApplicantImpl(
