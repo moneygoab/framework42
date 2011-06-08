@@ -48,7 +48,7 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");
         this.coApplicant = coApplicant;
-        this.creditBureauResponse = creditBureauResponse;
+        this.creditBureauResponse = notNull(creditBureauResponse, "Credit bureau response can't be null! Use constructor without this parameter instead.");
     }
 
     @Override

@@ -10,4 +10,8 @@ public interface CreditBureauContext {
 
     public String getName();
 
+    public String getPolicyProduct();
+
+    public String getPolicyRules();
+
 }

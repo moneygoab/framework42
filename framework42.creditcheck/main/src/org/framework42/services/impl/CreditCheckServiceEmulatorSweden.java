@@ -55,7 +55,8 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 application.getAppliedAmount(),
                 application.getApplicationChannel(),
                 createApplicant(application.getMainApplicant()),
-                createApplicant(application.getCoApplicant())
+                createApplicant(application.getCoApplicant()),
+                creditBureauResponse
         );
     }
 
