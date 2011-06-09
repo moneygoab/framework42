@@ -1,6 +1,5 @@
 package org.framework42.services.impl;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.MatchGenerator;
 import org.framework42.datageneration.CityContainer;
 import org.framework42.datageneration.FirstNamesContainer;
 import org.framework42.datageneration.StreetsContainer;
@@ -17,6 +16,8 @@ import org.framework42.services.CreditCheckService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.Random;
 
 public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
@@ -45,7 +46,11 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         CreditBureauApplicationResponse creditBureauResponse = new SimpleCreditBureauApplicationResponse(
                 decision,
                 application.getAppliedAmount(),
-                "Created by emulator credit check bureau, no html view available."
+                "Created by emulator credit check bureau, no html view available.",
+                new Random().nextInt(30),
+                new MoneyImpl(new BigDecimal(new Random().nextInt(500000)), Currency.getInstance(new Locale("sv", "SE"))),
+                0,
+                new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")))
         );
 
         return new CreditBureauApplicationImpl(
@@ -84,6 +89,10 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
     }
 
     private Applicant createApplicant(Applicant applicant) {
+
+        if(applicant == null || "".equals(applicant.getGovernmentId())) {
+            return null;
+        }
 
         Gender gender = Gender.MALE;
         if(Long.parseLong(applicant.getGovernmentId().substring(6, 9))%2 == 0) {

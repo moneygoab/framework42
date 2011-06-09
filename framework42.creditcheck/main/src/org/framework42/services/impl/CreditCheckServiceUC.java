@@ -57,7 +57,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 application.getApplicationChannel(),
                 createMainApplicant(reply, application),
                 createCoApplicant(reply, application),
-                createCreditBureauResponse(reply)
+                createCreditBureauResponse(reply, application)
         );
     }
 
@@ -196,7 +196,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
         String streetAddress = "";
         PostalCode postalCode = null;
         String city = "";
-        Country country = null;
+        Country country = Country.SWEDEN;
 
         for(Term term: group.getTerm()) {
 
@@ -239,11 +239,11 @@ public class CreditCheckServiceUC implements CreditCheckService {
         );
     }
 
-    private CreditBureauApplicationResponse createCreditBureauResponse(UcReply reply) {
+    private CreditBureauApplicationResponse createCreditBureauResponse(UcReply reply, CreditBureauApplication application) {
 
         Group decisionGroup = findResponseGroup(reply, "W131", 0);
 
-        Money recommendedCredit = null;
+        Money recommendedCredit = application.getAppliedAmount();
         CreditDecision creditDecision = null;
 
         for(Term term: decisionGroup.getTerm()) {
@@ -258,10 +258,45 @@ public class CreditCheckServiceUC implements CreditCheckService {
             }
         }
 
+        if(creditDecision != CreditDecision.APPROVED && creditDecision != CreditDecision.REVIEW_REQUIRED) {
+
+            recommendedCredit = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+        }
+
+        Group sumGroup = findResponseGroup(reply, "W611", 0);
+
+        Money declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+
+        int numberOfCreditChecks = 0;
+
+        int numberOfDebtCollections = 0;
+
+        Money sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+
+        for(Term term: sumGroup.getTerm()) {
+
+            if("W61109".equals(term.getId())) {
+
+                numberOfDebtCollections = Integer.parseInt(term.getValue());
+
+            } else if("W61110".equals(term.getId())) {
+
+                sumOfDebtCollections = new MoneyImpl(new BigDecimal(term.getValue()), Currency.getInstance(new Locale("sv", "SE")));
+
+            } else if("W61111".equals(term.getId())) {
+
+                numberOfCreditChecks = Integer.parseInt(term.getValue());
+            }
+        }
+
         return new SimpleCreditBureauApplicationResponse(
                 creditDecision,
                 recommendedCredit,
-                reply.getUcReport().get(0).getHtmlReply()
+                reply.getUcReport().get(0).getHtmlReply(),
+                numberOfCreditChecks,
+                declaredIncome,
+                numberOfDebtCollections,
+                sumOfDebtCollections
         );
     }
 
@@ -276,8 +311,8 @@ public class CreditCheckServiceUC implements CreditCheckService {
             }
         }
 
-        logger.error("UCCreditCheckService.findResponseGroup: No decision group found in uc reply (id: W131)");
-        throw new IllegalArgumentException("No decision group found in uc reply (id: W131)");
+        logger.error("UCCreditCheckService.findResponseGroup: No decision group found in uc reply (id: "+groupId+")");
+        throw new IllegalArgumentException("No decision group found in uc reply (id: "+groupId+")");
     }
 
     private void validateStatus(Status status) throws CreditCheckException {
