@@ -30,7 +30,7 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.status = notNull(status, "Status can't be null!");
-        this.applicationDate = notNull(applicationDate.getTime(), "Application date can't be null!");
+        this.applicationDate = notNull(applicationDate, "Application date can't be null!").getTime();
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");

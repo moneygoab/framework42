@@ -1,13 +1,15 @@
 package org.framework42.model;
 
+import com.sun.xml.internal.messaging.saaj.util.FinalArrayList;
+
 import static org.framework42.utils.NullChecker.notNull;
 
 public enum Country {
 
-    DENMARK("DK", "DNK", 208),
-    NORWAY("NO", "NOR", 578),
-    SWEDEN("SE", "SWE", 752),
-    FINLAND("FI", "FIN", 246);
+    DENMARK("DK", "DNK", 208, "DKK"),
+    NORWAY("NO", "NOR", 578, "NOK"),
+    SWEDEN("SE", "SWE", 752, "SEK"),
+    FINLAND("FI", "FIN", 246, "EUR");
 
     private final String alpha2Code;
 
@@ -15,12 +17,14 @@ public enum Country {
 
     private final int numericCode;
 
-    private Country(String alpha2Code, String alpha3Code, int numericCode) {
+    private final String currencyCode;
+
+    private Country(String alpha2Code, String alpha3Code, int numericCode, String currencyCode) {
 
         this.alpha2Code = alpha2Code;
         this.alpha3Code = alpha3Code;
         this.numericCode = numericCode;
-
+        this.currencyCode = currencyCode;
     }
 
     public String getCountryCode() {
@@ -37,6 +41,10 @@ public enum Country {
 
     public int getNumericCode() {
         return numericCode;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
     public static Country getById(int id) {
