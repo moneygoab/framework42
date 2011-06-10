@@ -12,16 +12,18 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final String creditBureauDecisionAsHtml;
 
-    private final int numberOfCreditChecks;
+    protected final int numberOfCreditChecks;
 
-    private final Money declaredIncome;
+    protected final Money declaredIncome;
 
-    private final int numberOfDebtCollections;
+    protected final int numberOfDebtCollections;
 
-    private final Money sumOfDebtCollections;
+    protected final Money sumOfDebtCollections;
+
+    protected final String reasonCodes;
 
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml,
-                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections) {
+                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, String reasonCodes) {
 
         this.creditBureauDecision = creditBureauDecision;
         this.recommendedAmount = recommendedAmount;
@@ -30,6 +32,7 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.declaredIncome = declaredIncome;
         this.numberOfDebtCollections = numberOfDebtCollections;
         this.sumOfDebtCollections = sumOfDebtCollections;
+        this.reasonCodes = reasonCodes;
     }
 
     @Override
@@ -65,6 +68,11 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     @Override
     public Money getSumOfDebtCollections() {
         return sumOfDebtCollections;
+    }
+
+    @Override
+    public String getReasonCodes() {
+        return reasonCodes;
     }
 
 }
