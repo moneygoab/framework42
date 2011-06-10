@@ -4,6 +4,7 @@ import org.framework42.creditcheck.model.ApplicantContactMethod;
 import org.framework42.model.ContactMethod;
 import org.framework42.model.InformationProvider;
 
+import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;
 
 public class ApplicantContactMethodImpl implements ApplicantContactMethod {
@@ -17,7 +18,7 @@ public class ApplicantContactMethodImpl implements ApplicantContactMethod {
     private final String address;
 
     public ApplicantContactMethodImpl(int id, ContactMethod contactMethod, InformationProvider informationProvider, String address) {
-        this.id = id;
+        this.id = notNegative(id, "Id can't be of negative value!");
         this.contactMethod = notNull(contactMethod, "Contact method can't be null!");
         this.informationProvider = notNull(informationProvider, "Information provider can't be null!");
         this.address = notNull(address, "Address value can't be null!");

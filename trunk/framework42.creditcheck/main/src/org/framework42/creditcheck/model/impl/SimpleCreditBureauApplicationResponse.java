@@ -4,6 +4,9 @@ import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
 import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.services.Money;
 
+import static org.framework42.utils.NotNegativeChecker.notNegative;
+import static org.framework42.utils.NullChecker.notNull;
+
 public class SimpleCreditBureauApplicationResponse implements CreditBureauApplicationResponse {
 
     protected final CreditDecision creditBureauDecision;
@@ -25,14 +28,14 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml,
                                                  int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, String reasonCodes) {
 
-        this.creditBureauDecision = creditBureauDecision;
-        this.recommendedAmount = recommendedAmount;
-        this.creditBureauDecisionAsHtml = creditBureauDecisionAsHtml;
-        this.numberOfCreditChecks = numberOfCreditChecks;
-        this.declaredIncome = declaredIncome;
-        this.numberOfDebtCollections = numberOfDebtCollections;
-        this.sumOfDebtCollections = sumOfDebtCollections;
-        this.reasonCodes = reasonCodes;
+        this.creditBureauDecision = notNull(creditBureauDecision, "Credit bureau decision can't be null!");
+        this.recommendedAmount = notNull(recommendedAmount, "Recommended amount can't be null!");
+        this.creditBureauDecisionAsHtml = notNull(creditBureauDecisionAsHtml, "Decision as HTML can't be null!");
+        this.numberOfCreditChecks = notNegative(numberOfCreditChecks, "Number of credit checks can't be of negative value!");
+        this.declaredIncome = notNull(declaredIncome, "Declared income can't be null!");
+        this.numberOfDebtCollections = notNegative(numberOfDebtCollections, "Number of debt collections can't be of negative value!");
+        this.sumOfDebtCollections = notNull(sumOfDebtCollections, "Sum of debt collections can't be null!");
+        this.reasonCodes = notNull(reasonCodes, "Reason codes can't be null!");
     }
 
     @Override
