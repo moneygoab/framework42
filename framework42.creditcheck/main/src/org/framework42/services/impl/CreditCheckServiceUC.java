@@ -75,6 +75,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
 
                 String cleaned = term.getValue().replaceAll("%", "").trim().replaceAll(",",".");
                 risk = Float.parseFloat(cleaned);
+
             }
         }
 
@@ -263,29 +264,63 @@ public class CreditCheckServiceUC implements CreditCheckService {
             recommendedCredit = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
         }
 
-        Group sumGroup = findResponseGroup(reply, "W611", 0);
+        Group incomeGroup = findResponseGroup(reply, "W491", 0);
 
         Money declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
 
-        int numberOfCreditChecks = 0;
+        for(Term term: incomeGroup.getTerm()) {
+
+                if("W49122".equals(term.getId())) {
+
+                    declaredIncome = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())*1000), Currency.getInstance(new Locale("sv", "SE")));
+
+                }
+            }
 
         int numberOfDebtCollections = 0;
 
         Money sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
 
+        try {
+            Group sumGroup = findResponseGroup(reply, "W611", 0);
+
+            for(Term term: sumGroup.getTerm()) {
+
+                if("W61109".equals(term.getId())) {
+
+                    numberOfDebtCollections = Integer.parseInt(term.getValue());
+
+                } else if("W61110".equals(term.getId())) {
+
+                    sumOfDebtCollections = new MoneyImpl(new BigDecimal(term.getValue()), Currency.getInstance(new Locale("sv", "SE")));
+
+                }
+            }
+        } catch(IllegalArgumentException e) {
+
+            logger.debug("Non required data not present for credit check statistics -- " + e);
+        }
+
+
+        Group sumGroup = findResponseGroup(reply, "W640", 0);
+
+        int numberOfCreditChecks = 0;
+
         for(Term term: sumGroup.getTerm()) {
 
-            if("W61109".equals(term.getId())) {
-
-                numberOfDebtCollections = Integer.parseInt(term.getValue());
-
-            } else if("W61110".equals(term.getId())) {
-
-                sumOfDebtCollections = new MoneyImpl(new BigDecimal(term.getValue()), Currency.getInstance(new Locale("sv", "SE")));
-
-            } else if("W61111".equals(term.getId())) {
+            if("W64001".equals(term.getId())) {
 
                 numberOfCreditChecks = Integer.parseInt(term.getValue());
+            }
+        }
+
+        String reasonCodes = "";
+
+        for(Term term: decisionGroup.getTerm()) {
+
+            if("W13114 ".equals(term.getValue())) {
+
+                reasonCodes = term.getValue();
             }
         }
 
@@ -296,7 +331,8 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 numberOfCreditChecks,
                 declaredIncome,
                 numberOfDebtCollections,
-                sumOfDebtCollections
+                sumOfDebtCollections,
+                reasonCodes
         );
     }
 
@@ -311,7 +347,6 @@ public class CreditCheckServiceUC implements CreditCheckService {
             }
         }
 
-        logger.error("UCCreditCheckService.findResponseGroup: No decision group found in uc reply (id: "+groupId+")");
         throw new IllegalArgumentException("No decision group found in uc reply (id: "+groupId+")");
     }
 

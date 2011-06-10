@@ -18,4 +18,6 @@ public interface CreditBureauApplicationResponse {
 
     public Money getSumOfDebtCollections();
 
+    public String getReasonCodes();
+
 }
