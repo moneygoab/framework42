@@ -2,6 +2,7 @@ package org.framework42.web.pagelogic;
 
 import org.framework42.exceptions.ManageableException;
 import org.framework42.i18n.I18N;
+import org.framework42.model.ParameterType;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pageflow.Flowable;
 import org.framework42.web.pageflow.FlowableApp;
