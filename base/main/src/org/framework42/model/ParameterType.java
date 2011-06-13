@@ -1,4 +1,4 @@
-package org.framework42.web.pagemodel;
+package org.framework42.model;
 
 public enum ParameterType {
 
