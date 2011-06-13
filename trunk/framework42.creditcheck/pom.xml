@@ -7,7 +7,7 @@
 
     <groupId>org.framework42</groupId>
     <artifactId>framework42.creditcheck</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Credit check</name>
