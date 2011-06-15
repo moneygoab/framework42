@@ -52,4 +52,16 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static Date stepForward(Date currentDate, int numberOfSteps) {
+
+            notNull(currentDate, "Current date can't be null!");
+
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(currentDate);
+            cal.add(Calendar.MILLISECOND, numberOfSteps);
+
+            return cal.getTime();
+        }
+
+
 }
