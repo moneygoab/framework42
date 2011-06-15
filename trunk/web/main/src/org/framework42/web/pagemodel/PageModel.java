@@ -95,6 +95,14 @@ public abstract class PageModel {
         return false;
     }
 
+    public String getInParameterAsString(String key) {
+        return inParameters.get(key).getAsString();
+    }
+
+    public Integer getInParameterAsInt(String key) {
+        return inParameters.get(key).getAsInt();
+    }
+
     /**
      * Returns the html parameters that was sent to the page.
      * @return Returns the html parameters that was sent to the page.
