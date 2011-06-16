@@ -2,8 +2,10 @@ package org.framework42.web.components.standardhtml;
 
 import org.framework42.model.MimeType;
 import org.framework42.web.components.*;
+import org.framework42.web.components.js_components.JavaScript;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
+import org.framework42.web.pagemodel.Parameter;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
@@ -13,6 +15,8 @@ import java.util.List;
 import static org.framework42.utils.NullChecker.notNull;
 
 public class Form extends HtmlComponent {
+
+    public static String ERROR_BG_COLOR = "#ff7777";
 
     private Builder builder;
 
@@ -24,6 +28,8 @@ public class Form extends HtmlComponent {
 
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+
+        htmlBuilder.append(createValidation().getHtml(page, parent, false));
 
         htmlBuilder.append("<form name=\"");
         htmlBuilder.append(builder.name);
@@ -39,6 +45,12 @@ public class Form extends HtmlComponent {
         if(builder.onReset!=null){
             htmlBuilder.append(" onreset=\"");
             htmlBuilder.append(builder.onReset);
+            htmlBuilder.append("\"");
+        }
+
+        if(builder.onSubmit!=null){
+            htmlBuilder.append(" onsubmit=\"");
+            htmlBuilder.append(builder.onSubmit);
             htmlBuilder.append("\"");
         }
 
@@ -76,6 +88,58 @@ public class Form extends HtmlComponent {
 
     }
 
+    private JavaScript createValidation() {
+
+        List<HtmlComponentInput> componentList = builder.getInputComponents();
+
+        JavaScript.Builder javaScript = new JavaScript.Builder();
+
+        javaScript.addScriptLine("var oldStyle = {};");
+
+        if(componentList.size()>0) {
+
+            javaScript.addScriptLine("function validateFormComponent(componentId, parameterType, isRequired) {");
+            javaScript.addScriptLine("\t");
+            javaScript.addScriptLine("\t if(document.getElementById(componentId).value == '' && isRequired) {");
+            javaScript.addScriptLine("\t\t");
+            javaScript.addScriptLine("\t\t if(oldStyle[componentId] == null) {");
+            javaScript.addScriptLine("\t\t\t oldBackground = document.getElementById(componentId).style.background;");
+            javaScript.addScriptLine("\t\t\t oldStyle[componentId] = {background:oldBackground};");
+            javaScript.addScriptLine("\t\t }");
+            javaScript.addScriptLine("\t\t document.getElementById(componentId).style.background = '"+builder.errorBackgroundColor+"';");
+            javaScript.addScriptLine("\t\t return false;");
+            javaScript.addScriptLine("\t } else {");
+            javaScript.addScriptLine("\t\t");
+            javaScript.addScriptLine("\t\t if(oldStyle[componentId] != null && oldStyle[componentId].background != null) {");
+            javaScript.addScriptLine("\t\t\t document.getElementById(componentId).style.background = oldStyle[componentId].background;");
+            javaScript.addScriptLine("\t\t }");
+            javaScript.addScriptLine("\t }");
+            javaScript.addScriptLine("\t");
+            javaScript.addScriptLine("\t return true;");
+
+            javaScript.addScriptLine("}");
+            javaScript.addScriptLine("");
+            javaScript.addScriptLine("function validateForm() {");
+            javaScript.addScriptLine("\t numberOfUnvalidated = 0;");
+            for(HtmlComponentInput component: componentList) {
+                Parameter param = component.getParameter();
+                javaScript.addScriptLine("\t if(!validateFormComponent('"+component.getId()+"', '"+param.getParameterType().name()+"', "+param.isRequired()+")) {");
+                javaScript.addScriptLine("\t\t numberOfUnvalidated++;");
+                javaScript.addScriptLine("\t }");
+                javaScript.addScriptLine("\t");
+            }
+            javaScript.addScriptLine("\t if(numberOfUnvalidated>0) {");
+            javaScript.addScriptLine("\t\t return false;");
+            javaScript.addScriptLine("\t } else {");
+            javaScript.addScriptLine("\t\t return true;");
+            javaScript.addScriptLine("\t }");
+            javaScript.addScriptLine("}");
+
+        }
+
+        return javaScript.build();
+    }
+
     public static class Builder extends EventComponentBuilder<Form> implements HtmlComponentStorage<HtmlComponent> {
 
         private final String name;
@@ -86,11 +150,15 @@ public class Form extends HtmlComponent {
 
         private String onReset = null;
 
+        private String onSubmit = null;
+
         private String accept = null;
 
         private String encodingType = null;
 
         private String style = null;
+
+        private String errorBackgroundColor = null;
 
         private PageAction submitPageAction = BasePageAction.SUBMIT_FORM;
 
@@ -100,10 +168,17 @@ public class Form extends HtmlComponent {
             this.actionId = notNull(actionId, "Action id can't be null!");
             this.postMethod = notNull(postMethod, "Post method can't be null!");
             this.formComponents = new ArrayList<HtmlComponent>();
+
+            this.onSubmit = "return validateForm();";
         }
 
         public Builder onReset(String onReset){
             this.onReset = onReset;
+            return this;
+        }
+
+        public Builder onSubmit(String onSubmit) {
+            this.onSubmit = onSubmit;
             return this;
         }
 
@@ -127,6 +202,31 @@ public class Form extends HtmlComponent {
             return this;
         }
 
+        public Builder errorBackgroundColor(String errorBackgroundColor) {
+
+            if(!errorBackgroundColor.startsWith("#")) {
+                errorBackgroundColor = "#"+errorBackgroundColor;
+            }
+            this.errorBackgroundColor = errorBackgroundColor;
+
+            return this;
+        }
+
+        public List<HtmlComponentInput> getInputComponents() {
+
+            List<HtmlComponentInput> foundComponents = new ArrayList<HtmlComponentInput>();
+
+            for(HtmlComponent component: formComponents) {
+
+                if(component instanceof HtmlComponentInput) {
+
+                    foundComponents.add((HtmlComponentInput)component);
+                }
+            }
+
+            return foundComponents;
+        }
+
         @Override
         public void add(HtmlComponent htmlComponent) {
             formComponents.add(htmlComponent);
@@ -134,6 +234,11 @@ public class Form extends HtmlComponent {
 
         @Override
         public Form build() {
+
+            if(errorBackgroundColor==null) {
+                errorBackgroundColor = Form.ERROR_BG_COLOR;
+            }
+
             return new Form(this);
         }
 

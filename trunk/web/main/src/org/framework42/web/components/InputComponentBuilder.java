@@ -1,6 +1,12 @@
 package org.framework42.web.components;
 
+import org.framework42.model.ParameterType;
+import org.framework42.web.pagemodel.Parameter;
+import org.framework42.web.pagemodel.ParameterImpl;
+
 public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> {
+
+    protected Parameter parameter = new ParameterImpl<String>("", ParameterType.STRING, false, "");
 
     protected String onBlur = null;
 
@@ -30,14 +36,13 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
         this.value = value;
 
         this.autoFocus = false;
-
     }
 
     /**
      * This method should be called from the html generation in the extending class constructor.
      * @return String The generated html code to be included in the extending class constructor.
      * */
-    public String addGeneralComponents(){
+    public String addGeneralComponents() {
 
         StringBuilder html = new StringBuilder();
 
@@ -106,6 +111,17 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
         return html.toString();
 
+    }
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public InputComponentBuilder<T> parameter(Parameter parameter) {
+
+        this.parameter = parameter;
+
+        return this;
     }
 
     public InputComponentBuilder<T> onBlur(String onBlurEvent){

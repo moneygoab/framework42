@@ -1,23 +1,21 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.components.HtmlComponentInput;
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.pagemodel.Parameter;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 
-public class TextField extends HtmlComponent {
+public class TextField extends HtmlComponent implements HtmlComponentInput {
 
     private Builder builder;
 
-    public TextField(String name, String value) {
-
-        this.builder = new Builder(name, value);
+    public TextField(String id, String name, String value) {
+        this.builder = new Builder(id, name, value);
     }
 
     private TextField(Builder builder) {
-
         this.builder = builder;
-
     }
 
     @Override
@@ -41,14 +39,25 @@ public class TextField extends HtmlComponent {
 
     }
 
+    @Override
+    public String getId() {
+        return builder.getId();
+    }
+
+    @Override
+    public Parameter getParameter() {
+        return builder.getParameter();
+    }
+
     public static class Builder extends InputComponentBuilder<TextField> {
 
         private String readonly = null;
 
         private String maxLength = null;
 
-        public Builder(String name, String value) {
+        public Builder(String id, String name, String value) {
             super(name, value);
+            this.id = id;
         }
 
         public Builder readonly(boolean readonly){
@@ -72,8 +81,17 @@ public class TextField extends HtmlComponent {
             return this;
         }
 
+        public String getId(){
+            return id;
+        }
+
         @Override
         public TextField build() {
+
+            if(this.onBlur==null) {
+                this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
+            }
+
             return new TextField(this);
         }
     }
