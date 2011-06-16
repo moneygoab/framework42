@@ -1,76 +1,106 @@
 package org.framework42.web.components.standardhtml;
 
+import org.framework42.model.ParameterType;
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.components.HtmlComponentInput;
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.pagemodel.Parameter;
+import org.framework42.web.pagemodel.ParameterImpl;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
-public class PasswordField extends HtmlComponent {
+public class PasswordField extends HtmlComponent implements HtmlComponentInput {
 
-   private Builder builder;
+    private Builder builder;
 
-   private PasswordField(Builder builder) {
+    private PasswordField(Builder builder) {
 
-      this.builder = builder;
+        this.builder = builder;
 
-   }
+    }
 
-   @Override
-   protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
+    @Override
+    protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-      htmlBuilder.append("<input type=\"password\"");
+        htmlBuilder.append("<input type=\"password\"");
 
-      htmlBuilder.append(builder.addGeneralComponents());
+        htmlBuilder.append(builder.addGeneralComponents());
 
-      if(builder.readonly!=null){
-         htmlBuilder.append(" readonly");
-      }
+        if(builder.readonly!=null){
+            htmlBuilder.append(" readonly");
+        }
 
-      if(builder.maxLength!=null){
-         htmlBuilder.append(" maxlength=\"");
-         htmlBuilder.append(builder.maxLength);
-         htmlBuilder.append("\"");
-      }
+        if(builder.maxLength!=null){
+            htmlBuilder.append(" maxlength=\"");
+            htmlBuilder.append(builder.maxLength);
+            htmlBuilder.append("\"");
+        }
 
-      htmlBuilder.append(">\n");
+        htmlBuilder.append(">\n");
 
-   }
+    }
 
-   public static class Builder extends InputComponentBuilder<PasswordField> {
+    @Override
+    public String getId() {
+        return builder.getId();
+    }
 
-      private String readonly = null;
+    @Override
+    public Parameter getParameter() {
+        return builder.getParameter();
+    }
 
-      private String maxLength = null;
+    public static class Builder extends InputComponentBuilder<PasswordField> {
 
-      public Builder(String name, String value) {
-         super(name, value);
-      }
+        private String readonly = null;
 
-      public Builder readonly(boolean readonly){
+        private String maxLength = null;
 
-         if(readonly){
-            this.readonly = "readonly";
-         }else{
-            this.readonly = null;
-         }
-         return this;
+        public Builder(String id, String name, String value) {
+            super(name, value);
+            this.id = id;
+        }
 
-      }
+        public Builder(String id, String name, String value, Parameter parameter) {
+            super(name, value);
+            this.id = id;
+            this.parameter = parameter;
+        }
 
-      public Builder maxLength(int maxLength){
+        public Builder readonly(boolean readonly){
 
-         if(maxLength>0){
-            this.maxLength = Integer.toString(maxLength);
-         }else{
-            this.maxLength = null;
-         }
-         return this;
-      }
+            if(readonly){
+                this.readonly = "readonly";
+            }else{
+                this.readonly = null;
+            }
+            return this;
 
-      @Override
-      public PasswordField build() {
-         return new PasswordField(this);
-      }
-   }
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Builder maxLength(int maxLength){
+
+            if(maxLength>0){
+                this.maxLength = Integer.toString(maxLength);
+            }else{
+                this.maxLength = null;
+            }
+            return this;
+        }
+
+        @Override
+        public PasswordField build() {
+
+            if(this.onBlur==null) {
+                this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
+            }
+
+            return new PasswordField(this);
+        }
+    }
 
 }
