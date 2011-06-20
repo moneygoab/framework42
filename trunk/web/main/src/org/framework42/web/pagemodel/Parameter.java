@@ -12,10 +12,10 @@ public interface Parameter <T> {
     
     public T getValue();
 
-    public String getAsString();
+    public String asString();
 
-    public int getAsInt();
+    public int asInt();
 
-    public boolean getAsBoolean();
+    public boolean asBoolean();
 
 }

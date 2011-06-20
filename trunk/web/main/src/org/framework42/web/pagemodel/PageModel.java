@@ -96,11 +96,11 @@ public abstract class PageModel {
     }
 
     public String getInParameterAsString(String key) {
-        return inParameters.get(key).getAsString();
+        return inParameters.get(key).asString();
     }
 
     public Integer getInParameterAsInt(String key) {
-        return inParameters.get(key).getAsInt();
+        return inParameters.get(key).asInt();
     }
 
     /**

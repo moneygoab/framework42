@@ -127,7 +127,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         if(pageModel.getInParameters().containsKey("form_action")) {
 
-            String formActionId = pageModel.getInParameters().get("form_action").getAsString();
+            String formActionId = pageModel.getInParameters().get("form_action").asString();
 
             for(FormListener<T,R> formListener: formListenerList) {
 
@@ -183,7 +183,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
 
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getAsString());
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").asString());
                 if( tabEnv.getId() == tabId) {
 
                     tabableApp.setActiveTabEnvironment(tabEnv);
@@ -206,7 +206,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
 
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").getAsString());
+                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").asString());
                 if( tabEnv.getId() == tabId) {
 
                     tabableApp.setActiveTabEnvironment(tabableApp.getTabEnvironments().get(0));
@@ -293,7 +293,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         if(pageModel.getInParameters().containsKey("action")) {
 
             pageModel.setCurrentPageAction(
-                    new PageActionImpl(0, pageModel.getInParameters().get("action").getAsString())
+                    new PageActionImpl(0, pageModel.getInParameters().get("action").asString())
             );
 
         } else {
