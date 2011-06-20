@@ -12,7 +12,7 @@ public abstract class HtmlComponent {
 
     protected int tabOffset = 1;
 
-    protected final Logger logger = Logger.getLogger("com.nummer42.poeter");
+    protected final Logger logger = Logger.getLogger("org.framework42.web");
 
     protected HtmlComponent() {
         htmlBuilder = new StringBuilder();

@@ -42,7 +42,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
         PreparedStatement ps = null;
         try {
 
-            ps = con.prepareStatement("SELECT * FROM i18n_text ORDER BY keyValue");
+            ps = con.prepareStatement("SELECT * FROM i18n_text ORDER BY key_value");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -53,7 +53,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
                     hashMap.put(locale, new HashMap<String, String>());
                 }
 
-                String keyValue = rs.getString("keyValue");
+                String keyValue = rs.getString("key_value");
                 if(hashMap.get(locale).containsKey(keyValue)) {
                     logger.warn("Duplicate key in I18N, key: " + keyValue);
                 }
@@ -86,7 +86,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
         PreparedStatement ps = null;
         try {
 
-            ps = con.prepareStatement("SELECT * FROM i18n_url ORDER BY keyValue");
+            ps = con.prepareStatement("SELECT * FROM i18n_url ORDER BY key_value");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -97,7 +97,7 @@ public class SimpleDatabaseI18NDataProvider implements I18NDataProvider {
                     hashMapURL.put(locale, new HashMap<String, String>());
                 }
 
-                String keyValue = rs.getString("keyValue");
+                String keyValue = rs.getString("key_value");
                 if(hashMapURL.get(locale).containsKey(keyValue)) {
                     logger.warn("Duplicate key in I18N URL, key: " + keyValue);
                 }
