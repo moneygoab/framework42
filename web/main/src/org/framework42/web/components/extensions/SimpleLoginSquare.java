@@ -32,8 +32,8 @@ public class SimpleLoginSquare extends HtmlComponent {
 
 
         loginSquare.add(new Headline.Builder(Headline.H2, i18n.get("login_title", locale)).className("white").build());
-        //TODO: Use form listener
-        Form.Builder loginForm = new Form.Builder("login_form", i18n.getURL("login_page", locale), "", HtmlPostMethod.POST);
+
+        Form.Builder loginForm = new Form.Builder("login_form", i18n.getURL("login_page", locale), "login_form", HtmlPostMethod.POST);
 
         loginForm.add(new Label(i18n.get("user_name", locale)));
         loginForm.add(new Break());

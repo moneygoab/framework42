@@ -47,18 +47,18 @@ public class ParameterImpl<T> implements Parameter<T> {
     }
 
     @Override
-    public String getAsString() {
+    public String asString() {
         return parameterValue.toString();
     }
 
     @Override
-    public int getAsInt() {
+    public int asInt() {
         return Integer.parseInt(parameterValue.toString());
 
     }
 
     @Override
-    public boolean getAsBoolean() {
+    public boolean asBoolean() {
         return Boolean.parseBoolean(parameterValue.toString());
     }
 
