@@ -100,14 +100,20 @@ public class Form extends HtmlComponent {
 
             javaScript.addScriptLine("function validateFormComponent(componentId, parameterType, isRequired) {");
             javaScript.addScriptLine("\t");
-            javaScript.addScriptLine("\t if(document.getElementById(componentId).value == '' && isRequired) {");
-            javaScript.addScriptLine("\t\t");
-            javaScript.addScriptLine("\t\t if(oldStyle[componentId] == null) {");
-            javaScript.addScriptLine("\t\t\t oldBackground = document.getElementById(componentId).style.background;");
-            javaScript.addScriptLine("\t\t\t oldStyle[componentId] = {background:oldBackground};");
+            javaScript.addScriptLine("alert(parameterType+':'+componentId);");
+            javaScript.addScriptLine("\t if(parameterType == 'STRING') {");
+            javaScript.addScriptLine("\t\t if(document.getElementById(componentId).value == '' && isRequired) {");
+            javaScript.addScriptLine("\t\t\t");
+            javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
+            javaScript.addScriptLine("\t\t\t return false;");
             javaScript.addScriptLine("\t\t }");
-            javaScript.addScriptLine("\t\t document.getElementById(componentId).style.background = '"+builder.errorBackgroundColor+"';");
-            javaScript.addScriptLine("\t\t return false;");
+            javaScript.addScriptLine("\t } else if(parameterType == 'COMBO_BOX') {");
+            javaScript.addScriptLine("\t\t ");
+            javaScript.addScriptLine("\t\t if(document.getElementById(componentId).value == '0' && isRequired) {");
+            javaScript.addScriptLine("\t\t\t");
+            javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
+            javaScript.addScriptLine("\t\t\t return false;");
+            javaScript.addScriptLine("\t\t }");
             javaScript.addScriptLine("\t } else {");
             javaScript.addScriptLine("\t\t");
             javaScript.addScriptLine("\t\t if(oldStyle[componentId] != null && oldStyle[componentId].background != null) {");
@@ -117,6 +123,14 @@ public class Form extends HtmlComponent {
             javaScript.addScriptLine("\t");
             javaScript.addScriptLine("\t return true;");
 
+            javaScript.addScriptLine("}");
+            javaScript.addScriptLine("");
+            javaScript.addScriptLine("function setFormComponentLook(componentId) {");
+            javaScript.addScriptLine("\t if(oldStyle[componentId] == null) {");
+            javaScript.addScriptLine("\t\t oldBackground = document.getElementById(componentId).style.background;");
+            javaScript.addScriptLine("\t\t oldStyle[componentId] = {background:oldBackground};");
+            javaScript.addScriptLine("\t }");
+            javaScript.addScriptLine("\t document.getElementById(componentId).style.background = '"+builder.errorBackgroundColor+"';");
             javaScript.addScriptLine("}");
             javaScript.addScriptLine("");
             javaScript.addScriptLine("function validateForm() {");
@@ -221,6 +235,7 @@ public class Form extends HtmlComponent {
                 if(component instanceof HtmlComponentInput) {
 
                     foundComponents.add((HtmlComponentInput)component);
+
                 }
             }
 
