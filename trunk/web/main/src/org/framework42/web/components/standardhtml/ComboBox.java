@@ -1,13 +1,16 @@
 package org.framework42.web.components.standardhtml;
 
 import org.framework42.web.components.HtmlComponent;
+import org.framework42.web.components.HtmlComponentInput;
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.pagemodel.Parameter;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 
+import java.net.URLDecoder;
 import java.util.List;
 
-public class ComboBox extends HtmlComponent {
+public class ComboBox extends HtmlComponent implements HtmlComponentInput {
 
     private Builder builder;
 
@@ -50,6 +53,16 @@ public class ComboBox extends HtmlComponent {
 
     }
 
+    @Override
+    public String getId() {
+        return builder.getId();
+    }
+
+    @Override
+    public Parameter getParameter() {
+        return builder.getParameter();
+    }
+
     public static class Builder extends InputComponentBuilder<ComboBox> {
 
         private final List<Option> options;
@@ -81,8 +94,18 @@ public class ComboBox extends HtmlComponent {
             return this;
         }
 
+        public String getId() {
+
+            return id;
+        }
+
         @Override
         public ComboBox build() {
+
+            if(this.onBlur==null) {
+                this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
+            }
+
             return new ComboBox(this);
         }
     }
