@@ -1,6 +1,7 @@
 package org.framework42.web.pagelogic;
 
 import org.framework42.exceptions.ManageableException;
+import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.ParameterType;
 import org.framework42.web.exceptions.StopServletExecutionException;
@@ -123,7 +124,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     }
 
-    private void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) {
+    private void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws StopServletExecutionException {
 
         if(pageModel.getInParameters().containsKey("form_action")) {
 
@@ -131,10 +132,17 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             for(FormListener<T,R> formListener: formListenerList) {
 
-                formListener.tryFormEvent(formActionId, req, resp, session, pageModel);
+                try {
+
+                    formListener.tryFormEvent(formActionId, req, resp, session, pageModel);
+
+                } catch(NotAuthorizedException e) {
+
+                    logger.error(e.getMessage());
+                    throw new StopServletExecutionException();
+                }
             }
         }
-
     }
 
     private void checkFlowable(HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {

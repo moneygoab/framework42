@@ -82,7 +82,7 @@ public class Form extends HtmlComponent {
         }
 
         htmlBuilder.append(new Hidden.Builder("action", builder.submitPageAction.getIdentifier()).build().getHtml(page, this, false));
-        
+
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</form>\n");
 
@@ -100,7 +100,6 @@ public class Form extends HtmlComponent {
 
             javaScript.addScriptLine("function validateFormComponent(componentId, parameterType, isRequired) {");
             javaScript.addScriptLine("\t");
-            javaScript.addScriptLine("alert(parameterType+':'+componentId);");
             javaScript.addScriptLine("\t if(parameterType == 'STRING') {");
             javaScript.addScriptLine("\t\t if(document.getElementById(componentId).value == '' && isRequired) {");
             javaScript.addScriptLine("\t\t\t");
@@ -114,12 +113,12 @@ public class Form extends HtmlComponent {
             javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
             javaScript.addScriptLine("\t\t\t return false;");
             javaScript.addScriptLine("\t\t }");
-            javaScript.addScriptLine("\t } else {");
-            javaScript.addScriptLine("\t\t");
-            javaScript.addScriptLine("\t\t if(oldStyle[componentId] != null && oldStyle[componentId].background != null) {");
-            javaScript.addScriptLine("\t\t\t document.getElementById(componentId).style.background = oldStyle[componentId].background;");
-            javaScript.addScriptLine("\t\t }");
             javaScript.addScriptLine("\t }");
+            javaScript.addScriptLine("\t");
+            javaScript.addScriptLine("\t if(oldStyle[componentId] != null && oldStyle[componentId].background != null) {");
+            javaScript.addScriptLine("\t\t document.getElementById(componentId).style.background = oldStyle[componentId].background;");
+            javaScript.addScriptLine("\t }");
+            //javaScript.addScriptLine("\t }");
             javaScript.addScriptLine("\t");
             javaScript.addScriptLine("\t return true;");
 
@@ -136,11 +135,14 @@ public class Form extends HtmlComponent {
             javaScript.addScriptLine("function validateForm() {");
             javaScript.addScriptLine("\t numberOfUnvalidated = 0;");
             for(HtmlComponentInput component: componentList) {
-                Parameter param = component.getParameter();
-                javaScript.addScriptLine("\t if(!validateFormComponent('"+component.getId()+"', '"+param.getParameterType().name()+"', "+param.isRequired()+")) {");
-                javaScript.addScriptLine("\t\t numberOfUnvalidated++;");
-                javaScript.addScriptLine("\t }");
-                javaScript.addScriptLine("\t");
+
+                if(component.getId()!=null) {
+                    Parameter param = component.getParameter();
+                    javaScript.addScriptLine("\t if(!validateFormComponent('"+component.getId()+"', '"+param.getParameterType().name()+"', "+param.isRequired()+")) {");
+                    javaScript.addScriptLine("\t\t numberOfUnvalidated++;");
+                    javaScript.addScriptLine("\t }");
+                    javaScript.addScriptLine("\t");
+                }
             }
             javaScript.addScriptLine("\t if(numberOfUnvalidated>0) {");
             javaScript.addScriptLine("\t\t return false;");

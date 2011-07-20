@@ -1,16 +1,20 @@
 package org.framework42.web.components.standardhtml;
 
+import org.framework42.model.MimeType;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.InputComponentBuilder;
 import org.framework42.web.pages.WebPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUpload extends HtmlComponent {
 
     private Builder builder;
 
-    public FileUpload(String name, String value) {
+    public FileUpload(String name, String value, List<MimeType> allowedMimeTypes) {
 
-        this.builder = new Builder(name, value);
+        this.builder = new Builder(name, value, allowedMimeTypes);
     }
 
     private FileUpload(Builder builder) {
@@ -26,14 +30,44 @@ public class FileUpload extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
+        if(builder.allowedMimeTypes.size()>0) {
+            htmlBuilder.append(" accept=\"");
+            for(int i=0; i<builder.allowedMimeTypes.size();i++) {
+                MimeType mimeType = builder.allowedMimeTypes.get(i);
+                htmlBuilder.append(mimeType.toString());
+                if(i+1<builder.allowedMimeTypes.size()) {
+                    htmlBuilder.append(",");
+                }
+            }
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
     }
 
     public static class Builder extends InputComponentBuilder<FileUpload> {
 
+        private List<MimeType> allowedMimeTypes;
+
         public Builder(String name, String value) {
+
             super(name, value);
+
+            this.allowedMimeTypes = new ArrayList<MimeType>();
+        }
+
+        public Builder(String name, String value, List<MimeType> allowedMimeTypes) {
+            super(name, value);
+
+            this.allowedMimeTypes = allowedMimeTypes;
+        }
+
+        public Builder addAllowedMimeType(MimeType mimeType) {
+
+            allowedMimeTypes.add(mimeType);
+
+            return this;
         }
 
         @Override
