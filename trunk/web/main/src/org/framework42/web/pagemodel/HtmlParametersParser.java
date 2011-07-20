@@ -10,6 +10,7 @@ import org.framework42.web.exceptions.ParseUnrequiredException;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -40,8 +41,10 @@ public enum HtmlParametersParser {
 
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload(factory);
+            upload.setHeaderEncoding("UTF-8");
 
             try {
+
                 // Parse the request
                 @SuppressWarnings("unchecked")
                 List<FileItem> itemList = upload.parseRequest(req);
@@ -51,7 +54,17 @@ public enum HtmlParametersParser {
                     if (item.isFormField()) {
 
                         String keyValue = item.getFieldName();
+
                         String value = item.getString();
+
+                        try {
+
+                            value = new String(item.getString().getBytes("ISO-8859-1"), "UTF-8");
+
+                        } catch(UnsupportedEncodingException e) {
+
+                            logger.debug(e.getMessage());
+                        }
 
                         parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
 
@@ -73,6 +86,8 @@ public enum HtmlParametersParser {
                 String keyValue = key.toString();
                 String value = req.getParameter(keyValue);
 
+                value = washValue(value);
+
                 parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
             }
         }
@@ -81,6 +96,14 @@ public enum HtmlParametersParser {
 
         return parsedParameters;
 
+    }
+
+    private String washValue(String value) {
+
+        value = value.replaceAll("<", "&#60;");
+        value = value.replaceAll(">", "&#62;");
+
+        return value;
     }
 
     private void parseParameter(HttpServletRequest req, UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {

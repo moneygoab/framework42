@@ -52,7 +52,7 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
         if(value.length()>0){
             html.append(" value=\"");
-            html.append(value);
+            html.append(value.replaceAll("\"", "&quot;"));
             html.append("\"");
         }
 
