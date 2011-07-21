@@ -88,6 +88,8 @@ public enum HtmlParametersParser {
 
                 value = washValue(value);
 
+                logger.debug(keyValue+":"+value);
+
                 parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
             }
         }
