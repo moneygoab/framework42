@@ -20,6 +20,10 @@ public enum AgeCalculatorImpl implements AgeCalculator {
         Calendar birthCal = new GregorianCalendar();
         birthCal.setTime(birthDate);
 
+        if(birthCal.get(GregorianCalendar.YEAR) == 9999) {
+            return 0;
+        }
+
         now.add(GregorianCalendar.YEAR, birthCal.get(GregorianCalendar.YEAR)*-1);
         now.add(GregorianCalendar.MONTH, birthCal.get(GregorianCalendar.MONTH)*-1);
         now.add(GregorianCalendar.DAY_OF_MONTH, birthCal.get(GregorianCalendar.DAY_OF_MONTH)*-1);

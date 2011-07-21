@@ -109,6 +109,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         //System.out.println(req.getHeader("accept")+"*****");
         if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
 
+            logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
+
             Html.Builder htmlBuilder = new Html.Builder();
 
             T session = null;
