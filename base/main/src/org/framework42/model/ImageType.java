@@ -55,6 +55,10 @@ public enum ImageType {
             return JPG;
         }
 
+        else if("image/pjpeg".equalsIgnoreCase(mimeType)) {
+            return JPG;
+        }
+
         else if("image/png".equalsIgnoreCase(mimeType)) {
             return PNG;
         }

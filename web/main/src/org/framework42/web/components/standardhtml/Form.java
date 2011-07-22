@@ -101,7 +101,8 @@ public class Form extends HtmlComponent {
             javaScript.addScriptLine("function validateFormComponent(componentId, parameterType, isRequired) {");
             javaScript.addScriptLine("\t");
             javaScript.addScriptLine("\t if(parameterType == 'STRING') {");
-            javaScript.addScriptLine("\t\t if(document.getElementById(componentId).value == '' && isRequired) {");
+            javaScript.addScriptLine("\t\t var whiteString = document.getElementById(componentId).value.replace(/^\\s+|\\s+$/g, '') ;");
+            javaScript.addScriptLine("\t\t if((document.getElementById(componentId).value == '' || whiteString.length == 0) && isRequired) {");
             javaScript.addScriptLine("\t\t\t");
             javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
             javaScript.addScriptLine("\t\t\t return false;");
