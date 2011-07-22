@@ -1,6 +1,7 @@
 package org.framework42.web.pagelogic;
 
 import org.apache.log4j.Logger;
+import org.framework42.exceptions.ManageableException;
 import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.web.pagemodel.PageModel;
 import org.framework42.web.session.UserSession;
@@ -19,15 +20,15 @@ public abstract class FormListener<T extends UserSession, R extends PageModel> {
         this.logger = Logger.getLogger(loggerId);
     }
 
-    public void tryFormEvent(String currentFormEventId, HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws NotAuthorizedException {
+    public void tryFormEvent(String currentFormEventId, HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws NotAuthorizedException, ManageableException {
 
-        System.out.println(formEventId+":"+currentFormEventId);
+//        System.out.println(formEventId+":"+currentFormEventId);
         if(formEventId.equalsIgnoreCase(currentFormEventId)) {
 
             handleFormEvent(req, resp, session, pageModel);
         }
     }
 
-    protected abstract void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws NotAuthorizedException;
+    protected abstract void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws NotAuthorizedException, ManageableException;
 
 }

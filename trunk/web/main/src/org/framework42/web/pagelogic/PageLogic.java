@@ -105,7 +105,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     }
 
-    protected void postPerformGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
+    protected void postPerformGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageableException {
 
         handleFormEvent(req, resp, session, pageModel);
 
@@ -124,7 +124,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     }
 
-    private void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws StopServletExecutionException {
+    private void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws StopServletExecutionException, ManageableException {
 
         if(pageModel.getInParameters().containsKey("form_action")) {
 
