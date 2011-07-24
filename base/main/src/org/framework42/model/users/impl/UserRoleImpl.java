@@ -4,10 +4,11 @@ import org.framework42.model.users.Role;
 import org.framework42.model.users.RoleStatus;
 import org.framework42.model.users.UserRole;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements UserRole {
+public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements UserRole, Serializable {
 
     private final R role;
     private final RS roleStatus;

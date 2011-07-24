@@ -2,13 +2,14 @@ package org.framework42.model.users.impl;
 
 import org.framework42.model.users.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.framework42.utils.NullChecker.notNull;
 
-public class BaseUser implements User {
+public class BaseUser implements User, Serializable {
 
     protected final int id;
 
