@@ -1,6 +1,8 @@
 package org.framework42.model.users;
 
-public enum Gender {
+import java.io.Serializable;
+
+public enum Gender implements Serializable {
 
     MALE(2, "MALE"), FEMALE(1, "FEMALE"), INAPPLICABLE(3, "INAPPLICABLE"), UNKNOWN(0, "UNKNOWN");
 

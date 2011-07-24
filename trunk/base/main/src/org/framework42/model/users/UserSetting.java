@@ -2,7 +2,9 @@ package org.framework42.model.users;
 
 import org.framework42.exceptions.UserSettingNotExistingException;
 
-public enum UserSetting {
+import java.io.Serializable;
+
+public enum UserSetting implements Serializable {
 
     LANGUAGE(1), COUNTRY(2);
 

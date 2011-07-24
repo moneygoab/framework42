@@ -3,10 +3,11 @@ package org.framework42.web.session;
 import org.framework42.model.users.User;
 import org.framework42.model.users.UserSetting;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
-public abstract class UserSession<T extends User> {
+public abstract class UserSession<T extends User> implements Serializable {
 
     protected Locale locale;
 

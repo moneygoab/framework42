@@ -1,8 +1,9 @@
 package org.framework42.model.users;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public interface UserRole {
+public interface UserRole extends Serializable {
 
     public Role getRole();
 

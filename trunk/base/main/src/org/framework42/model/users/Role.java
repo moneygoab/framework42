@@ -1,6 +1,8 @@
 package org.framework42.model.users;
 
-public enum Role {
+import java.io.Serializable;
+
+public enum Role implements Serializable {
 
     /* General */
     ADMIN(1, "ADMIN"),LOCKED(3,"LOCKED"), SYSTEM(5, "SYSTEM"), DISMISSED(7, "DISMISSED"),
