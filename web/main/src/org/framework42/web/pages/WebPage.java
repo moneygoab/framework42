@@ -150,7 +150,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             } catch (ManageableException e) {
 
-                handleManageablePageException(session, htmlBuilder);
+                handleManageablePageException(session, e, htmlBuilder);
                 try {
 
                     writeHtmlPage(resp, htmlBuilder);
@@ -259,7 +259,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     }
 
-    protected abstract void handleManageablePageException(T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+    protected abstract void handleManageablePageException(T session, ManageableException exception, Html.Builder htmlBuilder) throws ServletException, IOException;
 
     private void logUnhandledException(Exception e) {
 
