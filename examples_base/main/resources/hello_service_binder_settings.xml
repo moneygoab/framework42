@@ -9,7 +9,7 @@
     <entry key="database.server">localhost</entry>
     <entry key="database.port">3306</entry>
     <entry key="database.name">test</entry>
-    <entry key="database.user">user</entry>
+    <entry key="database.invocationUser">invocationUser</entry>
     <entry key="database.password">password</entry>
 
     <!-- Web settings -->
