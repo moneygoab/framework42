@@ -96,7 +96,16 @@ public abstract class PageModel {
     }
 
     public String getInParameterAsString(String key) {
-        return inParameters.get(key).asString();
+        Parameter parameter = inParameters.get(key);
+
+        if(parameter!=null) {
+
+            return parameter.asString();
+
+        } else {
+
+            return "";
+        }
     }
 
     public Integer getInParameterAsInt(String key) {
