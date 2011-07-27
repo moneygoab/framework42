@@ -33,6 +33,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     protected final Logger logger;
 
+    protected int id = 0;
+
     protected final List<Role> accessRoles;
     protected final List<Role> denyAccessRoles;
 
@@ -137,7 +139,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             } catch (NotAuthorizedException e) {
 
                 logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-                resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale()));
+
+                resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
 
             } catch (UserBlockedException e) {
 
