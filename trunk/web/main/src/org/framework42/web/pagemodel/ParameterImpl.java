@@ -58,6 +58,11 @@ public class ParameterImpl<T> implements Parameter<T> {
     }
 
     @Override
+    public long asLong() {
+        return Long.parseLong(parameterValue.toString());
+    }
+
+    @Override
     public boolean asBoolean() {
         return Boolean.parseBoolean(parameterValue.toString());
     }
