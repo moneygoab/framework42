@@ -1,5 +1,6 @@
 package org.framework42.web.components.standardhtml;
 
+import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.pages.WebPage;
@@ -60,6 +61,12 @@ public class TableData extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.height != null){
+            htmlBuilder.append(" height=\"");
+            htmlBuilder.append(builder.height);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.className != null) {
             htmlBuilder.append(" class=\"");
             htmlBuilder.append(builder.className);
@@ -69,6 +76,12 @@ public class TableData extends HtmlComponent {
         if(builder.verticalAlign != null) {
             htmlBuilder.append(" valign=\"");
             htmlBuilder.append(builder.verticalAlign);
+            htmlBuilder.append("\"");
+        }
+
+        if(builder.style!= null) {
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
             htmlBuilder.append("\"");
         }
 
@@ -89,9 +102,13 @@ public class TableData extends HtmlComponent {
 
         private String width = null;
 
+        private String height = null;
+
         private String className = null;
 
         private String verticalAlign = null;
+
+        private String style = null;
 
         public Builder(String label) {
             this.component = new Label(label);
@@ -111,6 +128,11 @@ public class TableData extends HtmlComponent {
             return this;
         }
 
+        public Builder height(String height) {
+            this.height = height;
+            return this;
+        }
+
         public Builder className(String className){
             this.className = className;
             return this;
@@ -119,6 +141,11 @@ public class TableData extends HtmlComponent {
         //TODO: Don't make it a String
         public Builder verticalAlign(String verticalAlign) {
             this.verticalAlign = verticalAlign;
+            return this;
+        }
+
+        public Builder style(String style) {
+            this.style = style;
             return this;
         }
 

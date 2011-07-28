@@ -112,6 +112,10 @@ public abstract class PageModel {
         return inParameters.get(key).asInt();
     }
 
+    public Long getInParameterAsLong(String key) {
+        return inParameters.get(key).asLong();
+    }
+
     /**
      * Returns the html parameters that was sent to the page.
      * @return Returns the html parameters that was sent to the page.

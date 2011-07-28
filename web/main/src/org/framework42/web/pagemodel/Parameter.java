@@ -16,6 +16,8 @@ public interface Parameter <T> {
 
     public int asInt();
 
+    public long asLong();
+
     public boolean asBoolean();
 
 }
