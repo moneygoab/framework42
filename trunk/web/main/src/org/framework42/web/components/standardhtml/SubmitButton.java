@@ -36,6 +36,12 @@ public class SubmitButton extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.style!=null){
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">"+"\n");
 
     }
@@ -43,6 +49,8 @@ public class SubmitButton extends HtmlComponent {
     public static class Builder extends InputComponentBuilder<SubmitButton> {
 
         private String imageURL = null;
+
+        private String style = null;
 
         public Builder(String name, String value) {
             super(name, value);
@@ -56,6 +64,11 @@ public class SubmitButton extends HtmlComponent {
 
         public Builder imageURL(String imageURL) {
             this.imageURL = imageURL;
+            return this;
+        }
+
+        public Builder style(String style) {
+            this.style = style;
             return this;
         }
 
