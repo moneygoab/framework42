@@ -1,17 +1,18 @@
 package org.framework42.web.components.standardhtml;
 
-import org.framework42.model.ParameterType;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.HtmlComponentInput;
 import org.framework42.web.components.InputComponentBuilder;
 import org.framework42.web.pagemodel.Parameter;
-import org.framework42.web.pagemodel.ParameterImpl;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 
 public class PasswordField extends HtmlComponent implements HtmlComponentInput {
 
     private Builder builder;
+
+    public PasswordField(String id, String name) {
+        this.builder = new Builder(id, name, "");
+    }
 
     private PasswordField(Builder builder) {
 
