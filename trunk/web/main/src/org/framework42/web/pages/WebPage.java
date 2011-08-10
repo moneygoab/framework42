@@ -190,8 +190,17 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             } else if (req.getParameter("user_id") != null) {
 
-                session = createUserSession(req, resp);
-                req.getSession().setAttribute("userSession", session);
+                int userId = Integer.parseInt(req.getParameter("user_id"));
+
+                if(userId == ((T)sessionAsObject).getUser().getId()  ) {
+
+                    session = (T) sessionAsObject;
+
+                } else {
+
+                    session = createUserSession(req, resp);
+                    req.getSession().setAttribute("userSession", session);
+                }
 
             } else if (sessionAsObject instanceof UserSession) {
 
@@ -200,7 +209,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             } else {
 
                 logger.fatal("You have saved an object in the session attribute userSession that dose not " +
-                        "inherit UserSession. Faulty object: " + sessionAsObject);
+                             "inherit UserSession. Faulty object: " + sessionAsObject);
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
@@ -209,7 +218,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         } catch(StopServletExecutionException e) {
 
             throw new StopServletExecutionException();
-            
+
         }catch (Exception e) {
 
             session = createUserSession(req, resp);
