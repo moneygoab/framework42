@@ -38,4 +38,9 @@ public class MoneyImpl implements Money {
         return currencyFormatter.format(amount);
     }
 
+    @Override
+    public String toString() {
+
+        return currencyFormatter.format(amount)+" "+currency.getCurrencyCode();
+    }
 }
