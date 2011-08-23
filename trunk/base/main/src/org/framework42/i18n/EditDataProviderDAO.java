@@ -6,6 +6,8 @@ import java.util.Map;
 
 public interface EditDataProviderDAO {
 
+    public Map<Locale, List<I18NEditObject>> findAll();
+
     public Map<Locale, List<I18NEditObject>> findAllOfTypeAndGroup(I18NType type, int groupId);
 
     public Map<Locale, List<I18NEditObject>> findByKey(String key);
