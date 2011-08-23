@@ -18,6 +18,31 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
     }
 
     @Override
+    public Map<Locale, List<I18NEditObject>> findAll() {
+
+        Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
+        PreparedStatement ps = null;
+        try {
+
+            ps = prepareFindAll(con);
+
+            return executeFind(ps);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(generateSQLErrorMessage(e, getClass(), getClass().getEnclosingMethod()));
+        } finally {
+            databaseConnector.releasePooledConnection(con, ps);
+        }
+    }
+
+    private PreparedStatement prepareFindAll(Connection con) throws SQLException {
+
+        String query = "SELECT * FROM i18n_text ORDER BY key_value";
+
+        return con.prepareStatement(query);
+    }
+
+    @Override
     public Map<Locale, List<I18NEditObject>> findAllOfTypeAndGroup(I18NType type, int groupId) {
 
         Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
@@ -37,7 +62,11 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
     private PreparedStatement prepareFindAllOfTypeAndGroup(Connection con, I18NType type, int groupId) throws SQLException {
 
-        String query = "SELECT * FROM i18n_text WHERE ";
+        String query = "SELECT * FROM i18n_text ";
+
+        if(groupId != 0 && type != null) {
+            query += "WHERE ";
+        }
 
         if(type != null) {
 
@@ -87,14 +116,14 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
             I18NEditObject editObject = createFromResultSet(rs);
 
-            if(found.containsKey(editObject.getLocale())) {
+            if(found.containsKey(editObject.getLocaleList())) {
 
-                found.get(editObject.getLocale()).add(editObject);
+                found.get(editObject.getLocaleList()).add(editObject);
 
             } else {
 
-                found.put(editObject.getLocale(), new ArrayList<I18NEditObject>());
-                found.get(editObject.getLocale()).add(editObject);
+                //found.put(editObject.getLocaleList(), new ArrayList<I18NEditObject>());
+                found.get(editObject.getLocaleList()).add(editObject);
             }
 
         }
@@ -122,7 +151,7 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
     private PreparedStatement prepareFindByKey(Connection con, String key) throws SQLException {
 
-        String query = "SELECT * FROM i18n_text WHERE key_value like ?";
+        String query = "SELECT * FROM i18n_text WHERE key_value like ? ORDER BY key_value";
 
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -157,7 +186,7 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
         for(I18NEditObject editObject: valuesToAdd) {
 
-            ps.setString(1, editObject.getLocale().getLanguage()+"_"+editObject.getLocale().getCountry());
+            //ps.setString(1, editObject.getLocaleList().getLanguage()+"_"+editObject.getLocaleList().getCountry());
             ps.setInt(2, editObject.getType().getId());
             ps.setInt(3, editObject.getGroupId());
             ps.setString(4, editObject.getKey());
@@ -194,7 +223,7 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
         for(I18NEditObject editObject: valuesToUpdate) {
 
-            ps.setString(1, editObject.getLocale().getLanguage()+"_"+editObject.getLocale().getCountry());
+            //ps.setString(1, editObject.getLocaleList().getLanguage()+"_"+editObject.getLocaleList().getCountry());
             ps.setInt(2, editObject.getType().getId());
             ps.setInt(3, editObject.getGroupId());
             ps.setString(4, editObject.getKey());
@@ -243,14 +272,15 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
 
     private I18NEditObject createFromResultSet(ResultSet rs) throws SQLException {
 
-        return new I18NEditObject(
+        /*return new I18NEditObject(
                 rs.getInt("id"),
                 new Locale(rs.getString("locale").substring(0,2), rs.getString("locale").substring(3)),
                 I18NType.getById(rs.getInt("main_type")),
                 rs.getInt("group_id"),
                 rs.getString("key_value"),
                 rs.getString("value")
-        );
+        );*/
+        return null;
     }
 
 }
