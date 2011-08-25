@@ -49,6 +49,12 @@ public class Table extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.cellSpacing != null) {
+            htmlBuilder.append(" cellspacing=\"");
+            htmlBuilder.append(builder.cellSpacing);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
         if(builder.headLines != null) {
@@ -79,6 +85,8 @@ public class Table extends HtmlComponent {
 
         private String width = null;
 
+        private String cellSpacing = null;
+
         public Builder(TableRow headLines) {
             this.headLines = headLines;
             this.tableRows = new ArrayList<TableRow>();
@@ -101,6 +109,11 @@ public class Table extends HtmlComponent {
 
         public Builder width(Integer width){
             this.width = width.toString();
+            return this;
+        }
+
+        public Builder cellSpacing(String cellSpacing) {
+            this.cellSpacing = cellSpacing;
             return this;
         }
 
