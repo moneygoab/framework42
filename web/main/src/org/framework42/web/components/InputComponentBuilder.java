@@ -26,6 +26,8 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
     protected final String value;
 
+    protected String title = null;
+
     protected String placeholder = null;
 
     protected boolean autoFocus;
@@ -109,6 +111,12 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
             html.append("\"");
         }
 
+        if(title!=null){
+            html.append(" title=\"");
+            html.append(title);
+            html.append("\"");
+        }
+
         return html.toString();
 
     }
@@ -160,6 +168,11 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
     public InputComponentBuilder<T> id(String id){
         this.id = id;
+        return this;
+    }
+
+    public InputComponentBuilder<T> title(String title) {
+        this.title = title;
         return this;
     }
 
