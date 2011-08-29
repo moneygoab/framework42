@@ -30,15 +30,24 @@ public class SubmitButton extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
-        if(builder.imageURL!=null){
+        if(builder.imageURL != null) {
+
             htmlBuilder.append(" src=\"");
             htmlBuilder.append(builder.imageURL);
             htmlBuilder.append("\"");
         }
 
-        if(builder.style!=null){
+        if(builder.style != null) {
+
             htmlBuilder.append(" style=\"");
             htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
+        if(builder.id != null) {
+
+            htmlBuilder.append(" id=\"");
+            htmlBuilder.append(builder.id);
             htmlBuilder.append("\"");
         }
 
@@ -51,6 +60,8 @@ public class SubmitButton extends HtmlComponent {
         private String imageURL = null;
 
         private String style = null;
+
+        private String id = null;
 
         public Builder(String name, String value) {
             super(name, value);
@@ -69,6 +80,11 @@ public class SubmitButton extends HtmlComponent {
 
         public Builder style(String style) {
             this.style = style;
+            return this;
+        }
+
+        public Builder id(String id) {
+            this.id = id;
             return this;
         }
 
