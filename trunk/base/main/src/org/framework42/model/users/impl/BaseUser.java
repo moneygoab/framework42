@@ -5,6 +5,7 @@ import org.framework42.model.users.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.framework42.utils.NullChecker.notNull;
@@ -82,6 +83,20 @@ public class BaseUser implements User, Serializable {
 
         return (userRoles.get(role)!=null);
 
+    }
+
+    @Override
+    public boolean hasAnyUserRole(List<Role> roleList) {
+
+        for(Role requiredRole: roleList) {
+
+            if(userRoles.containsKey(requiredRole)) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
