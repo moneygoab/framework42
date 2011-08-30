@@ -3,6 +3,7 @@ package org.framework42.model.users;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface User extends Serializable {
@@ -22,6 +23,8 @@ public interface User extends Serializable {
     public void removeUserRole(UserRole userRole);
 
     public boolean hasUserRole(Role role);
+
+    public boolean hasAnyUserRole(List<Role> role);
 
     public Map<UserSetting, String> getUserSettings();
     

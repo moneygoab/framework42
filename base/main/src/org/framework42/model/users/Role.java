@@ -15,7 +15,7 @@ public enum Role implements Serializable {
     DISBURSEMENTS_MAKER(11, "DISBURSEMENTS_MAKER"),
 
     /* End user roles */
-    MEMBER(100, "MEMBER"), VIP_MEMBER(101, "VIP_MEMBER")
+    MEMBER(100, "MEMBER"), VIP_MEMBER(101, "VIP_MEMBER"), POWER_MEMBER_1(102, "POWER_MEMBER_1")
 
     ;
 
