@@ -35,6 +35,12 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
             htmlBuilder.append("\"");
         }
 
+        if(builder.style!=null){
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
     }
@@ -54,6 +60,8 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
         private String readonly = null;
 
         private String maxLength = null;
+
+        private String style = null;
 
         public Builder(String id, String name, String value) {
             super(name, value);
@@ -78,6 +86,12 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
             }else{
                 this.maxLength = null;
             }
+            return this;
+        }
+
+        public Builder style(String style) {
+
+            this.style = style;
             return this;
         }
 
