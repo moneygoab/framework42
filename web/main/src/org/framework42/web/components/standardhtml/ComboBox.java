@@ -3,6 +3,7 @@ package org.framework42.web.components.standardhtml;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.HtmlComponentInput;
 import org.framework42.web.components.InputComponentBuilder;
+import org.framework42.web.components.js_components.JavaScript;
 import org.framework42.web.pagemodel.Parameter;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
@@ -41,6 +42,12 @@ public class ComboBox extends HtmlComponent implements HtmlComponentInput {
             htmlBuilder.append("\"");
         }
 
+        if(builder.style!=null){
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
         for(Option option: builder.options){
@@ -71,6 +78,8 @@ public class ComboBox extends HtmlComponent implements HtmlComponentInput {
 
         private String size = null;
 
+        private String style = null;
+
         public Builder(String name, String value, List<Option> options) {
             super(name, value);
             this.options = options;
@@ -91,6 +100,11 @@ public class ComboBox extends HtmlComponent implements HtmlComponentInput {
             }else{
                 this.size = null;
             }
+            return this;
+        }
+
+        public Builder style(String style) {
+            this.style = style;
             return this;
         }
 
