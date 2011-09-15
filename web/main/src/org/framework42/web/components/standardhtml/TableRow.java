@@ -100,6 +100,10 @@ public class TableRow extends HtmlComponent {
             rowComponents.add(rowComponent);
         }
 
+        public void add(HtmlComponent rowComponent) {
+            rowComponents.add(new TableData(rowComponent));
+        }
+
         @Override
         public TableRow build() {
             return new TableRow(this);

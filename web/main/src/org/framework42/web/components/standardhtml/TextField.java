@@ -102,7 +102,7 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
         @Override
         public TextField build() {
 
-            if(this.onBlur==null) {
+            if(this.onBlur==null && parameter != null) {
                 this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
             }
 

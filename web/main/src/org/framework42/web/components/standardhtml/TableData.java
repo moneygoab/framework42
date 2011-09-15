@@ -55,6 +55,12 @@ public class TableData extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.rowSpan != null) {
+            htmlBuilder.append(" rowspan=\"");
+            htmlBuilder.append(builder.rowSpan);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.width != null) {
             htmlBuilder.append(" width=\"");
             htmlBuilder.append(builder.width);
@@ -100,6 +106,8 @@ public class TableData extends HtmlComponent {
 
         private String colSpan = null;
 
+        private String rowSpan = null;
+
         private String width = null;
 
         private String height = null;
@@ -120,6 +128,11 @@ public class TableData extends HtmlComponent {
 
         public Builder colSpan(int span){
             colSpan = span+"";
+            return this;
+        }
+
+        public Builder rowSpan(int span){
+            rowSpan = span+"";
             return this;
         }
 
