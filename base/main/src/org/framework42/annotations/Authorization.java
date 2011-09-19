@@ -18,8 +18,7 @@ public @interface Authorization {
     Role[] denyRoles() default {
             Role.DISMISSED,
             Role.LOCKED,
-            Role.MUST_CHANGE_PASSWORD,
-            Role.UNKNOWN_PERSON
+            Role.MUST_CHANGE_PASSWORD
     };
 
 }
