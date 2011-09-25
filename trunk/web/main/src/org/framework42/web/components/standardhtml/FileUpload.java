@@ -30,6 +30,13 @@ public class FileUpload extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
+        if(builder.style != null) {
+
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.allowedMimeTypes.size()>0) {
             htmlBuilder.append(" accept=\"");
             for(int i=0; i<builder.allowedMimeTypes.size();i++) {
@@ -50,6 +57,8 @@ public class FileUpload extends HtmlComponent {
 
         private List<MimeType> allowedMimeTypes;
 
+        private String style = null;
+
         public Builder(String name, String value) {
 
             super(name, value);
@@ -67,6 +76,12 @@ public class FileUpload extends HtmlComponent {
 
             allowedMimeTypes.add(mimeType);
 
+            return this;
+        }
+
+        public Builder style(String style) {
+
+            this.style = style;
             return this;
         }
 
