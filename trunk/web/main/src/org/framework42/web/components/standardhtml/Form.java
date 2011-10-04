@@ -42,6 +42,12 @@ public class Form extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
+        if(builder.id != null ) {
+            htmlBuilder.append(" id=\"");
+            htmlBuilder.append(builder.id);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.onReset!=null){
             htmlBuilder.append(" onreset=\"");
             htmlBuilder.append(builder.onReset);
@@ -165,6 +171,8 @@ public class Form extends HtmlComponent {
         private final HtmlPostMethod postMethod;
         private final List<HtmlComponent> formComponents;
 
+        private String id = null;
+
         private String onReset = null;
 
         private String onSubmit = null;
@@ -187,6 +195,11 @@ public class Form extends HtmlComponent {
             this.formComponents = new ArrayList<HtmlComponent>();
 
             this.onSubmit = "return validateForm();";
+        }
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
         }
 
         public Builder onReset(String onReset){
