@@ -25,7 +25,7 @@ public class HeadScript extends HtmlComponent {
         htmlBuilder.append("\"");
 
         if (builder.src != null) {
-            htmlBuilder.append("src=\"");
+            htmlBuilder.append(" src=\"");
             htmlBuilder.append(builder.src);
             htmlBuilder.append("\"");
         }
