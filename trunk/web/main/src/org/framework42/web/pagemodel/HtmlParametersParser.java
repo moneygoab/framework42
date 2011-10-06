@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
+import static org.framework42.web.utils.Util.arrayToString;
+
 /**
  * This service class handles the parsing of html parameters that is sent to a page (both post and get parameters).
  * */
@@ -55,11 +57,11 @@ public enum HtmlParametersParser {
 
                         String keyValue = item.getFieldName();
 
-                        String value = item.getString();
+                        String[] value = new String[]{item.getString()};
 
                         try {
 
-                            value = new String(item.getString().getBytes("ISO-8859-1"), "UTF-8");
+                            value[0] = new String(item.getString().getBytes("ISO-8859-1"), "UTF-8");
 
                         } catch(UnsupportedEncodingException e) {
 
@@ -84,13 +86,13 @@ public enum HtmlParametersParser {
             for(Object key : req.getParameterMap().keySet().toArray()) {
 
                 String keyValue = key.toString();
-                String value = req.getParameter(keyValue);
+                String[] valueArray = req.getParameterValues(keyValue);
 
-                value = washValue(value);
+                valueArray = washValue(valueArray);
 
-                logger.debug(keyValue+":"+value);
+                logger.debug(keyValue+":"+arrayToString(valueArray));
 
-                parseParameter(req, session, keyValue, value, parsedParameters, pageParameters);
+                parseParameter(req, session, keyValue, valueArray, parsedParameters, pageParameters);
             }
         }
 
@@ -100,15 +102,17 @@ public enum HtmlParametersParser {
 
     }
 
-    private String washValue(String value) {
+    private String[] washValue(String[] valueArray) {
 
-        value = value.replaceAll("<", "&#60;");
-        value = value.replaceAll(">", "&#62;");
+        for(int i=0;i<valueArray.length;i++) {
+            valueArray[i] = valueArray[i].replaceAll("<", "&#60;");
+            valueArray[i] = valueArray[i].replaceAll(">", "&#62;");
+        }
 
-        return value;
+        return valueArray;
     }
 
-    private void parseParameter(HttpServletRequest req, UserSession session, String keyValue, String value, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
+    private void parseParameter(HttpServletRequest req, UserSession session, String keyValue, String[] valueArray, Map<String,Parameter> parsedParameters, Map<String,Parameter> pageParameters) {
 
         if(pageParameters.containsKey(keyValue)) {
 
@@ -117,7 +121,15 @@ public enum HtmlParametersParser {
             try {
 
                 if(parentParameter.getParameterType() != ParameterType.IGNORE) {
-                    parsedParameters.put(keyValue, createExistingParameter(req, parentParameter, value));
+
+                    if(valueArray.length>1) {
+
+                        parsedParameters.put(keyValue, createExistingParameter(req, parentParameter, valueArray));
+
+                    } else {
+
+                        parsedParameters.put(keyValue, new ParameterImpl<String>(keyValue, ParameterType.STRING, valueArray[0]));
+                    }
                 }
             } catch(ParseUnrequiredException e) {
 
@@ -128,7 +140,14 @@ public enum HtmlParametersParser {
 
             if(session.isAllowUndefinedParameters()) {
 
-                parsedParameters.put(keyValue, new ParameterImpl<String>(keyValue, ParameterType.STRING, value));
+                if(valueArray.length>1) {
+
+                    parsedParameters.put(keyValue, new ParameterImpl<String[]>(keyValue, ParameterType.STRING, valueArray));
+
+                } else {
+
+                    parsedParameters.put(keyValue, new ParameterImpl<String>(keyValue, ParameterType.STRING, valueArray[0]));
+                }
 
             } else {
 
@@ -159,7 +178,7 @@ public enum HtmlParametersParser {
 
     }
 
-    private Parameter createExistingParameter(HttpServletRequest req, Parameter parentParameter, String value) throws ParseUnrequiredException {
+    private Parameter createExistingParameter(HttpServletRequest req, Parameter parentParameter, String[] valueArray) throws ParseUnrequiredException {
 
         Parameter parameter;
 
@@ -169,27 +188,35 @@ public enum HtmlParametersParser {
 
         if(ParameterType.STRING == type) {
 
-            parameter = new ParameterImpl<String>(name, type, required, value);
+            parameter = new ParameterImpl<String>(name, type, required, valueArray[0]);
 
         } else if(ParameterType.INTEGER == type) {
 
-            parameter = parseInteger(name,type,required,value);
+            parameter = parseInteger(name,type,required,valueArray[0]);
 
         } else if(ParameterType.DECIMAL == type) {
 
-            parameter = parseDecimal(name,type,required,value);
+            parameter = parseDecimal(name,type,required,valueArray[0]);
 
         } else if(ParameterType.DATE == type) {
 
-            parameter = parseDate(name,type,required,value);
+            parameter = parseDate(name,type,required,valueArray[0]);
 
         } else if(ParameterType.CHECKBOX == type) {
 
-            parameter = parseCheckBox(req, name, type, required, value);
+            parameter = parseCheckBox(req, name, type, required, valueArray[0]);
+
+        } else if(ParameterType.INTEGER_ARRAY == type) {
+
+            parameter = parseIntegerArray(name, type, required, valueArray);
+
+        } else if(ParameterType.STRING_ARRAY == type) {
+
+            parameter = new ParameterImpl<String[]>(name, type, required, valueArray);
 
         } else {
 
-            parameter = new ParameterImpl<Object>(name, type, required, value);
+            parameter = new ParameterImpl<Object>(name, type, required, valueArray);
 
         }
 
@@ -217,6 +244,34 @@ public enum HtmlParametersParser {
                 throw new ParseUnrequiredException("The unrequired parameter "+name+" of type "+type+" contains an illegal value of "+value);
             }
         }
+
+    }
+
+    private Parameter parseIntegerArray(String name, ParameterType type, boolean required, String[] valueArray) throws ParseUnrequiredException {
+
+        Integer[] parsedArray = new Integer[valueArray.length];
+
+        for(int i=0;i<valueArray.length;i++) {
+
+            try {
+
+                parsedArray[i] = Integer.parseInt(valueArray[i]);
+
+            } catch(NumberFormatException e) {
+
+                if(required) {
+
+                    String errorMess = "The parameter "+name+" of type "+type+" contains an illegal value of "+valueArray[i];
+                    logger.error(errorMess);
+                    throw new IllegalArgumentException(errorMess);
+                } else {
+
+                    throw new ParseUnrequiredException("The unrequired parameter "+name+" of type "+type+" contains an illegal value of "+valueArray[i]);
+                }
+            }
+        }
+
+        return new ParameterImpl<Integer[]>(name, type, required, parsedArray);
 
     }
 
