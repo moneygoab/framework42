@@ -16,6 +16,8 @@ public interface Parameter <T> {
 
     public int asInt();
 
+    public Integer[] asIntArray();
+
     public long asLong();
 
     public boolean asBoolean();

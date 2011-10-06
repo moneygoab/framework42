@@ -58,6 +58,30 @@ public class ParameterImpl<T> implements Parameter<T> {
     }
 
     @Override
+    public Integer[] asIntArray() {
+
+        if(parameterValue instanceof String[]) {
+
+            String[] stringArray = ((String[])parameterValue);
+            Integer[] returnArray = new Integer[stringArray.length];
+
+            for(int i=0;i<stringArray.length;i++) {
+
+                returnArray[i] = Integer.parseInt(stringArray[i]);
+            }
+
+            return returnArray;
+
+        } else if(parameterValue instanceof Integer[]) {
+
+            return (Integer[])parameterValue;
+
+        }
+
+        return new Integer[] {Integer.parseInt(parameterValue.toString())};
+    }
+
+    @Override
     public long asLong() {
         return Long.parseLong(parameterValue.toString());
     }

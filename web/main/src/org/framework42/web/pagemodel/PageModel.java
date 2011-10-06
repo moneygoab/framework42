@@ -112,6 +112,10 @@ public abstract class PageModel {
         return inParameters.get(key).asInt();
     }
 
+    public Integer[] getInParameterAsIntArray(String key) {
+        return inParameters.get(key).asIntArray();
+    }
+
     public Long getInParameterAsLong(String key) {
         return inParameters.get(key).asLong();
     }
