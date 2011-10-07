@@ -10,6 +10,8 @@ public class ParameterImpl<T> implements Parameter<T> {
 
     private final boolean required;
 
+    private final boolean htmlFiltered;
+
     private T parameterValue;
 
     public ParameterImpl(String parameterName, ParameterType parameterType, T parameterValue) {
@@ -17,12 +19,22 @@ public class ParameterImpl<T> implements Parameter<T> {
         this.parameterType = parameterType;
         this.parameterValue = parameterValue;
         this.required = false;
+        this.htmlFiltered = true;
     }
 
     public ParameterImpl(String parameterName, ParameterType parameterType, boolean required, T parameterValue) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
         this.required = required;
+        this.parameterValue = parameterValue;
+        this.htmlFiltered = true;
+    }
+
+    public ParameterImpl(String parameterName, ParameterType parameterType, boolean required, boolean htmlFiltered, T parameterValue) {
+        this.parameterName = parameterName;
+        this.parameterType = parameterType;
+        this.required = required;
+        this.htmlFiltered = htmlFiltered;
         this.parameterValue = parameterValue;
     }
 
@@ -39,6 +51,12 @@ public class ParameterImpl<T> implements Parameter<T> {
     @Override
     public boolean isRequired() {
         return required;
+    }
+
+    @Override
+    public boolean isHtmlFiltered() {
+
+        return htmlFiltered;
     }
 
     @Override
@@ -97,6 +115,7 @@ public class ParameterImpl<T> implements Parameter<T> {
                 "parameterName='" + parameterName + '\'' +
                 ", parameterType=" + parameterType +
                 ", required=" + required +
+                ", htmlFiltered=" + htmlFiltered +
                 ", parameterValue=" + parameterValue +
                 '}';
     }

@@ -88,8 +88,6 @@ public enum HtmlParametersParser {
                 String keyValue = key.toString();
                 String[] valueArray = req.getParameterValues(keyValue);
 
-                valueArray = washValue(valueArray);
-
                 logger.debug(keyValue+":"+arrayToString(valueArray));
 
                 parseParameter(req, session, keyValue, valueArray, parsedParameters, pageParameters);
@@ -118,6 +116,11 @@ public enum HtmlParametersParser {
 
             Parameter parentParameter = pageParameters.get(keyValue);
 
+            if(parentParameter.isHtmlFiltered()) {
+
+                valueArray = washValue(valueArray);
+            }
+
             try {
 
                 if(parentParameter.getParameterType() != ParameterType.IGNORE) {
@@ -139,6 +142,8 @@ public enum HtmlParametersParser {
         } else {
 
             if(session.isAllowUndefinedParameters()) {
+
+                valueArray = washValue(valueArray);
 
                 if(valueArray.length>1) {
 

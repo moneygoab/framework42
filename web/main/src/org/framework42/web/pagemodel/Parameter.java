@@ -9,7 +9,9 @@ public interface Parameter <T> {
     public ParameterType getParameterType();
 
     public boolean isRequired();
-    
+
+    public boolean isHtmlFiltered();
+
     public T getValue();
 
     public String asString();
