@@ -108,8 +108,10 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
        System.out.println("\n\n\n\n\n\n"); */
 
         //TODO: Handle Firefox double calls better.
-        //System.out.println(req.getHeader("accept")+"*****");
-        if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
+        logger.debug("http accept header: "+req.getHeader("accept"));
+
+        //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
+        if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html")) ) {
 
             logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
