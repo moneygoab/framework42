@@ -26,4 +26,12 @@ public class SimpleSecureAddressImpl extends SimpleAddressImpl implements Truste
     public InformationProvider getProvider() {
         return informationProvider;
     }
+
+    @Override
+    public String toString() {
+
+        return "SimpleSecureAddressImpl{" +
+               "informationProvider=" + informationProvider +
+               "} " + super.toString();
+    }
 }
