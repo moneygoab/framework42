@@ -35,7 +35,7 @@ public class EffectiveAPRCalculatorImpl extends ProxyService<EffectiveAPRCalcula
 
         //    new EffectiveAPRCalculatorImpl().calculate();
 
-        System.out.println(new EffectiveAPRCalculatorImpl().calculate(new BigDecimal(10000), new BigDecimal(10), 12, new BigDecimal(100), new BigDecimal(30)));
+        System.out.println(new EffectiveAPRCalculatorImpl().calculate(new BigDecimal(15000), new BigDecimal(18.6), 72, new BigDecimal(0), new BigDecimal(0)));
     }
 
     @Override
