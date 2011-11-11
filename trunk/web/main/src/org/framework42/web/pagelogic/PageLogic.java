@@ -281,6 +281,8 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         pageModel.getEnvironmentInformation().put("currentPageURI", req.getRequestURI().substring(1));
         pageModel.getEnvironmentInformation().put("localRootDir", servlet.getServletContext().getRealPath("/"));
+        pageModel.getEnvironmentInformation().put("userAgentId", req.getHeader("User-Agent"));
+        pageModel.getEnvironmentInformation().put("clientIP", req.getRemoteAddr());
     }
 
     /**
