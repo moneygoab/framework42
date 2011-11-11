@@ -126,6 +126,10 @@ public class Table extends HtmlComponent {
             tableRows.add(tableRow);
         }
 
+        public void addFirst(TableRow tableRow){
+            tableRows.add(0, tableRow);
+        }
+
     }
 
 }
