@@ -12,6 +12,12 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
         super("org.framework42.financial");
     }
 
+    public static void main(String[] args) {
+
+        System.out.println(new AnnuityCalculatorImpl().getMinimumToPay(new BigDecimal(15000), new BigDecimal(18.3), 72));
+        System.out.println(new AnnuityCalculatorImpl().getMinimumToPayNotRounded(new BigDecimal(15000), new BigDecimal(18.3), 72));
+    }
+
     /*public int getMinimumToPayOld(BigDecimal initialAmount, BigDecimal monthlyInterest, int monthsToPayBack) {
 
         BigDecimal topCalc = monthlyInterest.multiply( monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack));
@@ -38,8 +44,13 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
         //BigDecimal stuff = topCalc.divide(bottomCalc);
         double stuff = topCalc.doubleValue()/bottomCalc.doubleValue();
 
+        int rounded = (int) (initialAmount.doubleValue()* stuff);
+
+        if((initialAmount.doubleValue()* stuff) - rounded > 0) {
+            rounded ++;
+        }
         //return initialAmount.multiply( stuff ).intValue();
-        return (int) (initialAmount.doubleValue()* stuff);
+        return rounded;
     }
 
     @Override
