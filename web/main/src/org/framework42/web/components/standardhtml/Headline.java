@@ -55,7 +55,7 @@ public class Headline extends HtmlComponent {
         }
 
         htmlBuilder.append(">\n");
-        htmlBuilder.append("<span></span>");
+        //htmlBuilder.append("<span></span>");
         htmlBuilder.append(Util.tab(tabs+1));
         htmlBuilder.append(builder.label);
 

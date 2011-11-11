@@ -2,7 +2,6 @@ package org.framework42.web.components.standardhtml.head;
 
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 import org.framework42.web.components.ComponentBuilder;
 
 public class Meta extends HtmlComponent {
@@ -28,19 +27,22 @@ public class Meta extends HtmlComponent {
 
         } else {
 
-            htmlBuilder.append(" name=\"");
-            htmlBuilder.append(builder.metaName.getId());
-            htmlBuilder.append("\"");
+            if(builder.httpEquivalent != null) {
+
+                htmlBuilder.append(" http-equiv=\"");
+                htmlBuilder.append(builder.httpEquivalent.getId());
+                htmlBuilder.append("\"");
+
+            } else {
+
+                htmlBuilder.append(" name=\"");
+                htmlBuilder.append(builder.metaName.getId());
+                htmlBuilder.append("\"");
+            }
 
             htmlBuilder.append(" content=\"");
             htmlBuilder.append(builder.content);
             htmlBuilder.append("\"");
-
-            if(builder.httpEquivalent != null) {
-                htmlBuilder.append(" http-equiv=\"");
-                htmlBuilder.append(builder.httpEquivalent.getId());
-                htmlBuilder.append("\"");
-            }
 
         }
 
