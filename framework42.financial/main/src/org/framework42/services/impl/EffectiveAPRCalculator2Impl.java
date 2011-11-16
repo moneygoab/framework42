@@ -49,7 +49,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(15000), new BigDecimal(18.3), 72, new BigDecimal(0), new BigDecimal(0)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(30000), new BigDecimal(19.8), 72, new BigDecimal(0), new BigDecimal(0)));
         //System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(27), 6 * 12, new BigDecimal(700), BigDecimal.ZERO));
     }
 

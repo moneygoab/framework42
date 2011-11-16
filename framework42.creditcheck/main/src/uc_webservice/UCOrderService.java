@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "UCOrderService", targetNamespace = "http://webservices.uc.se/UCOrders/", wsdlLocation = "file:///home/fredrik/Documents/dev/banksystem/external_resources/UCOrders.wsdl")
+@WebServiceClient(name = "UCOrderService", targetNamespace = "http://webservices.uc.se/UCOrders/", wsdlLocation = "file:///usr/local/wsdl/UCOrders.wsdl")
 public class UCOrderService
     extends Service
 {
@@ -30,9 +30,9 @@ public class UCOrderService
         try {
             URL baseUrl;
             baseUrl = uc_webservice.UCOrderService.class.getResource(".");
-            url = new URL(baseUrl, "file:///home/fredrik/Documents/dev/banksystem/external_resources/UCOrders.wsdl");
+            url = new URL(baseUrl, "file:///usr/local/wsdl/UCOrders.wsdl");
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: 'file:///home/fredrik/Documents/dev/banksystem/external_resources/UCOrders.wsdl', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: 'file:///usr/local/wsdl/UCOrders.wsdl', retrying as a local file");
             logger.warning(e.getMessage());
         }
         UCORDERSERVICE_WSDL_LOCATION = url;
