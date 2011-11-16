@@ -111,7 +111,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         logger.debug("http accept header: "+req.getHeader("accept"));
 
         //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
-        if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html")) ) {
+        if(!req.getHeader("accept").contains("image/*") && ((req.getHeader("accept").contains("text/html")) || req.getHeader("accept").contains("application/xaml+xml")) || req.getHeader("accept").contains("application/x-ms-application") || req.getHeader("accept").contains("*/*") ) {
 
             logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
