@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.framework42</groupId>
+    <artifactId>framework42</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>Framework#42</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.java.source.version>1.6</project.java.source.version>
+        <project.java.build.version>1.6</project.java.build.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>nummer42</id>
+            <url>http://192.168.2.4:8081/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+
+    </repositories>
+
+    <modules>
+        <module>base</module>
+        <module>web</module>
+        <module>examples_base</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+    </dependencies>
+
+</project>
