@@ -108,10 +108,22 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
        System.out.println("\n\n\n\n\n\n"); */
 
         //TODO: Handle Firefox double calls better.
+        logger.debug(req.getHeader("user-agent"));
         logger.debug("http accept header: "+req.getHeader("accept"));
 
+        String header = req.getHeader("accept");
+        if(header==null) {
+            header = "*/*";
+        }
+
         //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
-        if(!req.getHeader("accept").contains("image/*") && ((req.getHeader("accept").contains("text/html")) || req.getHeader("accept").contains("application/xaml+xml")) || req.getHeader("accept").contains("application/x-ms-application") || req.getHeader("accept").contains("*/*") ) {
+        if(!header.contains("image/*")
+           &&
+           (header.contains("text/html") ||
+            header.contains("application/xaml+xml")) ||
+            header.contains("application/x-ms-application") ||
+            header.contains("*/*")
+           ) {
 
             logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
