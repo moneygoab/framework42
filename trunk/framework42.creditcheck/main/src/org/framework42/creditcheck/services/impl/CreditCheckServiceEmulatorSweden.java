@@ -53,7 +53,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 decision,
                 application.getAppliedAmount(),
                 "Created by emulator credit check bureau, no html view available.",
-                new Random().nextInt(30),
+                new Random().nextInt(10),
                 new MoneyImpl(new BigDecimal(new Random().nextInt(500000)), Currency.getInstance(new Locale("sv", "SE"))),
                 0,
                 new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE"))),
@@ -112,7 +112,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         return new ApplicantImpl(
                 applicant.getId(),
                 applicant.getGovernmentId(),
-                new BigDecimal(new Random().nextInt(100)),
+                new BigDecimal(new Random().nextInt(7)),
                 applicant.getBirthDate(),
                 new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
                 new SimpleSecureAddressImpl(
@@ -125,7 +125,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                         Country.SWEDEN,
                         InformationProvider.POPULATION_REGISTERS
                 ),
-                new ArrayList<ApplicantContactMethod>(),
+                applicant.getContactMethods(),
                 (int)(Math.random()*300000)+100000
         );
     }

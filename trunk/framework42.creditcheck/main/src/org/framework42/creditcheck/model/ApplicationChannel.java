@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 public enum ApplicationChannel {
 
-    NONE(0), INTERNET(1), PHONE(2), LETTER(3);
+    NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5);
 
     private final int id;
 

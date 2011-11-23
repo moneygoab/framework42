@@ -120,6 +120,11 @@ public abstract class PageModel {
         return inParameters.get(key).asLong();
     }
 
+    public boolean hasInParameter(String key) {
+
+        return inParameters.containsKey(key);
+    }
+
     /**
      * Returns the html parameters that was sent to the page.
      * @return Returns the html parameters that was sent to the page.
