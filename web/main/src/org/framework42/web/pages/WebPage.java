@@ -125,64 +125,68 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             header.contains("*/*")
            ) {
 
-            logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
+            if(!req.getHeader("accept").startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !req.getHeader("accept").equalsIgnoreCase("*/*")) {
 
-            Html.Builder htmlBuilder = new Html.Builder();
+                logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
-            T session = null;
+                Html.Builder htmlBuilder = new Html.Builder();
 
-            try {
+                T session = null;
 
-                session = getSession(req, resp);
-
-                R model = pageLogic.setupParameters(this, req, resp, session);
-
-                mayAccessPage(session);
-                mayAccessPageSpecific(session, model, resp);
-
-                model = pageLogic.perform(this, req, resp, session, model);
-
-                if(postMethod == HtmlPostMethod.GET) {
-                    doGetSub(model, session, htmlBuilder);
-                } else {
-                    doPostSub(model, session, htmlBuilder);
-                }
-
-                writeHtmlPage(resp, htmlBuilder);
-
-            } catch (NotAuthorizedException e) {
-
-                logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-
-                resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
-
-            } catch (UserBlockedException e) {
-
-                logger.debug(e.getMessage()+" regarding viewing page " + this.getServletName());
-                resp.sendRedirect(I18N.INSTANCE.getURL("blocked_page", session.getLocale()));
-
-            }catch (StopServletExecutionException e) {
-
-                logger.debug("Execution stopped of servlet due to need for redirect.");
-
-            } catch (ManageableException e) {
-
-                handleManageablePageException(session, e, htmlBuilder);
                 try {
+
+                    session = getSession(req, resp);
+
+                    R model = pageLogic.setupParameters(this, req, resp, session);
+
+                    mayAccessPage(session);
+                    mayAccessPageSpecific(session, model, resp);
+
+                    model = pageLogic.perform(this, req, resp, session, model);
+
+                    if(postMethod == HtmlPostMethod.GET) {
+                        doGetSub(model, session, htmlBuilder);
+                    } else {
+                        doPostSub(model, session, htmlBuilder);
+                    }
 
                     writeHtmlPage(resp, htmlBuilder);
 
-                } catch (IOException ex) {
+                } catch (NotAuthorizedException e) {
+
+                    logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
+
+                    resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
+
+                } catch (UserBlockedException e) {
+
+                    logger.debug(e.getMessage()+" regarding viewing page " + this.getServletName());
+                    resp.sendRedirect(I18N.INSTANCE.getURL("blocked_page", session.getLocale()));
+
+                }catch (StopServletExecutionException e) {
+
+                    logger.debug("Execution stopped of servlet due to need for redirect.");
+
+                } catch (ManageableException e) {
+
+                    handleManageablePageException(session, e, htmlBuilder);
+                    try {
+
+                        writeHtmlPage(resp, htmlBuilder);
+
+                    } catch (IOException ex) {
+
+                        logUnhandledException(e);
+                        resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+                    }
+
+                } catch (Exception e) {
 
                     logUnhandledException(e);
-                    resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
+                    //TODO: Remove hardcoded fallback locale!
+                    resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv","SE")));
                 }
 
-            } catch (Exception e) {
-
-                logUnhandledException(e);
-                //TODO: Remove hardcoded fallback locale!
-                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv","SE")));
             }
 
         }

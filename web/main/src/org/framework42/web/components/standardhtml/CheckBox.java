@@ -25,6 +25,13 @@ public class CheckBox extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
+        if(builder.style!=null) {
+
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.checked!=null){
             htmlBuilder.append(" ");
             htmlBuilder.append(builder.checked);
@@ -42,17 +49,26 @@ public class CheckBox extends HtmlComponent {
 
         private String checked = null;
 
+        private String style = null;
+
         public Builder(String name, String value, Label label) {
             super(name, value);
             this.label = label;
         }
 
-        public Builder checked(boolean checked){
+        public Builder checked(boolean checked) {
+
             if(checked){
                 this.checked = "checked";
             }else{
                 this.checked = null;
             }
+            return this;
+        }
+
+        public Builder style(String style) {
+
+            this.style = style;
             return this;
         }
 
