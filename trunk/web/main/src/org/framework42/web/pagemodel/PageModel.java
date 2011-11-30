@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Class that represents the data model of an page, the model part in the MVC concept.
  * */
-public abstract class PageModel {
+public abstract class PageModel implements PageModelInterface {
 
     protected boolean error;
     protected String errorMessage;
@@ -95,6 +95,7 @@ public abstract class PageModel {
         return false;
     }
 
+    @Override
     public String getInParameterAsString(String key) {
         Parameter parameter = inParameters.get(key);
 
@@ -108,18 +109,22 @@ public abstract class PageModel {
         }
     }
 
+    @Override
     public Integer getInParameterAsInt(String key) {
         return inParameters.get(key).asInt();
     }
 
+    @Override
     public Integer[] getInParameterAsIntArray(String key) {
         return inParameters.get(key).asIntArray();
     }
 
+    @Override
     public Long getInParameterAsLong(String key) {
         return inParameters.get(key).asLong();
     }
 
+    @Override
     public boolean hasInParameter(String key) {
 
         return inParameters.containsKey(key);
@@ -129,6 +134,7 @@ public abstract class PageModel {
      * Returns the html parameters that was sent to the page.
      * @return Returns the html parameters that was sent to the page.
      * */
+    @Override
     public Map<String, Parameter> getInParameters() {
         return inParameters;
     }

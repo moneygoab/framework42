@@ -97,13 +97,13 @@ public enum ApplicantParser {
             }
 
             return new ApplicantImpl(
-                    application.getMainApplicant().getId(),
-                    application.getMainApplicant().getGovernmentId(),
+                    application.getCoApplicant().getId(),
+                    application.getCoApplicant().getGovernmentId(),
                     new BigDecimal(risk),
-                    application.getMainApplicant().getBirthDate(),
+                    application.getCoApplicant().getBirthDate(),
                     createApplicantNames(applicantInformationGroup),
                     createAddress(applicantInformationGroup),
-                    application.getMainApplicant().getContactMethods(),
+                    application.getCoApplicant().getContactMethods(),
                     income
             );
 
@@ -155,7 +155,7 @@ public enum ApplicantParser {
         String surname = "";
 
         String streetAddress = "";
-        PostalCode postalCode = null;
+        PostalCode postalCode = new PostalCodeImpl(PostalCodeFormat.UNKNOWN, "00000");
         String city = "";
         Country country = Country.SWEDEN;
 
@@ -175,6 +175,7 @@ public enum ApplicantParser {
 
             } else if("W08005".equals(term.getId())) {
 
+                logger.debug("Postal code from UC: "+term.getValue());
                 postalCode = new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, term.getValue());
 
             } else if("W08006".equals(term.getId())) {
