@@ -23,6 +23,10 @@ public class PostalCodeStringValidatorImpl implements PostalCodeStringValidator 
     @Override
     public boolean isValid(String value) {
 
+        if(validationScheme == null || validationScheme.length() == 0) {
+            return true;
+        }
+
         return value.matches(validationScheme);
     }
 

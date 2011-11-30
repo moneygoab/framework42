@@ -89,6 +89,30 @@ public enum Country {
 
             return SWEDEN;
 
+        } else if("Norge".equalsIgnoreCase(country) ||
+                "NOR".equalsIgnoreCase(country) ||
+                "NO".equalsIgnoreCase(country) ||
+                "Norway".equalsIgnoreCase(country)
+                ){
+
+            return NORWAY;
+
+        } else if("Danmark".equalsIgnoreCase(country) ||
+                "DNK".equalsIgnoreCase(country) ||
+                "DK".equalsIgnoreCase(country) ||
+                "Denmark".equalsIgnoreCase(country)
+                ){
+
+            return DENMARK;
+
+        } else if("Finland".equalsIgnoreCase(country) ||
+                "FIN".equalsIgnoreCase(country) ||
+                "FI".equalsIgnoreCase(country) ||
+                "Suomi".equalsIgnoreCase(country)
+                ){
+
+            return FINLAND;
+
         }
 
         throw new IllegalArgumentException("Could not parse a country from the string " + country);

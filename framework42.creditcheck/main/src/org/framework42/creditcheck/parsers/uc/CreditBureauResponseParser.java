@@ -25,38 +25,36 @@ public enum CreditBureauResponseParser {
 
         Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W131", 0);
 
-        Money recommendedCredit = application.getAppliedAmount();
+        Money recommendedCredit = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
         CreditDecision creditDecision = null;
 
-        for(Term term: decisionGroup.getTerm()) {
+        if(decisionGroup != null) {
+            for(Term term: decisionGroup.getTerm()) {
 
-            if("W13105".equals(term.getId())) {
+                if("W13105".equals(term.getId())) {
 
-                creditDecision = CreditDecision.getByUCCode(term.getValue());
+                    creditDecision = CreditDecision.getByUCCode(term.getValue());
 
-            } else if("W13106".equals(term.getId())) {
+                } else if("W13106".equals(term.getId())) {
 
-                recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
+                    recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
+                }
             }
-        }
-
-        if(creditDecision != CreditDecision.APPROVED && creditDecision != CreditDecision.REVIEW_REQUIRED) {
-
-            recommendedCredit = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
         }
 
         Group incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W491", 0);
 
         Money declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
 
-        for(Term term: incomeGroup.getTerm()) {
+        if(incomeGroup != null) {
+            for(Term term: incomeGroup.getTerm()) {
 
                 if("W49122".equals(term.getId())) {
 
                     declaredIncome = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())*1000), Currency.getInstance(new Locale("sv", "SE")));
-
                 }
             }
+        }
 
         int numberOfDebtCollections = 0;
 
@@ -83,25 +81,36 @@ public enum CreditBureauResponseParser {
         }
 
 
-        Group sumGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W640", 0);
-
         int numberOfCreditChecks = 0;
 
-        for(Term term: sumGroup.getTerm()) {
+        try {
+            Group sumGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W640", 0);
 
-            if("W64001".equals(term.getId())) {
+            if(sumGroup != null) {
+                for(Term term: sumGroup.getTerm()) {
 
-                numberOfCreditChecks = Integer.parseInt(term.getValue());
+                    if("W64001".equals(term.getId())) {
+
+                        numberOfCreditChecks = Integer.parseInt(term.getValue());
+                    }
+                }
+            } else {
+                logger.debug("First credit check for customer "+application.getMainApplicant().getGovernmentId());
             }
+        } catch(IllegalArgumentException e) {
+            logger.debug("First credit check for customer "+application.getMainApplicant().getGovernmentId());
         }
+
 
         String reasonCodes = "";
 
-        for(Term term: decisionGroup.getTerm()) {
+        if(decisionGroup != null) {
+            for(Term term: decisionGroup.getTerm()) {
 
-            if("W13114 ".equals(term.getValue())) {
+                if("W13114".equals(term.getValue())) {
 
-                reasonCodes = term.getValue();
+                    reasonCodes = term.getValue();
+                }
             }
         }
 
