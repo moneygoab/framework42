@@ -31,8 +31,8 @@ public enum BaseParser {
     public void validateReplyAndStatus(UcReply reply, String governmentId) throws CreditCheckException {
 
         if(reply == null) {
-            logger.info("Illegal government id of value "+governmentId+" in credit check");
-            throw new CreditCheckException(999, "Illegal government id of value "+governmentId);
+            logger.info("UC could not be contacted or illegal government id of value "+governmentId+" in credit check");
+            throw new CreditCheckException(999, "UC could not be contacted or illegal government id of value "+governmentId);
         }
 
         if("error".equals(reply.getStatus().getResult())) {
