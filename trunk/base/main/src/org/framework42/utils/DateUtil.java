@@ -26,6 +26,10 @@ public class DateUtil {
         Calendar fromCal = new GregorianCalendar();
         fromCal.setTime(dateToTransform);
         fromCal.set(Calendar.DAY_OF_MONTH, 1);
+        fromCal.set(Calendar.HOUR_OF_DAY, 0);
+        fromCal.set(Calendar.MINUTE, 0);
+        fromCal.set(Calendar.SECOND, 0);
+        fromCal.set(Calendar.MILLISECOND, 0);
 
         return fromCal.getTime();
     }
@@ -37,6 +41,10 @@ public class DateUtil {
         Calendar toCal = new GregorianCalendar();
         toCal.setTime(dateToTransform);
         toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        toCal.set(Calendar.HOUR_OF_DAY, toCal.getActualMaximum(Calendar.HOUR_OF_DAY));
+        toCal.set(Calendar.MINUTE, toCal.getActualMaximum(Calendar.MINUTE));
+        toCal.set(Calendar.SECOND, toCal.getActualMaximum(Calendar.SECOND));
+        toCal.set(Calendar.MILLISECOND, toCal.getActualMaximum(Calendar.MILLISECOND));
 
         return toCal.getTime();
     }
