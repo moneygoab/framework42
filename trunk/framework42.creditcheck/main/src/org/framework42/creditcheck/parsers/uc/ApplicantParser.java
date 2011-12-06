@@ -39,16 +39,21 @@ public enum ApplicantParser {
             }
         }
 
-        Group incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W495", 0);
+        Group incomeGroup = null;
+        try {
+            incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W495", 0);
+        } catch(IllegalArgumentException e) { logger.debug("No income group found for applicant "+application.getMainApplicant().getGovernmentId()+", assuming zero income."); }
 
         int income = 0;
 
-        for(Term term: incomeGroup.getTerm()) {
+        if(incomeGroup != null) {
+            for(Term term: incomeGroup.getTerm()) {
 
-            if("W49522".equals(term.getId())) {
+                if("W49522".equals(term.getId())) {
 
-                income = Integer.parseInt(term.getValue());
+                    income = Integer.parseInt(term.getValue());
 
+                }
             }
         }
 
@@ -83,16 +88,21 @@ public enum ApplicantParser {
                 }
             }
 
-            Group incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W495", 1);
+            Group incomeGroup = null;
+            try {
+                BaseParser.INSTANCE.findResponseGroup(reply, "W495", 1);
+            } catch(IllegalArgumentException e) { logger.debug("No income group found for co-applicant "+application.getCoApplicant().getGovernmentId()+", assuming zero income."); }
 
             int income = 0;
 
-            for(Term term: incomeGroup.getTerm()) {
+            if(incomeGroup != null) {
+                for(Term term: incomeGroup.getTerm()) {
 
-                if("W49522".equals(term.getId())) {
+                    if("W49522".equals(term.getId())) {
 
-                    income = Integer.parseInt(term.getValue());
+                        income = Integer.parseInt(term.getValue());
 
+                    }
                 }
             }
 
