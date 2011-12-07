@@ -53,6 +53,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 decision,
                 application.getAppliedAmount(),
                 "Created by emulator credit check bureau, no html view available.",
+                "Craeted by emulator credit check bureau, no html view available.",
                 new Random().nextInt(10),
                 new MoneyImpl(new BigDecimal(new Random().nextInt(500000)), Currency.getInstance(new Locale("sv", "SE"))),
                 0,

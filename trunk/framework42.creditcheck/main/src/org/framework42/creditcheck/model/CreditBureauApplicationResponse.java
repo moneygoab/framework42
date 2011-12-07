@@ -10,6 +10,8 @@ public interface CreditBureauApplicationResponse {
 
     public String getCreditBureauDecisionAsHtml();
 
+    public String getCoApplicantCreditBureauDecisionAsHtml();
+
     public int getNumberOfCreditChecks();
 
     public Money getDeclaredIncome();
