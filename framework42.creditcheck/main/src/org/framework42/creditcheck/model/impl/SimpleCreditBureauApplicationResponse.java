@@ -15,6 +15,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final String creditBureauDecisionAsHtml;
 
+    protected final String coApplicantCreditBureauDecisionAsHtml;
+
     protected final int numberOfCreditChecks;
 
     protected final Money declaredIncome;
@@ -25,12 +27,13 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final String reasonCodes;
 
-    public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml,
+    public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml, String coApplicantCreditBureauDecisionAsHtml,
                                                  int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, String reasonCodes) {
 
         this.creditBureauDecision = notNull(creditBureauDecision, "Credit bureau decision can't be null!");
         this.recommendedAmount = notNull(recommendedAmount, "Recommended amount can't be null!");
         this.creditBureauDecisionAsHtml = notNull(creditBureauDecisionAsHtml, "Decision as HTML can't be null!");
+        this.coApplicantCreditBureauDecisionAsHtml = notNull(coApplicantCreditBureauDecisionAsHtml, "Co-applicant decision as HTML can't be null!");
         this.numberOfCreditChecks = notNegative(numberOfCreditChecks, "Number of credit checks can't be of negative value!");
         this.declaredIncome = notNull(declaredIncome, "Declared income can't be null!");
         this.numberOfDebtCollections = notNegative(numberOfDebtCollections, "Number of debt collections can't be of negative value!");
@@ -51,6 +54,11 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     @Override
     public String getCreditBureauDecisionAsHtml() {
         return creditBureauDecisionAsHtml;
+    }
+
+    @Override
+    public String getCoApplicantCreditBureauDecisionAsHtml() {
+        return coApplicantCreditBureauDecisionAsHtml;
     }
 
     @Override

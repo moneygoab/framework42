@@ -114,10 +114,17 @@ public enum CreditBureauResponseParser {
             }
         }
 
+        String coApplicantHtmlReply = "";
+        if(reply.getUcReport().size()>1) {
+
+            coApplicantHtmlReply = reply.getUcReport().get(1).getHtmlReply();
+        }
+
         return new SimpleCreditBureauApplicationResponse(
                 creditDecision,
                 recommendedCredit,
                 reply.getUcReport().get(0).getHtmlReply(),
+                coApplicantHtmlReply,
                 numberOfCreditChecks,
                 declaredIncome,
                 numberOfDebtCollections,
