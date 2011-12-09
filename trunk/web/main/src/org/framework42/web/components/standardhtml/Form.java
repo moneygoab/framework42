@@ -78,6 +78,12 @@ public class Form extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.target != null) {
+            htmlBuilder.append(" target=\"");
+            htmlBuilder.append(builder.target.getId());
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
         htmlBuilder.append(new Hidden("form_action", builder.actionId).getHtml(page, parent, false));
@@ -181,6 +187,8 @@ public class Form extends HtmlComponent {
 
         private String encodingType = null;
 
+        private LinkTarget target = null;
+
         private String style = null;
 
         private String errorBackgroundColor = null;
@@ -224,6 +232,12 @@ public class Form extends HtmlComponent {
 
         public Builder style(String style){
             this.style = style;
+            return this;
+        }
+
+        public Builder target(LinkTarget target) {
+
+            this.target = target;
             return this;
         }
 
