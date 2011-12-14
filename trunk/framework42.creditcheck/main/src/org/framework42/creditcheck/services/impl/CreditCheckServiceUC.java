@@ -1,13 +1,20 @@
 package org.framework42.creditcheck.services.impl;
 
+import org.framework42.ServiceBinderInterface;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.*;
+import org.framework42.creditcheck.model.impl.ApplicantImpl;
+import org.framework42.creditcheck.model.impl.CoApplicantApplicationResponseImpl;
 import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
 import uc_webservice.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class CreditCheckServiceUC implements CreditCheckService {
 
@@ -21,6 +28,8 @@ public class CreditCheckServiceUC implements CreditCheckService {
 
         return parseUCResponse(reply, application);
     }
+
+
 
     private Customer createUcCustomer(CreditBureauContext context) {
 
@@ -76,6 +85,94 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
                 CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application)
         );
+    }
+
+    @Override
+    public CoApplicantApplicationResponse addCoApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
+
+        UcReply reply = makeCoApplicantCreditCheck(context, appliedAmount, governmentId);
+
+        Applicant coApplicant = parseCoApplicant(governmentId, reply);
+
+        CoApplicantApplicationResponse response = new CoApplicantApplicationResponseImpl(
+                applicationId,
+                coApplicant,
+                reply.getUcReport().get(0).getHtmlReply()
+        );
+
+        return response;
+    }
+
+    private Applicant parseCoApplicant(String governmentId, UcReply reply) {
+
+        UcReport report = reply.getUcReport().get(0);
+
+        Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W131", 0);
+
+        float risk = 0;
+
+        for(Term term: decisionGroup.getTerm()) {
+
+            if("W13111".equals(term.getId())) {
+
+                String cleaned = term.getValue().replaceAll("%", "").trim().replaceAll(",",".");
+                risk = Float.parseFloat(cleaned);
+
+            }
+        }
+
+        Group incomeGroup = null;
+        try {
+            incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W495", 0);
+        } catch(IllegalArgumentException e) {  }
+
+        int income = 0;
+
+        if(incomeGroup != null) {
+            for(Term term: incomeGroup.getTerm()) {
+
+                if("W49522".equals(term.getId())) {
+
+                    income = Integer.parseInt(term.getValue());
+
+                }
+            }
+        }
+
+        Group applicantInformationGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W080", 0);
+
+        return new ApplicantImpl(
+                0,
+                governmentId,
+                new BigDecimal(risk),
+                new Date(),
+                ApplicantParser.INSTANCE.createApplicantNames(applicantInformationGroup),
+                ApplicantParser.INSTANCE.createAddress(applicantInformationGroup),
+                new ArrayList<ApplicantContactMethod>(),
+                income
+        );
+    }
+
+    private UcReply makeCoApplicantCreditCheck(CreditBureauContext context, int appliedAmount, String governmentId) {
+
+        UcOrders orders = new UCOrderService().getUcOrders2();
+
+        Template template = new Template();
+        template.setId(context.getPolicyRules());
+
+        ReportQuery reportQuery = new ReportQuery();
+        reportQuery.setHtmlReply(true);
+        reportQuery.setCreditSeeked(appliedAmount);
+        reportQuery.setObject(governmentId);
+        reportQuery.setTemplate(template);
+        reportQuery.setXmlReply(true);
+
+        IndividualReport individualReport = new IndividualReport();
+        individualReport.setCustomer(createUcCustomer(context));
+        individualReport.setIndividualReportQuery(reportQuery);
+        individualReport.setProduct(context.getPolicyProduct());
+
+        return orders.individualReport(individualReport);
     }
 
 }

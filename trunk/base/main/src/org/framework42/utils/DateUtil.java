@@ -60,6 +60,32 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static Date toStartOfDay(Date day) {
+
+        notNull(day, "Current day can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(day);
+        cal.add(Calendar.HOUR_OF_DAY, 0);
+        cal.add(Calendar.MINUTE, 0);
+        cal.add(Calendar.SECOND, 0);
+
+        return cal.getTime();
+    }
+
+    public static Date toEndOfDay(Date day) {
+
+        notNull(day, "Current day can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(day);
+        cal.add(Calendar.HOUR_OF_DAY, 23);
+        cal.add(Calendar.MINUTE, 59);
+        cal.add(Calendar.SECOND, 59);
+
+        return cal.getTime();
+    }
+
     public static Date stepForward(Date currentDate, int numberOfSteps) {
 
             notNull(currentDate, "Current date can't be null!");

@@ -2,10 +2,7 @@ package org.framework42.creditcheck.services.impl;
 
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.*;
-import org.framework42.creditcheck.model.impl.ApplicantImpl;
-import org.framework42.creditcheck.model.impl.ApplicantNamesImpl;
-import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
-import org.framework42.creditcheck.model.impl.SimpleCreditBureauApplicationResponse;
+import org.framework42.creditcheck.model.impl.*;
 import org.framework42.creditcheck.services.CreditCheckService;
 import org.framework42.datageneration.CityContainer;
 import org.framework42.datageneration.FirstNamesContainer;
@@ -21,10 +18,7 @@ import org.framework42.model.users.Gender;
 import org.framework42.services.impl.MoneyImpl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
@@ -131,4 +125,39 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         );
     }
 
+    @Override
+    public CoApplicantApplicationResponse addCoApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
+
+        Gender gender = Gender.MALE;
+        if(Long.parseLong(governmentId.substring(6, 9))%2 == 0) {
+            gender = Gender.FEMALE;
+        }
+
+        String firstName = firstNamesContainer.getRandomName(gender);
+        String surname = surnamesContainer.getRandomSurname();
+
+        return new CoApplicantApplicationResponseImpl(
+                applicationId,
+                new ApplicantImpl(
+                        0,
+                        governmentId,
+                        BigDecimal.ZERO,
+                        new Date(),
+                        new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
+                        new SimpleSecureAddressImpl(
+                                0,
+                                firstName + " " + surname,
+                                "",
+                                streetsContainer.getStreetName(),
+                                new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, (new Random().nextInt(80000)+10000)+""),
+                                cityContainer.getCity(),
+                                Country.SWEDEN,
+                                InformationProvider.POPULATION_REGISTERS
+                        ),
+                        new ArrayList<ApplicantContactMethod>(),
+                        (int)(Math.random()*300000)+100000
+                ),
+                "Created by emulator credit check bureau, no html view available."
+        );
+    }
 }
