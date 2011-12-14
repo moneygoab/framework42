@@ -14,6 +14,11 @@ public class Hidden extends HtmlComponent {
         this.builder = new Builder(name, value);
     }
 
+    public Hidden(String name, int value) {
+
+        this.builder = new Builder(name, value+"");
+    }
+
     private Hidden(Builder builder){
 
         this.builder = builder;
@@ -34,6 +39,10 @@ public class Hidden extends HtmlComponent {
 
         public Builder(String name, String value) {
             super(name, value);
+        }
+
+        public Builder(String name, int value) {
+            super(name, value+"");
         }
 
         @Override

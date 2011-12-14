@@ -130,7 +130,7 @@ public enum ApplicantParser {
         return null;
     }
 
-    private ApplicantNames createApplicantNames(Group group) {
+    public ApplicantNames createApplicantNames(Group group) {
 
         String fullName = "";
         String firstName = "";
@@ -159,7 +159,7 @@ public enum ApplicantParser {
         );
     }
 
-    private TrustedAddress createAddress(Group group) {
+    public TrustedAddress createAddress(Group group) {
 
         String firstName = "";
         String surname = "";
