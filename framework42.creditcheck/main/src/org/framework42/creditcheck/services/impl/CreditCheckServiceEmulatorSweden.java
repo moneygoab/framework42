@@ -74,7 +74,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
             throw new CreditCheckException("Technical test error! Cast to test error handling.");
 
-        } else if(governmentId.endsWith("1") || governmentId.endsWith("4") || governmentId.endsWith("7")) {
+        } else if(governmentId.endsWith("1") || governmentId.endsWith("4") || governmentId.endsWith("7") || governmentId.endsWith("5") ) {
 
             return CreditDecision.APPROVED;
 

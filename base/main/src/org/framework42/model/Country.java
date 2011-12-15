@@ -1,15 +1,17 @@
 package org.framework42.model;
 
-import com.sun.xml.internal.messaging.saaj.util.FinalArrayList;
+import java.util.Locale;
 
 import static org.framework42.utils.NullChecker.notNull;
 
 public enum Country {
 
-    DENMARK("DK", "DNK", 208, "DKK"),
-    NORWAY("NO", "NOR", 578, "NOK"),
-    SWEDEN("SE", "SWE", 752, "SEK"),
-    FINLAND("FI", "FIN", 246, "EUR");
+    DENMARK("da", "DK", "DNK", 208, "DKK"),
+    NORWAY("no", "NO", "NOR", 578, "NOK"),
+    SWEDEN("sv", "SE", "SWE", 752, "SEK"),
+    FINLAND("fi","FI", "FIN", 246, "EUR");
+
+    private final String languageCode;
 
     private final String alpha2Code;
 
@@ -19,12 +21,17 @@ public enum Country {
 
     private final String currencyCode;
 
-    private Country(String alpha2Code, String alpha3Code, int numericCode, String currencyCode) {
+    private Country(String languageCode, String alpha2Code, String alpha3Code, int numericCode, String currencyCode) {
 
+        this.languageCode = languageCode;
         this.alpha2Code = alpha2Code;
         this.alpha3Code = alpha3Code;
         this.numericCode = numericCode;
         this.currencyCode = currencyCode;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
     }
 
     public String getCountryCode() {
@@ -116,6 +123,11 @@ public enum Country {
         }
 
         throw new IllegalArgumentException("Could not parse a country from the string " + country);
+    }
+
+    public Locale getDefaultLocale() {
+
+        return new Locale(languageCode, alpha2Code);
     }
 
 }
