@@ -2,7 +2,6 @@ package org.framework42.web.components.extensions;
 
 import org.framework42.i18n.I18N;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.*;
 import org.framework42.web.pagemodel.PageModel;
 import org.framework42.web.pages.WebPage;
@@ -33,7 +32,7 @@ public class SimpleLoginSquare extends HtmlComponent {
 
         loginSquare.add(new Headline.Builder(Headline.H2, i18n.get("login_title", locale)).className("white").build());
 
-        Form.Builder loginForm = new Form.Builder("login_form", i18n.getURL("login_page", locale), "login_form", HtmlPostMethod.POST);
+        Form.Builder loginForm = new Form.Builder("login_form", i18n.getURL("login_page", locale), "login_form");
 
         loginForm.add(new Label(i18n.get("user_name", locale)));
         loginForm.add(new Break());
