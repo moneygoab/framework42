@@ -195,6 +195,16 @@ public class Form extends HtmlComponent {
 
         private PageAction submitPageAction = BasePageAction.SUBMIT_FORM;
 
+        public Builder(String name, String action, String actionId) {
+
+            this(name, action, actionId, HtmlPostMethod.POST);
+        }
+
+        public Builder(String name, String action, PageAction pageAction) {
+
+            this(name, action, pageAction.getIdentifier(), HtmlPostMethod.POST);
+        }
+
         public Builder(String name, String action, String actionId, HtmlPostMethod postMethod) {
             this.name = notNull(name, "Name can't be null!");
             this.action = notNull(action, "Action can't be null!");

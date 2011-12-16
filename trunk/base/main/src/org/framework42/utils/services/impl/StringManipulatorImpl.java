@@ -114,7 +114,7 @@ public class StringManipulatorImpl implements StringManipulator {
             returnString = "-"+returnString;
         }
 
-        return  returnString;
+        return  returnString.trim();
     }
 }
 
