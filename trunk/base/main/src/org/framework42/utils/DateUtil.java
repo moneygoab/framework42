@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.framework42.utils.NullChecker.notNull;
+import static java.util.Calendar.*;
 
 public class DateUtil {
 
@@ -14,7 +15,7 @@ public class DateUtil {
 
         Calendar fromCal = new GregorianCalendar();
         fromCal.setTime(dateToTransform);
-        fromCal.set(Calendar.DAY_OF_MONTH, day);
+        fromCal.set(DAY_OF_MONTH, day);
 
         return fromCal.getTime();
     }
@@ -25,11 +26,11 @@ public class DateUtil {
 
         Calendar fromCal = new GregorianCalendar();
         fromCal.setTime(dateToTransform);
-        fromCal.set(Calendar.DAY_OF_MONTH, 1);
-        fromCal.set(Calendar.HOUR_OF_DAY, 0);
-        fromCal.set(Calendar.MINUTE, 0);
-        fromCal.set(Calendar.SECOND, 0);
-        fromCal.set(Calendar.MILLISECOND, 0);
+        fromCal.set(DAY_OF_MONTH, 1);
+        fromCal.set(HOUR_OF_DAY, 0);
+        fromCal.set(MINUTE, 0);
+        fromCal.set(SECOND, 0);
+        fromCal.set(MILLISECOND, 0);
 
         return fromCal.getTime();
     }
@@ -40,11 +41,11 @@ public class DateUtil {
 
         Calendar toCal = new GregorianCalendar();
         toCal.setTime(dateToTransform);
-        toCal.set(Calendar.DAY_OF_MONTH, toCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        toCal.set(Calendar.HOUR_OF_DAY, toCal.getActualMaximum(Calendar.HOUR_OF_DAY));
-        toCal.set(Calendar.MINUTE, toCal.getActualMaximum(Calendar.MINUTE));
-        toCal.set(Calendar.SECOND, toCal.getActualMaximum(Calendar.SECOND));
-        toCal.set(Calendar.MILLISECOND, toCal.getActualMaximum(Calendar.MILLISECOND));
+        toCal.set(DAY_OF_MONTH, toCal.getActualMaximum(DAY_OF_MONTH));
+        toCal.set(HOUR_OF_DAY, toCal.getActualMaximum(HOUR_OF_DAY));
+        toCal.set(MINUTE, toCal.getActualMaximum(MINUTE));
+        toCal.set(SECOND, toCal.getActualMaximum(SECOND));
+        toCal.set(MILLISECOND, toCal.getActualMaximum(MILLISECOND));
 
         return toCal.getTime();
     }
@@ -55,9 +56,10 @@ public class DateUtil {
 
         Calendar toCal = new GregorianCalendar();
         toCal.setTime(dateToTransform);
-        toCal.set(Calendar.HOUR_OF_DAY, toCal.getActualMinimum(Calendar.HOUR_OF_DAY));
-        toCal.set(Calendar.MINUTE, toCal.getActualMinimum(Calendar.MINUTE));
-        toCal.set(Calendar.SECOND, toCal.getActualMinimum(Calendar.SECOND));
+        toCal.set(HOUR_OF_DAY, toCal.getActualMinimum(HOUR_OF_DAY));
+        toCal.set(MINUTE, toCal.getActualMinimum(MINUTE));
+        toCal.set(SECOND, toCal.getActualMinimum(SECOND));
+        toCal.set(MILLISECOND, toCal.getActualMinimum(MILLISECOND));
 
         return toCal.getTime();
     }
@@ -68,9 +70,10 @@ public class DateUtil {
 
         Calendar toCal = new GregorianCalendar();
         toCal.setTime(dateToTransform);
-        toCal.set(Calendar.HOUR_OF_DAY, toCal.getActualMaximum(Calendar.HOUR_OF_DAY));
-        toCal.set(Calendar.MINUTE, toCal.getActualMaximum(Calendar.MINUTE));
-        toCal.set(Calendar.SECOND, toCal.getActualMaximum(Calendar.SECOND));
+        toCal.set(HOUR_OF_DAY, toCal.getActualMaximum(HOUR_OF_DAY));
+        toCal.set(MINUTE, toCal.getActualMaximum(MINUTE));
+        toCal.set(SECOND, toCal.getActualMaximum(SECOND));
+        toCal.set(MILLISECOND, toCal.getActualMaximum(MILLISECOND));
 
         return toCal.getTime();
     }
@@ -81,7 +84,7 @@ public class DateUtil {
 
         Calendar cal = new GregorianCalendar();
         cal.setTime(currentMonth);
-        cal.add(Calendar.MONTH, monthsToStepBack*-1);
+        cal.add(MONTH, monthsToStepBack*-1);
 
         return cal.getTime();
     }
@@ -92,7 +95,7 @@ public class DateUtil {
 
         Calendar cal = new GregorianCalendar();
         cal.setTime(currentDate);
-        cal.add(Calendar.MILLISECOND, numberOfSteps);
+        cal.add(MILLISECOND, numberOfSteps);
 
         return cal.getTime();
     }
