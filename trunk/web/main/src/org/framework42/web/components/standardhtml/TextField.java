@@ -10,6 +10,14 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
 
     private Builder builder;
 
+    public TextField(String idAndName) {
+        this.builder = new Builder(idAndName);
+    }
+
+    public TextField(String idAndName, String value) {
+        this.builder = new Builder(idAndName, value);
+    }
+
     public TextField(String id, String name, String value) {
         this.builder = new Builder(id, name, value);
     }
@@ -62,6 +70,14 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
         private String maxLength = null;
 
         private String style = null;
+
+        public Builder(String idAndName) {
+            this(idAndName, idAndName, "");
+        }
+
+        public Builder(String idAndName, String value) {
+            this(idAndName, idAndName, value);
+        }
 
         public Builder(String id, String name, String value) {
             super(name, value);

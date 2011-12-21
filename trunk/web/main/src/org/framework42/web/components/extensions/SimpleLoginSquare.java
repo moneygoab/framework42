@@ -36,7 +36,7 @@ public class SimpleLoginSquare extends HtmlComponent {
 
         loginForm.add(new Label(i18n.get("user_name", locale)));
         loginForm.add(new Break());
-        loginForm.add(new TextField.Builder("user_name", "user_name", "")
+        loginForm.add(new TextField.Builder("user_name")
                 .parameter(model.getPageParameters().get("user_name"))
                 .autoFocus(true)
                 .build()

@@ -10,6 +10,10 @@ public class PasswordField extends HtmlComponent implements HtmlComponentInput {
 
     private Builder builder;
 
+    public PasswordField(String idAndName) {
+        this.builder = new Builder(idAndName, "");
+    }
+
     public PasswordField(String id, String name) {
         this.builder = new Builder(id, name, "");
     }
@@ -56,6 +60,16 @@ public class PasswordField extends HtmlComponent implements HtmlComponentInput {
         private String readonly = null;
 
         private String maxLength = null;
+
+        public Builder(String idAndName) {
+
+            this(idAndName, idAndName, "");
+        }
+
+        public Builder(String idAndName, String value) {
+
+            this(idAndName, idAndName, value);
+        }
 
         public Builder(String id, String name, String value) {
             super(name, value);

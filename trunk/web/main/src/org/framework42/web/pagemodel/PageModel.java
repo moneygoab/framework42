@@ -44,7 +44,7 @@ public abstract class PageModel implements PageModelInterface {
         pageDescriptionKey = "page_description";
         pageCharacterSet = "utf-8";
     }
-        
+
     public boolean isError() {
         return error;
     }
@@ -60,7 +60,7 @@ public abstract class PageModel implements PageModelInterface {
 
     public void revertError() {
         this.error = false;
-        this.errorMessage = null;
+        this.errorMessage = "";
     }
 
     public String getPageTitleKey() {
@@ -91,6 +91,16 @@ public abstract class PageModel implements PageModelInterface {
 
         if(currentPageAction.getIdentifier().equals(pageAction.getIdentifier())) {
             return true;
+        }
+        return false;
+    }
+
+    public boolean isCurrentPageAction(Iterable<PageAction> pageActionList) {
+
+        for(PageAction pageAction: pageActionList) {
+            if(currentPageAction.getIdentifier().equals(pageAction.getIdentifier())) {
+                return true;
+            }
         }
         return false;
     }

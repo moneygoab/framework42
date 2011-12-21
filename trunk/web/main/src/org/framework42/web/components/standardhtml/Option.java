@@ -9,9 +9,20 @@ public class Option extends HtmlComponent {
 
     private Builder builder;
 
+    public Option(int value, String text) {
+
+        this.builder = new Builder(value, text);
+    }
+
     public Option(String value, String text) {
 
         this.builder = new Builder(value, text);
+    }
+
+    public Option(int value, String text, boolean selected) {
+
+        this.builder = new Builder(value, text);
+        this.builder.selected(selected);
     }
 
     public Option(String value, String text, boolean selected) {
@@ -70,6 +81,11 @@ public class Option extends HtmlComponent {
         private String disabled;
 
         private String label;
+
+        public Builder(int value, String text) {
+            this.value = value+"";
+            this.text = text;
+        }
 
         public Builder(String value, String text) {
             this.value = value;
