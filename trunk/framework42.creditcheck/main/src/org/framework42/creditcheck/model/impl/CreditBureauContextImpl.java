@@ -7,6 +7,8 @@ import static org.framework42.utils.NullChecker.notNull;
 
 public class CreditBureauContextImpl implements CreditBureauContext {
 
+    private final int id;
+
     private final CreditBureau creditBureau;
 
     private final String userId;
@@ -19,14 +21,20 @@ public class CreditBureauContextImpl implements CreditBureauContext {
 
     private final String policyRules;
 
-    public CreditBureauContextImpl(CreditBureau creditBureau, String userId, String password, String name, String policyProduct, String policyRules) {
+    public CreditBureauContextImpl(int id, CreditBureau creditBureau, String userId, String password, String name, String policyProduct, String policyRules) {
 
+        this.id = id;
         this.creditBureau = notNull(creditBureau, "Credit bureau can't be null!");
         this.userId = notNull(userId, "User id can't be null!");
         this.password = notNull(password, "Password can't be null!");
         this.name = notNull(name, "Name can't be null!");
         this.policyProduct = notNull(policyProduct, "Policy product can't be null!");
         this.policyRules = notNull(policyRules, "Policy rules can't be null!");
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

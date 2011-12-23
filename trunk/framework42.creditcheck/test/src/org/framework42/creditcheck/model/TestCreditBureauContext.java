@@ -9,6 +9,7 @@ public class TestCreditBureauContext {
     public void testInstantiate() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 "testuser",
                 "testpassword",
@@ -22,6 +23,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullCreditBureau() {
 
         new CreditBureauContextImpl(
+                0,
                 null,
                 "testuser",
                 "testpassword",
@@ -35,6 +37,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullUser() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 null,
                 "testpassword",
@@ -48,6 +51,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullPassword() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 "testuser",
                 null,
@@ -61,6 +65,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullName() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 "testuser",
                 "testpassword",
@@ -74,6 +79,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullPolicyProduct() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 "testuser",
                 "testpassword",
@@ -87,6 +93,7 @@ public class TestCreditBureauContext {
     public void testInstantiateNullPolicyRule() {
 
         new CreditBureauContextImpl(
+                0,
                 CreditBureau.EMULATOR_SWEDEN,
                 "testuser",
                 "testpassword",
