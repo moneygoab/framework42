@@ -11,6 +11,8 @@ public class CreditBureauContextImpl implements CreditBureauContext {
 
     private final CreditBureau creditBureau;
 
+    private final String description;
+
     private final String userId;
 
     private final String password;
@@ -21,10 +23,11 @@ public class CreditBureauContextImpl implements CreditBureauContext {
 
     private final String policyRules;
 
-    public CreditBureauContextImpl(int id, CreditBureau creditBureau, String userId, String password, String name, String policyProduct, String policyRules) {
+    public CreditBureauContextImpl(int id, CreditBureau creditBureau, String description, String userId, String password, String name, String policyProduct, String policyRules) {
 
         this.id = id;
         this.creditBureau = notNull(creditBureau, "Credit bureau can't be null!");
+        this.description = notNull(description, "Description can't be null!");
         this.userId = notNull(userId, "User id can't be null!");
         this.password = notNull(password, "Password can't be null!");
         this.name = notNull(name, "Name can't be null!");
@@ -40,6 +43,11 @@ public class CreditBureauContextImpl implements CreditBureauContext {
     @Override
     public CreditBureau getCreditBureau() {
         return creditBureau;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

@@ -6,6 +6,8 @@ public interface CreditBureauContext {
 
     public CreditBureau getCreditBureau();
 
+    public String getDescription();
+
     public String getUserId();
 
     public String getPassword();
