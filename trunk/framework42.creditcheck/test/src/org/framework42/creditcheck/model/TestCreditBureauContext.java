@@ -11,6 +11,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 "testuser",
                 "testpassword",
                 "",
@@ -25,6 +26,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 null,
+                "test",
                 "testuser",
                 "testpassword",
                 "",
@@ -39,6 +41,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 null,
                 "testpassword",
                 "",
@@ -53,6 +56,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 "testuser",
                 null,
                 "",
@@ -67,6 +71,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 "testuser",
                 "testpassword",
                 null,
@@ -81,6 +86,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 "testuser",
                 "testpassword",
                 "",
@@ -95,6 +101,7 @@ public class TestCreditBureauContext {
         new CreditBureauContextImpl(
                 0,
                 CreditBureau.EMULATOR_SWEDEN,
+                "test",
                 "testuser",
                 "testpassword",
                 "",
