@@ -108,24 +108,32 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
        System.out.println("\n\n\n\n\n\n"); */
 
         //TODO: Handle Firefox double calls better.
-        logger.debug(req.getHeader("user-agent"));
-        logger.debug("http accept header: "+req.getHeader("accept"));
+        String accept = req.getHeader("accept");
+        if(accept==null) {
+            accept = "*/*;bot";
 
-        String header = req.getHeader("accept");
-        if(header==null) {
-            header = "*/*";
+            logger.debug(req.getHeader("user-agent"));
+            logger.debug("http bot accept header: "+req.getHeader("accept"));
+        } else {
+
+            logger.debug(req.getHeader("user-agent"));
+            logger.debug("http accept header: "+req.getHeader("accept"));
         }
 
+
+
+        //image/png,image/*;q=0.8,*/*;q=0.5
+        //text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
         //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
-        if(!header.contains("image/*")
+        if(!accept.contains("image/*")
            &&
-           (header.contains("text/html") ||
-            header.contains("application/xaml+xml")) ||
-            header.contains("application/x-ms-application") ||
-            header.contains("*/*")
+           (accept.contains("text/html") ||
+            accept.contains("application/xaml+xml")) ||
+            accept.contains("application/x-ms-application") ||
+            accept.contains("*/*")
            ) {
 
-            if(!req.getHeader("accept").startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !req.getHeader("accept").equalsIgnoreCase("*/*")) {
+            if(!accept.startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !accept.equalsIgnoreCase("*/*")) {
 
                 logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
