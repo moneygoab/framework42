@@ -9,13 +9,28 @@ import static java.util.Calendar.*;
 
 public class DateUtil {
 
-    public static Date toDayInMonth(Date dateToTransform, int day) {
+    public static Date toDayInMonth(Date dateToTransform, int day, boolean toStartOfDay) {
 
         notNull(dateToTransform, "Date to transform can't be null!");
 
         Calendar fromCal = new GregorianCalendar();
         fromCal.setTime(dateToTransform);
         fromCal.set(DAY_OF_MONTH, day);
+
+        if(toStartOfDay) {
+
+            fromCal.set(HOUR_OF_DAY, fromCal.getActualMinimum(HOUR_OF_DAY));
+            fromCal.set(MINUTE, fromCal.getActualMinimum(MINUTE));
+            fromCal.set(SECOND, fromCal.getActualMinimum(SECOND));
+            fromCal.set(MILLISECOND, fromCal.getActualMinimum(MILLISECOND));
+
+        } else {
+
+            fromCal.set(HOUR_OF_DAY, fromCal.getActualMaximum(HOUR_OF_DAY));
+            fromCal.set(MINUTE, fromCal.getActualMaximum(MINUTE));
+            fromCal.set(SECOND, fromCal.getActualMaximum(SECOND));
+            fromCal.set(MILLISECOND, fromCal.getActualMaximum(MILLISECOND));
+        }
 
         return fromCal.getTime();
     }
