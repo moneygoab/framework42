@@ -120,7 +120,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             logger.debug("http accept header: "+req.getHeader("accept"));
         }
 
-
+        boolean ajax = false;
+        if(req.getParameter("ajax")!=null) { ajax = true;}
 
         //image/png,image/*;q=0.8,*/*;q=0.5
         //text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -133,7 +134,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             accept.contains("*/*")
            ) {
 
-            if(!accept.startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !accept.equalsIgnoreCase("*/*")) {
+            if(ajax || (!accept.startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !accept.equalsIgnoreCase("*/*"))) {
 
                 logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
 
