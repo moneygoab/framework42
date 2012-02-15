@@ -47,4 +47,5 @@ public enum GoogleMailSender implements MailSender {
             }
 
     }
+
 }
