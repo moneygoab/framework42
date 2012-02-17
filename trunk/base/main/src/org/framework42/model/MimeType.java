@@ -18,6 +18,7 @@ public enum MimeType {
     HTML(MimeCategory.TEXT, "html"),
     PLAIN_TEXT(MimeCategory.TEXT, "plain"),
     RITCH_TEXT(MimeCategory.TEXT, "richtext"),
+    CSV(MimeCategory.TEXT, "csv"),
     V_CARD(MimeCategory.TEXT, "x-vcard");
 
     private MimeCategory category;
