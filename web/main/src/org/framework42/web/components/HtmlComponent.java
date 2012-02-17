@@ -18,6 +18,11 @@ public abstract class HtmlComponent {
         htmlBuilder = new StringBuilder();
     }
 
+    public String getHtml(WebPage page, HtmlComponent parent) {
+
+        return getHtml(page, parent, false);
+    }
+
     public String getHtml(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
         htmlBuilder = new StringBuilder();
