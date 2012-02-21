@@ -90,10 +90,20 @@ public abstract class AbstractBaseWebPage<T extends UserSession, R extends PageM
         head.add(new HeadLink.Builder(HeadLinkRelationship.STYLESHEET, "css/base_style.css", MimeType.CSS).build());
 
         if(model.getClass().getAnnotation(Tabable.class) != null && model.getClass().getAnnotation(Tabable.class).tabCacheType() != TabCacheType.NEVER_CACHE) {
+
+            StringBuilder getParams = new StringBuilder();
+            for(String key: model.getInParameters().keySet()) {
+
+                getParams.append("&");
+                getParams.append(key);
+                getParams.append("=");
+                getParams.append(model.getInParameters().get(key).asString());
+            }
+
             //TODO: Import instead?
             JavaScript.Builder javascript = new JavaScript.Builder();
             javascript.addScriptLine("function saveTabState() {");
-            javascript.addScriptLine("\tvar params = \"tabId="+((TabableApp)session).getActiveTabEnvironment().getId()+"&pageData=\"+escapeParameters(serializeXML(document.getElementById('page_area')));");
+            javascript.addScriptLine("\tvar params = \"tabId="+((TabableApp)session).getActiveTabEnvironment().getId()+getParams.toString()+"&pageData=\"+escapeParameters(serializeXML(document.getElementById('page_area')));");
             javascript.addScriptLine("\t//alert(serializeXML(document.getElementById('page_area')));");
             javascript.addScriptLine("\tvar xmlHttp = getXmlHttp();");
             javascript.addScriptLine("\txmlHttp.open(\"POST\",\"SaveTabView\",false);");

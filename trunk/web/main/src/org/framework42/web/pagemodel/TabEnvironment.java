@@ -8,7 +8,7 @@ public class TabEnvironment {
 
     private final long id;
 
-    private final TabButton tabButton;
+    private TabButton tabButton;
 
     private TabCacheType cacheType;
 
@@ -36,6 +36,10 @@ public class TabEnvironment {
 
     public TabButton getTabButton() {
         return tabButton;
+    }
+
+    public void setTabButton(TabButton tabButton) {
+        this.tabButton = tabButton;
     }
 
     public PageModel getPageModel() {

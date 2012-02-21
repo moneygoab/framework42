@@ -50,8 +50,12 @@ public class TabButton extends HtmlComponent {
 
         private Link closeButton = null;
 
+        private final String closeButtonURL;
+
         public Builder(Link tabLink, String closeButtonURL) {
             this.tabLink = tabLink;
+
+            this.closeButtonURL = closeButtonURL;
 
             ComponentGroup.Builder components = new ComponentGroup.Builder();
 
@@ -89,6 +93,17 @@ public class TabButton extends HtmlComponent {
         @Override
         public TabButton build() {
             return new TabButton(this);
+        }
+
+        public void updateGetParameters(Map<String,String> newParameters) {
+
+            tabLink.getBuilder().clearParameters();
+            tabLink.getBuilder().setParameters(newParameters);
+        }
+
+        public String getCloseButtonURL() {
+
+            return closeButtonURL;
         }
     }
 

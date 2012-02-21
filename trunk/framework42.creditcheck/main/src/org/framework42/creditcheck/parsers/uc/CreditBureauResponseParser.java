@@ -42,8 +42,12 @@ public enum CreditBureauResponseParser {
             }
         }
 
-        Group incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W491", 0);
-
+        Group incomeGroup = null;
+        try {
+            incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W491", 0);
+        } catch(IllegalArgumentException e) {
+            logger.debug("No income group found (W491) assuming 0 income.");
+        }
         Money declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
 
         if(incomeGroup != null) {
