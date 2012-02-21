@@ -164,6 +164,16 @@ public class Link extends HtmlComponent {
             return this;
         }
 
+        public Builder clearParameters() {
+            parameters.clear();
+            return this;
+        }
+
+        public void setParameters(Map<String, String> parameters) {
+
+            this.parameters = parameters;
+        }
+
         public Map<String, String> getParameters() {
             return parameters;
         }

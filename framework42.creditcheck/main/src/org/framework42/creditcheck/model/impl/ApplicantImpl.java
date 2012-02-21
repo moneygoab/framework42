@@ -86,4 +86,17 @@ public class ApplicantImpl implements Applicant {
         return contactMethods;
     }
 
+    @Override
+    public ApplicantContactMethod getContactMethodOfType(ContactMethod contactMethod) {
+
+        for(ApplicantContactMethod applicantContactMethod: contactMethods) {
+
+            if(applicantContactMethod.getContactMethod() == contactMethod) {
+
+                return applicantContactMethod;
+            }
+        }
+
+        return null;
+    }
 }

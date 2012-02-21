@@ -1,5 +1,6 @@
 package org.framework42.creditcheck.model;
 
+import org.framework42.model.ContactMethod;
 import org.framework42.model.TrustedAddress;
 
 import java.math.BigDecimal;
@@ -21,6 +22,8 @@ public interface Applicant {
     public TrustedAddress getAddress();
 
     public List<ApplicantContactMethod> getContactMethods();
+
+    public ApplicantContactMethod getContactMethodOfType(ContactMethod contactMethod);
 
     public int getAnnualIncome();
 
