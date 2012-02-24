@@ -5,6 +5,8 @@ import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Break;
 import org.framework42.web.components.standardhtml.Label;
+import org.framework42.web.components.standardhtml.Link;
+import org.framework42.web.components.standardhtml.LinkTarget;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
 import org.framework42.web.pages.ChildPage;
@@ -107,6 +109,12 @@ public class MenuItemText extends MenuItem {
             //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+getId+"');\"");
         }
 
+        if(builder.target != null) {
+            htmlBuilder.append("target=\"");
+            htmlBuilder.append(builder.target.getId());
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">");
 
         htmlBuilder.append(builder.text.getHtml(page, parent, true));
@@ -146,6 +154,8 @@ public class MenuItemText extends MenuItem {
         private Map<String, String> linkParameters;
 
         private PageAction linkPageAction;
+
+        private LinkTarget target = null;
 
         public Builder(String id, Label text, String pageURL, Locale locale) {
             this.pageURL = pageURL;
@@ -250,6 +260,11 @@ public class MenuItemText extends MenuItem {
 
         public Builder linkPageAction(PageAction linkPageAction) {
             this.linkPageAction = linkPageAction;
+            return this;
+        }
+
+        public Builder target(LinkTarget target) {
+            this.target = target;
             return this;
         }
 
