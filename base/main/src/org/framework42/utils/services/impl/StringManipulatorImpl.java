@@ -2,6 +2,8 @@ package org.framework42.utils.services.impl;
 
 import org.framework42.utils.services.StringManipulator;
 
+import java.math.BigDecimal;
+
 public class StringManipulatorImpl implements StringManipulator {
 
     @Override
@@ -115,6 +117,14 @@ public class StringManipulatorImpl implements StringManipulator {
         }
 
         return  returnString.trim();
+    }
+
+    @Override
+    public String formatPercent(float value) {
+
+        Double d = Math.round(value*100.0) / 100.0;
+
+        return (d+"").replaceAll("\\.", ",")+" %";
     }
 }
 
