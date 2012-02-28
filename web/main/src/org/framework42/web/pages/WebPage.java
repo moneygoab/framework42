@@ -120,6 +120,10 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             logger.debug("http accept header: "+req.getHeader("accept"));
         }
 
+        if(accept.equalsIgnoreCase("*/*") && req.getHeader("user-agent").contains("MSIE 8.0;")) {
+            accept = "*/*;text/html;";
+        }
+
         boolean ajax = false;
         if(req.getParameter("ajax")!=null) { ajax = true;}
 
