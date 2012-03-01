@@ -44,12 +44,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 new Date(),
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 ApplicationChannel.INTERNET,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -58,12 +60,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 -1,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 new Date(),
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 ApplicationChannel.INTERNET,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -72,12 +76,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 null,
                 new Date(),
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 ApplicationChannel.INTERNET,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -86,12 +92,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 null,
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 ApplicationChannel.INTERNET,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -100,12 +108,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 new Date(),
                 null,
                 ApplicationChannel.INTERNET,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -114,12 +124,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 new Date(),
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 null,
                 applicant,
-                applicant
+                applicant,
+                0
         );
     }
 
@@ -128,12 +140,14 @@ public class TestCreditBureauApplication {
 
         new CreditBureauApplicationImpl(
                 0,
+                ApplicationType.NEW,
                 ApplicationStatus.INFORMATION_GATHERING_PROCESS,
                 new Date(),
                 new MoneyImpl(BigDecimal.TEN, Currency.getInstance(new Locale("sv", "SE"))),
                 ApplicationChannel.INTERNET,
                 null,
-                applicant
+                applicant,
+                0
         );
     }
 

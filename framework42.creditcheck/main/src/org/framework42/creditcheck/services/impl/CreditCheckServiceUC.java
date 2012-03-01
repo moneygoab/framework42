@@ -1,11 +1,11 @@
 package org.framework42.creditcheck.services.impl;
 
-import org.framework42.ServiceBinderInterface;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.*;
 import org.framework42.creditcheck.model.impl.ApplicantImpl;
 import org.framework42.creditcheck.model.impl.CoApplicantApplicationResponseImpl;
 import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
+import org.framework42.creditcheck.model.impl.MainApplicantExtraApplicationResponseImpl;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
@@ -77,22 +77,40 @@ public class CreditCheckServiceUC implements CreditCheckService {
 
         return new CreditBureauApplicationImpl(
                 application.getId(),
+                application.getType(),
                 ApplicationStatus.APPROVAL_PROCESS,
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getApplicationChannel(),
                 ApplicantParser.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
-                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application)
+                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application),
+                application.getExtendedApplicationId()
         );
+    }
+
+    @Override
+    public MainApplicantExtraApplicationResponse addMainApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
+
+        UcReply reply = makeExtraApplicantCreditCheck(context, appliedAmount, governmentId);
+
+        Applicant extraApplicant = parseExtraApplicant(governmentId, reply);
+
+        MainApplicantExtraApplicationResponse response = new MainApplicantExtraApplicationResponseImpl(
+                applicationId,
+                extraApplicant,
+                reply.getUcReport().get(0).getHtmlReply()
+        );
+
+        return response;
     }
 
     @Override
     public CoApplicantApplicationResponse addCoApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
 
-        UcReply reply = makeCoApplicantCreditCheck(context, appliedAmount, governmentId);
+        UcReply reply = makeExtraApplicantCreditCheck(context, appliedAmount, governmentId);
 
-        Applicant coApplicant = parseCoApplicant(governmentId, reply);
+        Applicant coApplicant = parseExtraApplicant(governmentId, reply);
 
         CoApplicantApplicationResponse response = new CoApplicantApplicationResponseImpl(
                 applicationId,
@@ -103,7 +121,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
         return response;
     }
 
-    private Applicant parseCoApplicant(String governmentId, UcReply reply) {
+    private Applicant parseExtraApplicant(String governmentId, UcReply reply) {
 
         UcReport report = reply.getUcReport().get(0);
 
@@ -153,7 +171,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
         );
     }
 
-    private UcReply makeCoApplicantCreditCheck(CreditBureauContext context, int appliedAmount, String governmentId) {
+    private UcReply makeExtraApplicantCreditCheck(CreditBureauContext context, int appliedAmount, String governmentId) {
 
         UcOrders orders = new UCOrderService().getUcOrders2();
 

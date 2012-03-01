@@ -8,6 +8,8 @@ public interface CreditBureauApplication {
 
     public int getId();
 
+    public ApplicationType getType();
+
     public ApplicationStatus getStatus();
 
     public Date getApplicationDate();
@@ -21,5 +23,7 @@ public interface CreditBureauApplication {
     public Applicant getCoApplicant();
 
     public CreditBureauApplicationResponse getCreditBureauResponse();
+
+    public int getExtendedApplicationId();
 
 }
