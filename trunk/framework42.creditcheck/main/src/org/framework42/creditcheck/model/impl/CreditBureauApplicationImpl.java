@@ -12,6 +12,8 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
     private final int id;
 
+    private final ApplicationType type;
+
     private final ApplicationStatus status;
 
     private final long applicationDate;
@@ -26,22 +28,27 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
     private final CreditBureauApplicationResponse creditBureauResponse;
 
-    public CreditBureauApplicationImpl(int id, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant) {
+    private final int extendedApplicationId;
+
+    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
+        this.type = notNull(applicationType, "Application type can't be null!");
         this.status = notNull(status, "Status can't be null!");
         this.applicationDate = notNull(applicationDate, "Application date can't be null!").getTime();
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");
         this.coApplicant = coApplicant;
+        this.extendedApplicationId = extendedApplicationId;
 
         this.creditBureauResponse = null;
     }
 
-    public CreditBureauApplicationImpl(int id, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse) {
+    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, Date applicationDate, Money appliedAmount, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
+        this.type = notNull(applicationType, "Application type can't be null!");
         this.status = notNull(status, "Status can't be null!");
         this.applicationDate = notNull(applicationDate.getTime(), "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
@@ -49,11 +56,18 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");
         this.coApplicant = coApplicant;
         this.creditBureauResponse = notNull(creditBureauResponse, "Credit bureau response can't be null! Use constructor without this parameter instead.");
+        this.extendedApplicationId = extendedApplicationId;
     }
 
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public ApplicationType getType() {
+
+        return type;
     }
 
     @Override
@@ -91,4 +105,9 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
         return creditBureauResponse;
     }
 
+    @Override
+    public int getExtendedApplicationId() {
+
+        return extendedApplicationId;
+    }
 }

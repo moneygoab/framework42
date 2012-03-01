@@ -57,13 +57,15 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
         return new CreditBureauApplicationImpl(
                 application.getId(),
+                ApplicationType.NEW,
                 ApplicationStatus.APPROVAL_PROCESS,
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getApplicationChannel(),
                 createApplicant(application.getMainApplicant()),
                 createApplicant(application.getCoApplicant()),
-                creditBureauResponse
+                creditBureauResponse,
+                application.getExtendedApplicationId()
         );
     }
 
@@ -122,6 +124,42 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 ),
                 applicant.getContactMethods(),
                 (int)(Math.random()*300000)+100000
+        );
+    }
+
+    @Override
+    public MainApplicantExtraApplicationResponse addMainApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
+
+        Gender gender = Gender.MALE;
+        if(Long.parseLong(governmentId.substring(6, 9))%2 == 0) {
+            gender = Gender.FEMALE;
+        }
+
+        String firstName = firstNamesContainer.getRandomName(gender);
+        String surname = surnamesContainer.getRandomSurname();
+
+        return new MainApplicantExtraApplicationResponseImpl(
+                applicationId,
+                new ApplicantImpl(
+                        0,
+                        governmentId,
+                        BigDecimal.ZERO,
+                        new Date(),
+                        new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
+                        new SimpleSecureAddressImpl(
+                                0,
+                                firstName + " " + surname,
+                                "",
+                                streetsContainer.getStreetName(),
+                                new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, (new Random().nextInt(80000)+10000)+""),
+                                cityContainer.getCity(),
+                                Country.SWEDEN,
+                                InformationProvider.POPULATION_REGISTERS
+                        ),
+                        new ArrayList<ApplicantContactMethod>(),
+                        (int)(Math.random()*300000)+100000
+                ),
+                "Created by emulator credit check bureau, no html view available."
         );
     }
 
