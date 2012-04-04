@@ -104,6 +104,17 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static Date stepForwardMonths(Date currentMonth, int monthsToStepForward) {
+
+        notNull(currentMonth, "Current month can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(currentMonth);
+        cal.add(MONTH, monthsToStepForward);
+
+        return cal.getTime();
+    }
+
     public static Date stepForward(Date currentDate, int numberOfSteps) {
 
         notNull(currentDate, "Current date can't be null!");
