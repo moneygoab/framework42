@@ -55,7 +55,12 @@ public enum CreditBureauResponseParser {
 
                 if("W49122".equals(term.getId())) {
 
-                    declaredIncome = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())*1000), Currency.getInstance(new Locale("sv", "SE")));
+                    String val = term.getValue();
+                    if(val.equalsIgnoreCase("<1")) {
+                        val = "0";
+                    }
+
+                    declaredIncome = new MoneyImpl(new BigDecimal(Integer.parseInt(val)*1000), Currency.getInstance(new Locale("sv", "SE")));
                 }
             }
         }
