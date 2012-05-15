@@ -79,6 +79,10 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     }
 
+    public void performPostRendering(T session, R pageModel) {
+
+    }
+
     /**
      * Creates a page model of the type of the extending class.
      * @param req           The http request

@@ -165,6 +165,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                     writeHtmlPage(resp, htmlBuilder);
 
+                    pageLogic.performPostRendering(session, model);
+
                 } catch (NotAuthorizedException e) {
 
                     logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
