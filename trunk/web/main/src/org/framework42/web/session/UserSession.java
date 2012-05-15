@@ -4,6 +4,7 @@ import org.framework42.model.users.User;
 import org.framework42.model.users.UserSetting;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public abstract class UserSession<T extends User> implements Serializable {
 
     protected boolean allowUndefinedParameters;
 
+    protected Map<String, String> miscParameters;
+
     protected T user;
 
     public UserSession(T user, boolean allowUndefinedParameters) {
@@ -24,6 +27,8 @@ public abstract class UserSession<T extends User> implements Serializable {
         this.user = user;
         this.allowUndefinedParameters = allowUndefinedParameters;
         this.authenticated = false;
+
+        miscParameters = new HashMap<String, String>();
 
         if(this instanceof TabableApp) {
             ((TabableApp)this).initTabEnvironment();
@@ -36,6 +41,10 @@ public abstract class UserSession<T extends User> implements Serializable {
 
     public boolean isAllowUndefinedParameters() {
         return allowUndefinedParameters;
+    }
+
+    public Map<String, String> getMiscParameters() {
+        return miscParameters;
     }
 
     public Locale getLocale() {
