@@ -12,6 +12,9 @@ public enum MimeType {
     SHORTCUT_ICON(MimeCategory.IMAGE, "x-icon"),
     TIFF(MimeCategory.IMAGE, "tiff"),
 
+    // Application
+    PDF(MimeCategory.APPLICATION, "pdf"),
+
     // Texts
     CSS(MimeCategory.TEXT, "css"),
     JAVA_SCRIPT(MimeCategory.TEXT, "javascript"),
