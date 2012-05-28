@@ -9,7 +9,9 @@ public enum Country {
     DENMARK("da", "DK", "DNK", 208, "DKK"),
     NORWAY("no", "NO", "NOR", 578, "NOK"),
     SWEDEN("sv", "SE", "SWE", 752, "SEK"),
-    FINLAND("fi","FI", "FIN", 246, "EUR");
+    FINLAND("fi","FI", "FIN", 246, "EUR"),
+    ICELAND("is","IS", "ISL", 354, "ISK")
+    ;
 
     private final String languageCode;
 

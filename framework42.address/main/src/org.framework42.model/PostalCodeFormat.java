@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.framework42.services.PostalCodeViewFormatter;
 import org.framework42.services.impl.PostalCodeStringValidatorImpl;
 import org.framework42.services.PostalCodeStringValidator;
+import org.framework42.services.impl.PostalCodeViewFormatterIcelandic;
 import org.framework42.services.impl.PostalCodeViewFormatterSwedish;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public enum PostalCodeFormat {
     UNKNOWN(0, new PostalCodeStringValidatorImpl("" ,new String[]{" ", "-"})),
     NUMERIC_NNNNN(1, new PostalCodeStringValidatorImpl("\\d{5}" ,new String[]{" ", "-"})),
     NUMERIC_NNNN(2, new PostalCodeStringValidatorImpl("\\d{4}" ,new String[]{" ", "-"})),
+    NUMERIC_NNN(4, new PostalCodeStringValidatorImpl("\\d{3}" ,new String[]{" ", "-"})),
     ALPHANUMERIC(3, new PostalCodeStringValidatorImpl("\\d{3}" ,new String[]{" ", "-"}));
 
     private final Logger logger = Logger.getLogger("org.framework42.addresses");
@@ -31,6 +33,7 @@ public enum PostalCodeFormat {
 
         this.viewFormatter = new HashMap<Country, PostalCodeViewFormatter>();
         this.viewFormatter.put(Country.SWEDEN, new PostalCodeViewFormatterSwedish());
+        this.viewFormatter.put(Country.ICELAND, new PostalCodeViewFormatterIcelandic());
 
     }
 
@@ -80,6 +83,8 @@ public enum PostalCodeFormat {
             return NUMERIC_NNNN;
         } else if(country == Country.SWEDEN) {
             return NUMERIC_NNNNN;
+        } else if(country == Country.ICELAND) {
+            return NUMERIC_NNN;
         }
 
         throw new IllegalArgumentException("No postal code format for the country "+country.name()+" exists!");
