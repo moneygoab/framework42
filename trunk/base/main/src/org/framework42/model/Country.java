@@ -122,6 +122,14 @@ public enum Country {
 
             return FINLAND;
 
+        } else if("Island".equalsIgnoreCase(country) ||
+                "ISL".equalsIgnoreCase(country) ||
+                "IS".equalsIgnoreCase(country) ||
+                "Ísland".equalsIgnoreCase(country)
+                ){
+
+            return ICELAND;
+
         }
 
         throw new IllegalArgumentException("Could not parse a country from the string " + country);
