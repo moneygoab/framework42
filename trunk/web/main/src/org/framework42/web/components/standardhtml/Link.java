@@ -4,7 +4,6 @@ import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 import org.framework42.web.components.InputComponentBuilder;
 
 import java.util.HashMap;
@@ -47,6 +46,10 @@ public class Link extends HtmlComponent {
 
         htmlBuilder.append("<a href=\"");
         htmlBuilder.append(builder.generateHref());
+        if(builder.anchor!=null) {
+            htmlBuilder.append("#");
+            htmlBuilder.append(builder.anchor);
+        }
         htmlBuilder.append("\"");
 
         htmlBuilder.append(builder.addGeneralComponents());
@@ -91,6 +94,8 @@ public class Link extends HtmlComponent {
     public static class Builder extends InputComponentBuilder<Link> {
 
         private final String href;
+
+        private String anchor = null;
 
         private String accessKey = null;
 
@@ -152,6 +157,11 @@ public class Link extends HtmlComponent {
 
         public String getHref() {
             return href;
+        }
+
+        public Builder anchor(String anchor) {
+            this.anchor = anchor;
+            return this;
         }
 
         public Builder addParameter(String key, String value) {

@@ -87,6 +87,11 @@ public class Table extends HtmlComponent {
 
         private String cellSpacing = null;
 
+        public Builder() {
+            this.headLines = null;
+            this.tableRows = new ArrayList<TableRow>();
+        }
+
         public Builder(TableRow headLines) {
             this.headLines = headLines;
             this.tableRows = new ArrayList<TableRow>();
