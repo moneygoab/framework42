@@ -19,6 +19,13 @@ public class RadioButton extends HtmlComponent {
 
         htmlBuilder.append(builder.addGeneralComponents());
 
+        if(builder.style!=null) {
+
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.checked){
             htmlBuilder.append(" checked");
         }
@@ -35,6 +42,8 @@ public class RadioButton extends HtmlComponent {
 
         private String label;
 
+        private String style = "width: 15px;";
+
         public Builder(String name, String value, String label) {
             super(name, value);
 
@@ -49,6 +58,11 @@ public class RadioButton extends HtmlComponent {
 
         public Builder label(String label) {
             this.label = label;
+            return this;
+        }
+
+        public Builder style(String style) {
+            this.style = style;
             return this;
         }
 
