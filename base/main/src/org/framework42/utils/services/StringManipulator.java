@@ -12,6 +12,8 @@ public interface StringManipulator {
 
     public String formatMoney(String moneyString);
 
+    public String formatMoney(int moneyValue);
+
     public String formatPercent(float value);
 
 }
