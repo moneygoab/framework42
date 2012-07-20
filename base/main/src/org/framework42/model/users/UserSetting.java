@@ -7,7 +7,9 @@ import java.io.Serializable;
 public enum UserSetting implements Serializable {
 
     LANGUAGE(1), COUNTRY(2),
-    STYLE_TEXT_EDITOR(30)
+    STYLE_TEXT_EDITOR(30),
+    ALLOW_COMMENTS(40),
+    ALLOW_APPLAUSE(41)
     ;
 
     private final int id;
