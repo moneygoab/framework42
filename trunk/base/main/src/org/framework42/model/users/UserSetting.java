@@ -9,7 +9,9 @@ public enum UserSetting implements Serializable {
     LANGUAGE(1), COUNTRY(2),
     STYLE_TEXT_EDITOR(30),
     ALLOW_COMMENTS(40),
-    ALLOW_APPLAUSE(41)
+    ALLOW_APPLAUSE(41),
+    DO_NOT_SHOW_IN_TEXTS_READ_LOG(42),
+    SHOW_BOOKMARKS(43)
     ;
 
     private final int id;

@@ -49,7 +49,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     protected WebPage(String loggerId, PageLogic<T, R> pageLogic) {
 
         this(loggerId, pageLogic, new ArrayList<Role>(), new ArrayList<Role>());
-
     }
 
     /**
