@@ -6,6 +6,8 @@ import org.framework42.web.utils.Util;
 
 public class Break extends HtmlComponent {
 
+    public final static Break INSTANCE = new Break();
+
     public Break() {
     }
 
