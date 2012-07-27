@@ -11,7 +11,8 @@ public enum UserSetting implements Serializable {
     ALLOW_COMMENTS(40),
     ALLOW_APPLAUSE(41),
     DO_NOT_SHOW_IN_TEXTS_READ_LOG(42),
-    SHOW_BOOKMARKS(43)
+    SHOW_BOOKMARKS(43),
+    SHOW_ONLY_MEMBERS_IN_READ_LOG(44)
     ;
 
     private final int id;
