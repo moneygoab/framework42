@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -283,10 +284,11 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
-        resp.getWriter().print(getHtml(htmlBuilder));
-        resp.getWriter().flush();
-        resp.getWriter().close();
 
+        PrintWriter writer = resp.getWriter();
+        writer.print(getHtml(htmlBuilder));
+        writer.flush();
+        writer.close();
     }
 
     /**
