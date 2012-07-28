@@ -1,7 +1,5 @@
 package org.framework42.model.users;
 
-import org.framework42.exceptions.UserSettingNotExistingException;
-
 import java.io.Serializable;
 
 public enum UserSetting implements Serializable {
@@ -12,7 +10,12 @@ public enum UserSetting implements Serializable {
     ALLOW_APPLAUSE(41),
     DO_NOT_SHOW_IN_TEXTS_READ_LOG(42),
     SHOW_BOOKMARKS(43),
-    SHOW_ONLY_MEMBERS_IN_READ_LOG(44)
+    SHOW_ONLY_MEMBERS_IN_READ_LOG(44),
+    SHOW_EMAIL(45),
+    SHOW_NEWS_LINKS(46),
+    START_PAGE(47),
+    SHOW_DIARY(48),
+    SHOW_RELATED_TEXTS(49)
     ;
 
     private final int id;
@@ -25,7 +28,7 @@ public enum UserSetting implements Serializable {
         return id;
     }
 
-    public static UserSetting getFromId(int databaseId) throws UserSettingNotExistingException {
+    public static UserSetting getFromId(int databaseId) {
 
         for (UserSetting userSetting : UserSetting.values()) {
             if (userSetting.getId() == databaseId) {
@@ -33,8 +36,13 @@ public enum UserSetting implements Serializable {
             }
         }
 
-        throw new UserSettingNotExistingException();
+        throw new IllegalArgumentException();
 
+    }
+
+    public static UserSetting getFromId(String databaseId) {
+
+        return getFromId(Integer.parseInt(databaseId));
     }
 
 }
