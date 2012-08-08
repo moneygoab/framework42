@@ -63,4 +63,50 @@ public enum HashMakerImpl implements HashMaker {
 
     }
 
+    /**
+     * Call this method to generate a hash
+     * @param salt              A salt to use to make it harder to reverse engineer the hash to the password. Send in an empty string if you don't want to use any salt.
+     * @param stringToHash      The actual string / password to hash.
+     * @param digestType   The type of digest, ie. SHA-256 or MD5.
+     * @return The hashed string.
+     * */
+    public String getHash(String salt, String stringToHash, String digestType) throws IllegalArgumentException {
+
+        notNull(salt, "Salt can't be null!");
+        notNull(stringToHash, "String to hash can't be null!");
+
+        StringBuilder passBuilder = new StringBuilder();
+
+        try {
+
+            byte[] theTextToDigestAsBytes = (salt + stringToHash).getBytes("UTF-8");
+            MessageDigest md = MessageDigest.getInstance(digestType);
+            md.update(theTextToDigestAsBytes);
+            byte[] digest = md.digest();
+
+            for (byte b : digest) {
+                if (Integer.toHexString(b & 0xff).length() == 1) {
+                    passBuilder.append("0");
+                    passBuilder.append(Integer.toHexString(b & 0xff));
+                } else {
+                    passBuilder.append(Integer.toHexString(b & 0xff));
+                }
+
+            }
+
+        } catch (UnsupportedEncodingException e) {
+
+            logger.fatal("HashMakerImpl.getHash: " + e);
+            throw new RuntimeException("HashMakerImpl.getHash: " + e);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            logger.fatal("HashMakerImpl.getHash: " + e);
+            throw new RuntimeException("HashMakerImpl.getHash: " + e);
+        }
+
+        return passBuilder.toString();
+
+    }
+
 }
