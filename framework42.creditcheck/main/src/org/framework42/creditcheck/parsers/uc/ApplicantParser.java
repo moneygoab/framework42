@@ -164,6 +164,7 @@ public enum ApplicantParser {
         String firstName = "";
         String surname = "";
 
+        String careOf = "";
         String streetAddress = "";
         PostalCode postalCode = new PostalCodeImpl(PostalCodeFormat.UNKNOWN, "00000");
         String city = "";
@@ -185,7 +186,6 @@ public enum ApplicantParser {
 
             } else if("W08005".equals(term.getId())) {
 
-                logger.debug("Postal code from UC: "+term.getValue());
                 postalCode = new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, term.getValue());
 
             } else if("W08006".equals(term.getId())) {
@@ -196,13 +196,16 @@ public enum ApplicantParser {
 
                 country = Country.parseFromString(term.getValue());
 
+            } else if("W08050".equals(term.getId())) {
+
+                careOf = term.getValue();
             }
         }
 
         return new SimpleSecureAddressImpl(
                 0,
                 firstName+" "+surname,
-                "",
+                careOf,
                 streetAddress,
                 postalCode,
                 city,
