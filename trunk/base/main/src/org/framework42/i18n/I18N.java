@@ -88,15 +88,19 @@ public enum I18N {
      *
      * @param key    The key value that should be searched for.
      * @param locale The locale to get a translation to.
+     * @param insertData Any dynamic data that should be injected into the returned String.
      * @return String that contains the translated URL.
      */
-    public String getURL(String key, Locale locale) {
+    public String getURL(String key, Locale locale, String... insertData) {
 
         checkInstantiation(locale);
 
         String mappedURL = hashMapURL.get(locale).get(key);
 
         if (mappedURL != null) {
+            for (int i = 0; i < insertData.length; i++) {
+                mappedURL = mappedURL.replaceAll("T\\[" + (i) + "\\]", insertData[i]);
+            }
             return mappedURL;
         } else {
             logger.error("I18N URL key: " + key + " not mapped");
