@@ -113,6 +113,10 @@ public class Link extends HtmlComponent {
 
         private String rel = null;
 
+        public Builder(String name, String href, String linkText) {
+            this(name, href, new HashMap<String, String>(), new Label(linkText));
+        }
+
         public Builder(String name, String href, Map<String, String> parameters, String linkText) {
             this(name, href, parameters, new Label(linkText));
         }
