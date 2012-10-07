@@ -2,6 +2,9 @@ package org.framework42.web.session;
 
 import org.framework42.model.users.User;
 import org.framework42.model.users.UserSetting;
+import org.framework42.useragent_detection.model.*;
+import org.framework42.useragent_detection.model.impl.OperatingSystemImpl;
+import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -20,6 +23,8 @@ public abstract class UserSession<T extends User> implements Serializable {
 
     protected T user;
 
+    protected ParsedUserAgent parsedUserAgent;
+
     public UserSession(T user, boolean allowUndefinedParameters) {
 
         setDefaultLocale();
@@ -28,11 +33,21 @@ public abstract class UserSession<T extends User> implements Serializable {
         this.allowUndefinedParameters = allowUndefinedParameters;
         this.authenticated = false;
 
+        this.parsedUserAgent = new ParsedUserAgentImpl("", 0, UserAgentType.UNKNOWN, DeviceType.UNKNOWN, RenderingEngine.UNKNOWN, new OperatingSystemImpl(OperatingSystemBranch.UNKNOWN, "", 0, ""));
+
         miscParameters = new HashMap<String, String>();
 
         if(this instanceof TabableApp) {
             ((TabableApp)this).initTabEnvironment();
         }
+    }
+
+    public ParsedUserAgent getParsedUserAgent() {
+        return parsedUserAgent;
+    }
+
+    public void setParsedUserAgent(ParsedUserAgent parsedUserAgent) {
+        this.parsedUserAgent = parsedUserAgent;
     }
 
     public T getUser() {

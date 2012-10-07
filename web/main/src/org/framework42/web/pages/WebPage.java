@@ -9,6 +9,8 @@ import org.framework42.exceptions.UserBlockedException;
 import org.framework42.i18n.I18N;
 import org.framework42.model.users.Role;
 import org.framework42.model.users.User;
+import org.framework42.useragent_detection.services.UserAgentParser;
+import org.framework42.useragent_detection.services.impl.UserAgentParserImpl;
 import org.framework42.web.components.ComponentGroup;
 import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.Html;
@@ -40,6 +42,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     protected final List<Role> denyAccessRoles;
 
     protected final PageLogic<T, R> pageLogic;
+
+    protected final static UserAgentParser userAgentEngineParser = new UserAgentParserImpl();
 
     /**
      * Base constructor that allows everyone to access the page
@@ -263,6 +267,13 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv", "SE")));
 
         }
+
+        String userAgent = "";
+        if(req.getHeader("user-agent")!=null) {
+            userAgent = req.getHeader("user-agent");
+        }
+        session.setParsedUserAgent(userAgentEngineParser.parse(session.getUser(), userAgent));
+        logger.debug(session.getParsedUserAgent().toString());
 
         return session;
 
