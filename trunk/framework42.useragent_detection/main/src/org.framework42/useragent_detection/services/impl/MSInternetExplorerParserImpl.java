@@ -57,7 +57,14 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
         if(cut.length>1) {
 
-            return new Float(cut[1].replaceAll("[^abcd]", ""));
+            try {
+
+                return new Float(cut[1].replaceAll("[^abcd]", ""));
+
+            } catch(NumberFormatException e) {
+
+                logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+            }
 
         } else {
 

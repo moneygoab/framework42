@@ -78,7 +78,14 @@ public class SafariParserImpl implements UserAgentEngineParser {
 
         if(cut.length>1) {
 
-            return new Float(cut[1].split("\\.")[0]);
+            try {
+
+                return new Float(cut[1].split("\\.")[0]);
+
+            } catch(NumberFormatException e) {
+
+                logger.error("[useragent_detection] SafariParserImpl couldn't parse version from UserAgent: "+userAgent);
+            }
 
         } else {
 
