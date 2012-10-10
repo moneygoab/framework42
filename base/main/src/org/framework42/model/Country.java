@@ -6,6 +6,8 @@ import static org.framework42.utils.NullChecker.notNull;
 
 public enum Country {
 
+    UNKNOWN("UNKNOWN", "UNKNOWN", "UNKNOWN", 0, ""),
+
     DENMARK("da", "DK", "DNK", 208, "DKK"),
     NORWAY("no", "NO", "NOR", 578, "NOK"),
     SWEDEN("sv", "SE", "SWE", 752, "SEK"),
@@ -134,6 +136,10 @@ public enum Country {
 
             return ICELAND;
 
+        } else if("Okänt Land".equalsIgnoreCase(country) ||
+                "UNKNOWN".equalsIgnoreCase(country)) {
+
+            return UNKNOWN;
         }
 
         throw new IllegalArgumentException("Could not parse a country from the string " + country);
