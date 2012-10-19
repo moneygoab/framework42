@@ -5,9 +5,9 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-class MSInternetExplorerParserImpl implements UserAgentEngineParser {
+public class OperaParserImpl implements UserAgentEngineParser {
 
-    MSInternetExplorerParserImpl() {
+    public OperaParserImpl() {
     }
 
     @Override
@@ -17,7 +17,7 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
         float version = parseVersion(name, userAgent, logger);
 
-        DeviceType deviceType = DeviceType.UNKNOWN;
+        DeviceType deviceType = DeviceType.COMPUTER;
 
         OperatingSystem operatingSystem = null;
 
@@ -26,32 +26,19 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
                 version,
                 UserAgentType.WEB_BROWSER,
                 deviceType,
-                RenderingEngine.TRIDENT,
+                RenderingEngine.PRESTO,
                 operatingSystem
         );
     }
 
     private String parserName(String userAgent, Logger logger) {
 
-        String name = "";
-
-        String[] parts = userAgent.split(";");
-
-        for(String part: parts) {
-
-            if(part.contains("MSIE")) {
-
-                return part.trim();
-            }
-        }
-
-        logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse name from UserAgent: "+userAgent);
-        return name;
+        return "Opera";
     }
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
-        String[] cut = name.split(" ");
+        String[] cut = userAgent.split("Version/");
 
         float version = 0;
 
@@ -59,19 +46,18 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].replaceAll("a", "").replaceAll("b", "").replaceAll("c", ""));
+                return new Float(cut[1].trim());
 
             } catch(NumberFormatException e) {
 
-                logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+                logger.error("[useragent_detection] OperaParserImpl couldn't parse version from UserAgent: "+userAgent);
             }
 
         } else {
 
-            logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+            logger.error("[useragent_detection] OperaParserImpl couldn't parse version from UserAgent: "+userAgent);
         }
 
         return version;
     }
-
 }

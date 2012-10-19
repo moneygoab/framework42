@@ -18,6 +18,12 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
 
     private final UserAgentEngineParser safariParser;
 
+    private final UserAgentEngineParser googleBotParser;
+
+    private final UserAgentEngineParser iPhoneParser;
+
+    private final UserAgentEngineParser operaParser;
+
     public UserAgentParserImpl() {
         super("com.framework42.useragent_detection.services");
 
@@ -25,6 +31,10 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         this.firefoxParser= new FirefoxParserImpl();
         this.chromeParser = new ChromeParserImpl();
         this.safariParser = new SafariParserImpl();
+        this.googleBotParser = new GoogleBotParserImpl();
+        this.iPhoneParser = new IPhoneParserImpl();
+        this.operaParser = new OperaParserImpl();
+
     }
 
     @Override
@@ -45,6 +55,19 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         }  else if(userAgent.contains("Safari/")) {
 
             return safariParser.parse(userAgent, logger);
+
+        } else if(userAgent.contains("Googlebot/")) {
+
+            return googleBotParser.parse(userAgent, logger);
+
+        } else if(userAgent.contains("(iPhone;")) {
+
+            return iPhoneParser.parse(userAgent, logger);
+
+        }  else if(userAgent.contains("Opera/")) {
+
+            return operaParser.parse(userAgent, logger);
+
         }
 
         logger.error("[useragent_detection] UserAgentParserImpl couldn't parse UserAgent: "+userAgent);
