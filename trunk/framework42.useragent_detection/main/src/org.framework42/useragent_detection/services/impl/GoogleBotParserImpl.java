@@ -5,9 +5,9 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-class MSInternetExplorerParserImpl implements UserAgentEngineParser {
+public class GoogleBotParserImpl implements UserAgentEngineParser {
 
-    MSInternetExplorerParserImpl() {
+    public GoogleBotParserImpl() {
     }
 
     @Override
@@ -17,41 +17,28 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
         float version = parseVersion(name, userAgent, logger);
 
-        DeviceType deviceType = DeviceType.UNKNOWN;
+        DeviceType deviceType = DeviceType.SERVER;
 
         OperatingSystem operatingSystem = null;
 
         return new ParsedUserAgentImpl(
                 name,
                 version,
-                UserAgentType.WEB_BROWSER,
+                UserAgentType.ROBOT,
                 deviceType,
-                RenderingEngine.TRIDENT,
+                RenderingEngine.UNKNOWN,
                 operatingSystem
         );
     }
 
     private String parserName(String userAgent, Logger logger) {
 
-        String name = "";
-
-        String[] parts = userAgent.split(";");
-
-        for(String part: parts) {
-
-            if(part.contains("MSIE")) {
-
-                return part.trim();
-            }
-        }
-
-        logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse name from UserAgent: "+userAgent);
-        return name;
+        return "Googlebot";
     }
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
-        String[] cut = name.split(" ");
+        String[] cut = userAgent.split("Googlebot/");
 
         float version = 0;
 
@@ -59,19 +46,21 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].replaceAll("a", "").replaceAll("b", "").replaceAll("c", ""));
+                return new Float(cut[1].split(";")[0]);
 
             } catch(NumberFormatException e) {
 
-                logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+                logger.error("[useragent_detection] GoogleBotParserImpl couldn't parse version from UserAgent: "+userAgent);
             }
 
         } else {
 
-            logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+            logger.error("[useragent_detection] GoogleBotParserImpl couldn't parse version from UserAgent: "+userAgent);
         }
 
         return version;
     }
+
+
 
 }

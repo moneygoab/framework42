@@ -1,6 +1,8 @@
 package org.framework42.useragent_detection.model;
 
-public interface OperatingSystem {
+import java.io.Serializable;
+
+public interface OperatingSystem extends Serializable {
 
     public OperatingSystemBranch getBranch();
 
