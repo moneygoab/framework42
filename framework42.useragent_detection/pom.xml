@@ -8,7 +8,7 @@
     <groupId>org.framework42</groupId>
     <artifactId>framework42.useragent_detection</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>User agent detection framework</name>
 
