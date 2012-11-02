@@ -13,6 +13,7 @@ import uc_webservice.UcReply;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 public enum CreditBureauResponseParser {
@@ -38,6 +39,32 @@ public enum CreditBureauResponseParser {
                 } else if("W13106".equals(term.getId())) {
 
                     recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
+                }
+            }
+        }
+
+        //Group reasonCodesGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W132", 0);
+        List<Group> groups = reply.getUcReport().get(0).getXmlReply().getReports().get(0).getReport().get(0).getGroup();
+        Group reasonCodesGroup = null;
+        for(Group g: groups) {
+
+            if("W132".equals(g.getId())) {
+                if("1".equals(g.getIndex())) {
+
+                    reasonCodesGroup = g;
+                }
+            }
+        }
+
+        String reasonCodes = "";
+
+        if(reasonCodesGroup!= null) {
+
+            for(Term term: reasonCodesGroup.getTerm()) {
+
+                if("W13201".equals(term.getId())) {
+
+                    reasonCodes += term.getValue()+"\n";
                 }
             }
         }
@@ -110,7 +137,7 @@ public enum CreditBureauResponseParser {
             logger.debug("First credit check for customer "+application.getMainApplicant().getGovernmentId());
         }
 
-
+        /*
         String reasonCodes = "";
 
         if(decisionGroup != null) {
@@ -121,7 +148,7 @@ public enum CreditBureauResponseParser {
                     reasonCodes = term.getValue();
                 }
             }
-        }
+        } */
 
         String coApplicantHtmlReply = "";
         if(reply.getUcReport().size()>1) {

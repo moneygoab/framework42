@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 public enum CreditDecision {
 
-    NOT_DECIDED_YET(0), APPROVED(1), REJECTED(2), REVIEW_REQUIRED(3);
+    NOT_DECIDED_YET(0), APPROVED(1), REJECTED(2), REVIEW_REQUIRED(3), SUSPECTED_FRAUD(4);
 
     private final int id;
 
