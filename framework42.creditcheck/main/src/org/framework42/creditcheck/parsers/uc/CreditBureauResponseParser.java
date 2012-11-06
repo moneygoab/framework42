@@ -12,6 +12,7 @@ import uc_webservice.Term;
 import uc_webservice.UcReply;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -45,22 +46,22 @@ public enum CreditBureauResponseParser {
 
         //Group reasonCodesGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W132", 0);
         List<Group> groups = reply.getUcReport().get(0).getXmlReply().getReports().get(0).getReport().get(0).getGroup();
-        Group reasonCodesGroup = null;
+        List<Group> reasonCodesGroup = new ArrayList<Group>();
         for(Group g: groups) {
 
             if("W132".equals(g.getId())) {
-                if("1".equals(g.getIndex())) {
+                if(!"0".equals(g.getIndex())) {
 
-                    reasonCodesGroup = g;
+                    reasonCodesGroup.add(g);
                 }
             }
         }
 
         String reasonCodes = "";
 
-        if(reasonCodesGroup!= null) {
+        for(Group group:reasonCodesGroup) {
 
-            for(Term term: reasonCodesGroup.getTerm()) {
+            for(Term term: group.getTerm()) {
 
                 if("W13201".equals(term.getId())) {
 
