@@ -184,8 +184,7 @@ public class MiniConnectionPoolManager {
         if (timeout < 1)
             throw new InvalidParameterException("timeout must be > 1");
         if (maxIdleConnectionLife < 1)
-            throw new InvalidParameterException(
-                    "maxIdleConnectionLife must be > 1");
+            throw new InvalidParameterException("maxIdleConnectionLife must be > 1");
 
         this.dataSource = dataSource;
         this.maxConnections = maxConnections;
