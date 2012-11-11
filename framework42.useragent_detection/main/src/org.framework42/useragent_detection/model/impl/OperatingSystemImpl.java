@@ -5,13 +5,13 @@ import org.framework42.useragent_detection.model.OperatingSystemBranch;
 
 public class OperatingSystemImpl implements OperatingSystem {
 
-    private final OperatingSystemBranch branch;
+    private OperatingSystemBranch branch;
 
-    private final String operatingSystemName;
+    private String operatingSystemName;
 
-    private final float majorVersion;
+    private float majorVersion;
 
-    private final String fullVersion;
+    private String fullVersion;
 
     public OperatingSystemImpl(OperatingSystemBranch branch, String operatingSystemName, float majorVersion, String fullVersion) {
         this.branch = branch;
@@ -26,8 +26,18 @@ public class OperatingSystemImpl implements OperatingSystem {
     }
 
     @Override
+    public void setBranch(OperatingSystemBranch branch) {
+        this.branch = branch;
+    }
+
+    @Override
     public String getOperatingSystemName() {
         return operatingSystemName;
+    }
+
+    @Override
+    public void setOperatingSystemName(String operatingSystemName) {
+        this.operatingSystemName = operatingSystemName;
     }
 
     @Override
@@ -36,7 +46,17 @@ public class OperatingSystemImpl implements OperatingSystem {
     }
 
     @Override
+    public void setMajorVersion(float majorVersion) {
+        this.majorVersion = majorVersion;
+    }
+
+    @Override
     public String getFullVersion() {
         return fullVersion;
+    }
+
+    @Override
+    public void setFullVersion(String fullVersion) {
+        this.fullVersion = fullVersion;
     }
 }
