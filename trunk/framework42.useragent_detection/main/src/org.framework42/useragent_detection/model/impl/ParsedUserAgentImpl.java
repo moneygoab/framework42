@@ -4,17 +4,17 @@ import org.framework42.useragent_detection.model.*;
 
 public class ParsedUserAgentImpl implements ParsedUserAgent {
 
-    private final String name;
+    private String name;
 
-    private final float version;
+    private float version;
 
-    private final UserAgentType type;
+    private UserAgentType type;
 
-    private final DeviceType deviceType;
+    private DeviceType deviceType;
 
-    private final RenderingEngine renderingEngine;
+    private RenderingEngine renderingEngine;
 
-    private final OperatingSystem operatingSystem;
+    private OperatingSystem operatingSystem;
 
     public ParsedUserAgentImpl(String name, float version, UserAgentType type, DeviceType deviceType, RenderingEngine renderingEngine, OperatingSystem operatingSystem) {
         this.name = name;
@@ -53,6 +53,36 @@ public class ParsedUserAgentImpl implements ParsedUserAgent {
     @Override
     public OperatingSystem getOperatingSystem() {
         return operatingSystem;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setVersion(float version) {
+        this.version = version;
+    }
+
+    @Override
+    public void setType(UserAgentType type) {
+        this.type = type;
+    }
+
+    @Override
+    public void setDeviceType(DeviceType deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    @Override
+    public void setRenderingEngine(RenderingEngine renderingEngine) {
+        this.renderingEngine = renderingEngine;
+    }
+
+    @Override
+    public void setOperationSystem(OperatingSystem operationSystem) {
+        this.operatingSystem = operationSystem;
     }
 
     @Override
