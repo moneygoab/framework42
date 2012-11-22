@@ -15,6 +15,9 @@ public abstract class PageModel implements PageModelInterface {
     protected boolean error;
     protected String errorMessage;
 
+    protected boolean info;
+    protected String infoMessage;
+
     protected String pageTitleKey;
     protected String pageKeywordsKey;
     protected String pageDescriptionKey;
@@ -61,6 +64,19 @@ public abstract class PageModel implements PageModelInterface {
     public void revertError() {
         this.error = false;
         this.errorMessage = "";
+    }
+
+    public boolean isInfo() {
+        return info;
+    }
+
+    public String getInfoMessage() {
+        return infoMessage;
+    }
+
+    public void setInfo(String infoMessage) {
+        this.info = true;
+        this.infoMessage = infoMessage;
     }
 
     public String getPageTitleKey() {
