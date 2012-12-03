@@ -8,6 +8,11 @@ public class TextArea extends HtmlComponent {
 
     private Builder builder;
 
+    public TextArea(String name) {
+
+        this.builder = new Builder(name, "");
+    }
+
     public TextArea(String name, String value) {
 
         this.builder = new Builder(name, value);

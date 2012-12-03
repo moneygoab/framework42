@@ -21,8 +21,10 @@ public enum Role implements Serializable {
     ACCOUNTING_MANAGER(25, "ACCOUNTING_MANAGER"), AGREEMENT_VIEWER(26, "AGREEMENT_VIEWER"),
 
     /* End user roles */
-    MEMBER(100, "MEMBER"), VIP_MEMBER(101, "VIP_MEMBER"), NEW_MEMBER(102, "NEW_MEMBER"), POWER_MEMBER_1(110, "POWER_MEMBER_1")
+    MEMBER(100, "MEMBER"), VIP_MEMBER(101, "VIP_MEMBER"), NEW_MEMBER(102, "NEW_MEMBER"), POWER_MEMBER_1(110, "POWER_MEMBER_1"),
 
+    /* End user blocks */
+    COMMENT_BLOCKED(150, "COMMENT_BLOCKED")
     ;
 
     private final int databaseId;
