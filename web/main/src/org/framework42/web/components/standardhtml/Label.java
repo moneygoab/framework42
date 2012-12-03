@@ -34,6 +34,20 @@ public class Label extends HtmlComponent {
         this.italic = italic;
     }
 
+    public Label(int label) {
+
+        this.label = label+"";
+        this.bold = false;
+        this.italic = false;
+    }
+
+    public Label(int label, boolean bold) {
+
+        this.label = label+"";
+        this.bold = bold;
+        this.italic = false;
+    }
+
     private Label(Builder builder) {
 
         this.label = builder.label;
