@@ -12,13 +12,12 @@ import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * This class represents the base of all page logic.
@@ -43,6 +42,13 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
     public R setupParameters(HttpServlet servlet, HttpServletRequest req, HttpServletResponse resp, T session) {
 
         R pageModel = createPageModel(req, session);
+
+        Object userClientActionMap = servlet.getServletContext().getAttribute("userClientActionMap");
+        if(userClientActionMap==null) {
+            pageModel.setUserClientActionMap(new HashMap<Integer, UserClientAction>());
+        } else {
+            pageModel.setUserClientActionMap((Map<Integer, UserClientAction>)userClientActionMap);
+        }
 
         setupPageParameters(req, session, pageModel);
         setupPageParametersSpecific(req, session, pageModel);
@@ -79,8 +85,9 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     }
 
-    public void performPostRendering(T session, R pageModel) {
+    public void performPostRendering(ServletContext context, T session, R pageModel) {
 
+        context.setAttribute("userClientActionMap", pageModel.getUserClientActionMap());
     }
 
     /**

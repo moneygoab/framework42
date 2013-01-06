@@ -29,6 +29,8 @@ public abstract class PageModel implements PageModelInterface {
 
     protected Map<String, Parameter> pageParameters;
 
+    protected Map<Integer,UserClientAction> userClientActionMap;
+
     protected List<FileItem> fileItemList;
 
     protected Map<String, String> environmentInformation;
@@ -192,6 +194,14 @@ public abstract class PageModel implements PageModelInterface {
      * */
     public void addPageParameter(Parameter parameter) {
         pageParameters.put(parameter.getParameterName(), parameter);
+    }
+
+    public Map<Integer, UserClientAction> getUserClientActionMap() {
+        return userClientActionMap;
+    }
+
+    public void setUserClientActionMap(Map<Integer, UserClientAction> userClientActionMap) {
+        this.userClientActionMap = userClientActionMap;
     }
 
     public List<FileItem> getFileItemList() {
