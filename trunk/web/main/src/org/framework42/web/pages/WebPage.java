@@ -171,7 +171,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                     writeHtmlPage(resp, htmlBuilder);
 
-                    pageLogic.performPostRendering(session, model);
+                    pageLogic.performPostRendering(getServletContext(), session, model);
 
                 } catch (NotAuthorizedException e) {
 
