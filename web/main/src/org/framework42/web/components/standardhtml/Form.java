@@ -177,6 +177,8 @@ public class Form extends HtmlComponent {
         private final HtmlPostMethod postMethod;
         private final List<HtmlComponent> formComponents;
 
+        private final List<HtmlComponent> validationComponents;
+
         private String id = null;
 
         private String onReset = null;
@@ -211,6 +213,7 @@ public class Form extends HtmlComponent {
             this.actionId = notNull(actionId, "Action id can't be null!");
             this.postMethod = notNull(postMethod, "Post method can't be null!");
             this.formComponents = new ArrayList<HtmlComponent>();
+            this.validationComponents = new ArrayList<HtmlComponent>();
 
             this.onSubmit = "return validateForm();";
         }
@@ -256,6 +259,13 @@ public class Form extends HtmlComponent {
             return this;
         }
 
+        public Builder addValidationComponent(HtmlComponent component) {
+
+            this.validationComponents.add(component);
+
+            return this;
+        }
+
         public Builder errorBackgroundColor(String errorBackgroundColor) {
 
             if(!errorBackgroundColor.startsWith("#")) {
@@ -271,6 +281,14 @@ public class Form extends HtmlComponent {
             List<HtmlComponentInput> foundComponents = new ArrayList<HtmlComponentInput>();
 
             for(HtmlComponent component: formComponents) {
+
+                if(component instanceof HtmlComponentInput) {
+
+                    foundComponents.add((HtmlComponentInput)component);
+
+                }
+            }
+            for(HtmlComponent component: validationComponents) {
 
                 if(component instanceof HtmlComponentInput) {
 
