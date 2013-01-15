@@ -298,6 +298,21 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         } else {
             pageModel.getEnvironmentInformation().put("clientIP", req.getHeader( "X-Forwarded-For" ));
         }
+        if(session.getMiscParameters().get("Referer")==null && req.getHeader("Referer")!=null) {
+
+            String referer = req.getHeader("Referer");
+            if(referer.startsWith("http://")) {
+                referer = referer.replace("http://", "");
+            }
+            referer = referer.replaceFirst("www.","");
+            referer = referer.replaceAll("/", "");
+
+            session.getMiscParameters().put("Referer", referer);
+        }
+        if(session.getMiscParameters().get("Referer")!=null) {
+            pageModel.getEnvironmentInformation().put("referer", session.getMiscParameters().get("Referer").toString());
+        }
+
     }
 
     /**
