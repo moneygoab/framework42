@@ -5,6 +5,8 @@ import java.util.Date;
 
 public interface UserRole extends Serializable {
 
+    public int getId();
+
     public Role getRole();
 
     public RoleStatus getRoleStatus();

@@ -12,6 +12,16 @@ public class RadioButton extends HtmlComponent {
         this.builder = builder;
     }
 
+    public RadioButton(String name, String value, String label) {
+
+        this.builder = new Builder(name, value, label);
+    }
+
+    public RadioButton(String name, String value, Label label) {
+
+        this.builder = new Builder(name, value, label);
+    }
+
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
@@ -31,7 +41,7 @@ public class RadioButton extends HtmlComponent {
         }
 
         htmlBuilder.append("> ");
-        htmlBuilder.append(builder.label);
+        htmlBuilder.append(builder.label.getHtml(page, parent));
         htmlBuilder.append("\n");
 
     }
@@ -40,11 +50,18 @@ public class RadioButton extends HtmlComponent {
 
         private boolean checked;
 
-        private String label;
+        private Label label;
 
         private String style = "width: 15px;";
 
         public Builder(String name, String value, String label) {
+            super(name, value);
+
+            this.label = new Label(label);
+            checked = false;
+        }
+
+        public Builder(String name, String value, Label label) {
             super(name, value);
 
             this.label = label;
@@ -56,7 +73,7 @@ public class RadioButton extends HtmlComponent {
             return this;
         }
 
-        public Builder label(String label) {
+        public Builder label(Label label) {
             this.label = label;
             return this;
         }

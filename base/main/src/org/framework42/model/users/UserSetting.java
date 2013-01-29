@@ -16,7 +16,8 @@ public enum UserSetting implements Serializable {
     START_PAGE(47),
     SHOW_DIARY(48),
     SHOW_RELATED_TEXTS(49),
-    SHOW_TYPE_OF_TEXTS_MY_PAGE(50)
+    SHOW_TYPE_OF_TEXTS_MY_PAGE(50),
+    USER_SHORT_URL(100)
     ;
 
     private final int id;
