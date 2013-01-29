@@ -10,6 +10,8 @@ import java.util.GregorianCalendar;
 
 public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements UserRole, Serializable {
 
+    private final int id;
+
     private final R role;
     private final RS roleStatus;
 
@@ -25,6 +27,7 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
      *
      */
     public UserRoleImpl(R role, RS roleStatus, Date activeFrom) {
+        this.id = 0;
         this.role = role;
         this.roleStatus = roleStatus;
         this.activeFrom = activeFrom;
@@ -32,10 +35,32 @@ public class UserRoleImpl<R extends Role, RS extends RoleStatus> implements User
     }
 
     public UserRoleImpl(R role, RS roleStatus, Date activeFrom, Date activeTo) {
+        this.id = 0;
         this.role = role;
         this.roleStatus = roleStatus;
         this.activeFrom = activeFrom;
         this.activeTo = activeTo;
+    }
+
+    public UserRoleImpl(int id, R role, RS roleStatus, Date activeFrom) {
+        this.id = id;
+        this.role = role;
+        this.roleStatus = roleStatus;
+        this.activeFrom = activeFrom;
+        this.activeTo = new GregorianCalendar(9999, 0, 1, 0, 0, 0).getTime();
+    }
+
+    public UserRoleImpl(int id, R role, RS roleStatus, Date activeFrom, Date activeTo) {
+        this.id = id;
+        this.role = role;
+        this.roleStatus = roleStatus;
+        this.activeFrom = activeFrom;
+        this.activeTo = activeTo;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override
