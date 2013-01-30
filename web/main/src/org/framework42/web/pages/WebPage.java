@@ -125,7 +125,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
             logger.debug("http accept header: "+req.getHeader("accept"));
         }
 
-        if(accept.equalsIgnoreCase("*/*") && (userAgent.contains("MSIE 8.0;") || userAgent.contains("MSIE 7.0;") || userAgent.contains("Googlebot") || userAgent.contains("bingbot") )) {
+        if(accept.equalsIgnoreCase("*/*") && (userAgent.contains("MSIE 8.0;") || userAgent.contains("MSIE 7.0;") || userAgent.contains("Googlebot") || userAgent.contains("bingbot") || userAgent.contains("facebookexternalhit") )) {
             accept = "*/*;text/html;";
         }
 
