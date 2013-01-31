@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 import java.util.Date;
 
-public interface ProductCreditBureauContext {
+public interface RepresentativeProductCreditBureauContext {
 
     public int getId();
 
