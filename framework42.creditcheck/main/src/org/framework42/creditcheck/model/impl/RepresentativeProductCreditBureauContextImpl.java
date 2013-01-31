@@ -2,11 +2,11 @@ package org.framework42.creditcheck.model.impl;
 
 import org.framework42.creditcheck.model.CreditBureauContext;
 import org.framework42.creditcheck.model.CreditBureauStatus;
-import org.framework42.creditcheck.model.ProductCreditBureauContext;
+import org.framework42.creditcheck.model.RepresentativeProductCreditBureauContext;
 
 import java.util.Date;
 
-public class ProductCreditBureauContextImpl implements ProductCreditBureauContext {
+public class RepresentativeProductCreditBureauContextImpl implements RepresentativeProductCreditBureauContext {
 
     private final int id;
 
@@ -24,7 +24,7 @@ public class ProductCreditBureauContextImpl implements ProductCreditBureauContex
 
     private final long toDate;
 
-    public ProductCreditBureauContextImpl(int id, CreditBureauContext creditBureauContext, int priority, CreditBureauStatus status, int minimumAmount, int maximumAmount, Date fromDate, Date toDate) {
+    public RepresentativeProductCreditBureauContextImpl(int id, CreditBureauContext creditBureauContext, int priority, CreditBureauStatus status, int minimumAmount, int maximumAmount, Date fromDate, Date toDate) {
 
         this.id = id;
         this.creditBureauContext = creditBureauContext;
