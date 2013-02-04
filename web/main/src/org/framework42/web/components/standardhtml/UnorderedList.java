@@ -35,6 +35,12 @@ public class UnorderedList extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.style != null) {
+            htmlBuilder.append("style =\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">\n");
 
         for(HtmlComponent comp: builder.listItems){
@@ -57,6 +63,8 @@ public class UnorderedList extends HtmlComponent {
 
         private String id = null;
 
+        private String style = null;
+
         public Builder(List<HtmlComponent> listItems) {
             this.listItems = listItems;
         }
@@ -68,6 +76,11 @@ public class UnorderedList extends HtmlComponent {
 
         public Builder id(String id){
             this.id = id;
+            return this;
+        }
+
+        public Builder style(String style) {
+            this.style = style;
             return this;
         }
 
