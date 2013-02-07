@@ -18,6 +18,7 @@ public abstract class PageModel implements PageModelInterface {
     protected boolean info;
     protected String infoMessage;
 
+    protected String pageTitle = null;
     protected String pageTitleKey;
     protected String pageKeywordsKey;
     protected String pageDescriptionKey;
@@ -79,6 +80,14 @@ public abstract class PageModel implements PageModelInterface {
     public void setInfo(String infoMessage) {
         this.info = true;
         this.infoMessage = infoMessage;
+    }
+
+    public String getPageTitle() {
+        return pageTitle;
+    }
+
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
     }
 
     public String getPageTitleKey() {
