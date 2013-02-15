@@ -18,6 +18,10 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
         this.builder = new Builder(idAndName, value);
     }
 
+    public TextField(String idAndName, int value) {
+        this.builder = new Builder(idAndName, value+"");
+    }
+
     public TextField(String id, String name, String value) {
         this.builder = new Builder(id, name, value);
     }
@@ -77,6 +81,10 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
 
         public Builder(String idAndName, String value) {
             this(idAndName, idAndName, value);
+        }
+
+        public Builder(String idAndName, int value) {
+            this(idAndName, idAndName, value+"");
         }
 
         public Builder(String id, String name, String value) {
