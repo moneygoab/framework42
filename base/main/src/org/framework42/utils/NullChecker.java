@@ -20,7 +20,7 @@ public class NullChecker {
      * */
     public static <T> T notNull(T variable) {
 
-        return notNull(variable, "Variable can't be null", logger);
+        return notNull(variable, "Variable of type "+variable.getClass().getCanonicalName()+" can't be null", logger);
     }
 
     /**
