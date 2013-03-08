@@ -14,24 +14,6 @@ public enum PasswordEncryptionService {
 
     INSTANCE;
 
-    public static void main(String[] args) {
-
-        try {
-            byte[] salt = PasswordEncryptionService.INSTANCE.generateSalt();
-            byte[] passwordHash = PasswordEncryptionService.INSTANCE.getEncryptedPassword("amseb", salt);
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss SSSS");
-
-            System.out.println(dateFormat.format(new Date()));
-            System.out.println(PasswordEncryptionService.INSTANCE.authenticate("amseb1", passwordHash, salt));
-            System.out.println(dateFormat.format(new Date()));
-
-        } catch(Exception e) {
-
-            System.out.println(e.getMessage());
-        }
-    }
-
     public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         // Encrypt the clear-text password using the same salt that was used to

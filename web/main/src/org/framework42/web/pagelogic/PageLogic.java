@@ -51,11 +51,12 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         }
 
         setupPageParameters(req, session, pageModel);
-        setupPageParametersSpecific(req, session, pageModel);
 
         setupEnvironmentInformation(servlet, req, session, pageModel);
 
         addHtmlParameters(req, pageModel, session);
+
+        setupPageParametersSpecific(req, session, pageModel);
 
         return pageModel;
 
