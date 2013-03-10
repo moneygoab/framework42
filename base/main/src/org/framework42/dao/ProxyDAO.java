@@ -34,11 +34,22 @@ public abstract class ProxyDAO<T> {
 
     public String generateSQLErrorMessage(SQLException e, Class daoClass, Method method) throws RuntimeException {
 
-        return generateSQLErrorMessage(e, daoClass, method, "");
+        return generateSQLErrorMessage(e, daoClass, method, "", true);
+
+    }
+
+    public String generateSQLErrorMessage(SQLException e, Class daoClass, Method method, boolean logError) throws RuntimeException {
+
+        return generateSQLErrorMessage(e, daoClass, method, "", logError);
 
     }
 
     public String generateSQLErrorMessage(SQLException e, Class daoClass, Method method, String customErrorMessage) throws RuntimeException {
+
+        return generateSQLErrorMessage(e, daoClass, method, "", true);
+    }
+
+    public String generateSQLErrorMessage(SQLException e, Class daoClass, Method method, String customErrorMessage, boolean logError) throws RuntimeException {
 
         StringBuilder msgBuilder = new StringBuilder(100);
         msgBuilder.append(daoClass.getName());
@@ -53,7 +64,9 @@ public abstract class ProxyDAO<T> {
 
         String msg = msgBuilder.toString();
 
-        logger.error(msg);
+        if(logError) {
+            logger.error(msg);
+        }
 
         return msg;
 

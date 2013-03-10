@@ -1,6 +1,8 @@
 package org.framework42.useragent_detection.model;
 
-public enum OperatingSystemBranch {
+import java.io.Serializable;
+
+public enum OperatingSystemBranch implements Serializable {
 
     WINDOWS(1), MAC_OS(2), LINUX(3), UNIX(4), AMIGA(5), UNKNOWN(0);
 

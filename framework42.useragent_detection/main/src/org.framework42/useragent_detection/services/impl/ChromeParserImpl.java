@@ -71,7 +71,7 @@ public class ChromeParserImpl implements UserAgentEngineParser {
 
             } catch(NumberFormatException e) {
 
-                logger.error("[useragent_detection] FirefoxParserImpl couldn't parse version from UserAgent: "+userAgent);
+                logger.error("[useragent_detection] ChromeParserImpl couldn't parse version from UserAgent: "+userAgent);
             }
 
         } else {

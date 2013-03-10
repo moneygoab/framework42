@@ -71,7 +71,11 @@ public class NullChecker {
         if(variable instanceof Collection) {
             childrenNotNull((Collection)variable, errorMessage, logger);
         } else if(variable.getClass().isArray()) {
-            childrenNotNull((Object[])variable, errorMessage, logger);
+            try {
+                childrenNotNull((Object[])variable, errorMessage, logger);
+            } catch (ClassCastException e) {
+                logger.debug(e.getMessage());
+            }
         }
 
         return variable;
@@ -79,26 +83,34 @@ public class NullChecker {
 
     private static void childrenNotNull(Collection variable, String errorMessage, Logger logger) {
 
-        for(Object childObject : variable.toArray()) {
+        try {
+            for(Object childObject : variable.toArray()) {
 
-            if(childObject == null) {
-                logger.error(errorMessage);
-                throw new IllegalArgumentException(errorMessage);
+                if(childObject == null) {
+                    logger.error(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
+                }
+
             }
-
+        } catch(ClassCastException e) {
+            logger.debug(e.getMessage());
         }
 
     }
 
     private static void childrenNotNull(Object[] variable, String errorMessage, Logger logger) {
 
-        for(Object childObject : variable) {
+        try {
+            for(Object childObject : variable) {
 
-            if(childObject == null) {
-                logger.error(errorMessage);
-                throw new IllegalArgumentException(errorMessage);
+                if(childObject == null) {
+                    logger.error(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
+                }
+
             }
-
+        } catch(ClassCastException e) {
+            logger.debug(e.getMessage());
         }
 
     }

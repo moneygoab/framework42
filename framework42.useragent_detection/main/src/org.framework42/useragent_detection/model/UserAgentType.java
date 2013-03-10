@@ -1,6 +1,8 @@
 package org.framework42.useragent_detection.model;
 
-public enum UserAgentType {
+import java.io.Serializable;
+
+public enum UserAgentType implements Serializable {
 
     WEB_BROWSER(1), TEXT_BROWSER(2),
     ROBOT(3), EMAIL_CLIENT(4), UNKNOWN(0);

@@ -20,6 +20,7 @@ import org.framework42.web.pagemodel.PageModel;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -136,13 +137,13 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         //text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
         //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
         if(!accept.contains("image/*")
-           &&
-           (accept.contains("text/html") ||
-            accept.contains("application/xaml+xml")) ||
-            accept.contains("application/x-ms-application") ||
-            accept.contains("*/*") ||
-            accept.contains("*/*;bot")
-           ) {
+                &&
+                (accept.contains("text/html") ||
+                        accept.contains("application/xaml+xml")) ||
+                accept.contains("application/x-ms-application") ||
+                accept.contains("*/*") ||
+                accept.contains("*/*;bot")
+                ) {
 
             if(ajax || (!accept.startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !accept.equalsIgnoreCase("*/*"))) {
 
@@ -245,10 +246,25 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 session = (T) sessionAsObject;
 
+                if(session.getUser().hasUserRole(Role.UNKNOWN_PERSON)) {
+
+                    Cookie[] cookies = req.getCookies();
+                    if(cookies!=null) {
+                        for(Cookie c: cookies) {
+
+                            if("keep_logged_in".equalsIgnoreCase(c.getName())) {
+
+                                session = createUserSession(req, resp);
+                                req.getSession().setAttribute("userSession", session);
+                            }
+                        }
+                    }
+                }
+
             } else {
 
                 logger.fatal("You have saved an object in the session attribute userSession that dose not " +
-                             "inherit UserSession. Faulty object: " + sessionAsObject);
+                        "inherit UserSession. Faulty object: " + sessionAsObject);
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
 
@@ -286,7 +302,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         User user = session.getUser();
         UserAuthPerformer authPerformer = new UserAuthPerformer(user, accessRoles, denyAccessRoles);
 
-        authPerformer.authorize(UserAuthAction.HAS_VALID_ROLE);
+        authPerformer.authorize(UserAuthAction.HAS_VALID_ROLE, this.getClass().getCanonicalName());
 
     }
 
