@@ -18,11 +18,25 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
 
     private final UserAgentEngineParser safariParser;
 
-    private final UserAgentEngineParser googleBotParser;
+    private final UserAgentEngineParser bingBot;
 
     private final UserAgentEngineParser iPhoneParser;
 
     private final UserAgentEngineParser operaParser;
+
+    private final UserAgentEngineParser playstationParser;
+
+    // Bots
+
+    private final UserAgentEngineParser majestic12BotParser;
+
+    private final UserAgentEngineParser googleBotParser;
+
+    private final UserAgentEngineParser googleBotImageParser;
+
+    private final UserAgentEngineParser pingdomBotParser;
+
+    private final UserAgentEngineParser facebookBot;
 
     public UserAgentParserImpl() {
         super("com.framework42.useragent_detection.services");
@@ -30,10 +44,16 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         this.internetExplorerParser = new MSInternetExplorerParserImpl();
         this.firefoxParser= new FirefoxParserImpl();
         this.chromeParser = new ChromeParserImpl();
-        this.safariParser = new SafariParserImpl();
-        this.googleBotParser = new GoogleBotParserImpl();
         this.iPhoneParser = new IPhoneParserImpl();
+        this.safariParser = new SafariParserImpl();
         this.operaParser = new OperaParserImpl();
+        this.playstationParser = new PlaystationParser();
+        this.googleBotParser = new GoogleBotParserImpl();
+        this.googleBotImageParser = new GoogleBotImageParserImpl();
+        this.bingBot = new BingBotParserImpl();
+        this.pingdomBotParser = new PingdomBotParserImpl();
+        this.majestic12BotParser = new Majestic12BotParserImpl();
+        this.facebookBot = new FacebookExternalHitBotParserImpl();
 
     }
 
@@ -48,6 +68,10 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
 
             return firefoxParser.parse(userAgent, logger);
 
+        } else if(userAgent.contains("(iPhone;")) {
+
+            return iPhoneParser.parse(userAgent, logger);
+
         } else if(userAgent.contains("Chrome")) {
 
             return chromeParser.parse(userAgent, logger);
@@ -56,17 +80,37 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
 
             return safariParser.parse(userAgent, logger);
 
+        } else if(userAgent.contains("Opera/")) {
+
+            return operaParser.parse(userAgent, logger);
+
+        } else if(userAgent.contains("PLAYSTATION")) {
+
+            return playstationParser.parse(userAgent, logger);
+
         } else if(userAgent.contains("Googlebot/")) {
 
             return googleBotParser.parse(userAgent, logger);
 
-        } else if(userAgent.contains("(iPhone;")) {
+        } else if(userAgent.contains("Googlebot-Image/")) {
 
-            return iPhoneParser.parse(userAgent, logger);
+            return googleBotImageParser.parse(userAgent, logger);
 
-        }  else if(userAgent.contains("Opera/")) {
+        } else if(userAgent.contains("Pingdom.com_bot")) {
 
-            return operaParser.parse(userAgent, logger);
+            return pingdomBotParser.parse(userAgent, logger);
+
+        } else if(userAgent.contains("bingbot/")) {
+
+            return bingBot.parse(userAgent, logger);
+
+        } else if(userAgent.contains("facebookexternalhit/")) {
+
+            return facebookBot.parse(userAgent, logger);
+
+        } else if(userAgent.contains("MJ12bot/")) {
+
+            return majestic12BotParser.parse(userAgent, logger);
 
         }
 

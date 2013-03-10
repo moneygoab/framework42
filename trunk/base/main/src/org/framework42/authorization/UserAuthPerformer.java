@@ -26,26 +26,26 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
     }
 
     @Override
-    protected void performAuthorization(AuthorizationAction authorizationAction) throws NotAuthorizedException {
+    protected void performAuthorization(AuthorizationAction authorizationAction, String resource) throws NotAuthorizedException {
 
-        isUserDeniedAccess(user);
+        isUserDeniedAccess(user, resource);
 
-        isUserGrantedAccess(user);
+        isUserGrantedAccess(user, resource);
 
     }
 
-    private void isUserDeniedAccess(User user) throws NotAuthorizedException {
+    private void isUserDeniedAccess(User user, String resource) throws NotAuthorizedException {
 
         for (Role role : denyAccessRoles) {
 
             if (user.getUserRoles().containsKey(role)) {
-                logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " denied access on role: " + role);
+                logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " denied access on role: " + role+" to: "+resource);
                 throw new NotAuthorizedException();
             }
         }
     }
 
-    private void isUserGrantedAccess(User user) throws NotAuthorizedException {
+    private void isUserGrantedAccess(User user, String resource) throws NotAuthorizedException {
 
         boolean accessGranted = false;
 
@@ -67,7 +67,7 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
         }
 
         if (!accessGranted) {
-            logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " not granted access, has not any of roles: " + accessRoles);
+            logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " not granted access to: "+resource+", has not any of roles: " + accessRoles);
             throw new NotAuthorizedException();
         }
 

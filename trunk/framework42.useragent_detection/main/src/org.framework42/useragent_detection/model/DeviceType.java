@@ -1,6 +1,8 @@
 package org.framework42.useragent_detection.model;
 
-public enum DeviceType {
+import java.io.Serializable;
+
+public enum DeviceType implements Serializable {
 
     COMPUTER(1), MOBILE_PHONE(2), TABLET(3), SERVER(4), GAME_CONSOLE(5), DIGITAL_MEDIA_RECEIVER(6), UNKNOWN(0);
 

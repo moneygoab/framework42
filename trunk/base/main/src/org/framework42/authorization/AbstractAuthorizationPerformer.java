@@ -8,17 +8,17 @@ public abstract class AbstractAuthorizationPerformer implements AuthorizationPer
     }
 
     @Override
-    public void authorize(AuthorizationAction authorizationAction) throws NotAuthorizedException {
+    public void authorize(AuthorizationAction authorizationAction, String resource) throws NotAuthorizedException {
 
         performGeneralAuthorization();
 
-        performAuthorization(authorizationAction);
+        performAuthorization(authorizationAction, resource);
 
     }
 
     protected void performGeneralAuthorization() throws NotAuthorizedException {
     }
 
-    protected abstract void performAuthorization(AuthorizationAction authorizationAction) throws NotAuthorizedException;
+    protected abstract void performAuthorization(AuthorizationAction authorizationAction, String resource) throws NotAuthorizedException;
 
 }

@@ -15,7 +15,7 @@ import static org.framework42.utils.NullChecker.notNull;
  * */
 public enum DatabaseConnector {
 
-    INSTANCE(), EVENT_INSTANCE(), OLD_INSTANCE(), UPDATER_OLD_INSTANCE(), MISC_INSTANCE();
+    INSTANCE(), EVENT_INSTANCE(), OLD_INSTANCE(), MISC_INSTANCE();
 
     private MiniConnectionPoolManager poolManager;
 

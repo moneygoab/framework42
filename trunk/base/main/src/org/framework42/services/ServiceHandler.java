@@ -65,7 +65,7 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
                     Arrays.asList(authAnnotation.denyRoles())
             );
 
-            userAuthPerformer.authorize(UserAuthAction.HAS_VALID_ROLE);
+            userAuthPerformer.authorize(UserAuthAction.HAS_VALID_ROLE, method.getName());
 
         } else if(authAnnotation.authType() == AuthType.SPECIAL_SUB_CLASSED) {
 

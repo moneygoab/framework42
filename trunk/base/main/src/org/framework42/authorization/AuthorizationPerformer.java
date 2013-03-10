@@ -10,6 +10,6 @@ public interface AuthorizationPerformer {
     /**
      *
      * */
-    public void authorize(AuthorizationAction authorizationAction) throws NotAuthorizedException;
+    public void authorize(AuthorizationAction authorizationAction, String resource) throws NotAuthorizedException;
 
 }

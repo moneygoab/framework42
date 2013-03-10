@@ -1,6 +1,8 @@
 package org.framework42.useragent_detection.model;
 
-public enum RenderingEngine {
+import java.io.Serializable;
+
+public enum RenderingEngine implements Serializable {
 
     TRIDENT(1), // Internet Explorer
     GECKO(2), // Firefox
