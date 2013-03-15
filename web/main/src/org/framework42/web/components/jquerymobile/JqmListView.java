@@ -9,11 +9,11 @@ import org.framework42.web.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JqmPage extends HtmlComponent {
+public class JqmListView extends HtmlComponent {
 
     private Builder builder;
 
-    public JqmPage(Builder builder) {
+    public JqmListView(Builder builder) {
 
         this.builder = builder;
     }
@@ -21,13 +21,11 @@ public class JqmPage extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<div id=\"");
-        htmlBuilder.append(builder.id);
-        htmlBuilder.append("\"");
+        htmlBuilder.append("<ul");
 
-        htmlBuilder.append(" data-role=\"");
-        htmlBuilder.append("page");
-        htmlBuilder.append("\"");
+        htmlBuilder.append(" data-role=\"listview\"");
+
+        htmlBuilder.append(" data-inset=\"true\"");
 
         if(builder.theme != null) {
             htmlBuilder.append(" data-theme=\"");
@@ -58,14 +56,16 @@ public class JqmPage extends HtmlComponent {
         htmlBuilder.append(">\n");
 
         for(HtmlComponent comp: builder.childComponents){
+            htmlBuilder.append("<li>\n");
             htmlBuilder.append(comp.getHtml(page, this, false));
+            htmlBuilder.append("</li>\n");
         }
 
         htmlBuilder.append(Util.tab(tabs));
-        htmlBuilder.append("</div>\n");
+        htmlBuilder.append("</ul>\n");
     }
 
-    public static class Builder extends EventComponentBuilder<JqmPage> implements HtmlComponentStorage<HtmlComponent> {
+    public static class Builder extends EventComponentBuilder<JqmListView> implements HtmlComponentStorage<HtmlComponent> {
 
         private final String id;
 
@@ -91,8 +91,8 @@ public class JqmPage extends HtmlComponent {
         }
 
         @Override
-        public JqmPage build() {
-            return new JqmPage(this);
+        public JqmListView build() {
+            return new JqmListView(this);
         }
 
         @Override

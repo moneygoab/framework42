@@ -9,11 +9,11 @@ import org.framework42.web.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JqmPage extends HtmlComponent {
+public class JqmNavBar extends HtmlComponent {
 
     private Builder builder;
 
-    public JqmPage(Builder builder) {
+    public JqmNavBar(Builder builder) {
 
         this.builder = builder;
     }
@@ -21,13 +21,9 @@ public class JqmPage extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<div id=\"");
-        htmlBuilder.append(builder.id);
-        htmlBuilder.append("\"");
+        htmlBuilder.append("<div");
 
-        htmlBuilder.append(" data-role=\"");
-        htmlBuilder.append("page");
-        htmlBuilder.append("\"");
+        htmlBuilder.append(" data-role=\"navbar\"");
 
         if(builder.theme != null) {
             htmlBuilder.append(" data-theme=\"");
@@ -57,15 +53,20 @@ public class JqmPage extends HtmlComponent {
 
         htmlBuilder.append(">\n");
 
+        htmlBuilder.append("<ul>\n");
+
         for(HtmlComponent comp: builder.childComponents){
+            htmlBuilder.append("<li>");
             htmlBuilder.append(comp.getHtml(page, this, false));
+            htmlBuilder.append("</li>\n");
         }
+        htmlBuilder.append("</ul>\n");
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("</div>\n");
     }
 
-    public static class Builder extends EventComponentBuilder<JqmPage> implements HtmlComponentStorage<HtmlComponent> {
+    public static class Builder extends EventComponentBuilder<JqmNavBar> implements HtmlComponentStorage<HtmlComponent> {
 
         private final String id;
 
@@ -91,8 +92,8 @@ public class JqmPage extends HtmlComponent {
         }
 
         @Override
-        public JqmPage build() {
-            return new JqmPage(this);
+        public JqmNavBar build() {
+            return new JqmNavBar(this);
         }
 
         @Override
@@ -100,5 +101,4 @@ public class JqmPage extends HtmlComponent {
             childComponents.add(htmlComponent);
         }
     }
-
 }

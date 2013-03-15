@@ -9,11 +9,11 @@ import org.framework42.web.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JqmPage extends HtmlComponent {
+public class JqmHeader extends HtmlComponent {
 
     private Builder builder;
 
-    public JqmPage(Builder builder) {
+    public JqmHeader(Builder builder) {
 
         this.builder = builder;
     }
@@ -26,14 +26,8 @@ public class JqmPage extends HtmlComponent {
         htmlBuilder.append("\"");
 
         htmlBuilder.append(" data-role=\"");
-        htmlBuilder.append("page");
+        htmlBuilder.append("header");
         htmlBuilder.append("\"");
-
-        if(builder.theme != null) {
-            htmlBuilder.append(" data-theme=\"");
-            htmlBuilder.append(builder.theme);
-            htmlBuilder.append("\"");
-        }
 
         if(builder.className != null){
             htmlBuilder.append(" class=\"");
@@ -65,7 +59,7 @@ public class JqmPage extends HtmlComponent {
         htmlBuilder.append("</div>\n");
     }
 
-    public static class Builder extends EventComponentBuilder<JqmPage> implements HtmlComponentStorage<HtmlComponent> {
+    public static class Builder extends EventComponentBuilder<JqmHeader> implements HtmlComponentStorage<HtmlComponent> {
 
         private final String id;
 
@@ -77,22 +71,14 @@ public class JqmPage extends HtmlComponent {
 
         private String style = null;
 
-        private String theme = null;
-
         public Builder(String id) {
             this.id = id;
             this.childComponents = new ArrayList<HtmlComponent>();
         }
 
-        public Builder theme(String theme) {
-
-            this.theme = theme;
-            return this;
-        }
-
         @Override
-        public JqmPage build() {
-            return new JqmPage(this);
+        public JqmHeader build() {
+            return new JqmHeader(this);
         }
 
         @Override
@@ -100,5 +86,4 @@ public class JqmPage extends HtmlComponent {
             childComponents.add(htmlComponent);
         }
     }
-
 }
