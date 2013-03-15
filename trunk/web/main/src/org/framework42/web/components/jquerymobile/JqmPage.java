@@ -84,6 +84,12 @@ public class JqmPage extends HtmlComponent {
             this.childComponents = new ArrayList<HtmlComponent>();
         }
 
+        public Builder className(String className) {
+
+            this.className = className;
+            return this;
+        }
+
         public Builder theme(String theme) {
 
             this.theme = theme;
