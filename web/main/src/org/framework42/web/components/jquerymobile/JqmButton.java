@@ -1,20 +1,14 @@
 package org.framework42.web.components.jquerymobile;
 
-import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.HtmlComponentStorage;
 import org.framework42.web.components.InputComponentBuilder;
 import org.framework42.web.pages.WebPage;
-import org.framework42.web.utils.Util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class JqmLink extends HtmlComponent {
+public class JqmButton extends HtmlComponent {
 
     private Builder builder;
 
-    public JqmLink(Builder builder) {
+    public JqmButton(Builder builder) {
 
         this.builder = builder;
     }
@@ -27,6 +21,16 @@ public class JqmLink extends HtmlComponent {
         htmlBuilder.append("href=\"");
         htmlBuilder.append(builder.href);
         htmlBuilder.append("\"");
+
+        htmlBuilder.append(" data-role=\"button\"");
+
+        if(builder.inline) {
+            htmlBuilder.append(" data-inline=\"true\"");
+        }
+
+        if(builder.mini) {
+            htmlBuilder.append(" data-mini=\"true\"");
+        }
 
         if(builder.icon!=null) {
             htmlBuilder.append(" data-icon=\"");
@@ -61,7 +65,7 @@ public class JqmLink extends HtmlComponent {
         htmlBuilder.append("</a>");
     }
 
-    public static class Builder extends InputComponentBuilder<JqmLink> {
+    public static class Builder extends InputComponentBuilder<JqmButton> {
 
         private String href;
 
@@ -75,7 +79,9 @@ public class JqmLink extends HtmlComponent {
 
         private String icon = null;
 
+        private boolean inline = false;
 
+        private boolean mini = false;
 
         public Builder(String name, String href, String linkText) {
             super(name, "");
@@ -104,11 +110,22 @@ public class JqmLink extends HtmlComponent {
             return this;
         }
 
-        @Override
-        public JqmLink build() {
-            return new JqmLink(this);
+        public Builder inline(boolean inline) {
+
+            this.inline = inline;
+            return this;
         }
 
+        public Builder mini(boolean mini) {
+
+            this.mini = mini;
+            return this;
+        }
+
+        @Override
+        public JqmButton build() {
+            return new JqmButton(this);
+        }
 
     }
 }

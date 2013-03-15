@@ -25,9 +25,7 @@ public class JqmHeader extends HtmlComponent {
         htmlBuilder.append(builder.id);
         htmlBuilder.append("\"");
 
-        htmlBuilder.append(" data-role=\"");
-        htmlBuilder.append("header");
-        htmlBuilder.append("\"");
+        htmlBuilder.append(" data-role=\"header\" data-position=\"fixed\"");
 
         if(builder.className != null){
             htmlBuilder.append(" class=\"");
