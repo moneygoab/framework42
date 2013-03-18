@@ -56,6 +56,10 @@ public class JqmButton extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        htmlBuilder.append(" id=\"");
+        htmlBuilder.append(builder.name);
+        htmlBuilder.append("\"");
+
         //htmlBuilder.append(builder.addGeneralComponents());
 
         htmlBuilder.append(">");
@@ -83,9 +87,12 @@ public class JqmButton extends HtmlComponent {
 
         private boolean mini = false;
 
+        private String name;
+
         public Builder(String name, String href, String linkText) {
             super(name, "");
 
+            this.name = name;
             this.href = href;
             this.linkText = linkText;
         }
@@ -93,6 +100,7 @@ public class JqmButton extends HtmlComponent {
         public Builder(String name, String href, String linkText, String icon) {
             super(name, "");
 
+            this.name = name;
             this.href = href;
             this.linkText = linkText;
             this.icon = icon;

@@ -100,6 +100,18 @@ public class JqmPanel extends HtmlComponent {
             return this;
         }
 
+        public Builder style(String style) {
+
+            this.style = style;
+            return this;
+        }
+
+        public Builder className(String className) {
+
+            this.className = className;
+            return this;
+        }
+
         @Override
         public JqmPanel build() {
             return new JqmPanel(this);
