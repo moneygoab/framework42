@@ -18,25 +18,26 @@ public abstract class RESTWebPage extends HttpServlet {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
-        }
-
-        int consumerId = getConsumerId(req.getParameter("consumer_key"), APIRequestType.GET);
-
-        if(consumerId>0) {
-
-            APIResponseType responseType = APIResponseType.XML;
-            try {
-                if(req.getParameter("response_type")!=null) {
-
-                    responseType = APIResponseType.getByName(req.getParameter("response_type"));
-                }
-            } catch(Exception e) {}
-
-            doGetSpecific(req, resp, responseType, consumerId);
-
         } else {
 
-            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            int consumerId = getConsumerId(req.getParameter("consumer_key"), APIRequestType.GET);
+
+            if(consumerId>0) {
+
+                APIResponseType responseType = APIResponseType.XML;
+                try {
+                    if(req.getParameter("response_type")!=null) {
+
+                        responseType = APIResponseType.getByName(req.getParameter("response_type"));
+                    }
+                } catch(Exception e) {}
+
+                doGetSpecific(req, resp, responseType, consumerId);
+
+            } else {
+
+                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            }
         }
     }
 
