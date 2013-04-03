@@ -24,7 +24,7 @@ public enum CreditDecision {
             return REVIEW_REQUIRED;
         }
 
-        throw new IllegalArgumentException("Nu uc code '"+ucCode+"' exists!");
+        throw new IllegalArgumentException("No uc code '"+ucCode+"' exists!");
     }
 
     public static CreditDecision getById(int id) {
@@ -37,7 +37,7 @@ public enum CreditDecision {
             }
         }
 
-        throw new IllegalArgumentException("No credit decision with getId "+id+" exists!");
+        throw new IllegalArgumentException("No credit decision with id "+id+" exists!");
 
     }
 
