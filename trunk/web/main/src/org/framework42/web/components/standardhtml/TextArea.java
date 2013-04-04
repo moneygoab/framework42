@@ -53,6 +53,12 @@ public class TextArea extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.maxLength>0) {
+            htmlBuilder.append(" maxlength=\"");
+            htmlBuilder.append(builder.maxLength);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(">");
 
         htmlBuilder.append(builder.value);
@@ -72,6 +78,8 @@ public class TextArea extends HtmlComponent {
         private String value;
 
         private String style;
+
+        private int maxLength = 0;
 
         public Builder(String name, String value) {
             super(name, "");
@@ -106,6 +114,13 @@ public class TextArea extends HtmlComponent {
         public Builder style(String style) {
 
             this.style = style;
+
+            return this;
+        }
+
+        public Builder maxLength(int maxLength) {
+
+            this.maxLength = maxLength;
 
             return this;
         }

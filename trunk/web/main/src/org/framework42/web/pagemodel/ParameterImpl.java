@@ -66,13 +66,20 @@ public class ParameterImpl<T> implements Parameter<T> {
 
     @Override
     public String asString() {
-        return parameterValue.toString();
+        if(parameterValue instanceof String[]) {
+            return ((String[])parameterValue)[0].toString();
+        } else {
+            return parameterValue.toString();
+        }
     }
 
     @Override
     public int asInt() {
-        return Integer.parseInt(parameterValue.toString());
-
+        if(parameterValue instanceof String[]) {
+            return Integer.parseInt(((String[])parameterValue)[0].toString());
+        } else {
+            return Integer.parseInt(parameterValue.toString());
+        }
     }
 
     @Override
@@ -101,12 +108,20 @@ public class ParameterImpl<T> implements Parameter<T> {
 
     @Override
     public long asLong() {
-        return Long.parseLong(parameterValue.toString());
+        if(parameterValue instanceof String[]) {
+            return Long.parseLong(((String[])parameterValue)[0].toString());
+        } else {
+            return Long.parseLong(parameterValue.toString());
+        }
     }
 
     @Override
     public boolean asBoolean() {
-        return Boolean.parseBoolean(parameterValue.toString());
+        if(parameterValue instanceof String[]) {
+            return Boolean.parseBoolean(((String[])parameterValue)[0].toString());
+        } else {
+            return Boolean.parseBoolean(parameterValue.toString());
+        }
     }
 
     @Override
