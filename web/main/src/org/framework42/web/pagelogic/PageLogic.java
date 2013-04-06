@@ -82,6 +82,8 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         postPerformGeneral(req, resp, session, pageModel);
 
+        servlet.getServletContext().setAttribute("userClientActionMap", pageModel.getUserClientActionMap());
+
         return pageModel;
 
     }
