@@ -8,7 +8,6 @@ import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pageflow.Flowable;
 import org.framework42.web.pageflow.FlowableApp;
 import org.framework42.web.pagemodel.*;
-import org.framework42.web.session.TabableApp;
 import org.framework42.web.session.UserSession;
 import org.apache.log4j.Logger;
 
@@ -108,15 +107,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         checkFlowable(resp, session, pageModel);
 
-        if(this instanceof TabablePage) {
-
-            changeTab(session, pageModel);
-            removeTab(resp, session, pageModel);
-
-            ((TabablePage<T,R>)this).addTab(req, resp, session, pageModel);
-        }
-
-
     }
 
     protected void postPerformGeneral(HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException, ManageableException {
@@ -129,11 +119,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
             flowableApp.setLastPageClassName(pageModel.getClass().getCanonicalName());
             flowableApp.setLastPageAction(pageModel.getCurrentPageAction());
-        }
-
-        if(this instanceof TabablePage) {
-
-            saveTabPageModel(session, pageModel);
         }
 
     }
@@ -192,67 +177,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
                 throw new StopServletExecutionException();
             }
         }
-    }
-
-    private void changeTab(T session, R pageModel) {
-
-        if(pageModel.getInParameters().containsKey("tabId")
-           && pageModel.getClass().getAnnotation(Tabable.class) != null
-           && session instanceof TabableApp
-           && pageModel.isCurrentPageAction(BasePageAction.ACTIVATE_TAB)) {
-
-            TabableApp tabableApp = ((TabableApp)session);
-
-            for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
-
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").asString());
-                if( tabEnv.getId() == tabId) {
-
-                    tabableApp.setActiveTabEnvironment(tabEnv);
-
-                }
-
-            }
-        }
-
-    }
-
-    private void removeTab(HttpServletResponse resp, T session, R pageModel) throws IOException, StopServletExecutionException {
-
-        if(pageModel.getInParameters().containsKey("tabId")
-           && pageModel.getClass().getAnnotation(Tabable.class) != null
-           && session instanceof TabableApp
-           && pageModel.isCurrentPageAction(BasePageAction.REMOVE_TAB)) {
-
-            TabableApp tabableApp = ((TabableApp)session);
-
-            for(TabEnvironment tabEnv: tabableApp.getTabEnvironments()) {
-
-                long tabId  = Long.parseLong(pageModel.getInParameters().get("tabId").asString());
-                if( tabEnv.getId() == tabId) {
-
-                    tabableApp.setActiveTabEnvironment(tabableApp.getTabEnvironments().get(0));
-                    tabableApp.getTabEnvironments().remove(tabEnv);
-
-                    resp.sendRedirect(tabableApp.getActiveTabEnvironment().getTabButton().getBuilder().getTabLink().getBuilder().generateHref());
-                    throw new StopServletExecutionException();
-                }
-
-            }
-
-        }
-
-    }
-
-    private void saveTabPageModel(T session, R pageModel) {
-
-        if(pageModel.getClass().getAnnotation(Tabable.class) != null && session instanceof TabableApp) {
-
-            TabableApp tabableApp = ((TabableApp)session);
-
-            tabableApp.getActiveTabEnvironment().setPageModel(pageModel);
-        }
-
     }
 
     /**

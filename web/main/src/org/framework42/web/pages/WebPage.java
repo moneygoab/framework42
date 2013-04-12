@@ -12,7 +12,6 @@ import org.framework42.model.users.User;
 import org.framework42.useragent_detection.services.UserAgentParser;
 import org.framework42.useragent_detection.services.impl.UserAgentParserImpl;
 import org.framework42.web.components.ComponentGroup;
-import org.framework42.web.components.HtmlPostMethod;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagelogic.PageLogic;
@@ -35,6 +34,8 @@ import java.util.Locale;
  */
 public abstract class WebPage<T extends UserSession, R extends PageModel> extends HttpServlet {
 
+    private final static List<Role> emptyRolesList = new ArrayList<Role>();
+
     protected final Logger logger;
 
     protected int id = 0;
@@ -54,7 +55,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
      */
     protected WebPage(String loggerId, PageLogic<T, R> pageLogic) {
 
-        this(loggerId, pageLogic, new ArrayList<Role>(), new ArrayList<Role>());
+        this(loggerId, pageLogic, emptyRolesList, emptyRolesList);
     }
 
     /**
@@ -68,150 +69,95 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
      */
     protected WebPage(String loggerId, PageLogic<T, R> pageLogic, List<Role> accessRoles, List<Role> denyAccessRoles) {
 
-        logger = Logger.getLogger(loggerId);
+        this.logger = Logger.getLogger(loggerId);
         this.pageLogic = pageLogic;
 
         this.accessRoles = accessRoles;
         this.denyAccessRoles = denyAccessRoles;
-
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        processCall(HtmlPostMethod.GET, req, resp);
-
+        processCall(req, resp);
     }
-
-    protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        processCall(HtmlPostMethod.POST, req, resp);
-
+        processCall(req, resp);
     }
 
-    protected abstract void doPostSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
+    protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
 
-    private void processCall(HtmlPostMethod postMethod, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void processCall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (req.getCharacterEncoding() == null) {
             req.setCharacterEncoding("utf-8");
         }
 
+        logger.debug("=================================================================");
+        logger.debug(req.getHeader("accept"));
+        logger.debug(req.getHeader("user-agent"));
+        logger.debug(req.getRequestURI());
+        logger.debug(req.getHeader("referer"));
+        logger.debug("=================================================================");
 
-        /*Enumeration headerNames = req.getHeaderNames();
+        Html.Builder htmlBuilder = new Html.Builder();
 
-       while(headerNames.hasMoreElements()) {
+        T session = null;
 
-           Object header = headerNames.nextElement();
+        try {
 
-           System.out.println(header.toString()+": "+req.getHeader(header.toString()));
+            session = getSession(req, resp);
 
-       }
-       System.out.println("\n\n\n\n\n\n"); */
+            R model = pageLogic.setupParameters(this, req, resp, session);
 
-        //TODO: Handle Firefox double calls better.
-        String accept = req.getHeader("accept");
-        String userAgent = req.getHeader("user-agent");
-        if(accept==null) {
-            accept = "*/*;bot";
+            mayAccessPage(session);
+            mayAccessPageSpecific(session, model, resp);
 
-            logger.debug(userAgent);
-            logger.debug("http bot accept header: "+req.getHeader("accept"));
-        } else {
+            model = pageLogic.perform(this, req, resp, session, model);
 
-            logger.debug(userAgent);
-            logger.debug("http accept header: "+req.getHeader("accept"));
-        }
+            doGetSub(model, session, htmlBuilder);
 
-        if(accept.equalsIgnoreCase("*/*") && (userAgent.contains("MSIE 8.0;") || userAgent.contains("MSIE 7.0;") || userAgent.contains("Googlebot") || userAgent.contains("bingbot") || userAgent.contains("facebookexternalhit") )) {
-            accept = "*/*;text/html;";
-        }
+            writeHtmlPage(resp, htmlBuilder);
 
-        boolean ajax = false;
-        if(req.getParameter("ajax")!=null) { ajax = true;}
+            pageLogic.performPostRendering(getServletContext(), session, model);
 
-        //image/png,image/*;q=0.8,*/*;q=0.5
-        //text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        //if(!req.getHeader("accept").contains("image/*") && (req.getHeader("accept").contains("text/html") || req.getHeader("accept").contains("*/") )) {
-        if(!accept.contains("image/*")
-                &&
-                (accept.contains("text/html") ||
-                        accept.contains("application/xaml+xml")) ||
-                accept.contains("application/x-ms-application") ||
-                accept.contains("*/*") ||
-                accept.contains("*/*;bot")
-                ) {
+        } catch (NotAuthorizedException e) {
 
-            if(ajax || (!accept.startsWith("image/png,image/*;q=0.8,*/*;q=0.5") && !accept.equalsIgnoreCase("*/*"))) {
+            logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
 
-                logger.debug(req.getHeader("referer")+":"+req.getRequestURI());
+            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
 
-                Html.Builder htmlBuilder = new Html.Builder();
+        } catch (UserBlockedException e) {
 
-                T session = null;
+            logger.debug(e.getMessage()+" regarding viewing page " + this.getServletName());
+            resp.sendRedirect(I18N.INSTANCE.getURL("blocked_page", session.getLocale()));
 
-                try {
+        }catch (StopServletExecutionException e) {
 
-                    session = getSession(req, resp);
+            logger.debug("Execution stopped of servlet due to need for redirect.");
 
-                    R model = pageLogic.setupParameters(this, req, resp, session);
+        } catch (ManageableException e) {
 
-                    mayAccessPage(session);
-                    mayAccessPageSpecific(session, model, resp);
+            handleManageablePageException(session, e, htmlBuilder);
+            try {
 
-                    model = pageLogic.perform(this, req, resp, session, model);
+                writeHtmlPage(resp, htmlBuilder);
 
-                    if(postMethod == HtmlPostMethod.GET) {
-                        doGetSub(model, session, htmlBuilder);
-                    } else {
-                        doPostSub(model, session, htmlBuilder);
-                    }
+            } catch (IOException ex) {
 
-                    writeHtmlPage(resp, htmlBuilder);
-
-                    pageLogic.performPostRendering(getServletContext(), session, model);
-
-                } catch (NotAuthorizedException e) {
-
-                    logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-
-                    resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
-
-                } catch (UserBlockedException e) {
-
-                    logger.debug(e.getMessage()+" regarding viewing page " + this.getServletName());
-                    resp.sendRedirect(I18N.INSTANCE.getURL("blocked_page", session.getLocale()));
-
-                }catch (StopServletExecutionException e) {
-
-                    logger.debug("Execution stopped of servlet due to need for redirect.");
-
-                } catch (ManageableException e) {
-
-                    handleManageablePageException(session, e, htmlBuilder);
-                    try {
-
-                        writeHtmlPage(resp, htmlBuilder);
-
-                    } catch (IOException ex) {
-
-                        logUnhandledException(e);
-                        resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
-                    }
-
-                } catch (Exception e) {
-
-                    logUnhandledException(e);
-                    //TODO: Remove hardcoded fallback locale!
-                    resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv","SE")));
-                }
-
+                logUnhandledException(e);
+                resp.sendRedirect(I18N.INSTANCE.getURL("error_page", session.getLocale()));
             }
 
+        } catch (Exception e) {
+
+            logUnhandledException(e);
+            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", I18N.INSTANCE.defaultLocale));
         }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -227,20 +173,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
-
-            } else if (req.getParameter("user_id") != null) {
-
-                int userId = Integer.parseInt(req.getParameter("user_id"));
-
-                if(userId == ((T)sessionAsObject).getUser().getId()  ) {
-
-                    session = (T) sessionAsObject;
-
-                } else {
-
-                    session = createUserSession(req, resp);
-                    req.getSession().setAttribute("userSession", session);
-                }
 
             } else if (sessionAsObject instanceof UserSession) {
 
@@ -267,7 +199,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                         "inherit UserSession. Faulty object: " + sessionAsObject);
                 session = createUserSession(req, resp);
                 req.getSession().setAttribute("userSession", session);
-
             }
 
         } catch(StopServletExecutionException e) {
@@ -278,9 +209,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
             session = createUserSession(req, resp);
             req.getSession().setAttribute("userSession", session);
-            logger.fatal("Ops! an error occurred " + e);
-            //TODO: Handle locale.
-            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", new Locale("sv", "SE")));
+            logger.fatal("Ops! an error occurred in WebPage.getSession " + e);
+            resp.sendRedirect(I18N.INSTANCE.getURL("error_page", I18N.INSTANCE.defaultLocale));
 
         }
 
@@ -303,7 +233,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         UserAuthPerformer authPerformer = new UserAuthPerformer(user, accessRoles, denyAccessRoles);
 
         authPerformer.authorize(UserAuthAction.HAS_VALID_ROLE, this.getClass().getCanonicalName());
-
     }
 
     protected abstract void mayAccessPageSpecific(T session, R pageModel, HttpServletResponse resp) throws IOException, NotAuthorizedException,
@@ -331,7 +260,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         Html html = htmlBuilder.build();
 
         return html.getHtml(this, new ComponentGroup.Builder().build(), true);
-
     }
 
     protected abstract void handleManageablePageException(T session, ManageableException exception, Html.Builder htmlBuilder) throws ServletException, IOException;
@@ -350,7 +278,6 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         }
 
         logger.fatal(stringBuilder.toString());
-
     }
 
     public abstract ComponentGroup getPageSpecificHtml(R model, T session);
