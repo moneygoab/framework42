@@ -15,6 +15,8 @@ public enum I18N {
     public HashMap<Locale, HashMap<String, String>> hashMap;
     public HashMap<Locale, HashMap<String, String>> hashMapURL;
 
+    public Locale defaultLocale = new Locale("sv", "SE");
+
     private boolean initialized;
 
     private final Logger logger = Logger.getLogger("org.framework42");

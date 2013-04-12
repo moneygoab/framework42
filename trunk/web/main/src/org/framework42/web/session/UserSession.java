@@ -37,9 +37,6 @@ public abstract class UserSession<T extends User> implements Serializable {
 
         miscParameters = new HashMap<String, String>();
 
-        if(this instanceof TabableApp) {
-            ((TabableApp)this).initTabEnvironment();
-        }
     }
 
     public ParsedUserAgent getParsedUserAgent() {
