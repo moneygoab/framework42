@@ -21,6 +21,7 @@ public abstract class PageModel implements PageModelInterface {
     protected String pageTitle = null;
     protected String pageTitleKey;
     protected String pageKeywordsKey;
+    protected String pageDescription = null;
     protected String pageDescriptionKey;
     protected String pageCharacterSet;
 
@@ -96,6 +97,14 @@ public abstract class PageModel implements PageModelInterface {
 
     public String getPageKeywordsKey() {
         return pageKeywordsKey;
+    }
+
+    public String getPageDescription() {
+        return pageDescription;
+    }
+
+    public void setPageDescription(String pageDescription) {
+        this.pageDescription = pageDescription;
     }
 
     public String getPageDescriptionKey() {
