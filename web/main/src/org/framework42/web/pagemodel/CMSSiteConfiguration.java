@@ -2,13 +2,17 @@ package org.framework42.web.pagemodel;
 
 public class CMSSiteConfiguration {
 
-    private final String css;
+    private String css;
 
-    public CMSSiteConfiguration(String css) {
-        this.css = css;
+    public CMSSiteConfiguration() {
+
     }
 
     public String getCss() {
         return css;
+    }
+
+    public void setCss(String css) {
+        this.css = css;
     }
 }

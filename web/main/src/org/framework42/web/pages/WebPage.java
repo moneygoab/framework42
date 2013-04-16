@@ -39,8 +39,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
     protected int id = 0;
 
-    protected final List<Role> accessRoles;
-    protected final List<Role> denyAccessRoles;
+    protected List<Role> accessRoles;
+    protected List<Role> denyAccessRoles;
 
     protected final PageLogic<T, R> pageLogic;
 
@@ -71,6 +71,11 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         this.logger = Logger.getLogger(loggerId);
         this.pageLogic = pageLogic;
 
+        this.accessRoles = accessRoles;
+        this.denyAccessRoles = denyAccessRoles;
+    }
+
+    public void setUpRoles(List<Role> accessRoles, List<Role> denyAccessRoles) {
         this.accessRoles = accessRoles;
         this.denyAccessRoles = denyAccessRoles;
     }

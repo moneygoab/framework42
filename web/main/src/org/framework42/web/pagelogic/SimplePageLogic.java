@@ -5,6 +5,7 @@ import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagemodel.*;
 import org.framework42.web.session.UserSession;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class SimplePageLogic<T extends UserSession, R extends PageModel> extends
     }
 
     @Override
-    protected void setupPageParametersSpecific(HttpServletRequest req, T session, SimplePageModel pageModel) {
+    protected void setupPageParametersSpecific(HttpServlet servlet, HttpServletRequest req, T session, SimplePageModel pageModel) {
         
     }
 
