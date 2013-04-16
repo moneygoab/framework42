@@ -55,7 +55,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         addHtmlParameters(req, pageModel, session);
 
-        setupPageParametersSpecific(req, session, pageModel);
+        setupPageParametersSpecific(servlet, req, session, pageModel);
 
         return pageModel;
 
@@ -196,8 +196,6 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
         pageModel.addPageParameter(new ParameterImpl<String>("action", ParameterType.STRING, false, ""));
         pageModel.addPageParameter(new ParameterImpl<String>("form_action", ParameterType.STRING, false, ""));
-        pageModel.addPageParameter(new ParameterImpl<String>("tabId", ParameterType.STRING, false, ""));
-
     }
 
     /**
@@ -206,7 +204,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
      * @param session       The end users session
      * @param pageModel     The page model 
      * */
-    protected abstract void setupPageParametersSpecific(HttpServletRequest req, T session, R pageModel);
+    protected abstract void setupPageParametersSpecific(HttpServlet servlet, HttpServletRequest req, T session, R pageModel);
 
     /**
      * Sets up the environment variables.

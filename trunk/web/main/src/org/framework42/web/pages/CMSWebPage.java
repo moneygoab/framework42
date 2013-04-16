@@ -7,22 +7,26 @@ import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Html;
 import org.framework42.web.components.standardhtml.head.*;
 import org.framework42.web.pagelogic.PageLogic;
-import org.framework42.web.pagemodel.CMSDataClass;
-import org.framework42.web.pagemodel.PageModel;
+import org.framework42.web.pagemodel.CMSDataProvider;
+import org.framework42.web.pagemodel.CMSPageModel;
 import org.framework42.web.session.UserSession;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.Locale;
 
-public abstract class CMSWebPage<T extends UserSession, R extends PageModel> extends WebPage<T, R> {
+public abstract class CMSWebPage<T extends UserSession, R extends CMSPageModel> extends WebPage<T, R> {
 
-    private final CMSDataClass dataClass;
+    private final CMSDataProvider dataProvider;
 
-    protected CMSWebPage(CMSDataClass dataClass, PageLogic<T, R> pageLogic) {
-        super(dataClass.getLoggerId(), pageLogic, dataClass.getAccessRoles(), dataClass.getDenyAccessRoles());
+    protected CMSWebPage(String loggerId, CMSDataProvider dataProvider, PageLogic<T, R> pageLogic) {
+        super(loggerId, pageLogic);
 
-        this.dataClass = dataClass;
+        this.dataProvider = dataProvider;
+    }
+
+    public CMSDataProvider getDataProvider() {
+        return dataProvider;
     }
 
     @Override
@@ -47,6 +51,8 @@ public abstract class CMSWebPage<T extends UserSession, R extends PageModel> ext
         I18N i18n = I18N.INSTANCE;
         Locale locale = session.getLocale();
 
+
+
         htmlBuilder.add(createHead(session, model));
         //htmlBuilder.add(createBody(model, session));
     }
@@ -63,7 +69,7 @@ public abstract class CMSWebPage<T extends UserSession, R extends PageModel> ext
         head.add(new Title(i18n.get(model.getPageTitleKey(), locale)));
         head.add(new Meta.Builder(MetaName.KEYWORDS, i18n.get(model.getPageKeywordsKey(),locale)).build());
         head.add(new Meta.Builder(MetaName.DESCRIPTION, i18n.get(model.getPageDescriptionKey(),locale)).build());
-        head.add(new HeadLink.Builder(HeadLinkRelationship.STYLESHEET, dataClass.getSiteConfiguration().getCss(), MimeType.CSS).build());
+        head.add(new HeadLink.Builder(HeadLinkRelationship.STYLESHEET, model.getSiteConfiguration().getCss(), MimeType.CSS).build());
 
         //TODO: Handle Google Analytics
         //head.add(createGoogleAnalytics());
