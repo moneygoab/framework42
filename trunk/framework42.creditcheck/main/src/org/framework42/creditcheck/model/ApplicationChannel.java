@@ -2,7 +2,8 @@ package org.framework42.creditcheck.model;
 
 public enum ApplicationChannel {
 
-    NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5), COMPRICER(6), EMAIL(7), AFFILIATE_EUROADS(8);
+    NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5), COMPRICER(6), EMAIL(7),
+    AFFILIATE_EUROADS(8), AFFILIATE_ADTRACTION(9), AFFILIATE_GOOGLE_ADWORDS(10);
 
     private final int id;
 
@@ -26,7 +27,7 @@ public enum ApplicationChannel {
 
         }
 
-        throw new IllegalArgumentException("No application channel with getId "+id+" exists!");
+        throw new IllegalArgumentException("No application channel with id "+id+" exists!");
 
     }
 
