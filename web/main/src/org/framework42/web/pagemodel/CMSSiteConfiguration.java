@@ -1,18 +1,21 @@
 package org.framework42.web.pagemodel;
 
+import java.util.Map;
+
 public class CMSSiteConfiguration {
 
-    private String css;
+    private Map<Integer,String> headEntries;
 
     public CMSSiteConfiguration() {
 
     }
 
-    public String getCss() {
-        return css;
+    public Map<Integer, String> getHeadEntries() {
+        return headEntries;
     }
 
-    public void setCss(String css) {
-        this.css = css;
+    public void setHeadEntries(Map<Integer, String> headEntries) {
+        this.headEntries = headEntries;
     }
+
 }
