@@ -27,7 +27,7 @@ public enum GoogleMailSender implements MailSender {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
 
-                            return new PasswordAuthentication("info@moneypal.se", "kvittraompengar");
+                            return new PasswordAuthentication("info@moneypal.se", "kvittraommoney");
                         }
                     });
 
