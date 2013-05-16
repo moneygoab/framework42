@@ -71,10 +71,23 @@ public class StringManipulatorImpl implements StringManipulator {
         returnString = returnString.split(",")[0];
 
         if(interestString.split("\\.").length>1 && !interestString.split("\\.")[1].startsWith("0")) {
-            returnString += ","+interestString.split("\\.")[1];
+
+            if(interestString.split("\\.")[1].length()>2) {
+
+                returnString += ","+interestString.split("\\.")[1].substring(0, 2);
+
+            } else {
+
+                returnString += ","+interestString.split("\\.")[1];
+            }
         }
 
         returnString += " %";
+
+        if("0E-7 %".equalsIgnoreCase(returnString)) {
+
+            returnString = "-";
+        }
 
         return returnString;
     }
