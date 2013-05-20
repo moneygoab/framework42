@@ -1,6 +1,5 @@
 package org.framework42.model.impl;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.framework42.model.Address;
 import org.framework42.model.AddressType;
 import org.framework42.model.Country;
@@ -43,13 +42,12 @@ public class SimpleAddressImpl implements Address {
         this.postalCode = notNull(postalCode, "Postal code can't be null!");
         this.city = notNull(city, "City can't be null!");
         this.country = notNull(country, "Country can't be null!");
-        this.type = AddressType.UNKNOWN;
-        this.validFrom = new GregorianCalendar(2000, Calendar.JANUARY, 1).getTime().getTime();
+        this.type = AddressType.PERMANENT;
+        this.validFrom = Calendar.getInstance().getTime().getTime();
         this.validTo = new GregorianCalendar(9999, Calendar.JANUARY, 1).getTime().getTime();
     }
 
-    public SimpleAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city,
-                             Country country, AddressType type, Date validFrom, Date validTo) {
+    public SimpleAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, AddressType type, Date validFrom, Date validTo) {
         this.id = id;
         this.addressee = notNull(addressee, "Name can't be null!");
         this.careOf = notNull(careOf, "Care of can't be null!");
