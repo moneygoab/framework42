@@ -115,6 +115,17 @@ public class DateUtil {
         return cal.getTime();
     }
 
+    public static Date stepForwardDays(Date currentDate, int numberOfDays) {
+
+        notNull(currentDate, "Current date can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(currentDate);
+        cal.add(DAY_OF_MONTH, numberOfDays);
+
+        return cal.getTime();
+    }
+
     public static Date stepForward(Date currentDate, int numberOfSteps) {
 
         notNull(currentDate, "Current date can't be null!");
