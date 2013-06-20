@@ -3,6 +3,10 @@ package org.framework42.creditcheck.model.impl;
 import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
 import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.services.Money;
+import org.framework42.services.impl.MoneyImpl;
+
+import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;
@@ -26,6 +30,19 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     protected final Money sumOfDebtCollections;
 
     protected final String reasonCodes;
+
+    public SimpleCreditBureauApplicationResponse() {
+
+        this.creditBureauDecision = CreditDecision.NOT_DECIDED_YET;
+        this.recommendedAmount = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+        this.creditBureauDecisionAsHtml = "";
+        this.coApplicantCreditBureauDecisionAsHtml = "";
+        this.numberOfCreditChecks = 0;
+        this.declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+        this.numberOfDebtCollections = 0;
+        this.sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+        this.reasonCodes = "";
+    }
 
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml, String coApplicantCreditBureauDecisionAsHtml,
                                                  int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, String reasonCodes) {

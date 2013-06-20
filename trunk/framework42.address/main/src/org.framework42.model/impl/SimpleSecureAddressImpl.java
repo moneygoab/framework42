@@ -10,6 +10,12 @@ public class SimpleSecureAddressImpl extends SimpleAddressImpl implements Truste
 
     private final InformationProvider informationProvider;
 
+    public SimpleSecureAddressImpl() {
+        super(0, "", "", "", new PostalCodeImpl(PostalCodeFormat.UNKNOWN, ""), "", Country.UNKNOWN);
+
+        this.informationProvider = InformationProvider.NO_PROVIDER;
+    }
+
     public SimpleSecureAddressImpl(int id, String addressee, String careOf, String streetAddress, PostalCode postalCode, String city, Country country, InformationProvider informationProvider) {
         super(id, addressee, careOf, streetAddress, postalCode, city, country);
 
