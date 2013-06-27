@@ -14,6 +14,8 @@ public enum Country {
     FINLAND("fi","FI", "FIN", 246, "EUR"),
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
+    PHILIPPINES("fil", "PH", "PHL", 63, "PHP"),
+
     UNITED_KINGDOMS("uk", "GB", "GBR", 44, "GBP"),
 
     USA("us","US", "USA", 1, "USD"),
@@ -135,6 +137,14 @@ public enum Country {
                 ){
 
             return ICELAND;
+
+        } else if("Filippinerna".equalsIgnoreCase(country) ||
+                "PH".equalsIgnoreCase(country) ||
+                "PHL".equalsIgnoreCase(country) ||
+                "fil".equalsIgnoreCase(country)
+                ) {
+
+            return PHILIPPINES;
 
         } else if("Okänt Land".equalsIgnoreCase(country) ||
                 "UNKNOWN".equalsIgnoreCase(country)) {
