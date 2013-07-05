@@ -230,7 +230,8 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
                 referer = referer.replace("http://", "");
             }
             referer = referer.replaceFirst("www.","");
-            referer = referer.replaceAll("/", "");
+
+            referer = referer.split("/")[0];
 
             session.getMiscParameters().put("Referer", referer);
         }
