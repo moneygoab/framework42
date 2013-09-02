@@ -14,6 +14,8 @@ public enum Country {
     FINLAND("fi","FI", "FIN", 246, "EUR"),
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
+    ISRAEL("he", "IL", "ISR", 973, "ILS"),
+
     PHILIPPINES("fil", "PH", "PHL", 63, "PHP"),
 
     UNITED_KINGDOMS("uk", "GB", "GBR", 44, "GBP"),
@@ -146,7 +148,15 @@ public enum Country {
 
             return PHILIPPINES;
 
-        } else if("Okänt Land".equalsIgnoreCase(country) ||
+        } else if("Israel".equalsIgnoreCase(country) ||
+                "IL".equalsIgnoreCase(country) ||
+                "ISR".equalsIgnoreCase(country) ||
+                "he".equalsIgnoreCase(country)
+                ) {
+
+            return ISRAEL;
+
+        }else if("Okänt Land".equalsIgnoreCase(country) ||
                 "UNKNOWN".equalsIgnoreCase(country)) {
 
             return UNKNOWN;
