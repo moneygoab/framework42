@@ -65,6 +65,38 @@ public class DateUtil {
         return toCal.getTime();
     }
 
+    public static Date toFirstInYear(Date dateToTransform) {
+
+        notNull(dateToTransform, "Date to transform can't be null!");
+
+        Calendar fromCal = new GregorianCalendar();
+        fromCal.setTime(dateToTransform);
+        fromCal.set(MONTH, JANUARY);
+        fromCal.set(DAY_OF_MONTH, 1);
+        fromCal.set(HOUR_OF_DAY, 0);
+        fromCal.set(MINUTE, 0);
+        fromCal.set(SECOND, 0);
+        fromCal.set(MILLISECOND, 0);
+
+        return fromCal.getTime();
+    }
+
+    public static Date toLastInYear(Date dateToTransform) {
+
+        notNull(dateToTransform, "Date to transform can't be null!");
+
+        Calendar toCal = new GregorianCalendar();
+        toCal.setTime(dateToTransform);
+        toCal.set(MONTH, DECEMBER);
+        toCal.set(DAY_OF_MONTH, toCal.getActualMaximum(DAY_OF_MONTH));
+        toCal.set(HOUR_OF_DAY, toCal.getActualMaximum(HOUR_OF_DAY));
+        toCal.set(MINUTE, toCal.getActualMaximum(MINUTE));
+        toCal.set(SECOND, toCal.getActualMaximum(SECOND));
+        toCal.set(MILLISECOND, toCal.getActualMaximum(MILLISECOND));
+
+        return toCal.getTime();
+    }
+
     public static Date toBeginningOfDay(Date dateToTransform) {
 
         notNull(dateToTransform, "Date to transform can't be null!");
@@ -91,6 +123,17 @@ public class DateUtil {
         toCal.set(MILLISECOND, toCal.getActualMaximum(MILLISECOND));
 
         return toCal.getTime();
+    }
+
+    public static Date stepBackDays(Date currentMonth, int daysToStepBack) {
+
+        notNull(currentMonth, "Current month can't be null!");
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(currentMonth);
+        cal.add(DAY_OF_MONTH, daysToStepBack*-1);
+
+        return cal.getTime();
     }
 
     public static Date stepBackMonths(Date currentMonth, int monthsToStepBack) {
