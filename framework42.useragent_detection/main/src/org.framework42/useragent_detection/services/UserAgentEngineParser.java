@@ -5,6 +5,8 @@ import org.framework42.useragent_detection.model.ParsedUserAgent;
 
 public interface UserAgentEngineParser {
 
+    public boolean matchesUserAgent(String userAgent);
+
     public ParsedUserAgent parse(String userAgent, Logger logger);
 
 }

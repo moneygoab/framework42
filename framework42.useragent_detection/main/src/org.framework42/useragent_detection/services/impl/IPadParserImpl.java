@@ -5,15 +5,15 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-class FirefoxParserImpl implements UserAgentEngineParser {
+public class IPadParserImpl implements UserAgentEngineParser {
 
-    FirefoxParserImpl() {
+    public IPadParserImpl() {
     }
 
     @Override
     public boolean matchesUserAgent(String userAgent) {
 
-        return userAgent.contains("Firefox");
+        return userAgent.contains("iPad;");
     }
 
     @Override
@@ -23,7 +23,7 @@ class FirefoxParserImpl implements UserAgentEngineParser {
 
         float version = parseVersion(name, userAgent, logger);
 
-        DeviceType deviceType = DeviceType.UNKNOWN;
+        DeviceType deviceType = DeviceType.TABLET;
 
         OperatingSystem operatingSystem = null;
 
@@ -32,34 +32,19 @@ class FirefoxParserImpl implements UserAgentEngineParser {
                 version,
                 UserAgentType.WEB_BROWSER,
                 deviceType,
-                RenderingEngine.GECKO,
+                RenderingEngine.WEBKIT,
                 operatingSystem
         );
     }
 
     private String parserName(String userAgent, Logger logger) {
 
-        String name = "";
-
-        String[] parts = userAgent.split("Gecko");
-
-        if(parts.length>1) {
-
-            parts = parts[1].split(" ");
-
-            if(parts.length>1) {
-
-                return parts[1];
-            }
-        }
-
-        logger.error("[useragent_detection] FirefoxParserImpl couldn't parse name from UserAgent: "+userAgent);
-        return name;
+        return "Safari";
     }
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
-        String[] cut = name.split("/");
+        String[] cut = userAgent.split("AppleWebKit/");
 
         float version = 0;
 
@@ -67,19 +52,21 @@ class FirefoxParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].split("\\.")[0]);
+                return new Float(cut[1].split("\\(")[0].trim());
 
             } catch(NumberFormatException e) {
 
-                logger.error("[useragent_detection] FirefoxParserImpl couldn't parse version from UserAgent: "+userAgent);
+                logger.error("[useragent_detection] IPadParserImpl couldn't parse version from UserAgent: "+userAgent);
             }
 
         } else {
 
-            logger.error("[useragent_detection] FirefoxParserImpl couldn't parse version from UserAgent: "+userAgent);
+            logger.error("[useragent_detection] IPadParserImpl couldn't parse version from UserAgent: "+userAgent);
         }
 
         return version;
     }
+
+
 
 }

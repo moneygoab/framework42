@@ -5,9 +5,15 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-public class PlaystationParser implements UserAgentEngineParser {
+public class PlaystationParserImpl implements UserAgentEngineParser {
 
-    public PlaystationParser() {
+    public PlaystationParserImpl() {
+    }
+
+    @Override
+    public boolean matchesUserAgent(String userAgent) {
+
+        return userAgent.contains("PLAYSTATION");
     }
 
     @Override
@@ -56,7 +62,7 @@ public class PlaystationParser implements UserAgentEngineParser {
 
         } catch(NumberFormatException e) {
 
-            logger.error("[useragent_detection] PlaystationParser couldn't parse version from UserAgent: "+userAgent);
+            logger.error("[useragent_detection] PlaystationParserImpl couldn't parse version from UserAgent: "+userAgent);
         }
 
         return version;

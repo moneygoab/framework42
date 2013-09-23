@@ -5,15 +5,15 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-class FirefoxParserImpl implements UserAgentEngineParser {
+public class AhrefsBotImpl implements UserAgentEngineParser {
 
-    FirefoxParserImpl() {
+    public AhrefsBotImpl() {
     }
 
     @Override
     public boolean matchesUserAgent(String userAgent) {
 
-        return userAgent.contains("Firefox");
+        return userAgent.contains("AhrefsBot");
     }
 
     @Override
@@ -23,43 +23,28 @@ class FirefoxParserImpl implements UserAgentEngineParser {
 
         float version = parseVersion(name, userAgent, logger);
 
-        DeviceType deviceType = DeviceType.UNKNOWN;
+        DeviceType deviceType = DeviceType.SERVER;
 
         OperatingSystem operatingSystem = null;
 
         return new ParsedUserAgentImpl(
                 name,
                 version,
-                UserAgentType.WEB_BROWSER,
+                UserAgentType.ROBOT,
                 deviceType,
-                RenderingEngine.GECKO,
+                RenderingEngine.UNKNOWN,
                 operatingSystem
         );
     }
 
     private String parserName(String userAgent, Logger logger) {
 
-        String name = "";
-
-        String[] parts = userAgent.split("Gecko");
-
-        if(parts.length>1) {
-
-            parts = parts[1].split(" ");
-
-            if(parts.length>1) {
-
-                return parts[1];
-            }
-        }
-
-        logger.error("[useragent_detection] FirefoxParserImpl couldn't parse name from UserAgent: "+userAgent);
-        return name;
+        return "Ahrefsbot";
     }
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
-        String[] cut = name.split("/");
+        String[] cut = userAgent.split("AhrefsBot/");
 
         float version = 0;
 
@@ -67,16 +52,16 @@ class FirefoxParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].split("\\.")[0]);
+                return new Float(cut[1].split(";")[0]);
 
             } catch(NumberFormatException e) {
 
-                logger.error("[useragent_detection] FirefoxParserImpl couldn't parse version from UserAgent: "+userAgent);
+                logger.error("[useragent_detection] AhrefsBotImpl couldn't parse version from UserAgent: "+userAgent);
             }
 
         } else {
 
-            logger.error("[useragent_detection] FirefoxParserImpl couldn't parse version from UserAgent: "+userAgent);
+            logger.error("[useragent_detection] AhrefsBotImpl couldn't parse version from UserAgent: "+userAgent);
         }
 
         return version;
