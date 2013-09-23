@@ -11,6 +11,12 @@ public class FacebookExternalHitBotParserImpl implements UserAgentEngineParser {
     }
 
     @Override
+    public boolean matchesUserAgent(String userAgent) {
+
+        return userAgent.contains("facebookexternalhit/");
+    }
+
+    @Override
     public ParsedUserAgent parse(String userAgent, Logger logger) {
 
         String name = parserName(userAgent, logger);
@@ -55,7 +61,17 @@ public class FacebookExternalHitBotParserImpl implements UserAgentEngineParser {
 
         } catch(ArrayIndexOutOfBoundsException e) {
 
-            logger.error("[useragent_detection] FacebookExternalHitBotParserImpl couldn't parse version from UserAgent: "+userAgent);
+            String versionString = name.split("facebookexternalhit/")[0].split(" ")[0];
+
+            try {
+
+                return new Float(versionString);
+
+            } catch(NumberFormatException ex) {
+
+                logger.error("[useragent_detection] FacebookExternalHitBotParserImpl couldn't parse version from UserAgent: "+userAgent);
+            }
+
         }
 
         return version;

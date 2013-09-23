@@ -11,6 +11,12 @@ public class IPhoneParserImpl implements UserAgentEngineParser {
     }
 
     @Override
+    public boolean matchesUserAgent(String userAgent) {
+
+        return userAgent.contains("(iPhone;");
+    }
+
+    @Override
     public ParsedUserAgent parse(String userAgent, Logger logger) {
 
         String name = parserName(userAgent, logger);

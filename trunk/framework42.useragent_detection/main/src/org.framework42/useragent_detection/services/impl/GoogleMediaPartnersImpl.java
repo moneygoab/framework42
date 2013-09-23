@@ -5,15 +5,15 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-public class PingdomBotParserImpl implements UserAgentEngineParser {
+public class GoogleMediaPartnersImpl implements UserAgentEngineParser {
 
-    public PingdomBotParserImpl() {
+    public GoogleMediaPartnersImpl() {
     }
 
     @Override
     public boolean matchesUserAgent(String userAgent) {
 
-        return userAgent.contains("Pingdom.com_bot");
+        return userAgent.contains("Mediapartners-Google");
     }
 
     @Override
@@ -39,32 +39,15 @@ public class PingdomBotParserImpl implements UserAgentEngineParser {
 
     private String parserName(String userAgent, Logger logger) {
 
-        return "Pingdom";
+        return "Google Media Partners";
     }
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
-        String[] cut = userAgent.split("Pingdom.com_bot_version_");
-
         float version = 0;
 
-        if(cut.length>1) {
 
-            try {
-
-                return new Float(cut[1].split("_")[0]);
-
-            } catch(NumberFormatException e) {
-
-                logger.error("[useragent_detection] PingdomBotParserImpl couldn't parse version from UserAgent: "+userAgent);
-            }
-
-        } else {
-
-            logger.error("[useragent_detection] PingdomBotParserImpl couldn't parse version from UserAgent: "+userAgent);
-        }
 
         return version;
     }
-
 }

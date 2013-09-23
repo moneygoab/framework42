@@ -11,6 +11,12 @@ public class BingBotParserImpl implements UserAgentEngineParser {
     }
 
     @Override
+    public boolean matchesUserAgent(String userAgent) {
+
+        return userAgent.contains("bingbot/");
+    }
+
+    @Override
     public ParsedUserAgent parse(String userAgent, Logger logger) {
 
         String name = parserName(userAgent, logger);
