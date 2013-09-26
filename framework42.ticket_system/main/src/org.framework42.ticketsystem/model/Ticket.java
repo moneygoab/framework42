@@ -12,6 +12,8 @@ public interface Ticket {
 
     public TicketStatus getStatus();
 
+    public TicketPriority getPriority();
+
     public Milestone getMilestone();
 
     public Date getAddedDate();
