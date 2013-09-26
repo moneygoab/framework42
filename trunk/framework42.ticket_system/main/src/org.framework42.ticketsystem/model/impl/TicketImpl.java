@@ -2,6 +2,7 @@ package org.framework42.ticketsystem.model.impl;
 
 import org.framework42.ticketsystem.model.Milestone;
 import org.framework42.ticketsystem.model.Ticket;
+import org.framework42.ticketsystem.model.TicketPriority;
 import org.framework42.ticketsystem.model.TicketStatus;
 
 import java.util.Date;
@@ -16,6 +17,8 @@ public class TicketImpl implements Ticket {
 
     private final TicketStatus status;
 
+    private final TicketPriority priority;
+
     private final Milestone milestone;
 
     private final long addedDate;
@@ -24,11 +27,12 @@ public class TicketImpl implements Ticket {
 
     private final String description;
 
-    public TicketImpl(int id, int parentId, String title, TicketStatus status, Milestone milestone, Date addedDate, Date statusChangedDate, String description) {
+    public TicketImpl(int id, int parentId, String title, TicketStatus status, TicketPriority priority, Milestone milestone, Date addedDate, Date statusChangedDate, String description) {
         this.id = id;
         this.parentId = parentId;
         this.title = title;
         this.status = status;
+        this.priority = priority;
         this.milestone = milestone;
         this.addedDate = addedDate.getTime();
         this.statusChangedDate = statusChangedDate.getTime();
@@ -53,6 +57,11 @@ public class TicketImpl implements Ticket {
     @Override
     public TicketStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public TicketPriority getPriority() {
+        return priority;
     }
 
     @Override
