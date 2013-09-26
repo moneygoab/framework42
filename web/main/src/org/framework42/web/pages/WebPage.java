@@ -107,6 +107,15 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         logger.debug(req.getHeader("referer"));
         logger.debug("=================================================================");
 
+        if(req.getHeader("accept").contains("image")) {
+            logger.info(req.getHeader("accept"));
+        }
+
+        if(req.getHeader("accept").equals("image/webp,*/*;q=0.8") || req.getHeader("accept").equals("image/png,image/*;q=0.8,*/*;q=0.5")) {
+
+            throw new ServletException("Image types should not be handle by servlet!");
+        }
+
         Html.Builder htmlBuilder = new Html.Builder();
 
         T session = null;
