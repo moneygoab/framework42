@@ -39,6 +39,7 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         parsersList.add(new FacebookExternalHitBotParserImpl());
         parsersList.add(new Majestic12BotParserImpl());
         parsersList.add(new AhrefsBotImpl());
+        parsersList.add(new BaiduBotParserImpl());
 
     }
 
