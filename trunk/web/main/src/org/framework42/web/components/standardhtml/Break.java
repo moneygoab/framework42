@@ -6,7 +6,10 @@ import org.framework42.web.utils.Util;
 
 public class Break extends HtmlComponent {
 
-    public final static Break INSTANCE = new Break();
+    public final static Break I1 = new Break();
+    public final static Break I2 = new Break(2);
+    public final static Break I3 = new Break(3);
+    public final static Break I4 = new Break(4);
 
     int numberOfBreaks = 1;
 
@@ -23,8 +26,9 @@ public class Break extends HtmlComponent {
 
         for(int i=0;i<numberOfBreaks;i++) {
 
-            htmlBuilder.append("<br>\n");
+            htmlBuilder.append("<br>");
         }
+        htmlBuilder.append("\n");
     }
 
 }

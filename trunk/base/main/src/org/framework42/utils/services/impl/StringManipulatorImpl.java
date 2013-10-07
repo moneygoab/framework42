@@ -2,8 +2,6 @@ package org.framework42.utils.services.impl;
 
 import org.framework42.utils.services.StringManipulator;
 
-import java.math.BigDecimal;
-
 public class StringManipulatorImpl implements StringManipulator {
 
     @Override
