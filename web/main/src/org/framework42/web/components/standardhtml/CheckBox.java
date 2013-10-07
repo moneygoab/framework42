@@ -13,6 +13,11 @@ public class CheckBox extends HtmlComponent {
         this.builder = new Builder(name, value, label);
     }
 
+    public CheckBox(String name, String value, Label label, boolean checked) {
+
+        this.builder = new Builder(name, value, label).checked(checked);
+    }
+
     private CheckBox(Builder builder){
 
         this.builder = builder;
