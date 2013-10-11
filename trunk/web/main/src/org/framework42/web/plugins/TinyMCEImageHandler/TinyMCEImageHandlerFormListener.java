@@ -31,8 +31,17 @@ public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, T
             for(FileItem fileItem: pageModel.getFileItemList()) {
 
                 String fileName = session.getUser().getId()+System.currentTimeMillis()+".jpg";
-                //File uploadedFile = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+fileName);
-                File uploadedFile = new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+fileName);
+
+                if(!new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()).exists()) {
+                //if(!new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").exists()) {
+
+                        boolean created = new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()+"/").mkdir();
+                        //boolean created = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").mkdir();
+                        if(!created) {logger.error("Couldn't create blog image directory for user "+session.getUser().getId()+"!");}
+                }
+
+                //File uploadedFile = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
+                File uploadedFile = new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
                 try {
 
                     byte[] imageData = fileItem.get();
@@ -63,7 +72,7 @@ public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, T
                     ImageIO.write(image, "jpeg", uploadedFile);
 
                     pageModel.setImageUploaded(true);
-                    pageModel.setFileUrl("media/img/user/blogg/"+fileName);
+                    pageModel.setFileUrl("media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
 
                 } catch (IllegalArgumentException e) {
 
