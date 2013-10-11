@@ -83,13 +83,33 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        processCall(req, resp);
+        try {
+
+            processCall(req, resp);
+
+        } catch(ServletException e) {
+
+            if(!e.getMessage().equalsIgnoreCase("Image types should not be handle by servlet!")) {
+
+                throw e;
+            }
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        processCall(req, resp);
+        try {
+
+            processCall(req, resp);
+
+        } catch(ServletException e) {
+
+            if(!e.getMessage().equalsIgnoreCase("Image types should not be handle by servlet!")) {
+
+                throw e;
+            }
+        }
     }
 
     protected abstract void doGetSub(R model, T session, Html.Builder htmlBuilder) throws ServletException, IOException;
@@ -108,13 +128,17 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         logger.debug("=================================================================");
 
         if(req.getHeader("accept")!=null) {
+
             if(req.getHeader("accept").contains("image")) {
-                logger.info(req.getHeader("accept"));
-            }
 
-            if(req.getHeader("accept").equals("image/webp,*/*;q=0.8") || req.getHeader("accept").equals("image/png,image/*;q=0.8,*/*;q=0.5")) {
+                if(req.getHeader("accept").equals("image/webp,*/*;q=0.8") || req.getHeader("accept").equals("image/png,image/*;q=0.8,*/*;q=0.5")) {
 
-                throw new ServletException("Image types should not be handle by servlet!");
+                    throw new ServletException("Image types should not be handle by servlet!");
+
+                } else {
+
+                    logger.info(req.getHeader("accept"));
+                }
             }
         }
 

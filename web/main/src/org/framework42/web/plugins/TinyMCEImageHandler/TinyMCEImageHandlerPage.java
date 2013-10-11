@@ -22,7 +22,12 @@ import java.util.Arrays;
 public class TinyMCEImageHandlerPage extends WebPage<UserSession, TinyMCEImageHandlerPageModel> {
 
     public TinyMCEImageHandlerPage() {
-        super("org.framework42.web.plugin.tinymce_image_handler", new TinyMCEImageHandlerPageLogic());
+        super(
+                "org.framework42.web.plugin.tinymce_image_handler",
+                new TinyMCEImageHandlerPageLogic(),
+                Arrays.asList(Role.MEMBER, Role.VIP_MEMBER),
+                Arrays.asList(Role.UNKNOWN_PERSON, Role.DISMISSED, Role.LOCKED)
+        );
     }
 
     @Override
@@ -35,10 +40,13 @@ public class TinyMCEImageHandlerPage extends WebPage<UserSession, TinyMCEImageHa
             JavaScript.Builder js = new JavaScript.Builder();
 
             js.addScriptLine("var win = (!window.frameElement && window.dialogArguments) || opener || parent || top;");
-            js.addScriptLine("win.tinymce.EditorManager.activeEditor.insertContent('<img src=\""+model.getFileUrl()+"\">');");
+            js.addScriptLine("win.tinymce.EditorManager.activeEditor.insertContent('<img src=\""+model.getFileUrl()+"\" class=\"blog_image\">');");
             js.addScriptLine("win.tinymce.EditorManager.activeEditor.windowManager.close(window);");
             builder.add(js.build());
         }
+
+        builder.add(new Span.Builder(new Label("Välj en bild från din dator som du vill infoga i texten. Bilden bör vara i jpeg format, png och gif format fungerar inte ibland när de är sparade med cmyk färgformat.", false, true)).style("font-size: 10px;").build());
+        builder.add(Break.I2);
 
         Form.Builder form = new Form.Builder("upload_form", "", "upload_image").id("upload_form");
         form.encodingType(EncodingType.MULTIPART);
