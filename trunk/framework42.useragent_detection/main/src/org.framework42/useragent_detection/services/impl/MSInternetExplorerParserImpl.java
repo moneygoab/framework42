@@ -7,6 +7,7 @@ import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
 class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
+
     MSInternetExplorerParserImpl() {
     }
 
@@ -65,7 +66,7 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].replaceAll("a", "").replaceAll("b", "").replaceAll("c", ""));
+                version = new Float(cut[1].replaceAll("a", "").replaceAll("b", "").replaceAll("c", ""));
 
             } catch(NumberFormatException e) {
 
@@ -75,6 +76,11 @@ class MSInternetExplorerParserImpl implements UserAgentEngineParser {
         } else {
 
             logger.error("[useragent_detection] MSInternetExplorerParserImpl couldn't parse version from UserAgent: "+userAgent);
+        }
+
+        if(version==7 && userAgent.contains("NT 6.")) {
+
+            version = 8;
         }
 
         return version;

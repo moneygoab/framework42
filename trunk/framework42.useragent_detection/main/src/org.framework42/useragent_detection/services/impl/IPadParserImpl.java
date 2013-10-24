@@ -44,6 +44,8 @@ public class IPadParserImpl implements UserAgentEngineParser {
 
     private float parseVersion(String name, String userAgent, Logger logger) {
 
+        //Mozilla/5.0 (iPad; CPU OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53
+
         String[] cut = userAgent.split("AppleWebKit/");
 
         float version = 0;
@@ -52,7 +54,16 @@ public class IPadParserImpl implements UserAgentEngineParser {
 
             try {
 
-                return new Float(cut[1].split("\\(")[0].trim());
+                String[] versionArray = cut[1].split("\\(")[0].trim().split("\\.");
+
+                if(versionArray.length==1) {
+
+                    return new Float(versionArray[0]);
+
+                } else {
+
+                    return new Float(versionArray[0]+"."+versionArray[1]);
+                }
 
             } catch(NumberFormatException e) {
 
