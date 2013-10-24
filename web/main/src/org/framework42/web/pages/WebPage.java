@@ -137,7 +137,7 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
                 } else {
 
-                    logger.info(req.getHeader("accept"));
+                    logger.debug(req.getHeader("accept")+"::::"+req.getHeader("user-agent"));
                 }
             }
         }
