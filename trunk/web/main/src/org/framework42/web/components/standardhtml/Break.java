@@ -12,6 +12,10 @@ public class Break extends HtmlComponent {
     public final static Break I4 = new Break(4);
     public final static Break I5 = new Break(5);
     public final static Break I6 = new Break(6);
+    public final static Break I7 = new Break(7);
+    public final static Break I8 = new Break(8);
+    public final static Break I9 = new Break(9);
+    public final static Break I10 = new Break(10);
 
     int numberOfBreaks = 1;
 
