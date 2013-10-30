@@ -90,19 +90,24 @@ public class CreditCheckServiceUC implements CreditCheckService {
     }
 
     @Override
-    public MainApplicantExtraApplicationResponse addMainApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) {
+    public MainApplicantExtraApplicationResponse addMainApplicant(CreditBureauContext context, int appliedAmount, String governmentId, int applicationId) throws CreditCheckException {
 
         UcReply reply = makeExtraApplicantCreditCheck(context, appliedAmount, governmentId);
 
-        Applicant extraApplicant = parseExtraApplicant(governmentId, reply);
+        if("error".equalsIgnoreCase(reply.getStatus().getResult())) {
 
-        MainApplicantExtraApplicationResponse response = new MainApplicantExtraApplicationResponseImpl(
-                applicationId,
-                extraApplicant,
-                reply.getUcReport().get(0).getHtmlReply()
-        );
+            throw new CreditCheckException(reply.getStatus().getMessage().getId()+" - "+reply.getStatus().getMessage().getValue());
+        }
 
-        return response;
+            Applicant extraApplicant = parseExtraApplicant(governmentId, reply);
+
+            MainApplicantExtraApplicationResponse response = new MainApplicantExtraApplicationResponseImpl(
+                    applicationId,
+                    extraApplicant,
+                    reply.getUcReport().get(0).getHtmlReply()
+            );
+
+            return response;
     }
 
     @Override
