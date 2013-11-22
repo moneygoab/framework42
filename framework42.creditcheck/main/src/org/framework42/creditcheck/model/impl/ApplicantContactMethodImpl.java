@@ -17,6 +17,14 @@ public class ApplicantContactMethodImpl implements ApplicantContactMethod {
 
     private final String address;
 
+    public ApplicantContactMethodImpl(ContactMethod contactMethod, InformationProvider informationProvider, String address) {
+
+        this.id = 0;
+        this.contactMethod = notNull(contactMethod, "Contact method can't be null!");
+        this.informationProvider = notNull(informationProvider, "Information provider can't be null!");
+        this.address = notNull(address, "Address value can't be null!");
+    }
+
     public ApplicantContactMethodImpl(int id, ContactMethod contactMethod, InformationProvider informationProvider, String address) {
         this.id = notNegative(id, "Id can't be of negative value!");
         this.contactMethod = notNull(contactMethod, "Contact method can't be null!");
