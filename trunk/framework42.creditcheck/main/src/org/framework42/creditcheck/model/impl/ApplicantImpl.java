@@ -4,6 +4,7 @@ import org.framework42.creditcheck.model.Applicant;
 import org.framework42.model.*;
 import org.framework42.creditcheck.model.ApplicantContactMethod;
 import org.framework42.creditcheck.model.ApplicantNames;
+import org.framework42.model.impl.SimpleSecureAddressImpl;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -29,6 +30,18 @@ public class ApplicantImpl implements Applicant {
     private List<ApplicantContactMethod> contactMethods;
 
     private final int annualIncome;
+
+    public ApplicantImpl(String governmentId, long birthDate, List<ApplicantContactMethod> contactMethods) {
+
+        this.id = 0;
+        this.governmentId = governmentId;
+        this.riskLevel = BigDecimal.ZERO;
+        this.birthDate = birthDate;
+        this.applicantNames = new ApplicantNamesImpl("", "", "");
+        this.applicantAddress = new SimpleSecureAddressImpl();
+        this.contactMethods = contactMethods;
+        this.annualIncome = 0;
+    }
 
     public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, Date birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome) {
 
