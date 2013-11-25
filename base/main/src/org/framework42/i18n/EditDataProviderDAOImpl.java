@@ -198,6 +198,37 @@ public class EditDataProviderDAOImpl extends ProxyDAO<EditDataProviderDAOImpl> i
     }
 
     @Override
+    public void update(String language, String key, String value) {
+
+        Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
+        PreparedStatement ps = null;
+        try {
+
+            ps = prepareUpdate(con, language, key, value);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(generateSQLErrorMessage(e, getClass(), getClass().getEnclosingMethod()));
+        } finally {
+            databaseConnector.releasePooledConnection(con, ps);
+        }
+    }
+
+    private PreparedStatement prepareUpdate(Connection con, String language, String key, String value) throws SQLException {
+
+        String query = "UPDATE i18n_text SET value = ? WHERE locale = ? AND key_value = ?";
+
+        PreparedStatement ps = con.prepareStatement(query);
+
+        ps.setString(1, value);
+        ps.setString(2, language);
+        ps.setString(3, key);
+
+        return ps;
+    }
+
+    @Override
     public void update(List<I18NEditObject> valuesToUpdate) {
 
         Connection con = databaseConnector.getPooledConnection(CommitType.AUTO);
