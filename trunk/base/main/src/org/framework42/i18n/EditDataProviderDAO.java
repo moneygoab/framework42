@@ -14,6 +14,8 @@ public interface EditDataProviderDAO {
 
     public void add(List<I18NEditObject> valuesToAdd);
 
+    public void update(String language, String key, String value);
+
     public void update(List<I18NEditObject> valuesToUpdate);
 
     public void delete(List<I18NEditObject> valuesToDelete);
