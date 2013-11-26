@@ -15,6 +15,7 @@ import org.framework42.datageneration.impl.SurnamesContainerSweden;
 import org.framework42.model.*;
 import org.framework42.model.impl.*;
 import org.framework42.model.users.Gender;
+import org.framework42.services.Money;
 import org.framework42.services.impl.MoneyImpl;
 
 import java.math.BigDecimal;
@@ -43,9 +44,19 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
         CreditDecision decision = generateCreditDecision(application);
 
+        Money recommendedAmount;
+        if(decision==CreditDecision.REJECTED) {
+
+            recommendedAmount = new MoneyImpl(BigDecimal.ZERO, application.getAppliedAmount().getCurrency());
+
+        } else {
+
+            recommendedAmount = application.getAppliedAmount();
+        }
+
         CreditBureauApplicationResponse creditBureauResponse = new SimpleCreditBureauApplicationResponse(
                 decision,
-                application.getAppliedAmount(),
+                recommendedAmount,
                 "Created by emulator credit check bureau, no html view available.",
                 "Craeted by emulator credit check bureau, no html view available.",
                 new Random().nextInt(10),
