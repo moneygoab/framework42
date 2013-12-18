@@ -17,6 +17,7 @@ public enum Country {
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
 
     PHILIPPINES("fil", "PH", "PHL", 63, "PHP"),
+    TURKEY("tr", "TR", "TUR", 90, "TRY"),
 
     UNITED_KINGDOMS("uk", "GB", "GBR", 44, "GBP"),
 

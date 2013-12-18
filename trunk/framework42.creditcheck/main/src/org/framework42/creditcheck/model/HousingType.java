@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 public enum HousingType {
 
-    HOUSE(1), CONDOMINIUM(2), RENTAL(3), SUBTENANT(4);
+    UNKNOWN(0), HOUSE(1), CONDOMINIUM(2), RENTAL(3), SUBTENANT(4);
 
     private final int id;
 
