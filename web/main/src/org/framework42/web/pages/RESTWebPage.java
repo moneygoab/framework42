@@ -53,8 +53,17 @@ public abstract class RESTWebPage extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+
+        int consumerId = processCall(req, resp, responseType);
+
+        if(consumerId>0) {
+
+            doPutSpecific(req, resp, responseType, consumerId);
+        }
     }
+
+    protected abstract void doPutSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,18 +71,27 @@ public abstract class RESTWebPage extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
+
+
     protected int processCall(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType) {
 
         int consumerId = 0;
 
-        if(req.getParameter("consumer_key")==null) {
+        if(req.getParameter("consumer_key")==null&&req.getHeader("consumer_key")==null) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             addError(resp, MISSING_CONSUMER_KEY, responseType);
 
         } else {
 
-            consumerId = getConsumerId(req.getParameter("consumer_key"), APIRequestType.GET);
+            String cid = req.getParameter("consumer_key");
+
+            if(cid==null) {
+
+                cid = req.getHeader("consumer_key");
+            }
+
+            consumerId = getConsumerId(cid, APIRequestType.GET);
 
             if(consumerId==0) {
 

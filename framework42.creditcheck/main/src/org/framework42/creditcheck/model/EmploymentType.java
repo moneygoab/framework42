@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 public enum EmploymentType {
 
-    PERMANENT(1), RETIRED(2), VICAR(3), SELF_EMPLOYED(4), STUDENT(5), ON_LEAVE(6), UNEMPLOYED(7), OTHER(8);
+    UNKNOWN(0), PERMANENT(1), RETIRED(2), VICAR(3), SELF_EMPLOYED(4), STUDENT(5), ON_LEAVE(6), UNEMPLOYED(7), OTHER(8);
 
     private final int id;
 
