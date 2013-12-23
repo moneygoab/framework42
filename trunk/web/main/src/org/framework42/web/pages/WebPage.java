@@ -26,14 +26,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is the base class of all WebPages.
  */
 public abstract class WebPage<T extends UserSession, R extends PageModel> extends HttpServlet {
 
-    private final static List<Role> emptyRolesList = new ArrayList<Role>();
+    protected final static Map<String,String> emptyParamList = new HashMap<String, String>();
+    protected final static List<Role> emptyRolesList = new ArrayList<Role>();
 
     protected final Logger logger;
 
