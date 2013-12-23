@@ -119,6 +119,10 @@ public class Link extends HtmlComponent {
             this(name, href, emptyParameters, new Label(linkText));
         }
 
+        public Builder(String name, String href, HtmlComponent linkedComponent) {
+            this(name, href, emptyParameters, linkedComponent);
+        }
+
         public Builder(String name, String href, Map<String, String> parameters, String linkText) {
             this(name, href, parameters, new Label(linkText));
         }

@@ -7,6 +7,8 @@ import org.framework42.web.utils.Util;
 
 public class Label extends HtmlComponent {
 
+    public final static Label space = new Label("&nbsp;");
+
     private final String label;
 
     private final boolean bold;
