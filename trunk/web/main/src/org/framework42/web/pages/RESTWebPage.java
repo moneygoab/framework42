@@ -20,12 +20,14 @@ public abstract class RESTWebPage extends HttpServlet {
 
     private final static Logger logger = Logger.getLogger("org.framework42.web");
 
+    private int consumerId;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         APIResponseType responseType = getResponseType(req.getParameter("response_type"));
 
-        int consumerId = processCall(req, resp, responseType);
+        consumerId = processCall(req, resp, responseType);
 
         if(consumerId>0) {
 
@@ -40,7 +42,7 @@ public abstract class RESTWebPage extends HttpServlet {
 
         APIResponseType responseType = getResponseType(req.getParameter("response_type"));
 
-        int consumerId = processCall(req, resp, responseType);
+        consumerId = processCall(req, resp, responseType);
 
         if(consumerId>0) {
 
@@ -55,7 +57,7 @@ public abstract class RESTWebPage extends HttpServlet {
 
         APIResponseType responseType = getResponseType(req.getParameter("response_type"));
 
-        int consumerId = processCall(req, resp, responseType);
+        consumerId = processCall(req, resp, responseType);
 
         if(consumerId>0) {
 
@@ -75,7 +77,7 @@ public abstract class RESTWebPage extends HttpServlet {
 
     protected int processCall(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType) {
 
-        int consumerId = 0;
+        consumerId = 0;
 
         if(req.getParameter("consumer_key")==null&&req.getHeader("consumer_key")==null) {
 
