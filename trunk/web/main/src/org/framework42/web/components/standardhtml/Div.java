@@ -11,6 +11,8 @@ import java.util.List;
 
 public class Div extends HtmlComponent {
 
+    public final static Div clear = new Builder().style("clear: both;").build();
+
     private Builder builder;
 
     private Div(Builder builder) {
@@ -26,9 +28,13 @@ public class Div extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<div id=\"");
-        htmlBuilder.append(builder.id);
-        htmlBuilder.append("\"");
+        htmlBuilder.append("<div");
+
+        if(builder.id != null && builder.id.length()>0) {
+            htmlBuilder.append(" id=\"");
+            htmlBuilder.append(builder.id);
+            htmlBuilder.append("\"");
+        }
 
         if(builder.className != null){
             htmlBuilder.append(" class=\"");
@@ -73,6 +79,11 @@ public class Div extends HtmlComponent {
 
         private String style = null;
 
+        public Builder() {
+            this.id = null;
+            this.childComponents = new ArrayList<HtmlComponent>();
+        }
+
         public Builder(String id) {
             this.id = id;
             this.childComponents = new ArrayList<HtmlComponent>();
@@ -91,6 +102,14 @@ public class Div extends HtmlComponent {
         public Builder style(String style){
             this.style = style;
             return this;
+        }
+
+        public void add(HtmlComponent... htmlComponent) {
+
+            for(HtmlComponent comp: htmlComponent) {
+
+                childComponents.add(comp);
+            }
         }
 
         @Override
