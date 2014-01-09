@@ -22,6 +22,8 @@ public abstract class RESTWebPage extends HttpServlet {
 
     private int consumerId;
 
+    protected boolean test = true;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -79,21 +81,26 @@ public abstract class RESTWebPage extends HttpServlet {
 
         consumerId = 0;
 
-        if(req.getParameter("consumer_key")==null&&req.getHeader("consumer_key")==null) {
+        if(req.getParameter("consumer_key")!=null && req.getHeader("consumer_key")==null) {
+
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            addError(resp, INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType);
+
+        } else if(req.getHeader("consumer_key")==null) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             addError(resp, MISSING_CONSUMER_KEY, responseType);
 
         } else {
 
-            String cid = req.getParameter("consumer_key");
+            String cid = req.getHeader("consumer_key");
 
             if(cid==null) {
 
-                cid = req.getHeader("consumer_key");
+                cid = req.getParameter("consumer_key");
             }
 
-            consumerId = getConsumerId(cid, APIRequestType.GET);
+            consumerId = getConsumerId(test, cid, APIRequestType.GET);
 
             if(consumerId==0) {
 
@@ -105,7 +112,7 @@ public abstract class RESTWebPage extends HttpServlet {
         return consumerId;
     }
 
-    protected abstract int getConsumerId(String consumerKey, APIRequestType requestType);
+    protected abstract int getConsumerId(boolean test, String consumerKey, APIRequestType requestType);
 
     protected APIResponseType getResponseType(String responseParameter) {
 
@@ -143,7 +150,7 @@ public abstract class RESTWebPage extends HttpServlet {
 
                 JSONObject errorObj = new JSONObject(errorMap);
 
-                resp.getWriter().println(errorObj.toString(3));
+                resp.getWriter().println(errorObj.toString(2));
 
             }
 
