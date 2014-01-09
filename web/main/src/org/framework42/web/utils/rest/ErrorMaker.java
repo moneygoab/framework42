@@ -34,7 +34,7 @@ public enum ErrorMaker {
 
                 JSONObject errorObj = new JSONObject(errorMap);
 
-                resp.getWriter().println(errorObj.toString(3));
+                resp.getWriter().println(errorObj.toString(2));
 
             }
 
