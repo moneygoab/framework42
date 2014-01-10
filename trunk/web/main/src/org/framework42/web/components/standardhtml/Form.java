@@ -300,6 +300,14 @@ public class Form extends HtmlComponent {
             return foundComponents;
         }
 
+        public void add(HtmlComponent... htmlComponent) {
+
+            for(HtmlComponent comp: htmlComponent) {
+
+                formComponents.add(comp);
+            }
+        }
+
         @Override
         public void add(HtmlComponent htmlComponent) {
             formComponents.add(htmlComponent);
