@@ -45,7 +45,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         CreditDecision decision = generateCreditDecision(application);
 
         Money recommendedAmount;
-        if(decision==CreditDecision.REJECTED) {
+        if(decision==CreditDecision.REJECTED || decision==CreditDecision.REVIEW_REQUIRED) {
 
             recommendedAmount = new MoneyImpl(BigDecimal.ZERO, application.getAppliedAmount().getCurrency());
 

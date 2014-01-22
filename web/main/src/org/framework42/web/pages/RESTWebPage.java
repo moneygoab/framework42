@@ -72,10 +72,17 @@ public abstract class RESTWebPage extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+
+        consumerId = processCall(req, resp, responseType);
+
+        if(consumerId>0) {
+
+            doDeleteSpecific(req, resp, responseType, consumerId);
+        }
     }
 
-
+    protected abstract void doDeleteSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
 
     protected int processCall(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType) {
 
