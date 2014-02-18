@@ -29,18 +29,23 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         parsersList.add(new SafariParserImpl());
         parsersList.add(new OperaParserImpl());
         parsersList.add(new PlaystationParserImpl());
+        parsersList.add(new MiscClientsParserImpl());
 
         // Bots
         parsersList.add(new GoogleBotParserImpl());
         parsersList.add(new GoogleBotImageParserImpl());
         parsersList.add(new GoogleMediaPartnersImpl());
+        parsersList.add(new GoogleBotMobileImpl());
         parsersList.add(new PingdomBotParserImpl());
         parsersList.add(new BingBotParserImpl());
+        parsersList.add(new MSNBotParserImpl());
         parsersList.add(new MSNBotMediaParserImpl());
+        parsersList.add(new YahooSlurpBotImpl());
         parsersList.add(new FacebookExternalHitBotParserImpl());
         parsersList.add(new Majestic12BotParserImpl());
         parsersList.add(new AhrefsBotImpl());
         parsersList.add(new BaiduBotParserImpl());
+        parsersList.add(new MiscBotParserImpl());
 
     }
 

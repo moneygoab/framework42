@@ -42,7 +42,7 @@ public class MSInternetExplorerNewParserImpl implements UserAgentEngineParser {
 
         try {
 
-            String cut = name.split("rv:")[1].split("\\)")[0];
+            String cut = userAgent.split("rv:")[1].split("\\)")[0];
 
             if(cut.split("\\.").length>2) {
 
