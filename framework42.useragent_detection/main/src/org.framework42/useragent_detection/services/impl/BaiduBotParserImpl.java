@@ -13,7 +13,7 @@ public class BaiduBotParserImpl implements UserAgentEngineParser {
     @Override
     public boolean matchesUserAgent(String userAgent) {
 
-        return userAgent.contains("BaiduBot");
+        return userAgent.contains("Baiduspider");
     }
 
     @Override
