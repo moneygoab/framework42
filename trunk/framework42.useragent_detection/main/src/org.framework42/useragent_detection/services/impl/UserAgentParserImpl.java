@@ -21,6 +21,7 @@ public class UserAgentParserImpl extends ProxyService<UserAgentParserImpl> imple
         parsersList = new ArrayList<UserAgentEngineParser>();
 
         parsersList.add(new MSInternetExplorerParserImpl());
+        parsersList.add(new MSInternetExplorerNewParserImpl());
         parsersList.add(new FirefoxParserImpl());
         parsersList.add(new IPhoneParserImpl());
         parsersList.add(new IPadParserImpl());
