@@ -5,23 +5,22 @@ import org.framework42.useragent_detection.model.*;
 import org.framework42.useragent_detection.model.impl.ParsedUserAgentImpl;
 import org.framework42.useragent_detection.services.UserAgentEngineParser;
 
-public class MSNBotMediaParserImpl implements UserAgentEngineParser {
+public class GoogleBotMobileImpl implements UserAgentEngineParser {
 
-    public MSNBotMediaParserImpl() {
+    public GoogleBotMobileImpl() {
     }
 
     @Override
     public boolean matchesUserAgent(String userAgent) {
-
-        return userAgent.contains("msnbot-media/");
+        //DoCoMo/2.0 N905i(c100;TB;W24H16) (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)
+        return userAgent.contains("Googlebot-Mobile");
     }
 
     @Override
     public ParsedUserAgent parse(String userAgent, Logger logger) {
 
-        String name = parserName(userAgent, logger);
+        String name = "Googlebot-Mobile";
 
-        //float version = parseVersion(name, userAgent, logger);
         float version = 0;
 
         DeviceType deviceType = DeviceType.SERVER;
@@ -37,29 +36,4 @@ public class MSNBotMediaParserImpl implements UserAgentEngineParser {
                 operatingSystem
         );
     }
-
-    private String parserName(String userAgent, Logger logger) {
-
-        return "MSN Bot Media";
-    }
-
-    private float parseVersion(String name, String userAgent, Logger logger) {
-
-        String[] cut = userAgent.split("msnbot-media/");
-
-        float version = 0;
-
-        try {
-
-            return new Float(cut[0].split(" ")[0]);
-
-        } catch(NumberFormatException e) {
-
-            logger.error("[useragent_detection] MSNBotMediaParserImpl couldn't parse version from UserAgent: "+userAgent);
-        }
-
-        return version;
-    }
-
-
 }

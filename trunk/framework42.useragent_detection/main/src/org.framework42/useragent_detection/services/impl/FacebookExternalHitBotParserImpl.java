@@ -21,7 +21,8 @@ public class FacebookExternalHitBotParserImpl implements UserAgentEngineParser {
 
         String name = parserName(userAgent, logger);
 
-        float version = parseVersion(name, userAgent, logger);
+        //float version = parseVersion(name, userAgent, logger);
+        float version = 0;
 
         DeviceType deviceType = DeviceType.SERVER;
 
