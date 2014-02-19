@@ -16,22 +16,24 @@ public class MiscBotParserImpl implements UserAgentEngineParser {
 
         idList = new ArrayList<String>();
 
-        idList.add("YandexBot");
-        idList.add("LINGustic research");
-        idList.add("Whitevector Crawler");
+        idList.add("Apple-PubSub");
         idList.add("BOT for JCE");
         idList.add("compatible; Kraken");
-        idList.add("Apple-PubSub");
-        idList.add("Feedreader");
-        idList.add("www.integromedb.org/Crawler");
-        idList.add("Feedfetcher-Google");
+        idList.add("Exabot");
         idList.add("Ezooms/1.0");
-        idList.add("proximic");
-        idList.add("Yahoo:LinkExpander:Slingstone");
-        idList.add("NING/");
-        idList.add("Twitterbot");
-        idList.add("GrapeshotCrawler");
         idList.add("Feedreader");
+        idList.add("GrapeshotCrawler");
+        idList.add("Feedfetcher-Google");
+        idList.add("LINGustic research");
+        idList.add("NING/");
+        idList.add("proximic");
+        idList.add("Readability/");
+        idList.add("ShowyouBot");
+        idList.add("Twitterbot");
+        idList.add("Whitevector Crawler");
+        idList.add("www.integromedb.org/Crawler");
+        idList.add("Yahoo:LinkExpander:Slingstone");
+        idList.add("YandexBot");
     }
 
     @Override
