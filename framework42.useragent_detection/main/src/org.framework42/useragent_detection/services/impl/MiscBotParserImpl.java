@@ -16,15 +16,18 @@ public class MiscBotParserImpl implements UserAgentEngineParser {
 
         idList = new ArrayList<String>();
 
+        idList.add("AddThis.com robot");
         idList.add("Apple-PubSub");
         idList.add("BOT for JCE");
         idList.add("compatible; Kraken");
         idList.add("Exabot");
         idList.add("Ezooms/1.0");
         idList.add("Feedreader");
+        idList.add("Genieo");
         idList.add("GrapeshotCrawler");
         idList.add("Feedfetcher-Google");
         idList.add("LINGustic research");
+        idList.add("MetaURI API");
         idList.add("NING/");
         idList.add("proximic");
         idList.add("Readability/");
@@ -34,6 +37,7 @@ public class MiscBotParserImpl implements UserAgentEngineParser {
         idList.add("www.integromedb.org/Crawler");
         idList.add("Yahoo:LinkExpander:Slingstone");
         idList.add("YandexBot");
+        idList.add("YandexImages");
     }
 
     @Override
