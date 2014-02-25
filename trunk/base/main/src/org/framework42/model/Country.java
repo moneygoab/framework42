@@ -149,6 +149,12 @@ public enum Country {
 
             return PHILIPPINES;
 
+        } else if("Storbritannien".equalsIgnoreCase(country) ||
+                "GBR".equalsIgnoreCase(country) ||
+                "GB".equalsIgnoreCase(country)) {
+
+            return UNITED_KINGDOMS;
+
         } else if("Israel".equalsIgnoreCase(country) ||
                 "IL".equalsIgnoreCase(country) ||
                 "ISR".equalsIgnoreCase(country) ||
