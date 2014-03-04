@@ -169,7 +169,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
         } catch (NotAuthorizedException e) {
 
             logger.debug("User: " + session.getUser() + " not authorized to view page " + this.getServletName());
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            //resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.sendRedirect(I18N.INSTANCE.getURL("not_authorized_page", session.getLocale())+"?id="+id);
 
         } catch (UserBlockedException e) {
 

@@ -23,7 +23,6 @@ public abstract class FormListener<T extends UserSession, R extends PageModel> {
 
     public void tryFormEvent(String currentFormEventId, HttpServletRequest req, HttpServletResponse resp, T session, R pageModel) throws NotAuthorizedException, ManageableException, StopServletExecutionException {
 
-//        System.out.println(formEventId+":"+currentFormEventId);
         if(formEventId.equalsIgnoreCase(currentFormEventId)) {
 
             handleFormEvent(req, resp, session, pageModel);
