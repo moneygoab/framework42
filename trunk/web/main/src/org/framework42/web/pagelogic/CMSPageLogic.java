@@ -22,7 +22,7 @@ public abstract class CMSPageLogic<T extends UserSession, R extends CMSPageModel
 
         pageModel.setPageId(dataProvider.getPageId(req.getRequestURI()));
 
-        System.out.println(pageModel.getPageId()+"*******");
+        logger.debug(pageModel.getPageId()+"*******");
 
         ((CMSWebPage) servlet).setUpRoles(
                 dataProvider.getAccessRoles(pageModel.getPageId()),
