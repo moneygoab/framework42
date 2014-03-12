@@ -38,6 +38,10 @@ public class MiscBotParserImpl implements UserAgentEngineParser {
         idList.add("Yahoo:LinkExpander:Slingstone");
         idList.add("YandexBot");
         idList.add("YandexImages");
+        idList.add("Java/");
+        idList.add("YisouSpider");
+        idList.add("KcB @ 2013");
+        idList.add("http://www.checkprivacy.or.kr:6600/RS/PRIVACY_ENFAQ.jsp");
     }
 
     @Override
