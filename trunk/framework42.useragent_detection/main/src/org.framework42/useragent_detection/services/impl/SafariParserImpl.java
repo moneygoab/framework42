@@ -70,6 +70,9 @@ public class SafariParserImpl implements UserAgentEngineParser {
                     }
                 }
             }
+        } else if(userAgent.contains("MobileSafari/")) {
+
+            return "Mobile Safari";
         }
 
         logger.error("[useragent_detection] SafariParserImpl couldn't parse name from UserAgent: "+userAgent);
