@@ -49,8 +49,9 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(30000), new BigDecimal(19.8), 72, new BigDecimal(0), new BigDecimal(0)));
-        //System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(27), 6 * 12, new BigDecimal(700), BigDecimal.ZERO));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(30000), new BigDecimal(9.9), 72, new BigDecimal(0), new BigDecimal(20)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(5000), new BigDecimal(19.8), 72, new BigDecimal(0), new BigDecimal(20)));
+
     }
 
 
