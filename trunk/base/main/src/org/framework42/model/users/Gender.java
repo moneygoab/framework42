@@ -1,6 +1,9 @@
 package org.framework42.model.users;
 
+import org.framework42.model.Country;
+
 import java.io.Serializable;
+import java.util.Locale;
 
 public enum Gender implements Serializable {
 
@@ -36,6 +39,21 @@ public enum Gender implements Serializable {
 
         throw new IllegalArgumentException("No gender exists with getId " + genderId);
 
+    }
+
+    public static Gender findFromGovernmentId(Country country, String governmentId) {
+
+        if(country==Country.SWEDEN) {
+
+            Gender gender = Gender.MALE;
+            if(Long.parseLong(governmentId.substring(6, 9))%2 == 0) {
+                gender = Gender.FEMALE;
+            }
+
+            return gender;
+        }
+
+        return UNKNOWN;
     }
 
     @Override
