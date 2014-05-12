@@ -14,14 +14,16 @@ public enum Country {
     FINLAND("fi","FI", "FIN", 246, "EUR"),
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
+    AUSTRIA("de", "AT", "AUT", 40, "EUR"),
+
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
 
-    PHILIPPINES("fil", "PH", "PHL", 63, "PHP"),
-    TURKEY("tr", "TR", "TUR", 90, "TRY"),
+    PHILIPPINES("fil", "PH", "PHL", 608, "PHP"),
+    TURKEY("tr", "TR", "TUR", 792, "TRY"),
 
-    UNITED_KINGDOMS("uk", "GB", "GBR", 44, "GBP"),
+    UNITED_KINGDOMS("uk", "GB", "GBR", 826, "GBP"),
 
-    USA("us","US", "USA", 1, "USD"),
+    USA("us","US", "USA", 840, "USD"),
     ;
 
     private final String languageCode;
