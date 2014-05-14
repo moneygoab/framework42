@@ -34,25 +34,17 @@ public class SimpleLoginSquare extends HtmlComponent {
 
         Form.Builder loginForm = new Form.Builder("login_form", i18n.getURL("login_page", locale), "login_form");
 
-        loginForm.add(new Label(i18n.get("user_name", locale)));
-        loginForm.add(new Break());
-        loginForm.add(new TextField.Builder("user_name")
-                .parameter(model.getPageParameters().get("user_name"))
-                .autoFocus(true)
-                .build()
+        loginForm.add(
+                new Label(i18n.get("user_name", locale)),
+                Break.I1,
+                new TextField.Builder("user_name").autoFocus(true).build(),
+                Break.I1,
+                new Label(i18n.get("password", locale)),
+                Break.I1,
+                new PasswordField("password"),
+                Break.I2,
+                new SubmitButton.Builder("login_button", i18n.get("login_button", locale)).build()
         );
-        loginForm.add(new Break());
-        loginForm.add(new Label(i18n.get("password", locale)));
-        loginForm.add(new Break());
-        loginForm.add(new PasswordField.Builder(
-                "password",
-                "password",
-                "",
-                model.getPageParameters().get("password")
-        ).build());
-        loginForm.add(new Break());
-        loginForm.add(new Break());
-        loginForm.add(new SubmitButton.Builder("login_button", i18n.get("login_button", locale)).build());
 
         loginSquare.add(loginForm.build());
 
