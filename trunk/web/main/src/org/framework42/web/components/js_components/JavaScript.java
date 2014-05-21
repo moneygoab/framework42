@@ -38,8 +38,12 @@ public class JavaScript extends HtmlComponent {
             scriptLines = new ArrayList<String>();
         }
 
-        public Builder addScriptLine(String scriptLine){
-            scriptLines.add(scriptLine);
+        public Builder addScriptLine(String... scriptLine){
+
+            for(String s: scriptLine) {
+                scriptLines.add(s);
+            }
+
             return this;
         }
 

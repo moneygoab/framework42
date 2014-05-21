@@ -8,6 +8,12 @@ public class FormLabel extends HtmlComponent {
 
     private Builder builder;
 
+    public FormLabel(String labelForComponentName) {
+
+        this.builder = new Builder("&nbsp;", labelForComponentName);
+
+    }
+
     public FormLabel(String labelText, String labelForComponentName) {
 
         this.builder = new Builder(labelText, labelForComponentName);
