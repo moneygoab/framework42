@@ -48,6 +48,13 @@ public class FieldSet extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if(builder.style!=null) {
+
+            htmlBuilder.append(" style=\"");
+            htmlBuilder.append(builder.style);
+            htmlBuilder.append("\"");
+        }
+
         htmlBuilder.append(builder.addGeneralComponents());
 
         htmlBuilder.append(">\n");
@@ -83,6 +90,8 @@ public class FieldSet extends HtmlComponent {
 
         private String name = null;
 
+        private String style = null;
+
         public Builder() {
             childComponents = new ArrayList<HtmlComponent>();
         }
@@ -107,6 +116,12 @@ public class FieldSet extends HtmlComponent {
         public Builder className(String className) {
 
             this.className = className;
+            return this;
+        }
+
+        public Builder style(String style) {
+
+            this.style = style;
             return this;
         }
 
