@@ -52,7 +52,7 @@ public class RadioButton extends HtmlComponent {
 
         private Label label;
 
-        private String style = "width: 15px;";
+        private String style = "width: 15px; height: 15px;";
 
         public Builder(String name, String value, String label) {
             super(name, value);

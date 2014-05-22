@@ -54,7 +54,7 @@ public class CheckBox extends HtmlComponent {
 
         private String checked = null;
 
-        private String style = "width: 15px;";
+        private String style = "width: 15px; height: 15px;";
 
         public Builder(String name, String value, Label label) {
             super(name, value);
