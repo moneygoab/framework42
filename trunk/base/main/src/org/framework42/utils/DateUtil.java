@@ -125,12 +125,12 @@ public class DateUtil {
         return toCal.getTime();
     }
 
-    public static Date stepBackDays(Date currentMonth, int daysToStepBack) {
+    public static Date stepBackDays(Date currentDate, int daysToStepBack) {
 
-        notNull(currentMonth, "Current month can't be null!");
+        notNull(currentDate, "Current date can't be null!");
 
         Calendar cal = new GregorianCalendar();
-        cal.setTime(currentMonth);
+        cal.setTime(currentDate);
         cal.add(DAY_OF_MONTH, daysToStepBack*-1);
 
         return cal.getTime();
