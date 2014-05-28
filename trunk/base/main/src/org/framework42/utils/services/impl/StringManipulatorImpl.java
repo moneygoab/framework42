@@ -68,7 +68,7 @@ public class StringManipulatorImpl implements StringManipulator {
         returnString = interestString.split("\\.")[0];
         returnString = returnString.split(",")[0];
 
-        if(interestString.split("\\.").length>1 && !interestString.split("\\.")[1].startsWith("0")) {
+        if(interestString.split("\\.").length>1 ) {
 
             if(interestString.split("\\.")[1].length()>2) {
 
