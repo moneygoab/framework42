@@ -156,6 +156,14 @@ public class FieldSet extends HtmlComponent {
         public void add(HtmlComponent component) {
             childComponents.add(component);
         }
+
+        public void add(HtmlComponent... component) {
+
+            for(HtmlComponent comp: component) {
+
+                childComponents.add(comp);
+            }
+        }
     }
 
 }

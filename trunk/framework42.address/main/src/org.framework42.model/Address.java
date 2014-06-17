@@ -12,13 +12,13 @@ public interface Address {
 
     public String getStreetAddress();
 
-    public PostalCode getPostalCode();
+    public org.framework42.model.PostalCode getPostalCode();
 
     public String getCity();
 
     public Country getCountry();
 
-    public AddressType getType();
+    public org.framework42.model.AddressType getType();
 
     public Date getValidFrom();
 
