@@ -223,11 +223,15 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
         } else {
             pageModel.getEnvironmentInformation().put("clientIP", req.getHeader( "X-Forwarded-For" ));
         }
-        if(session.getMiscParameters().get("Referer")==null && req.getHeader("Referer")!=null) {
+        if(req.getHeader("Referer")!=null) {
 
             String referer = req.getHeader("Referer");
             if(referer.startsWith("http://")) {
+
                 referer = referer.replace("http://", "");
+            }
+            if(referer.startsWith("https://")) {
+                referer = referer.replace("https://", "");
             }
             referer = referer.replaceFirst("www.","");
 
