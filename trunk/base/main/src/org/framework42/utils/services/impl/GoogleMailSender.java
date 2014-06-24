@@ -27,14 +27,14 @@ public enum GoogleMailSender implements MailSender {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
 
-                            return new PasswordAuthentication("info@moneypal.se", "kvittraommoney");
+                            return new PasswordAuthentication("info@moneygo.se", "kvittraommoney");
                         }
                     });
 
             try {
 
                 Message messageObject = new MimeMessage(mailSession);
-                messageObject.setFrom(new InternetAddress("Moneypal kundtjänst <info@moneypal.se>"));
+                messageObject.setFrom(new InternetAddress("Moneygo kundtjänst <info@moneygo.se>"));
                 messageObject.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(toAddress));
                 messageObject.setSubject(subject);
