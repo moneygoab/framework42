@@ -1,6 +1,6 @@
 package org.framework42.model;
 
-public interface ComprehensiveAddress extends Address{
+public interface ComprehensiveAddress extends Address {
 
     public String getCounty();
 
