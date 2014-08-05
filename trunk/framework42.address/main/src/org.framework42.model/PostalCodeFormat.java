@@ -35,6 +35,7 @@ public enum PostalCodeFormat {
         this.viewFormatter.put(Country.SWEDEN, new PostalCodeViewFormatterSwedish());
         this.viewFormatter.put(Country.ICELAND, new PostalCodeViewFormatterNoFormat());
         this.viewFormatter.put(Country.AUSTRIA, new PostalCodeViewFormatterNoFormat());
+        this.viewFormatter.put(Country.UNITED_KINGDOMS, new PostalCodeViewFormatterNoFormat());
     }
 
     public int getId() {
@@ -86,6 +87,8 @@ public enum PostalCodeFormat {
         } else if(country == Country.ICELAND) {
             return NUMERIC_NNN;
         } else if(country == Country.AUSTRIA) {
+            return ALPHANUMERIC;
+        } else if(country == Country.UNITED_KINGDOMS) {
             return ALPHANUMERIC;
         }
 
