@@ -90,9 +90,10 @@ public enum PostalCodeFormat {
             return ALPHANUMERIC;
         } else if(country == Country.UNITED_KINGDOMS) {
             return ALPHANUMERIC;
+        } else {
+            return ALPHANUMERIC;
         }
 
-        throw new IllegalArgumentException("No postal code format for the country "+country.name()+" exists!");
     }
 
 }
