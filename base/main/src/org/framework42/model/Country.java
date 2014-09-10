@@ -15,6 +15,7 @@ public enum Country {
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
     AUSTRIA("de", "AT", "AUT", 40, "EUR"),
+    POLAND("pl", "PL", "POL", 48, "PLN"),
 
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
 
@@ -143,6 +144,22 @@ public enum Country {
 
             return ICELAND;
 
+        } else if("Österrike".equalsIgnoreCase(country) ||
+                "AT".equalsIgnoreCase(country) ||
+                "AUT".equalsIgnoreCase(country) ||
+                "Österreich".equalsIgnoreCase(country)
+                ) {
+
+            return AUSTRIA;
+
+        } else if("Polen".equalsIgnoreCase(country) ||
+                "PL".equalsIgnoreCase(country) ||
+                "POL".equalsIgnoreCase(country) ||
+                "Polska".equalsIgnoreCase(country)
+                ) {
+
+            return POLAND;
+
         } else if("Filippinerna".equalsIgnoreCase(country) ||
                 "PH".equalsIgnoreCase(country) ||
                 "PHL".equalsIgnoreCase(country) ||
@@ -165,7 +182,21 @@ public enum Country {
 
             return ISRAEL;
 
-        }else if("Okänt Land".equalsIgnoreCase(country) ||
+        } else if("USA".equalsIgnoreCase(country) ||
+                "US".equalsIgnoreCase(country) ||
+                "USA".equalsIgnoreCase(country)
+                ) {
+
+            return USA;
+
+        } else if("Turkiet".equalsIgnoreCase(country) ||
+                "TR".equalsIgnoreCase(country) ||
+                "TUR".equalsIgnoreCase(country)
+                ) {
+
+            return TURKEY;
+
+        } else if("Okänt Land".equalsIgnoreCase(country) ||
                 "UNKNOWN".equalsIgnoreCase(country)) {
 
             return UNKNOWN;

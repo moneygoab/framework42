@@ -2,23 +2,30 @@ package org.framework42.model;
 
 public enum APIResponseType {
 
-    HELP(0), CSV(1), XML(2), JSON(3), HTML(4);
+    NONE(0, ""), CSV(1, "text/csv"), XML(2, "application/xml"), JSON(3, "application/json"), HTML(4, "");
 
     private final int id;
 
-    private APIResponseType(int id) {
+    private final String mimeType;
+
+    private APIResponseType(int id, String mimeType) {
         this.id = id;
+        this.mimeType = mimeType;
     }
 
     public int getId() {
         return id;
     }
 
+    public String getMimeType() {
+        return mimeType;
+    }
+
     public static APIResponseType getByName(String name) {
 
         for(APIResponseType type: APIResponseType.values()) {
 
-            if(type.name().equalsIgnoreCase(name)) {
+            if(type.getMimeType().equalsIgnoreCase(name)) {
 
                 return type;
             }
