@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.framework42.web.pagemodel.RESTErrorCode.*;
@@ -22,12 +24,20 @@ public abstract class RESTWebPage extends HttpServlet {
 
     private int consumerId;
 
+    protected String consumerKeyParameterName = "X-Consumer-Key";
+
+    protected APIResponseType defaultResponseType = APIResponseType.JSON;
+
+    protected boolean forceDataType = false;
+
     protected boolean test = true;
+
+    protected List<APIResponseType> validResponseTypesList = Arrays.asList(APIResponseType.JSON);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+        APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
 
         consumerId = processCall(req, resp, responseType);
 
@@ -42,7 +52,7 @@ public abstract class RESTWebPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+        APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
 
         consumerId = processCall(req, resp, responseType);
 
@@ -57,7 +67,7 @@ public abstract class RESTWebPage extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+        APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
 
         consumerId = processCall(req, resp, responseType);
 
@@ -72,7 +82,7 @@ public abstract class RESTWebPage extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        APIResponseType responseType = getResponseType(req.getParameter("response_type"));
+        APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
 
         consumerId = processCall(req, resp, responseType);
 
@@ -88,23 +98,23 @@ public abstract class RESTWebPage extends HttpServlet {
 
         consumerId = 0;
 
-        if(req.getParameter("consumer_key")!=null && req.getHeader("consumer_key")==null) {
+        if(req.getParameter(consumerKeyParameterName)!=null && req.getHeader(consumerKeyParameterName)==null) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             addError(resp, INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType);
 
-        } else if(req.getHeader("consumer_key")==null) {
+        } else if(req.getHeader(consumerKeyParameterName)==null) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             addError(resp, MISSING_CONSUMER_KEY, responseType);
 
         } else {
 
-            String cid = req.getHeader("consumer_key");
+            String cid = req.getHeader(consumerKeyParameterName);
 
             if(cid==null) {
 
-                cid = req.getParameter("consumer_key");
+                cid = req.getParameter(consumerKeyParameterName);
             }
 
             consumerId = getConsumerId(test, cid, APIRequestType.GET);
@@ -121,9 +131,9 @@ public abstract class RESTWebPage extends HttpServlet {
 
     protected abstract int getConsumerId(boolean test, String consumerKey, APIRequestType requestType);
 
-    protected APIResponseType getResponseType(String responseParameter) {
+    protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) {
 
-        APIResponseType responseType = APIResponseType.JSON;
+        APIResponseType responseType = APIResponseType.NONE;
         try {
 
             if(responseParameter!=null) {
@@ -131,8 +141,40 @@ public abstract class RESTWebPage extends HttpServlet {
                 responseType = APIResponseType.getByName(responseParameter);
             }
 
+            if(responseType==APIResponseType.NONE && forceDataType) {
+
+                resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+                addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType);
+
+            } else if(responseType==APIResponseType.NONE) {
+
+                responseType = defaultResponseType;
+            }
+
+            boolean notValidResponseType = true;
+            for(APIResponseType valid: validResponseTypesList) {
+
+                if(valid==responseType) {
+
+                    notValidResponseType = false;
+                }
+            }
+            if(notValidResponseType) {
+
+                String validString = "";
+                for(APIResponseType v: validResponseTypesList) {
+                    validString += v.getMimeType()+",";
+                }
+                validString = validString.substring(0, validString.length()-1);
+
+                resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+                addError(resp, "1012", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"]", defaultResponseType);
+            }
+
         } catch(Exception e) {
 
+            resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType);
             logger.debug("Requested response type "+responseParameter+" don't exist!");
         }
 
@@ -166,6 +208,5 @@ public abstract class RESTWebPage extends HttpServlet {
             logger.fatal(e.getMessage());
         }
     }
-
 
 }
