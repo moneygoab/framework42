@@ -20,9 +20,9 @@ import static org.framework42.web.pagemodel.RESTErrorCode.*;
 
 public abstract class RESTWebPage extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger("org.framework42.web");
+    protected final static Logger logger = Logger.getLogger("org.framework42.web");
 
-    private int consumerId;
+    protected int consumerId;
 
     protected String consumerKeyParameterName = "X-Consumer-Key";
 
