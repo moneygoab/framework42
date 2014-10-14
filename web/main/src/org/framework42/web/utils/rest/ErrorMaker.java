@@ -18,10 +18,10 @@ public enum ErrorMaker {
 
     public void addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
 
-        addError(resp, errorCode.getId(), errorCode.getErrorMessage(), responseType);
+        addError(resp, errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
     }
 
-    public void addError(HttpServletResponse resp, String errorCode, String errorMessage, APIResponseType responseType) {
+    public void addError(HttpServletResponse resp, String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
 
         try {
 
@@ -31,6 +31,7 @@ public enum ErrorMaker {
 
                 errorMap.put("error_code", errorCode);
                 errorMap.put("error_message", errorMessage);
+                errorMap.put("end_user_error_message", endUserErrorMessage);
 
                 JSONObject errorObj = new JSONObject(errorMap);
 

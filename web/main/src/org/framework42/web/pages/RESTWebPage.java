@@ -138,7 +138,7 @@ public abstract class RESTWebPage extends HttpServlet {
 
             if(responseParameter!=null) {
 
-                responseType = APIResponseType.getByName(responseParameter);
+                responseType = APIResponseType.getByName(responseParameter, false);
             }
 
             if(responseType==APIResponseType.NONE && forceDataType) {
