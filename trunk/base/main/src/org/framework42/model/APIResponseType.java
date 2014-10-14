@@ -21,7 +21,7 @@ public enum APIResponseType {
         return mimeType;
     }
 
-    public static APIResponseType getByName(String name) {
+    public static APIResponseType getByName(String name, boolean forceDataType) {
 
         for(APIResponseType type: APIResponseType.values()) {
 
@@ -31,7 +31,14 @@ public enum APIResponseType {
             }
         }
 
-        throw new IllegalArgumentException("No api response type with name "+name+" exists!");
+        if(forceDataType) {
+
+            throw new IllegalArgumentException("No api response type with name " + name + " exists!");
+
+        } else {
+
+            return APIResponseType.NONE;
+        }
     }
 
     public static APIResponseType getById(int id) {

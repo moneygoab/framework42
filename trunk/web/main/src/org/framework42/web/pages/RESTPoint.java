@@ -138,7 +138,7 @@ public abstract class RESTPoint extends HttpServlet {
 
                 if(responseParameter!=null) {
 
-                    responseType = APIResponseType.getByName(responseParameter);
+                    responseType = APIResponseType.getByName(responseParameter, forceDataType);
                 }
 
                 if(responseType==APIResponseType.NONE && forceDataType) {
@@ -168,7 +168,7 @@ public abstract class RESTPoint extends HttpServlet {
                     validString = validString.substring(0, validString.length()-1);
 
                     resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
-                    addError(resp, "1012", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"]", defaultResponseType);
+                    addError(resp, "41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType);
                 }
 
             } catch(Exception e) {
@@ -183,10 +183,10 @@ public abstract class RESTPoint extends HttpServlet {
 
         protected void addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
 
-            addError(resp, errorCode.getId(), errorCode.getErrorMessage(), responseType);
+            addError(resp, errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
         }
 
-        protected void addError(HttpServletResponse resp, String errorCode, String errorMessage, APIResponseType responseType) {
+        protected void addError(HttpServletResponse resp, String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
 
             try {
 
@@ -196,6 +196,7 @@ public abstract class RESTPoint extends HttpServlet {
 
                     errorMap.put("error_code", errorCode);
                     errorMap.put("error_message", errorMessage);
+                    errorMap.put("end_user_error_message", endUserErrorMessage);
 
                     JSONObject errorObj = new JSONObject(errorMap);
 
