@@ -1,12 +1,18 @@
 package org.framework42.creditcheck.parsers.uc;
 
 import org.apache.log4j.Logger;
+import org.framework42.ServiceBinderInterface;
 import org.framework42.creditcheck.model.Applicant;
 import org.framework42.creditcheck.model.ApplicantNames;
 import org.framework42.creditcheck.model.CreditBureauApplication;
 import org.framework42.creditcheck.model.impl.ApplicantImpl;
 import org.framework42.creditcheck.model.impl.ApplicantNamesImpl;
 import org.framework42.model.*;
+import org.framework42.model.AddressType;
+import org.framework42.model.InformationProvider;
+import org.framework42.model.PostalCode;
+import org.framework42.model.PostalCodeFormat;
+import org.framework42.model.TrustedAddress;
 import org.framework42.model.impl.PostalCodeImpl;
 import org.framework42.model.impl.SimpleSecureAddressImpl;
 import uc_webservice.Group;
@@ -14,6 +20,8 @@ import uc_webservice.Term;
 import uc_webservice.UcReply;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public enum ApplicantParser {
 
@@ -210,6 +218,9 @@ public enum ApplicantParser {
                 postalCode,
                 city,
                 country,
+                AddressType.PERMANENT,
+                new Date(),
+                new GregorianCalendar(9999, 0, 1).getTime(),
                 InformationProvider.POPULATION_REGISTERS
         );
     }
