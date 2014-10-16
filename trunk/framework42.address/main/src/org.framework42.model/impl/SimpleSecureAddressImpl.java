@@ -1,17 +1,22 @@
 package org.framework42.model.impl;
 
 import org.framework42.model.*;
+import org.framework42.model.AddressType;
+import org.framework42.model.InformationProvider;
+import org.framework42.model.PostalCode;
+import org.framework42.model.PostalCodeFormat;
+import org.framework42.model.TrustedAddress;
 
 import java.util.Date;
 
 import static org.framework42.utils.NullChecker.notNull;
 
-public class SimpleSecureAddressImpl extends SimpleAddressImpl implements TrustedAddress {
+public class SimpleSecureAddressImpl extends org.framework42.model.impl.SimpleAddressImpl implements TrustedAddress {
 
     private final InformationProvider informationProvider;
 
     public SimpleSecureAddressImpl() {
-        super(0, "", "", "", new PostalCodeImpl(PostalCodeFormat.UNKNOWN, ""), "", Country.UNKNOWN);
+        super(0, "", "", "", new org.framework42.model.impl.PostalCodeImpl(PostalCodeFormat.UNKNOWN, ""), "", Country.UNKNOWN);
 
         this.informationProvider = InformationProvider.NO_PROVIDER;
     }
