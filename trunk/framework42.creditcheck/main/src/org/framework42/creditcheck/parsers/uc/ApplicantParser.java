@@ -171,9 +171,11 @@ public enum ApplicantParser {
 
         String firstName = "";
         String surname = "";
+        String fullName = "";
 
         String careOf = "";
         String streetAddress = "";
+        String postalCodeString = "";
         PostalCode postalCode = new PostalCodeImpl(PostalCodeFormat.UNKNOWN, "00000");
         String city = "";
         Country country = Country.SWEDEN;
@@ -184,17 +186,28 @@ public enum ApplicantParser {
 
                 firstName = term.getValue();
 
-            } else if("W08084".equals(term.getId())) {
+            } else if("W08083".equals(term.getId())) {
+
+                fullName = term.getValue();
+
+            }else if("W08084".equals(term.getId())) {
 
                 surname = term.getValue();
 
             } else if("W08004".equals(term.getId())) {
 
-                streetAddress = term.getValue();
+                if(streetAddress.length()>0) {
+
+                    streetAddress = term.getValue()+streetAddress;
+
+                } else {
+
+                    streetAddress = term.getValue();
+                }
 
             } else if("W08005".equals(term.getId())) {
 
-                postalCode = new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, term.getValue());
+                postalCodeString = term.getValue();
 
             } else if("W08006".equals(term.getId())) {
 
@@ -207,7 +220,21 @@ public enum ApplicantParser {
             } else if("W08050".equals(term.getId())) {
 
                 careOf = term.getValue();
+
+            } else if("W08051".equals(term.getId())) {
+
+                    streetAddress = streetAddress+term.getValue();
+
+            } else if("W08072".equals(term.getId())) {
+
+                city = term.getValue();
+
             }
+        }
+
+        if(firstName.length()==0) {
+
+            firstName = fullName;
         }
 
         return new SimpleSecureAddressImpl(
@@ -215,7 +242,7 @@ public enum ApplicantParser {
                 firstName+" "+surname,
                 careOf,
                 streetAddress,
-                postalCode,
+                new PostalCodeImpl(PostalCodeFormat.getByCountry(country), postalCodeString),
                 city,
                 country,
                 AddressType.PERMANENT,
