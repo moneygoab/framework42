@@ -105,8 +105,26 @@ public abstract class RESTWebPage extends HttpServlet {
 
         } else if(req.getHeader(consumerKeyParameterName)==null) {
 
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            addError(resp, MISSING_CONSUMER_KEY, responseType);
+            //TODO: Remove when deprecation is finished
+            if(req.getHeader("consumer_key")!=null) {
+
+                consumerId = getConsumerId(test, req.getHeader("consumer_key"), APIRequestType.GET);
+
+                if(consumerId==0) {
+
+                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    addError(resp, INVALID_CONSUMER_KEY, responseType);
+                }
+
+            } else {
+
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                addError(resp, MISSING_CONSUMER_KEY, responseType);
+            }
+
+            //TODO: Reinstate when above is removed
+            //resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            //addError(resp, MISSING_CONSUMER_KEY, responseType);
 
         } else {
 
