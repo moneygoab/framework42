@@ -30,9 +30,15 @@ public abstract class RESTPoint extends HttpServlet {
 
         protected boolean forceDataType = false;
 
+        protected boolean forceContentTypeInput = false;
+
         protected boolean test = true;
 
         protected List<APIResponseType> validResponseTypesList = Arrays.asList(APIResponseType.JSON);
+
+        protected List<String> validPostContentTypes = Arrays.asList("application/x-www-form-urlencoded");
+
+        protected List<String> validPutContentTypes = Arrays.asList("application/x-www-form-urlencoded");
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,11 +60,14 @@ public abstract class RESTPoint extends HttpServlet {
 
             APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
 
-            consumerId = processCall(req, resp, responseType);
+            if(validateContentType(resp, responseType, validPostContentTypes, req.getContentType())) {
 
-            if(consumerId>0) {
+                consumerId = processCall(req, resp, responseType);
 
-                doPostSpecific(req, resp, responseType, consumerId);
+                if (consumerId > 0) {
+
+                    doPostSpecific(req, resp, responseType, consumerId);
+                }
             }
         }
 
@@ -179,6 +188,32 @@ public abstract class RESTPoint extends HttpServlet {
             }
 
             return responseType;
+        }
+
+        protected  boolean validateContentType(HttpServletResponse resp, APIResponseType responseType, List<String> validList, String contentType) {
+
+            if(!forceContentTypeInput) {
+
+                return true;
+            }
+
+            for(String validPost: validList) {
+
+                if(validPost.equalsIgnoreCase(contentType)) {
+
+                    return true;
+                }
+            }
+
+            String validTypes = "";
+            for(String validPost: validList) {
+                validTypes += validPost+", ";
+            }
+            validTypes = validTypes.substring(0, validTypes.length()-2);
+
+            addError(resp, "41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType);
+
+            return false;
         }
 
         protected void addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
