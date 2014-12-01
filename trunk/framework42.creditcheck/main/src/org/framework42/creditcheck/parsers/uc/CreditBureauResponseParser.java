@@ -36,8 +36,8 @@ public enum CreditBureauResponseParser {
                 if("W13105".equals(term.getId())) {
 
                     creditDecision = CreditDecision.getByUCCode(term.getValue());
-
-                } else if("W13106".equals(term.getId())) {
+                    //W13106
+                } else if("W13142".equals(term.getId())) {
 
                     recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
                 }
