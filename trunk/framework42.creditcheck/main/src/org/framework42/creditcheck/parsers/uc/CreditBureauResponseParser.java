@@ -40,6 +40,9 @@ public enum CreditBureauResponseParser {
                 } else if("W13142".equals(term.getId())) {
 
                     recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
+                } else if("W13106".equals(term.getId())) {
+
+                    recommendedCredit = new MoneyImpl(new BigDecimal(Integer.parseInt(term.getValue())), Currency.getInstance(new Locale("sv", "SE")));
                 }
             }
         }
