@@ -2,7 +2,10 @@ package org.framework42.creditcheck.services.impl;
 
 import org.framework42.creditcheck.dao.InternalAddressCheckDAO;
 import org.framework42.creditcheck.exceptions.AddressCheckException;
+import org.framework42.creditcheck.model.AddressCheckResponse;
+import org.framework42.creditcheck.model.AddressStatus;
 import org.framework42.creditcheck.model.CreditBureauContext;
+import org.framework42.creditcheck.model.impl.AddressCheckResponseImpl;
 import org.framework42.creditcheck.services.AddressCheckService;
 import org.framework42.model.TrustedAddress;
 import org.framework42.services.ProxyService;
@@ -19,11 +22,11 @@ public class AddressCheckServiceSuperFileImpl extends ProxyService<AddressCheckS
     }
 
     @Override
-    public TrustedAddress getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException {
+    public AddressCheckResponse getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException {
 
         try {
 
-            return addressCheckDAO.getAddress(governmentId);
+            return new AddressCheckResponseImpl(AddressStatus.OK, addressCheckDAO.getAddress(governmentId));
 
         } catch (RuntimeException e) {
 

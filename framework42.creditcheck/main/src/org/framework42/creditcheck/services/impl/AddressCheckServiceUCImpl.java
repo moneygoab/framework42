@@ -1,8 +1,11 @@
 package org.framework42.creditcheck.services.impl;
 
 import org.framework42.creditcheck.exceptions.AddressCheckException;
+import org.framework42.creditcheck.model.AddressCheckResponse;
+import org.framework42.creditcheck.model.AddressStatus;
 import org.framework42.creditcheck.model.CreditBureau;
 import org.framework42.creditcheck.model.CreditBureauContext;
+import org.framework42.creditcheck.model.impl.AddressCheckResponseImpl;
 import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.services.AddressCheckService;
@@ -24,7 +27,7 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
     }
 
     @Override
-    public TrustedAddress getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException {
+    public AddressCheckResponse getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException {
 
         UcOrders orders = new UCOrderService().getUcOrders2();
 
@@ -45,15 +48,46 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
 
             TrustedAddress address = ApplicantParser.INSTANCE.createAddress(report.getGroup().get(0));
 
+            AddressStatus status = AddressStatus.OK;
+
             for(Term term: report.getGroup().get(0).getTerm()) {
 
-                if("W08020".equalsIgnoreCase(term.getId()) && !"11".equalsIgnoreCase(term.getValue())) {
+                if("W08020".equalsIgnoreCase(term.getId())) {
+
+                    if("03".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.EMIGRATED;
+                        
+                    } else if("05".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.DECEASED;
+
+                    } else if("06".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.OTHER;
+
+                    } else if("08".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.OTHER;
+
+                    } else if("09".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.OTHER;
+
+                    } else if("11".equalsIgnoreCase(term.getValue())) {
+
+                        status = AddressStatus.LOST_ID;
+
+                    }
+                }
+
+                /*if("W08020".equalsIgnoreCase(term.getId()) && !"11".equalsIgnoreCase(term.getValue())) {
 
                         throw new AddressCheckException("Government ID locked in some way.");
-                }
+                }*/
             }
 
-            return address;
+            return new AddressCheckResponseImpl(status, address);
         }
 
     }
