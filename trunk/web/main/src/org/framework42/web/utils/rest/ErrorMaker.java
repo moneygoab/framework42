@@ -37,6 +37,16 @@ public enum ErrorMaker {
 
                 resp.getWriter().println(errorObj.toString(2));
 
+            } else if(responseType==APIResponseType.XML) {
+
+                String error = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
+                error += "<error xmlns=\"http://www.moneypal.se\">\n";
+                error += "\t<error_code>"+errorCode+"</error_code>\n";
+                error += "\t<error_message>"+errorMessage+"</error_message>\n";
+                error += "\t<end_user_error_message>"+endUserErrorMessage+"</end_user_error_message>\n";
+                error += "</error>\n";
+
+                resp.getWriter().print(error);
             }
 
         } catch(IOException e) {
