@@ -34,7 +34,7 @@ public abstract class RESTPoint extends HttpServlet {
 
     protected boolean test = true;
 
-    protected List<APIResponseType> validResponseTypesList = Arrays.asList(APIResponseType.JSON);
+    protected List<APIResponseType> validResponseTypesList = Arrays.asList(APIResponseType.JSON, APIResponseType.XML);
 
     protected List<String> validPostContentTypes = Arrays.asList("application/x-www-form-urlencoded");
 
