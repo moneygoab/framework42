@@ -35,11 +35,13 @@ public class RESTErrorPage extends HttpServlet {
         doCall(request, httpServletResponse);
     }
 
-    protected void doCall(HttpServletRequest request, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void doCall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //System.out.println(request.get.getServletContext().getAttribute("javax.servlet.error.message"));
-        System.out.println("attribute: "+request.getAttribute("javax.servlet.error.message"));
-        System.out.println("parameter: "+request.getParameter("javax.servlet.error.message"));
+
+        resp.getOutputStream().print(req.getAttribute("javax.servlet.error.message").toString());
+        resp.getOutputStream().flush();
+        resp.getOutputStream().close();
 
         //httpServletResponse.getWriter().print(request.getServletContext().getAttribute("javax.servlet.error.message"));
     }
