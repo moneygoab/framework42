@@ -42,6 +42,9 @@ public class FormLabel extends HtmlComponent {
         htmlBuilder.append(">");
         htmlBuilder.append(builder.labelText);
         htmlBuilder.append("</label>");
+        if(!onSameRow){
+            htmlBuilder.append("\n");
+        }
 
     }
 
