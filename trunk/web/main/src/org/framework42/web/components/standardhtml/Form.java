@@ -31,6 +31,7 @@ public class Form extends HtmlComponent {
 
         htmlBuilder.append(createValidation().getHtml(page, parent, false));
 
+        htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<form name=\"");
         htmlBuilder.append(builder.name);
         htmlBuilder.append("\" action=\"");
