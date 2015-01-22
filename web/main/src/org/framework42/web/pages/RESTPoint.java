@@ -56,13 +56,13 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch(Exception e) {
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
 
-    protected abstract void doGetSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
+    protected abstract void doGetSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -83,13 +83,13 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch(Exception e) {
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
 
-    protected abstract void doPostSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
+    protected abstract void doPostSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -107,13 +107,13 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch(Exception e) {
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
 
-    protected abstract void doPutSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
+    protected abstract void doPutSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -131,44 +131,48 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch(Exception e) {
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
 
-    protected abstract void doDeleteSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId);
+    protected abstract void doDeleteSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
 
     protected int processCall(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType) {
 
         consumerId = 0;
 
-        if(req.getParameter(consumerKeyParameterName)!=null && req.getHeader(consumerKeyParameterName)==null) {
+        try {
 
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            addError(resp, INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType);
+            if (req.getParameter(consumerKeyParameterName) != null && req.getHeader(consumerKeyParameterName) == null) {
 
-        } else if(req.getHeader(consumerKeyParameterName)==null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(resp, INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
 
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            addError(resp, MISSING_CONSUMER_KEY, responseType);
+            } else if (req.getHeader(consumerKeyParameterName) == null) {
 
-        } else {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(resp, MISSING_CONSUMER_KEY, responseType));
 
-            String cid = req.getHeader(consumerKeyParameterName);
+            } else {
 
-            if(cid==null) {
+                String cid = req.getHeader(consumerKeyParameterName);
 
-                cid = req.getParameter(consumerKeyParameterName);
+                if (cid == null) {
+
+                    cid = req.getParameter(consumerKeyParameterName);
+                }
+
+                consumerId = getConsumerId(test, cid, APIRequestType.GET);
+
+                if (consumerId == 0) {
+
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, addError(resp, INVALID_CONSUMER_KEY, responseType));
+                }
             }
 
-            consumerId = getConsumerId(test, cid, APIRequestType.GET);
+        } catch(IOException e) {
 
-            if(consumerId==0) {
-
-                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                addError(resp, INVALID_CONSUMER_KEY, responseType);
-            }
+            logger.fatal(e.getMessage());
         }
 
         return consumerId;
@@ -176,7 +180,7 @@ public abstract class RESTPoint extends HttpServlet {
 
     protected abstract int getConsumerId(boolean test, String consumerKey, APIRequestType requestType);
 
-    protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) {
+    protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) throws IOException {
 
         APIResponseType responseType = APIResponseType.NONE;
         try {
@@ -188,8 +192,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             if(responseType==APIResponseType.NONE && forceDataType) {
 
-                resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
-                addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType);
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType));
 
             } else if(responseType==APIResponseType.NONE) {
 
@@ -212,15 +215,13 @@ public abstract class RESTPoint extends HttpServlet {
                 }
                 validString = validString.substring(0, validString.length()-1);
 
-                resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
-                addError(resp, "41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType);
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, "41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType));
             }
 
         } catch(Exception e) {
 
-            resp.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
-            addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType);
             logger.debug("Requested response type "+responseParameter+" don't exist!");
+            resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
         }
 
         return responseType;
@@ -252,12 +253,12 @@ public abstract class RESTPoint extends HttpServlet {
         return false;
     }
 
-    protected void addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
+    protected String addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
 
-        addError(resp, errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
+        return addError(resp, errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
     }
 
-    protected void addError(HttpServletResponse resp, String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
+    protected String addError(HttpServletResponse resp, String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
 
         try {
 
@@ -273,6 +274,8 @@ public abstract class RESTPoint extends HttpServlet {
 
                 resp.getWriter().println(errorObj.toString(2));
 
+                return errorObj.toString(2);
+
             } else if(responseType==APIResponseType.XML) {
 
                 String error = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
@@ -283,12 +286,16 @@ public abstract class RESTPoint extends HttpServlet {
                 error += "</error>\n";
 
                 resp.getWriter().print(error);
+
+                return error;
             }
 
         } catch(IOException e) {
 
             logger.fatal(e.getMessage());
         }
+
+        return errorCode + " - " +errorMessage;
     }
 
 
