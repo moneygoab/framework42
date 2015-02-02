@@ -162,7 +162,7 @@ public abstract class RESTPoint extends HttpServlet {
                     cid = req.getParameter(consumerKeyParameterName);
                 }
 
-                consumerId = getConsumerId(test, cid, APIRequestType.GET);
+                consumerId = getConsumerId(test, req, cid, APIRequestType.GET);
 
                 if (consumerId == 0) {
 
@@ -178,7 +178,7 @@ public abstract class RESTPoint extends HttpServlet {
         return consumerId;
     }
 
-    protected abstract int getConsumerId(boolean test, String consumerKey, APIRequestType requestType);
+    protected abstract int getConsumerId(boolean test, HttpServletRequest req, String consumerKey, APIRequestType requestType);
 
     protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) throws IOException {
 
