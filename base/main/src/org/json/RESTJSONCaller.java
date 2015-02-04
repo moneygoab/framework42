@@ -49,7 +49,7 @@ public enum RESTJSONCaller {
                 StringBuffer response = new StringBuffer();
                 while ((line = rd.readLine()) != null) {
                     response.append(line);
-                    response.append('\r');
+                    response.append('\n');
                 }
                 rd.close();
                 System.out.println(connection.getResponseCode());
@@ -72,7 +72,7 @@ public enum RESTJSONCaller {
                 StringBuffer response = new StringBuffer();
                 while ((line = rd.readLine()) != null) {
                     response.append(line);
-                    response.append('\r');
+                    response.append('\n');
                 }
                 rd.close();
                 System.out.println(connection.getResponseCode());
@@ -140,7 +140,7 @@ public enum RESTJSONCaller {
                 StringBuffer response = new StringBuffer();
                 while ((line = rd.readLine()) != null) {
                     response.append(line);
-                    response.append('\r');
+                    response.append('\n');
                 }
                 rd.close();
                 System.out.println(connection.getResponseCode());
@@ -163,7 +163,7 @@ public enum RESTJSONCaller {
                 StringBuffer response = new StringBuffer();
                 while ((line = rd.readLine()) != null) {
                     response.append(line);
-                    response.append('\r');
+                    response.append('\n');
                 }
                 rd.close();
                 System.out.println(connection.getResponseCode());
@@ -183,7 +183,10 @@ public enum RESTJSONCaller {
         } catch (MalformedURLException e) {
 
             e.printStackTrace();
-            return null;
+            JSONObject obj = new JSONObject();
+            obj.put("status_code", connection.getResponseCode());
+            obj.put("error_message", e.getMessage());
+            return new RESTJSONResponse(connection.getResponseCode(), obj);
 
         } finally {
 
