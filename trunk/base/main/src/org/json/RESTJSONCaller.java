@@ -57,7 +57,17 @@ public enum RESTJSONCaller {
 
                 if(response.length()>0) {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    if(response.toString().startsWith("[")) {
+
+                        JSONArray arr = new JSONArray(response.toString());
+
+                        JSONObject obj = arr.getJSONObject(0);
+
+                        return new RESTJSONResponse(connection.getResponseCode(), obj);
+
+                    } else {
+                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    }
 
                 } else {
 
