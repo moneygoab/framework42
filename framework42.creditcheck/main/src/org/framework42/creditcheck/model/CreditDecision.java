@@ -38,7 +38,6 @@ public enum CreditDecision {
         }
 
         throw new IllegalArgumentException("No credit decision with id "+id+" exists!");
-
     }
 
 }
