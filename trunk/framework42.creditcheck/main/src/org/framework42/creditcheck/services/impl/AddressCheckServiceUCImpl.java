@@ -1,10 +1,7 @@
 package org.framework42.creditcheck.services.impl;
 
 import org.framework42.creditcheck.exceptions.AddressCheckException;
-import org.framework42.creditcheck.model.AddressCheckResponse;
-import org.framework42.creditcheck.model.AddressStatus;
-import org.framework42.creditcheck.model.CreditBureau;
-import org.framework42.creditcheck.model.CreditBureauContext;
+import org.framework42.creditcheck.model.*;
 import org.framework42.creditcheck.model.impl.AddressCheckResponseImpl;
 import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
@@ -87,7 +84,9 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
                 }*/
             }
 
-            return new AddressCheckResponseImpl(status, address);
+            ApplicantNames names = ApplicantParser.INSTANCE.createApplicantNamesAutomaticCorrection(report.getGroup().get(0));
+
+            return new AddressCheckResponseImpl(status, names.getFirstName(), names.getSurname(), names.getFullName(), address);
         }
 
     }

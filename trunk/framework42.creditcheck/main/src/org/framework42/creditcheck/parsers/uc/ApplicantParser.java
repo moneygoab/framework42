@@ -167,6 +167,41 @@ public enum ApplicantParser {
         );
     }
 
+    public ApplicantNames createApplicantNamesAutomaticCorrection(Group group) {
+
+        String firstName = "";
+        String surname = "";
+        String fullName = "";
+
+        for(Term term: group.getTerm()) {
+
+            if("W08085".equals(term.getId())) {
+
+                firstName = term.getValue();
+
+            } else if("W08083".equals(term.getId())) {
+
+                fullName = term.getValue();
+
+            }else if("W08084".equals(term.getId())) {
+
+                surname = term.getValue();
+
+            }
+        }
+
+        if(firstName.length()==0) {
+
+            firstName = new StringBuilder(new StringBuilder(fullName).reverse().toString().replaceFirst(new StringBuilder(surname).reverse().toString(), "")).reverse().toString();
+        }
+
+        return new ApplicantNamesImpl(
+                firstName,
+                surname,
+                fullName
+        );
+    }
+
     public TrustedAddress createAddress(Group group) {
 
         String firstName = "";
@@ -251,6 +286,5 @@ public enum ApplicantParser {
                 InformationProvider.POPULATION_REGISTERS
         );
     }
-
 
 }

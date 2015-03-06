@@ -26,7 +26,7 @@ public class AddressCheckServiceSuperFileImpl extends ProxyService<AddressCheckS
 
         try {
 
-            return new AddressCheckResponseImpl(AddressStatus.OK, addressCheckDAO.getAddress(governmentId));
+            return addressCheckDAO.getAddress(governmentId);
 
         } catch (RuntimeException e) {
 
