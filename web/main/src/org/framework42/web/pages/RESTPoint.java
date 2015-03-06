@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.framework42.web.pagemodel.RESTErrorCode.*;
 
@@ -43,9 +40,12 @@ public abstract class RESTPoint extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        logInData(req);
+
         try {
 
             APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
+            resp.setHeader("Access-Control-Allow-Origin", "*");
 
             consumerId = processCall(req, resp, responseType);
 
@@ -65,7 +65,38 @@ public abstract class RESTPoint extends HttpServlet {
     protected abstract void doGetSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
 
     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logInData(req);
+
+        try {
+
+            APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
+            resp.setHeader("Access-Control-Allow-Origin", "*");
+            resp.setHeader("Access-Control-Max-Age", "86400");
+            resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+
+            consumerId = processCall(req, resp, responseType);
+
+            if (consumerId > 0) {
+
+                doOptionsSpecific(req, resp, responseType, consumerId);
+            }
+
+        } catch(Exception e) {
+
+            resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
+            logger.fatal(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
+        }
+    }
+
+    protected abstract void doOptionsSpecific(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType, int consumerId) throws IOException;
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logInData(req);
 
         try {
 
@@ -94,6 +125,8 @@ public abstract class RESTPoint extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        logInData(req);
+
         try {
 
             APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
@@ -117,6 +150,8 @@ public abstract class RESTPoint extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logInData(req);
 
         try {
 
@@ -298,5 +333,34 @@ public abstract class RESTPoint extends HttpServlet {
         return errorCode + " - " +errorMessage;
     }
 
+    private void logInData(HttpServletRequest req) {
+
+        logger.debug("***********************************************");
+        logger.debug("Call from: "+req.getRemoteAddr()+":"+req.getRemoteHost()+":"+req.getRemotePort());
+        logger.debug("Call to: "+req.getRequestURI());
+        logger.debug("Call method: "+req.getMethod());
+
+        logger.debug("Headers");
+        logger.debug("-------------------");
+
+        Enumeration headerNames = req.getHeaderNames();
+        if(headerNames!=null) {
+            while (headerNames.hasMoreElements()) {
+
+                String head = headerNames.nextElement().toString();
+                logger.debug("'" + head + "':'" + req.getHeader(head) + "'");
+            }
+        }
+
+        logger.debug("Query parameters");
+        logger.debug("-------------------");
+        if(req.getQueryString()==null||req.getQueryString().length()==0) {
+            logger.debug("No query parameters present.");
+        } else {
+            logger.debug(req.getQueryString());
+        }
+
+        logger.debug("***********************************************");
+    }
 
 }
