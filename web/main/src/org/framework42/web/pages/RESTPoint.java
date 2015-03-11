@@ -76,12 +76,12 @@ public abstract class RESTPoint extends HttpServlet {
             resp.setHeader("Access-Control-Max-Age", "86400");
             resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
 
-            consumerId = processCall(req, resp, responseType);
+            //consumerId = processCall(req, resp, responseType);
 
-            if (consumerId > 0) {
+            //if (consumerId > 0) {
 
                 doOptionsSpecific(req, resp, responseType, consumerId);
-            }
+            //}
 
         } catch(Exception e) {
 
