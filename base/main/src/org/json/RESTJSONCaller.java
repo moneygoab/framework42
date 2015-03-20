@@ -325,8 +325,12 @@ public enum RESTJSONCaller {
         URL url;
         HttpURLConnection connection = null;
         try {
+            if(urlParameters.length()>0) {
+                urlParameters = "?"+urlParameters;
+            }
+
             //Create connection
-            url = new URL(targetURL);
+            url = new URL(targetURL+urlParameters);
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
@@ -397,7 +401,9 @@ public enum RESTJSONCaller {
         } catch (MalformedURLException e) {
 
             e.printStackTrace();
-            return null;
+            JSONObject errorObj = new JSONObject();
+            errorObj.put("error_message", e.toString());
+            return new RESTJSONResponse(connection.getResponseCode(), errorObj);
 
         } finally {
 
