@@ -1,11 +1,16 @@
 package org.framework42.utils.services.impl;
 
+import org.framework42.utils.model.Fill;
 import org.framework42.utils.services.StringManipulator;
 
 public class StringManipulatorImpl implements StringManipulator {
 
     @Override
     public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront) {
+
+        if(fillCharacter==null||fillCharacter.length()==0) {
+            throw new IllegalArgumentException("Parameter fill character is invalid value is '"+fillCharacter+"'");
+        }
 
         String newString = originalString;
 
@@ -18,6 +23,30 @@ public class StringManipulatorImpl implements StringManipulator {
             } else {
 
                 newString = newString + fillCharacter; 
+            }
+        }
+
+        return newString;
+    }
+
+    @Override
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType) {
+
+        if(fillCharacter==null||fillCharacter.length()==0) {
+            throw new IllegalArgumentException("Parameter fill character is invalid value is '"+fillCharacter+"'");
+        }
+
+        String newString = originalString;
+
+        while(newString.length()<finalLength) {
+
+            if(fillType == Fill.FRONT) {
+
+                newString = fillCharacter + newString;
+
+            } else {
+
+                newString = newString + fillCharacter;
             }
         }
 
