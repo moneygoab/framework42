@@ -1,8 +1,12 @@
 package org.framework42.utils.services;
 
+import org.framework42.utils.model.Fill;
+
 public interface StringManipulator {
 
     public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront);
+
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType);
 
     public String divideInGroups(String originalString, int groupSize, String inBetweenString);
 
