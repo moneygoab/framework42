@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public enum RESTJSONCaller {
 
@@ -28,7 +29,11 @@ public enum RESTJSONCaller {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            url = new URL(targetURL);
+            if(urlParameters!=null && urlParameters.length()>0) {
+                url = new URL(targetURL+"?"+ urlParameters);
+            } else {
+                url = new URL(targetURL);
+            }
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
@@ -37,13 +42,6 @@ public enum RESTJSONCaller {
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
-            //Send request
-            /*DataOutputStream wr = new DataOutputStream(
-                    connection.getOutputStream ());
-            wr.writeBytes (urlParameters);
-            wr.flush ();
-            wr.close ();
-*/
             //Get Response
             if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED) {
 
@@ -127,7 +125,11 @@ public enum RESTJSONCaller {
         HttpURLConnection connection = null;
         try {
             //Create connection
-            url = new URL(targetURL);
+            if(urlParameters!=null && urlParameters.length()>0) {
+                url = new URL(targetURL+"?"+ urlParameters);
+            } else {
+                url = new URL(targetURL);
+            }
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
