@@ -43,22 +43,36 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
     @Override
     public int getMinimumToPay(BigDecimal initialAmount, BigDecimal interest, int monthsToPayBack) {
 
-        BigDecimal monthlyInterest = interest.divide(new BigDecimal(1200), 10, RoundingMode.UP);
+        if(interest.compareTo(BigDecimal.ZERO)<=0) {
 
-        BigDecimal topCalc = monthlyInterest.multiply( monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack));
+            int rounded = initialAmount.intValue()/monthsToPayBack;
 
-        BigDecimal bottomCalc = monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack).subtract(new BigDecimal(1));
+            if(initialAmount.intValue()%monthsToPayBack!=0) {
 
-        //BigDecimal stuff = topCalc.divide(bottomCalc);
-        double stuff = topCalc.doubleValue()/bottomCalc.doubleValue();
+                rounded ++;
+            }
 
-        int rounded = (int) (initialAmount.doubleValue()* stuff);
+            return rounded;
 
-        if((initialAmount.doubleValue()* stuff) - rounded > 0) {
-            rounded ++;
+        } else {
+
+            BigDecimal monthlyInterest = interest.divide(new BigDecimal(1200), 10, RoundingMode.UP);
+
+            BigDecimal topCalc = monthlyInterest.multiply(monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack));
+
+            BigDecimal bottomCalc = monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack).subtract(new BigDecimal(1));
+
+            //BigDecimal stuff = topCalc.divide(bottomCalc);
+            double stuff = topCalc.doubleValue() / bottomCalc.doubleValue();
+
+            int rounded = (int) (initialAmount.doubleValue() * stuff);
+
+            if ((initialAmount.doubleValue() * stuff) - rounded > 0) {
+                rounded++;
+            }
+            //return initialAmount.multiply( stuff ).intValue();
+            return rounded;
         }
-        //return initialAmount.multiply( stuff ).intValue();
-        return rounded;
     }
 
     @Override
