@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 public enum AgreementSendStatus {
 
-    UNKNOWN(99), NOT_SENT(0), PRINTED_BY_CUSTOMER(2), SENT_BY_MONEYPAL(1), SENT_BY_PRINTSHOP_MAILIT(20);
+    UNKNOWN(99), NOT_SENT(0), PRINTED_BY_CUSTOMER(2), SENT_BY_MONEYGO(1), SENT_BY_PRINTSHOP_MAILIT(20);
 
     private final int id;
 
