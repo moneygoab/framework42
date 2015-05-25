@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.SQLException;
 
+import static org.framework42.utils.NullChecker.notNull;
+
 public abstract class ProxyDAO<T> {
 
     protected final Logger logger;
@@ -16,7 +18,7 @@ public abstract class ProxyDAO<T> {
     protected ProxyDAO(String loggerName, DatabaseConnector databaseConnector) {
 
         logger = Logger.getLogger(loggerName);
-        this.databaseConnector = databaseConnector;
+        this.databaseConnector = notNull(databaseConnector);
     }
 
     @SuppressWarnings("unchecked")
