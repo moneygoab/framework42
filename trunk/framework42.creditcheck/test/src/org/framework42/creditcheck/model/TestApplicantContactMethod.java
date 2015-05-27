@@ -1,8 +1,8 @@
 package org.framework42.creditcheck.model;
 
 import org.framework42.creditcheck.model.impl.ApplicantContactMethodImpl;
-import org.framework42.model.ContactMethod;
-import org.framework42.model.InformationProvider;
+import org.framework42.address.model.ContactMethod;
+import org.framework42.address.model.InformationProvider;
 import org.junit.Test;
 
 public class TestApplicantContactMethod {

@@ -1,7 +1,6 @@
 package org.framework42.creditcheck.model;
 
 import org.framework42.model.Country;
-import org.framework42.model.TrustedAddress;
 
 import java.util.Date;
 

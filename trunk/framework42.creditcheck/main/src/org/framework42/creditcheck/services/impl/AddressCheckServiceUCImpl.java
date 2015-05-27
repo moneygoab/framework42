@@ -6,7 +6,7 @@ import org.framework42.creditcheck.model.impl.AddressCheckResponseImpl;
 import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.services.AddressCheckService;
-import org.framework42.model.TrustedAddress;
+import org.framework42.address.model.TrustedAddress;
 import org.framework42.services.ProxyService;
 import uc_webservice.*;
 

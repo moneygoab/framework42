@@ -1,5 +1,7 @@
 package org.framework42.creditcheck.services.impl;
 
+import org.framework42.address.model.InformationProvider;
+import org.framework42.address.model.PostalCodeFormat;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.*;
 import org.framework42.creditcheck.model.impl.*;
@@ -13,7 +15,7 @@ import org.framework42.datageneration.impl.FirstNamesContainerSweden;
 import org.framework42.datageneration.impl.StreetsContainerSweden;
 import org.framework42.datageneration.impl.SurnamesContainerSweden;
 import org.framework42.model.*;
-import org.framework42.model.impl.*;
+import org.framework42.address.model.impl.*;
 import org.framework42.model.users.Gender;
 import org.framework42.services.Money;
 import org.framework42.services.impl.MoneyImpl;

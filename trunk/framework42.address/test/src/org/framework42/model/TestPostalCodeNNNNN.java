@@ -1,6 +1,8 @@
 package org.framework42.model;
 
-import org.framework42.model.impl.PostalCodeImpl;
+import org.framework42.address.model.PostalCode;
+import org.framework42.address.model.PostalCodeFormat;
+import org.framework42.address.model.impl.PostalCodeImpl;
 import org.junit.Test;
 
 public class TestPostalCodeNNNNN {
