@@ -1,7 +1,7 @@
 package org.framework42.creditcheck.model;
 
-import org.framework42.model.ContactMethod;
-import org.framework42.model.TrustedAddress;
+import org.framework42.address.model.ContactMethod;
+import org.framework42.address.model.TrustedAddress;
 
 import java.math.BigDecimal;
 import java.util.Date;

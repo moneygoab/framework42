@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model.impl;
 
 import org.framework42.creditcheck.model.AddressCheckResponse;
 import org.framework42.creditcheck.model.AddressStatus;
-import org.framework42.model.TrustedAddress;
+import org.framework42.address.model.TrustedAddress;
 
 public class AddressCheckResponseImpl implements AddressCheckResponse {
 

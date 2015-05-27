@@ -3,7 +3,6 @@ package org.framework42.creditcheck.model.impl;
 import org.framework42.creditcheck.model.DebtCollectionInfo;
 import org.framework42.creditcheck.model.InternalCreditCheck;
 import org.framework42.model.Country;
-import org.framework42.model.TrustedAddress;
 
 import java.util.Date;
 

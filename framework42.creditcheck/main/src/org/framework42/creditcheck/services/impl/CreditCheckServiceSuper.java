@@ -10,19 +10,14 @@ import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
 import org.framework42.creditcheck.model.impl.SimpleCreditBureauApplicationResponse;
 import org.framework42.creditcheck.services.CreditCheckService;
 import org.framework42.model.Country;
-import org.framework42.model.InformationProvider;
-import org.framework42.model.PostalCodeFormat;
-import org.framework42.model.impl.SimpleSecureAddressImpl;
-import org.framework42.model.impl.PostalCodeImpl;
+import org.framework42.address.model.InformationProvider;
+import org.framework42.address.model.PostalCodeFormat;
+import org.framework42.address.model.impl.SimpleSecureAddressImpl;
+import org.framework42.address.model.impl.PostalCodeImpl;
 import org.framework42.services.impl.MoneyImpl;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Currency;
 import java.util.Date;
 

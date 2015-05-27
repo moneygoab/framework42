@@ -1,8 +1,8 @@
 package org.framework42.creditcheck.model.impl;
 
 import org.framework42.creditcheck.model.ApplicantContactMethod;
-import org.framework42.model.ContactMethod;
-import org.framework42.model.InformationProvider;
+import org.framework42.address.model.ContactMethod;
+import org.framework42.address.model.InformationProvider;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;

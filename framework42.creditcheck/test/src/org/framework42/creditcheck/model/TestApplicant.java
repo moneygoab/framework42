@@ -3,10 +3,10 @@ package org.framework42.creditcheck.model;
 import org.framework42.creditcheck.model.impl.ApplicantImpl;
 import org.framework42.creditcheck.model.impl.ApplicantNamesImpl;
 import org.framework42.model.Country;
-import org.framework42.model.InformationProvider;
-import org.framework42.model.PostalCodeFormat;
-import org.framework42.model.impl.PostalCodeImpl;
-import org.framework42.model.impl.SimpleSecureAddressImpl;
+import org.framework42.address.model.InformationProvider;
+import org.framework42.address.model.PostalCodeFormat;
+import org.framework42.address.model.impl.PostalCodeImpl;
+import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 import org.junit.Test;
 
 import java.math.BigDecimal;

@@ -1,10 +1,11 @@
 package org.framework42.creditcheck.model.impl;
 
+import org.framework42.address.model.ContactMethod;
+import org.framework42.address.model.TrustedAddress;
 import org.framework42.creditcheck.model.Applicant;
-import org.framework42.model.*;
 import org.framework42.creditcheck.model.ApplicantContactMethod;
 import org.framework42.creditcheck.model.ApplicantNames;
-import org.framework42.model.impl.SimpleSecureAddressImpl;
+import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 
 import java.math.BigDecimal;
 import java.util.Date;

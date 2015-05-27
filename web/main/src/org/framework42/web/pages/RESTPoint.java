@@ -15,7 +15,7 @@ import java.util.*;
 
 import static org.framework42.web.pagemodel.RESTErrorCode.*;
 
-public abstract class RESTPoint extends HttpServlet {
+public abstract class araRESTPoint extends HttpServlet {
 
     protected final static Logger logger = Logger.getLogger("org.framework42.web");
 
