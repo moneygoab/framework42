@@ -3,6 +3,7 @@ package org.framework42.web.pages;
 import org.apache.log4j.Logger;
 import org.framework42.model.APIRequestType;
 import org.framework42.model.APIResponseType;
+import org.framework42.web.authorization.RESTConsumer;
 import org.framework42.web.pagemodel.RESTErrorCode;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ import java.util.*;
 
 import static org.framework42.web.pagemodel.RESTErrorCode.*;
 
-public abstract class araRESTPoint extends HttpServlet {
+public abstract class RESTPointOld extends HttpServlet {
 
     protected final static Logger logger = Logger.getLogger("org.framework42.web");
 
@@ -213,7 +214,10 @@ public abstract class araRESTPoint extends HttpServlet {
         return consumerId;
     }
 
+    @Deprecated
     protected abstract int getConsumerId(boolean test, HttpServletRequest req, String consumerKey, APIRequestType requestType);
+
+    protected abstract RESTConsumer getConsumer(boolean test, HttpServletRequest req, String consumerKey, APIRequestType requestType);
 
     protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) throws IOException {
 
@@ -361,6 +365,7 @@ public abstract class araRESTPoint extends HttpServlet {
         }
 
         logger.debug("***********************************************");
+        logger.debug(" ");
     }
 
 }
