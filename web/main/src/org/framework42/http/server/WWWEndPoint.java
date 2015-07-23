@@ -11,4 +11,8 @@ public abstract class WWWEndPoint extends ServerEndPoint {
     protected WWWEndPoint(List<String> path, boolean catchAllBelow, List<LogicWorker> preRenderLogicList) {
         super(path, catchAllBelow, preRenderLogicList);
     }
+
+    protected abstract void renderHead();
+
+    protected abstract void renderBody();
 }

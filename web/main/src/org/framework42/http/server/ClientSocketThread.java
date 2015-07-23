@@ -1,13 +1,11 @@
 package org.framework42.http.server;
 
+import org.framework42.http.RequestMethod;
 import org.framework42.http.StatusCode;
 import org.framework42.http.server.exceptions.HttpException;
 import org.framework42.http.server.exceptions.HttpRequestLineException;
 import org.framework42.http.server.exceptions.URLNotFoundException;
-import org.framework42.utils.DateUtil;
-import org.framework42.http.RequestMethod;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -15,9 +13,6 @@ import java.util.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.framework42.http.StatusCode.*;
-//import static org.framework42.http.RequestMethod.*;
 
 public class ClientSocketThread implements Runnable {
 
@@ -29,11 +24,7 @@ public class ClientSocketThread implements Runnable {
 
     private final HttpServerEnvironment serverEnv;
 
-    private boolean run = true;
-
-    private PrintWriter out;
-    //private BufferedReader in;
-    private InputStream in;
+    private final int bufferSize = 8192;
 
     public ClientSocketThread(Socket socket, HttpServerEnvironment environment) {
 
@@ -46,9 +37,7 @@ public class ClientSocketThread implements Runnable {
 
         try {
 
-            int bufferSize = 8192;
-
-            out = new PrintWriter(socket.getOutputStream(), true);
+            OutputStream out = socket.getOutputStream();
 
             try {
 
@@ -56,24 +45,7 @@ public class ClientSocketThread implements Runnable {
 
                 byte[] buffer = new byte[bufferSize];
 
-                int read = 0;
-                int bufferLength = 0;
-                int splitByte = 0;
-
-                while (read > -1 && splitByte <= 0) {
-
-                    try {
-                        read = inputStream.read(buffer, bufferLength, bufferSize - bufferLength);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-
-                    bufferLength += read;
-
-                    splitByte = findHeaderEnd(buffer, bufferLength);
-
-                    System.out.println(new String(buffer));
-                }
+                int bufferLength = readData(inputStream, buffer);
 
                 String headerString = new String(Arrays.copyOf(buffer, bufferLength));
 
@@ -84,31 +56,42 @@ public class ClientSocketThread implements Runnable {
                     requestLines.add(s);
                 }
 
-                RequestData requestData = new RequestData(parseRequestMap(requestLines));
+                System.out.println("Headerstring:"+headerString);
 
-                if(requestData.getHeaderMap().get("accept").startsWith("image")) {
+                RequestMethod requestMethod = RequestMethod.findByName(headerString.split("\r\n")[0].split(" ")[0].toUpperCase());
+                System.out.println("Request method: "+requestMethod);
+                String[] sa = headerString.split("\r\n")[0].split(" ")[1].split("\\?");
 
-                    OutputStream outImg = socket.getOutputStream();
+                String calUrl = sa[0];
+                String queryParameters = "";
+                if(sa.length>1) { queryParameters = sa[1];}
+
+                System.out.println("call url: "+calUrl);
+
+                RequestData requestData = new RequestData(parseHeaderMap(requestLines), parseRequestMap(queryParameters, requestLines));
+
+                if(requestData.getHeaderMap().get("accept").startsWith("image") || "/favicon.ico".equalsIgnoreCase(calUrl)) {
+
+                    out = socket.getOutputStream();
 
                     byte[] imgbuf = new byte[10240];
                     int len;
-                    InputStream imageStream = new FileInputStream("/home/fredrik/Downloads"+headerString.split("\r\n")[0].split(" ")[1]);
+                    InputStream imageStream = new FileInputStream("/home/fredrik/Downloads"+calUrl);
                     while ((len = imageStream.read(imgbuf)) != -1) {
-                        outImg.write(imgbuf, 0, len);
+                        out.write(imgbuf, 0, len);
                     }
 
-                    outImg.flush();
-                    outImg.close();
+                    out.flush();
+                    out.close();
 
                 } else {
 
-                    ServerEndPoint endPoint = serverEnv.findByUrl(headerString.split("\r\n")[0].split(" ")[1]);
+                    ServerEndPoint endPoint = serverEnv.findByUrl(calUrl);
 
-                    endPoint.renderEndPointResponse(requestData, new HashMap<String, Object>(), out);
-
+                    out.write(endPoint.renderEndPointResponse(requestData, requestData).getBytes("UTF-8"));
                 }
 
-                System.out.println("Read completed");
+                System.out.println("Read completed\n-----------------------------------------------------------\n\n");
 
                 /*out.print("HTTP/1.1 200 OK\r\n");
                 out.print("Connection: close\r\n");
@@ -124,9 +107,13 @@ public class ClientSocketThread implements Runnable {
 
             } catch (HttpRequestLineException e) {
 
-                out.print("HTTP/1.1 " + StatusCode.BAD_REQUEST_400.getId() + " " + StatusCode.BAD_REQUEST_400.getName());
-                out.print("Connection: close\r\n");
-                out.print("\r\n");
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("HTTP/1.1 " + StatusCode.BAD_REQUEST_400.getId() + " " + StatusCode.BAD_REQUEST_400.getName());
+                sb.append("Connection: close\r\n");
+                sb.append("\r\n");
+
+                out.write(sb.toString().getBytes("UTF-8"));
 
                 out.flush();
                 out.close();
@@ -137,9 +124,11 @@ public class ClientSocketThread implements Runnable {
 
             }  catch (URLNotFoundException e) {
 
-                out.print("HTTP/1.1 " + StatusCode.NOT_FOUND_404.getId() + " " + StatusCode.NOT_FOUND_404.getName());
-                out.print("Connection: close\r\n");
-                out.print("\r\n");
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("HTTP/1.1 " + StatusCode.NOT_FOUND_404.getId() + " " + StatusCode.NOT_FOUND_404.getName());
+                sb.append("Connection: close\r\n");
+                sb.append("\r\n");
 
                 out.flush();
                 out.close();
@@ -153,8 +142,45 @@ public class ClientSocketThread implements Runnable {
 
             logger.log(Level.SEVERE, e.getMessage());
 
+        } catch (Exception e) {
+
+            logger.log(Level.SEVERE, e.getMessage());
         }
 
+    }
+
+    private int readData(InputStream inputStream, byte[] buffer) throws HttpRequestLineException {
+
+        int bufferLength = 0;
+
+        int read = 0;
+        int splitByte = 0;
+
+        while (read > -1 && splitByte <= 0) {
+
+            try {
+                read = inputStream.read(buffer, bufferLength, bufferSize - bufferLength);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            bufferLength += read;
+
+            splitByte = findHeaderEnd(buffer, bufferLength);
+
+            System.out.println(new String(buffer));
+        }
+
+        if(bufferLength==0) {
+
+            String errorMess = "Empty request payload from "+socket.getRemoteSocketAddress().toString()+", can't complete request!";
+
+            logger.log(Level.FINE, errorMess);
+
+            throw new HttpRequestLineException(errorMess);
+        }
+
+        return bufferLength;
     }
 
     private void verifyHeader(String headerString) throws HttpRequestLineException {
@@ -181,8 +207,56 @@ public class ClientSocketThread implements Runnable {
         return 0;
     }
 
+    private Map<String,String> parseHeaderMap(List<String> dataList) {
+
+        Map<String,String> headerMap = new HashMap<>();
+
+        for(int i=1;i<dataList.size();i++) {
+
+            String[] split = dataList.get(i).split(":");
+
+            if(split.length>1) {
+
+                String data = "";
+
+                for(int si=1;si<split.length;si++) {
+
+                    if(si>1) {
+
+                        data += ":";
+                    }
+
+                    data += split[si];
+                }
+
+                headerMap.put(split[0].toLowerCase(), data.trim());
+            }
+        }
+
+        return headerMap;
+    }
+
+    private Map<String,String> parseRequestMap(String callURL, List<String> dataList) {
+
+        Map<String,String> requestMap = new HashMap<>();
+
+        if(callURL!=null && callURL.length()>0) {
+
+            String[] sa = callURL.split("&");
+
+            for(String s: sa) {
+
+                String[] sp = s.split("=");
+
+                requestMap.put(sp[0], sp[1]);
+            }
+        }
+
+        return requestMap;
+    }
+
     //@Override
-    public void run2() {
+    /*public void run2() {
 
         try {
 
@@ -244,7 +318,7 @@ public class ClientSocketThread implements Runnable {
                     }
                 }
                 */
-                }
+            /*    }
 
             } catch (HttpException e) {
 
@@ -264,36 +338,7 @@ public class ClientSocketThread implements Runnable {
             logger.log(Level.SEVERE, e.getMessage());
 
         }
-    }
-
-    private Map<String,String> parseRequestMap(List<String> dataList) {
-
-        Map<String,String> requestMap = new HashMap<>();
-
-        for(int i=1;i<dataList.size();i++) {
-
-            String[] split = dataList.get(i).split(":");
-
-            if(split.length>1) {
-
-                String data = "";
-
-                for(int si=1;si<split.length;si++) {
-
-                    if(si>1) {
-
-                        data += ":";
-                    }
-
-                    data += split[si];
-                }
-
-                requestMap.put(split[0].toLowerCase(), data.trim());
-            }
-        }
-
-        return requestMap;
-    }
+    }*/
 
     private void validateHttpData(String inputData) throws HttpException {
 
@@ -306,7 +351,7 @@ public class ClientSocketThread implements Runnable {
 
     }
 
-    private void processCall(List<String> dataList, String payload, PrintWriter out) {
+    /*private void processCall(List<String> dataList, String payload, PrintWriter out) {
 
         try {
 
@@ -320,7 +365,7 @@ public class ClientSocketThread implements Runnable {
 
                 ServerEndPoint endPoint = serverEnv.findByUrl(uri);
 
-                Map<String,String> requestMap = parseRequestMap(dataList);
+                Map<String,String> requestMap = parseHeaderMap(dataList);
 
                 switch (requestMethod) {
 
@@ -376,9 +421,9 @@ public class ClientSocketThread implements Runnable {
             out.print("HTTP/1.1 "+INTERNAL_SERVER_ERROR_500.getId()+" "+INTERNAL_SERVER_ERROR_500.getName()+"\r\n");
             out.print("Connection: close\r\n");
         }
-    }
+    }*/
 
-    private void processGet() {
+    /*private void processGet() {
 
         out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
         out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
@@ -440,6 +485,6 @@ public class ClientSocketThread implements Runnable {
         out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
         out.print("Server: "+serverEnv.getServerName()+"\r\n");
         out.print("Connection: close\r\n");
-    }
+    }*/
 
 }

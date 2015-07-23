@@ -415,4 +415,96 @@ public enum RESTJSONCaller {
         }
     }
 
+    public RESTJSONResponse makePutCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
+
+        URL url;
+        HttpURLConnection connection = null;
+        try {
+            //Create connection
+            url = new URL(targetURL);
+            connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            connection.setRequestProperty("Content-Length", ""+Integer.toString(postData.getBytes().length));
+
+            connection.setUseCaches (false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            byte[] postBytes = postData.getBytes("UTF-8");
+            wr.write(postBytes, 0, postBytes.length);
+            //wr.writeBytes(postData);
+            //wr.writeUTF(postData);
+            wr.flush();
+            wr.close();
+
+            //Get Response
+            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED) {
+
+                InputStream is = connection.getInputStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                logger.debug(response.toString());
+
+                if(response.length()>0) {
+
+                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+
+                } else {
+
+                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                }
+
+            } else {
+
+                InputStream is = connection.getErrorStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                logger.debug(response.toString());
+
+                try {
+                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                } catch(JSONException e) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("status_code", connection.getResponseCode());
+                    obj.put("error_message", response.toString());
+
+                    return new RESTJSONResponse(connection.getResponseCode(), obj);
+                }
+            }
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+            JSONObject obj = new JSONObject();
+            obj.put("status_code", connection.getResponseCode());
+            obj.put("error_message", e.getMessage());
+            return new RESTJSONResponse(connection.getResponseCode(), obj);
+
+        } finally {
+
+            if(connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
 }
