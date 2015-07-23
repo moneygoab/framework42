@@ -1,5 +1,6 @@
 package org.framework42.http.server;
 
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,6 @@ public abstract class ServerEndPoint<R extends RequestData> {
         return preRenderLogicList;
     }
 
-    public abstract void renderEndPointResponse(R req, Map<String,Object> dataMap, PrintWriter out);
+    public abstract String renderEndPointResponse(R req, RequestData data);
 
 }

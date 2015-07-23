@@ -11,11 +11,25 @@ public class TestEndPoint extends WWWEndPoint {
     }
 
     @Override
-    public void renderEndPointResponse(RequestData req, Map dataMap, PrintWriter out) {
+    public String renderEndPointResponse(RequestData req, RequestData data) {
 
-        out.print("HTTP/1.1 200 OK\r\n");
-        out.print("Connection: close\r\n");
-        out.print("\r\n");
-        out.print("<html><head></head><body><h1>Test ext</h1>" + System.currentTimeMillis() + "<br><img src=\"img.png\"></body></html>");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("HTTP/1.1 200 OK\r\n");
+        sb.append("Connection: close\r\n");
+        sb.append("\r\n");
+        sb.append("<html><head></head><body><h1>Test ext</h1>" + System.currentTimeMillis() + "<br><br>ID: "+data.getIntParam("id")+"<br><br><img src=\"img.png\"></body></html>");
+
+        return sb.toString();
+    }
+
+    @Override
+    protected void renderHead() {
+
+    }
+
+    @Override
+    protected void renderBody() {
+
     }
 }
