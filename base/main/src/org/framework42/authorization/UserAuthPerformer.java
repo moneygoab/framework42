@@ -39,6 +39,7 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
         for (Role role : denyAccessRoles) {
 
             if (user.getUserRoles().containsKey(role)) {
+
                 logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " denied access on role: " + role+" to: "+resource);
                 throw new NotAuthorizedException();
             }
@@ -67,6 +68,7 @@ public class UserAuthPerformer extends AbstractAuthorizationPerformer {
         }
 
         if (!accessGranted) {
+
             logger.info("User getId: " + user.getId() + " displayName: " + user.getDisplayName() + " not granted access to: "+resource+", has not any of roles: " + accessRoles);
             throw new NotAuthorizedException();
         }

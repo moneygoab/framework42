@@ -2,15 +2,15 @@ package org.framework42.authorization;
 
 public class BaseAuthorizationAction implements AuthorizationAction {
 
-    private final int databaseId;
+    private final int actionId;
 
-    public BaseAuthorizationAction(int databaseId) {
-        this.databaseId = databaseId;
+    public BaseAuthorizationAction(int actionId) {
+        this.actionId = actionId;
     }
 
     @Override
     public int getId() {
-        return databaseId;
+        return actionId;
     }
 
 }
