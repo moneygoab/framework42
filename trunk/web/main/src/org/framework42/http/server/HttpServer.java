@@ -18,7 +18,7 @@ public class HttpServer {
 
     public static void main(String[] args) {
 
-        List<ServerEndPoint> endPointList = new ArrayList<>();
+        List<ServerEndPoint> endPointList = new ArrayList<ServerEndPoint>();
 
         endPointList.add(new TestEndPoint(Arrays.asList("/"), new ArrayList<LogicWorker>()));
         endPointList.add(new TestEndPoint(Arrays.asList("/test"), new ArrayList<LogicWorker>()));
