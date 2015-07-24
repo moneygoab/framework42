@@ -43,30 +43,15 @@ public class ClientSocketThread implements Runnable {
 
                 InputStream inputStream = socket.getInputStream();
 
-                byte[] buffer = new byte[bufferSize];
+                List<String> requestLines = parseRequestLines(readHeaderString(inputStream));
 
-                int bufferLength = readData(inputStream, buffer);
+                RequestMethod requestMethod = RequestMethod.findByName(requestLines.get(0).split(" ")[0].toUpperCase());
+                logger.info("RequestMethod: "+requestMethod.toString());
 
-                String headerString = new String(Arrays.copyOf(buffer, bufferLength));
-
-                verifyHeader(headerString);
-
-                List<String> requestLines = new ArrayList<String>();
-                for(String s: headerString.split("\r\n")) {
-                    requestLines.add(s);
-                }
-
-                System.out.println("Headerstring:"+headerString);
-
-                RequestMethod requestMethod = RequestMethod.findByName(headerString.split("\r\n")[0].split(" ")[0].toUpperCase());
-                System.out.println("Request method: "+requestMethod);
-                String[] sa = headerString.split("\r\n")[0].split(" ")[1].split("\\?");
-
-                String calUrl = sa[0];
+                String[] sa = requestLines.get(0).split(" ")[1].split("\\?");
+                String calUrl = sa[0];logger.info("call url: "+calUrl);
                 String queryParameters = "";
                 if(sa.length>1) { queryParameters = sa[1];}
-
-                System.out.println("call url: "+calUrl);
 
                 RequestData requestData = new RequestData(parseHeaderMap(requestLines), parseRequestMap(queryParameters, requestLines));
 
@@ -91,13 +76,6 @@ public class ClientSocketThread implements Runnable {
                     out.write(endPoint.renderEndPointResponse(requestData, requestData).getBytes("UTF-8"));
                 }
 
-                System.out.println("Read completed\n-----------------------------------------------------------\n\n");
-
-                /*out.print("HTTP/1.1 200 OK\r\n");
-                out.print("Connection: close\r\n");
-                out.print("\r\n");
-                out.print("<html><head></head><body><h1>Test</h1>" + System.currentTimeMillis() + "<br><img src=\"img.png\"></body></html>");
-*/
                 out.flush();
                 out.close();
 
@@ -109,7 +87,7 @@ public class ClientSocketThread implements Runnable {
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.append("HTTP/1.1 " + StatusCode.BAD_REQUEST_400.getId() + " " + StatusCode.BAD_REQUEST_400.getName());
+                sb.append("HTTP/1.1 " + StatusCode.BAD_REQUEST_400.getId() + " " + StatusCode.BAD_REQUEST_400.getName()+"\r\n");
                 sb.append("Connection: close\r\n");
                 sb.append("\r\n");
 
@@ -126,9 +104,11 @@ public class ClientSocketThread implements Runnable {
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.append("HTTP/1.1 " + StatusCode.NOT_FOUND_404.getId() + " " + StatusCode.NOT_FOUND_404.getName());
+                sb.append("HTTP/1.1 " + StatusCode.NOT_FOUND_404.getId() + " " + StatusCode.NOT_FOUND_404.getName()+"\r\n");
                 sb.append("Connection: close\r\n");
                 sb.append("\r\n");
+
+                out.write(sb.toString().getBytes("UTF-8"));
 
                 out.flush();
                 out.close();
@@ -149,6 +129,29 @@ public class ClientSocketThread implements Runnable {
 
     }
 
+    private String readHeaderString(InputStream inputStream) throws HttpRequestLineException {
+
+        byte[] buffer = new byte[bufferSize];
+
+        int bufferLength = readData(inputStream, buffer);
+
+        String headerString = new String(Arrays.copyOf(buffer, bufferLength));
+
+        verifyHeader(headerString);
+
+        return headerString;
+    }
+
+    private List<String> parseRequestLines(String headerString) {
+
+        List<String> requestLines = new ArrayList<>();
+        for(String s: headerString.split("\r\n")) {
+            requestLines.add(s);
+        }
+
+        return requestLines;
+    }
+
     private int readData(InputStream inputStream, byte[] buffer) throws HttpRequestLineException {
 
         int bufferLength = 0;
@@ -161,21 +164,21 @@ public class ClientSocketThread implements Runnable {
             try {
                 read = inputStream.read(buffer, bufferLength, bufferSize - bufferLength);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.WARNING, e.getMessage());
             }
 
             bufferLength += read;
 
             splitByte = findHeaderEnd(buffer, bufferLength);
 
-            System.out.println(new String(buffer));
+            logger.log(Level.INFO, new String(buffer));
         }
 
         if(bufferLength==0) {
 
             String errorMess = "Empty request payload from "+socket.getRemoteSocketAddress().toString()+", can't complete request!";
 
-            logger.log(Level.FINE, errorMess);
+            logger.log(Level.INFO, errorMess);
 
             throw new HttpRequestLineException(errorMess);
         }
@@ -209,7 +212,7 @@ public class ClientSocketThread implements Runnable {
 
     private Map<String,String> parseHeaderMap(List<String> dataList) {
 
-        Map<String,String> headerMap = new HashMap<String,String>();
+        Map<String,String> headerMap = new HashMap<>();
 
         for(int i=1;i<dataList.size();i++) {
 
@@ -238,7 +241,7 @@ public class ClientSocketThread implements Runnable {
 
     private Map<String,String> parseRequestMap(String callURL, List<String> dataList) {
 
-        Map<String,String> requestMap = new HashMap<String,String>();
+        Map<String,String> requestMap = new HashMap<>();
 
         if(callURL!=null && callURL.length()>0) {
 
@@ -253,102 +256,6 @@ public class ClientSocketThread implements Runnable {
         }
 
         return requestMap;
-    }
-
-    //@Override
-    /*public void run2() {
-
-        try {
-
-            try {
-
-                out = new PrintWriter(socket.getOutputStream(), true);
-                //in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                byte[] byteArray = new byte[new BufferedInputStream(socket.getInputStream()).available()];
-
-                int bytesRead = new BufferedInputStream(socket.getInputStream()).read(byteArray);
-
-                System.out.println(byteArray.length + ":" + bytesRead);
-
-                out.flush();
-
-                List<String> dataList = new ArrayList<>();
-
-                String inputData = new String(byteArray);
-
-                System.out.println(inputData);
-
-                validateHttpData(inputData);
-
-                boolean readPayload = false;
-
-                out.print("HTTP/1.1 200 OK\r\n");
-                out.print("\r\n");
-                out.print("<html><head></head><body><h1>Test</h1>" + System.currentTimeMillis() + "</body></html>");
-                out.print("Connection: close\r\n");
-
-                while (!run) {
-
-                /*String line = in.readLine();
-
-                logger.log(Level.INFO, line);
-
-                if(line==null) {
-
-                    processCall(dataList, payload, out);
-
-                    dataList = new ArrayList<>();
-
-                    run = false;
-
-                } else if(line.length()==0 && readPayload == false) {
-
-                    readPayload = true;
-
-                } else {
-
-                    if(readPayload) {
-
-                        payload += line+"\n";
-
-                    } else {
-
-                        dataList.add(line);
-                    }
-                }
-                */
-            /*    }
-
-            } catch (HttpException e) {
-
-                logger.log(Level.SEVERE, e.getMessage());
-
-                out.print("HTTP/1.1 " + BAD_REQUEST_400.getId() + " " + BAD_REQUEST_400.getName() + "\r\n");
-                out.print("Connection: close\r\n");
-            }
-
-            out.print("\r\n");
-            out.flush();
-
-            socket.close();
-
-        } catch(IOException e) {
-
-            logger.log(Level.SEVERE, e.getMessage());
-
-        }
-    }*/
-
-    private void validateHttpData(String inputData) throws HttpException {
-
-        String requestLine = inputData.split("\n")[0];
-
-        if (requestLine.length() != 3) {
-
-            throw new HttpException("No request line");
-        }
-
     }
 
     /*private void processCall(List<String> dataList, String payload, PrintWriter out) {
@@ -421,70 +328,6 @@ public class ClientSocketThread implements Runnable {
             out.print("HTTP/1.1 "+INTERNAL_SERVER_ERROR_500.getId()+" "+INTERNAL_SERVER_ERROR_500.getName()+"\r\n");
             out.print("Connection: close\r\n");
         }
-    }*/
-
-    /*private void processGet() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processHead() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processPost() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processPut() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processDelete() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processConnect() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processOptions() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
-    }
-
-    private void processTrace() {
-
-        out.print("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        out.print("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        out.print("Server: "+serverEnv.getServerName()+"\r\n");
-        out.print("Connection: close\r\n");
     }*/
 
 }
