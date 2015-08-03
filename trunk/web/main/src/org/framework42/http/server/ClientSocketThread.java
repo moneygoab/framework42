@@ -144,7 +144,7 @@ public class ClientSocketThread implements Runnable {
 
     private List<String> parseRequestLines(String headerString) {
 
-        List<String> requestLines = new ArrayList<>();
+        List<String> requestLines = new ArrayList<String>();
         for(String s: headerString.split("\r\n")) {
             requestLines.add(s);
         }
@@ -212,7 +212,7 @@ public class ClientSocketThread implements Runnable {
 
     private Map<String,String> parseHeaderMap(List<String> dataList) {
 
-        Map<String,String> headerMap = new HashMap<>();
+        Map<String,String> headerMap = new HashMap<String,String>();
 
         for(int i=1;i<dataList.size();i++) {
 
@@ -241,7 +241,7 @@ public class ClientSocketThread implements Runnable {
 
     private Map<String,String> parseRequestMap(String callURL, List<String> dataList) {
 
-        Map<String,String> requestMap = new HashMap<>();
+        Map<String,String> requestMap = new HashMap<String,String>();
 
         if(callURL!=null && callURL.length()>0) {
 
