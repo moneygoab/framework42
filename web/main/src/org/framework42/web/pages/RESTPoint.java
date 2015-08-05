@@ -299,7 +299,7 @@ public abstract class RESTPoint extends HttpServlet {
         return responseType;
     }
 
-    protected  boolean validateContentType(HttpServletResponse resp, APIResponseType responseType, List<String> validList, String contentType) {
+    protected  boolean validateContentType(HttpServletResponse resp, APIResponseType responseType, List<String> validList, String contentType) throws IOException {
 
         if(!forceContentTypeInput) {
 
@@ -320,7 +320,7 @@ public abstract class RESTPoint extends HttpServlet {
         }
         validTypes = validTypes.substring(0, validTypes.length()-2);
 
-        addError(resp, "41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType);
+        resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, "41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType));
 
         return false;
     }
