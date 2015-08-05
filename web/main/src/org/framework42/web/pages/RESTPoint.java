@@ -6,7 +6,7 @@ import org.framework42.model.APIResponseType;
 import org.framework42.web.authorization.RESTConsumer;
 import org.framework42.web.exceptions.StopServletExecutionException;
 import org.framework42.web.pagemodel.RESTErrorCode;
-import org.json.JSONObject;
+import org.framework42.web.utils.rest.RESTErrorMaker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -200,12 +200,12 @@ public abstract class RESTPoint extends HttpServlet {
 
             if (req.getParameter(consumerKeyParameterName) != null && req.getHeader(consumerKeyParameterName) == null) {
 
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError(INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
                 throw new StopServletExecutionException();
 
             } else if (req.getHeader(consumerKeyParameterName) == null) {
 
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(MISSING_CONSUMER_KEY, responseType));
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError(MISSING_CONSUMER_KEY, responseType));
                 throw new StopServletExecutionException();
 
             } else {
@@ -221,7 +221,7 @@ public abstract class RESTPoint extends HttpServlet {
 
                 if (!consumer.isAuthenticated()) {
 
-                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, addError(INVALID_CONSUMER_KEY, responseType));
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, RESTErrorMaker.INSTANCE.addError(INVALID_CONSUMER_KEY, responseType));
                     throw new StopServletExecutionException();
                 }
             }
@@ -249,7 +249,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             if(responseType==APIResponseType.NONE && forceDataType) {
 
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError(RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType));
 
                 throw new StopServletExecutionException();
 
@@ -274,7 +274,7 @@ public abstract class RESTPoint extends HttpServlet {
                 }
                 validString = validString.substring(0, validString.length()-1);
 
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError("41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError("41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType));
 
                 throw new StopServletExecutionException();
             }
@@ -288,7 +288,7 @@ public abstract class RESTPoint extends HttpServlet {
             } else {
 
                 logger.debug("Requested response type " + responseParameter + " don't exist!");
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError(RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
             }
 
             throw new StopServletExecutionException();
@@ -318,51 +318,9 @@ public abstract class RESTPoint extends HttpServlet {
         }
         validTypes = validTypes.substring(0, validTypes.length()-2);
 
-        resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError("41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType));
+        resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError("41501", "Content-Type with value " + contentType + " isn't supported. Please use one of the valid types (" + validTypes + ").", "General technical problem.", responseType));
 
         return false;
-    }
-
-    protected String addError(RESTErrorCode errorCode, APIResponseType responseType) {
-
-        return addError(errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
-    }
-
-    protected String addError(String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
-
-        if(responseType==APIResponseType.JSON) {
-
-            Map<String,String> errorMap = new HashMap<String, String>();
-
-            errorMap.put("error_code", errorCode);
-            errorMap.put("error_message", errorMessage);
-            errorMap.put("end_user_error_message", endUserErrorMessage);
-
-            JSONObject errorObj = new JSONObject(errorMap);
-
-            //resp.sendError(returnCode, errorObj.toString(2));
-            logger.debug(errorObj.toString(2));
-
-            return errorObj.toString(2);
-
-        } else if(responseType==APIResponseType.XML) {
-
-            String error = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
-            error += "<error xmlns=\"http://www.moneypal.se\">\n";
-            error += "\t<error_code>"+errorCode+"</error_code>\n";
-            error += "\t<error_message>"+errorMessage+"</error_message>\n";
-            error += "\t<end_user_error_message>"+endUserErrorMessage+"</end_user_error_message>\n";
-            error += "</error>\n";
-
-            //resp.getWriter().print(error);
-            logger.debug(error);
-
-            return error;
-        }
-
-        logger.debug(errorCode+" "+errorMessage);
-
-        return errorCode + " - " +errorMessage;
     }
 
     private void logInData(HttpServletRequest req) {
