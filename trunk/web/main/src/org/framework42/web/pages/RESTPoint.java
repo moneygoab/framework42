@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static org.framework42.web.pagemodel.RESTErrorCode.INVALID_CONSUMER_KEY;
@@ -202,12 +200,12 @@ public abstract class RESTPoint extends HttpServlet {
 
             if (req.getParameter(consumerKeyParameterName) != null && req.getHeader(consumerKeyParameterName) == null) {
 
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(resp, INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
                 throw new StopServletExecutionException();
 
             } else if (req.getHeader(consumerKeyParameterName) == null) {
 
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(resp, MISSING_CONSUMER_KEY, responseType));
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, addError(MISSING_CONSUMER_KEY, responseType));
                 throw new StopServletExecutionException();
 
             } else {
@@ -223,7 +221,7 @@ public abstract class RESTPoint extends HttpServlet {
 
                 if (!consumer.isAuthenticated()) {
 
-                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, addError(resp, INVALID_CONSUMER_KEY, responseType));
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, addError(INVALID_CONSUMER_KEY, responseType));
                     throw new StopServletExecutionException();
                 }
             }
@@ -251,7 +249,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             if(responseType==APIResponseType.NONE && forceDataType) {
 
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(RESTErrorCode.INVALID_CONTENT_TYPE_FORCED, defaultResponseType));
 
                 throw new StopServletExecutionException();
 
@@ -276,7 +274,7 @@ public abstract class RESTPoint extends HttpServlet {
                 }
                 validString = validString.substring(0, validString.length()-1);
 
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, "41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError("41501", "Content-Type with value "+responseParameter+" isn't supported. Please use one of the valid types ["+validString+"].", "General technical problem.", defaultResponseType));
 
                 throw new StopServletExecutionException();
             }
@@ -290,7 +288,7 @@ public abstract class RESTPoint extends HttpServlet {
             } else {
 
                 logger.debug("Requested response type " + responseParameter + " don't exist!");
-                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
+                resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
             }
 
             throw new StopServletExecutionException();
@@ -320,17 +318,17 @@ public abstract class RESTPoint extends HttpServlet {
         }
         validTypes = validTypes.substring(0, validTypes.length()-2);
 
-        resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError(resp, "41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType));
+        resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, addError("41501", "Content-Type with value "+contentType+" isn't supported. Please use one of the valid types ("+validTypes+").", "General technical problem.", responseType));
 
         return false;
     }
 
-    protected String addError(HttpServletResponse resp, RESTErrorCode errorCode, APIResponseType responseType) {
+    protected String addError(RESTErrorCode errorCode, APIResponseType responseType) {
 
-        return addError(resp, errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
+        return addError(errorCode.getId(), errorCode.getErrorMessage(), errorCode.getEndUserErrorMessage(), responseType);
     }
 
-    protected String addError(HttpServletResponse resp, String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
+    protected String addError(String errorCode, String errorMessage, String endUserErrorMessage, APIResponseType responseType) {
 
         if(responseType==APIResponseType.JSON) {
 
