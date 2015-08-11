@@ -234,7 +234,7 @@ public abstract class RESTPoint extends HttpServlet {
         return consumer;
     }
 
-    protected abstract RESTConsumer getConsumer(boolean test, HttpServletRequest req, String consumerKey, APIRequestType requestType);
+    protected abstract RESTConsumer getConsumer(boolean test, HttpServletRequest req, String consumerKey, APIRequestType requestType) throws StopServletExecutionException;
 
     protected APIResponseType getResponseType(String responseParameter, HttpServletResponse resp) throws IOException, StopServletExecutionException {
 
