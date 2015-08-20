@@ -8,4 +8,6 @@ public interface MainApplicantExtraApplicationResponse {
 
     public String getHtmlResponse();
 
+    public CreditBureauApplicationResponse getCreditBureauApplicationResponse();
+
 }

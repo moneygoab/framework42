@@ -77,7 +77,7 @@ public class CreditCheckServiceUCMikro implements CreditCheckService {
                 application.getApplicationChannel(),
                 ApplicantParser.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
-                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application),
+                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application.getMainApplicant().getGovernmentId()),
                 application.getExtendedApplicationId()
         );
     }

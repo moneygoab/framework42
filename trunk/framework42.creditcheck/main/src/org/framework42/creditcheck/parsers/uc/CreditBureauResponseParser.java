@@ -1,7 +1,6 @@
 package org.framework42.creditcheck.parsers.uc;
 
 import org.apache.log4j.Logger;
-import org.framework42.creditcheck.model.CreditBureauApplication;
 import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
 import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.creditcheck.model.impl.SimpleCreditBureauApplicationResponse;
@@ -23,7 +22,7 @@ public enum CreditBureauResponseParser {
 
     private final Logger logger = Logger.getLogger("org.nummer42.creditcheck");
 
-    public CreditBureauApplicationResponse createCreditBureauResponse(UcReply reply, CreditBureauApplication application) {
+    public CreditBureauApplicationResponse createCreditBureauResponse(UcReply reply, String governmentId) {
 
         Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W131", 0);
 
@@ -135,10 +134,10 @@ public enum CreditBureauResponseParser {
                     }
                 }
             } else {
-                logger.debug("First credit check for customer "+application.getMainApplicant().getGovernmentId());
+                logger.debug("First credit check for customer "+governmentId);
             }
         } catch(IllegalArgumentException e) {
-            logger.debug("First credit check for customer "+application.getMainApplicant().getGovernmentId());
+            logger.debug("First credit check for customer "+governmentId);
         }
 
         /*
