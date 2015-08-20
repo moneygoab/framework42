@@ -1,7 +1,11 @@
 package org.framework42.creditcheck.model.impl;
 
 import org.framework42.creditcheck.model.Applicant;
+import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
+import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.creditcheck.model.MainApplicantExtraApplicationResponse;
+
+import java.math.BigDecimal;
 
 public class MainApplicantExtraApplicationResponseImpl implements MainApplicantExtraApplicationResponse {
 
@@ -11,11 +15,14 @@ public class MainApplicantExtraApplicationResponseImpl implements MainApplicantE
 
     private final String htmlResponse;
 
-    public MainApplicantExtraApplicationResponseImpl(int applicationId, Applicant applicant, String htmlResponse) {
+    private final CreditBureauApplicationResponse creditBureauApplicationResponse;
+
+    public MainApplicantExtraApplicationResponseImpl(int applicationId, Applicant applicant, String htmlResponse, CreditBureauApplicationResponse creditBureauApplicationResponse) {
 
         this.applicationId = applicationId;
         this.applicant = applicant;
         this.htmlResponse = htmlResponse;
+        this.creditBureauApplicationResponse = creditBureauApplicationResponse;
     }
 
     @Override
@@ -36,4 +43,7 @@ public class MainApplicantExtraApplicationResponseImpl implements MainApplicantE
         return htmlResponse;
     }
 
+    public CreditBureauApplicationResponse getCreditBureauApplicationResponse() {
+        return creditBureauApplicationResponse;
+    }
 }

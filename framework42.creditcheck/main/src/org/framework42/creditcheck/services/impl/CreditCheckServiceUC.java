@@ -85,7 +85,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 application.getApplicationChannel(),
                 ApplicantParser.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
-                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application),
+                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, application.getMainApplicant().getGovernmentId()),
                 application.getExtendedApplicationId()
         );
     }
@@ -100,15 +100,16 @@ public class CreditCheckServiceUC implements CreditCheckService {
             throw new CreditCheckException(reply.getStatus().getMessage().getId()+" - "+reply.getStatus().getMessage().getValue());
         }
 
-            Applicant extraApplicant = parseExtraApplicant(governmentId, reply);
+        Applicant extraApplicant = parseExtraApplicant(governmentId, reply);
 
-            MainApplicantExtraApplicationResponse response = new MainApplicantExtraApplicationResponseImpl(
-                    applicationId,
-                    extraApplicant,
-                    reply.getUcReport().get(0).getHtmlReply()
-            );
+        MainApplicantExtraApplicationResponse response = new MainApplicantExtraApplicationResponseImpl(
+                applicationId,
+                extraApplicant,
+                reply.getUcReport().get(0).getHtmlReply(),
+                CreditBureauResponseParser.INSTANCE.createCreditBureauResponse(reply, governmentId)
+        );
 
-            return response;
+        return response;
     }
 
     @Override

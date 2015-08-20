@@ -44,7 +44,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
     @Override
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) throws CreditCheckException {
 
-        CreditDecision decision = generateCreditDecision(application);
+        CreditDecision decision = generateCreditDecision(application.getMainApplicant().getGovernmentId());
 
         Money recommendedAmount;
         if(decision==CreditDecision.REJECTED || decision==CreditDecision.REVIEW_REQUIRED) {
@@ -82,9 +82,8 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         );
     }
 
-    private CreditDecision generateCreditDecision(CreditBureauApplication application) throws CreditCheckException {
+    private CreditDecision generateCreditDecision(String governmentId) throws CreditCheckException {
 
-        String governmentId = application.getMainApplicant().getGovernmentId();
         if(governmentId.endsWith("0")) {
 
             throw new CreditCheckException("Technical test error! Cast to test error handling.");
@@ -102,7 +101,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
             return CreditDecision.REJECTED;
         }
 
-        throw new IllegalArgumentException("Can't generate credit decision from government id "+application.getMainApplicant().getGovernmentId()+".");
+        throw new IllegalArgumentException("Can't generate credit decision from government id "+governmentId+".");
     }
 
     private Applicant createApplicant(Applicant applicant) {
@@ -151,29 +150,59 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
         String firstName = firstNamesContainer.getRandomName(gender);
         String surname = surnamesContainer.getRandomSurname();
 
-        return new MainApplicantExtraApplicationResponseImpl(
-                applicationId,
-                new ApplicantImpl(
-                        0,
-                        governmentId,
-                        BigDecimal.ZERO,
-                        new Date(),
-                        new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
-                        new SimpleSecureAddressImpl(
-                                0,
-                                firstName + " " + surname,
-                                "",
-                                streetsContainer.getStreetName(),
-                                new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, (new Random().nextInt(80000)+10000)+""),
-                                cityContainer.getCity(),
-                                Country.SWEDEN,
-                                InformationProvider.POPULATION_REGISTERS
-                        ),
-                        new ArrayList<ApplicantContactMethod>(),
-                        (int)(Math.random()*300000)+100000
-                ),
-                "Created by emulator credit check bureau, no html view available."
-        );
+        try {
+
+            CreditDecision decision = generateCreditDecision(governmentId);
+
+            Money recommendedAmount;
+            if(decision==CreditDecision.REJECTED || decision==CreditDecision.REVIEW_REQUIRED) {
+
+                recommendedAmount = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+
+            } else {
+
+                recommendedAmount = new MoneyImpl(new BigDecimal(appliedAmount), Currency.getInstance("SEK"));
+            }
+
+            return new MainApplicantExtraApplicationResponseImpl(
+                    applicationId,
+                    new ApplicantImpl(
+                            0,
+                            governmentId,
+                            BigDecimal.ZERO,
+                            new Date(),
+                            new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
+                            new SimpleSecureAddressImpl(
+                                    0,
+                                    firstName + " " + surname,
+                                    "",
+                                    streetsContainer.getStreetName(),
+                                    new PostalCodeImpl(PostalCodeFormat.NUMERIC_NNNNN, (new Random().nextInt(80000) + 10000) + ""),
+                                    cityContainer.getCity(),
+                                    Country.SWEDEN,
+                                    InformationProvider.POPULATION_REGISTERS
+                            ),
+                            new ArrayList<ApplicantContactMethod>(),
+                            (int) (Math.random() * 300000) + 100000
+                    ),
+                    "Created by emulator credit check bureau, no html view available.",
+                    new SimpleCreditBureauApplicationResponse(
+                            decision,
+                            recommendedAmount,
+                            "Created by emulator credit check bureau, no html view available.",
+                            "",
+                            0,
+                            new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
+                            0,
+                            new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
+                            ""
+                            )
+            );
+
+        } catch (CreditCheckException e) {
+
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
