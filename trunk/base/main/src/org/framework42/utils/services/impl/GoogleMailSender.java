@@ -75,8 +75,8 @@ public enum GoogleMailSender implements MailSender {
                     InternetAddress.parse(toAddress));
             messageObject.setSubject(subject);
             messageObject.setText(fallbackMessage);
-
-            messageObject.setContent(htmlMessage, "text/html");
+            messageObject.setContent(htmlMessage, "text/html; charset=\"UTF-8\"");
+            //messageObject.setContent(htmlMessage, "text/html");
 
             Transport.send(messageObject);
 

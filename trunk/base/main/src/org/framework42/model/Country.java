@@ -16,8 +16,11 @@ public enum Country {
 
     AUSTRIA("de", "AT", "AUT", 40, "EUR"),
     POLAND("pl", "PL", "POL", 48, "PLN"),
+    SERBIA("sr", "RS", "SRB", 891, "RSD"),
 
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
+
+    GHANA("en", "GH", "GHA", 288, "GHS"),
 
     PHILIPPINES("fil", "PH", "PHL", 608, "PHP"),
     TURKEY("tr", "TR", "TUR", 792, "TRY"),
@@ -29,12 +32,16 @@ public enum Country {
 
     private final String languageCode;
 
+    //ISO 3166-1 alpha-2
     private final String alpha2Code;
 
+    //ISO 3166-1 alpha-3
     private final String alpha3Code;
 
+    //ISO 3166 numeric
     private final int numericCode;
 
+    //ISO 4217 currency code
     private final String currencyCode;
 
     private Country(String languageCode, String alpha2Code, String alpha3Code, int numericCode, String currencyCode) {
@@ -195,6 +202,21 @@ public enum Country {
                 ) {
 
             return TURKEY;
+
+        } else if("Ghana".equalsIgnoreCase(country) ||
+                "GH".equalsIgnoreCase(country) ||
+                "GHA".equalsIgnoreCase(country)
+                ) {
+
+            return GHANA;
+
+        } else if("Serbien".equalsIgnoreCase(country) ||
+                "Serbia".equalsIgnoreCase(country) ||
+                "RS".equalsIgnoreCase(country) ||
+                "SRB".equalsIgnoreCase(country)
+                ) {
+
+            return GHANA;
 
         } else if("Okänt Land".equalsIgnoreCase(country) ||
                 "UNKNOWN".equalsIgnoreCase(country)) {
