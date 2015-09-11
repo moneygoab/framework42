@@ -1,5 +1,6 @@
 package org.framework42.web.pages;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.framework42.model.APIRequestType;
 import org.framework42.model.APIResponseType;
@@ -335,33 +336,36 @@ public abstract class RESTPoint extends HttpServlet {
 
     private void logInData(HttpServletRequest req) {
 
-        logger.debug("***********************************************");
-        logger.debug("Call from: "+req.getRemoteAddr()+":"+req.getRemoteHost()+":"+req.getRemotePort());
-        logger.debug("Call to: "+req.getRequestURI());
-        logger.debug("Call method: "+req.getMethod());
+        if(logger.getLevel()== Level.DEBUG) {
 
-        logger.debug("Headers");
-        logger.debug("-------------------");
+            logger.debug("***********************************************");
+            logger.debug("Call from: " + req.getRemoteAddr() + ":" + req.getRemoteHost() + ":" + req.getRemotePort());
+            logger.debug("Call to: " + req.getRequestURI());
+            logger.debug("Call method: " + req.getMethod());
 
-        Enumeration headerNames = req.getHeaderNames();
-        if(headerNames!=null) {
-            while (headerNames.hasMoreElements()) {
+            logger.debug("Headers");
+            logger.debug("-------------------");
 
-                String head = headerNames.nextElement().toString();
-                logger.debug("'" + head + "':'" + req.getHeader(head) + "'");
+            Enumeration headerNames = req.getHeaderNames();
+            if (headerNames != null) {
+                while (headerNames.hasMoreElements()) {
+
+                    String head = headerNames.nextElement().toString();
+                    logger.debug("'" + head + "':'" + req.getHeader(head) + "'");
+                }
             }
-        }
 
-        logger.debug("Query parameters");
-        logger.debug("-------------------");
-        if(req.getQueryString()==null||req.getQueryString().length()==0) {
-            logger.debug("No query parameters present.");
-        } else {
-            logger.debug(req.getQueryString());
-        }
+            logger.debug("Query parameters");
+            logger.debug("-------------------");
+            if (req.getQueryString() == null || req.getQueryString().length() == 0) {
+                logger.debug("No query parameters present.");
+            } else {
+                logger.debug(req.getQueryString());
+            }
 
-        logger.debug("***********************************************");
-        logger.debug(" ");
+            logger.debug("***********************************************");
+            logger.debug(" ");
+        }
     }
 
 }
