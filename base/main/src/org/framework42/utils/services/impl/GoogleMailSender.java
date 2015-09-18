@@ -34,7 +34,7 @@ public enum GoogleMailSender implements MailSender {
             try {
 
                 Message messageObject = new MimeMessage(mailSession);
-                messageObject.setFrom(new InternetAddress("Moneygo kundtjänst <info@moneygo.se>"));
+                messageObject.setFrom(new InternetAddress("Moneygo kundservice <info@moneygo.se>"));
                 messageObject.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(toAddress));
                 messageObject.setSubject(subject);
@@ -58,6 +58,7 @@ public enum GoogleMailSender implements MailSender {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
+
         Session mailSession = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
@@ -70,7 +71,7 @@ public enum GoogleMailSender implements MailSender {
         try {
 
             Message messageObject = new MimeMessage(mailSession);
-            messageObject.setFrom(new InternetAddress("Moneygo kundtjänst <info@moneygo.se>"));
+            messageObject.setFrom(new InternetAddress("Moneygo kundservice <info@moneygo.se>"));
             messageObject.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(toAddress));
             messageObject.setSubject(subject);
