@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.MalformedInputException;
 
 public enum RESTInputParser {
 
@@ -21,9 +22,10 @@ public enum RESTInputParser {
 
     public JSONObject parseInData(HttpServletRequest req, HttpServletResponse resp, APIResponseType responseType) throws IOException, StopServletExecutionException {
 
+        StringBuilder buffer = new StringBuilder();
+
         try {
 
-            StringBuilder buffer = new StringBuilder();
             req.setCharacterEncoding("UTF-8");
             BufferedReader reader = req.getReader();
 
@@ -48,6 +50,13 @@ public enum RESTInputParser {
 
             logger.error(e.getClass().toString() + ": " + e.getMessage());
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError("40003", "Bad encoding of input data it should be in UTF-8!", "General technical problem.", responseType));
+            throw new StopServletExecutionException();
+
+        } catch(MalformedInputException e) {
+
+            logger.fatal(e.getClass().toString() + ": " + e.getMessage());
+            logger.fatal("Data:" + buffer.toString());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, RESTErrorMaker.INSTANCE.addError("40003", "Malformed input, can't parse input data.", "General technical problem.", responseType));
             throw new StopServletExecutionException();
 
         } catch(IOException e) {
