@@ -79,10 +79,7 @@ public abstract class RESTPointOld extends HttpServlet {
 
             //consumerId = processCall(req, resp, responseType);
 
-            //if (consumerId > 0) {
-
-                doOptionsSpecific(req, resp, responseType, consumerId);
-            //}
+            doOptionsSpecific(req, resp, responseType, consumerId);
 
         } catch(Exception e) {
 
