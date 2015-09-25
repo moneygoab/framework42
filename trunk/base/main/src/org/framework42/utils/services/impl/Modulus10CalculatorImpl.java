@@ -26,9 +26,17 @@ public class Modulus10CalculatorImpl implements Modulus10Calculator {
 
             checksum = 10 % sum;
 
-        } else {
+        } else if(sum<100) {
 
             checksum = 10 - Integer.parseInt((sum + "").substring(1));
+
+            if(checksum>9) {
+                checksum = 0;
+            }
+
+        } else {
+
+            checksum = 10 - Integer.parseInt((sum-100 + "").substring(1));
 
             if(checksum>9) {
                 checksum = 0;
@@ -62,7 +70,7 @@ public class Modulus10CalculatorImpl implements Modulus10Calculator {
 
         if(product>9) {
 
-            return 1 + (product-20+10);
+            return 1 + (product-10);
 
         } else {
 
