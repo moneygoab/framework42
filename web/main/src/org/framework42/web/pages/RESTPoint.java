@@ -212,11 +212,13 @@ public abstract class RESTPoint extends HttpServlet {
             if (req.getParameter(consumerKeyParameterName) != null && req.getHeader(consumerKeyParameterName) == null) {
 
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError(INVALID_CONSUMER_KEY_PARAMETER_TYPE, responseType));
+                logger.debug("Error consumer key parameter missing "+consumerKeyParameterName);
                 throw new StopServletExecutionException();
 
             } else if (req.getHeader(consumerKeyParameterName) == null) {
 
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError(MISSING_CONSUMER_KEY, responseType));
+                logger.debug("Error consumer key parameter missing "+consumerKeyParameterName);
                 throw new StopServletExecutionException();
 
             } else {
@@ -227,6 +229,7 @@ public abstract class RESTPoint extends HttpServlet {
 
                     cid = req.getParameter(consumerKeyParameterName);
                 }
+                logger.debug("Consumer key:"+cid);
 
                 consumer = getConsumer(test, req, cid, APIRequestType.GET);
 
