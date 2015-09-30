@@ -34,7 +34,7 @@ public enum GoogleMailSender implements MailSender {
             try {
 
                 Message messageObject = new MimeMessage(mailSession);
-                messageObject.setFrom(new InternetAddress("Moneygo kundservice <info@moneygo.se>"));
+                messageObject.setFrom(new InternetAddress("MoneyGo kundservice <info@moneygo.se>"));
                 messageObject.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(toAddress));
                 messageObject.setSubject(subject);
@@ -71,7 +71,7 @@ public enum GoogleMailSender implements MailSender {
         try {
 
             Message messageObject = new MimeMessage(mailSession);
-            messageObject.setFrom(new InternetAddress("Moneygo kundservice <info@moneygo.se>"));
+            messageObject.setFrom(new InternetAddress("MoneyGo kundservice <info@moneygo.se>"));
             messageObject.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(toAddress));
             messageObject.setSubject(subject);
