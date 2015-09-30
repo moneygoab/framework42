@@ -14,7 +14,7 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
 
     public static void main(String[] args) {
 
-        new AnnuityCalculatorImpl().getMinimumToPay(new BigDecimal(10000), new BigDecimal(18.3), 72);
+        System.out.println(new AnnuityCalculatorImpl().getMinimumToPay(new BigDecimal(1864), new BigDecimal(0), 12));
 
         /*for(int i = 5000; i<31000; i+=1000) {
             System.out.println(

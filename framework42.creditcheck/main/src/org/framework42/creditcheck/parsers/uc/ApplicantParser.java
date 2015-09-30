@@ -69,7 +69,7 @@ public enum ApplicantParser {
                 application.getMainApplicant().getGovernmentId(),
                 new BigDecimal(risk),
                 application.getMainApplicant().getBirthDate(),
-                createApplicantNames(applicantInformationGroup),
+                createApplicantNamesAutomaticCorrection(applicantInformationGroup),
                 createAddress(applicantInformationGroup),
                 application.getMainApplicant().getContactMethods(),
                 income
@@ -118,7 +118,7 @@ public enum ApplicantParser {
                     application.getCoApplicant().getGovernmentId(),
                     new BigDecimal(risk),
                     application.getCoApplicant().getBirthDate(),
-                    createApplicantNames(applicantInformationGroup),
+                    createApplicantNamesAutomaticCorrection(applicantInformationGroup),
                     createAddress(applicantInformationGroup),
                     application.getCoApplicant().getContactMethods(),
                     income
@@ -189,7 +189,7 @@ public enum ApplicantParser {
             }
         }
 
-        if(firstName.length()==0) {
+        if(firstName==null || firstName.length()==0) {
 
             firstName = new StringBuilder(new StringBuilder(fullName).reverse().toString().replaceFirst(new StringBuilder(surname).reverse().toString(), "")).reverse().toString();
         }
