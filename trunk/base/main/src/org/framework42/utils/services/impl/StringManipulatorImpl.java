@@ -3,6 +3,9 @@ package org.framework42.utils.services.impl;
 import org.framework42.utils.model.Fill;
 import org.framework42.utils.services.StringManipulator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class StringManipulatorImpl implements StringManipulator {
 
     @Override
@@ -120,6 +123,14 @@ public class StringManipulatorImpl implements StringManipulator {
     }
 
     @Override
+    public String formatMoney(BigDecimal money) {
+
+        String moneyString = money.setScale(2, RoundingMode.UP).toString().replaceAll("\\.", ",");
+
+        return formatMoney(moneyString);
+    }
+
+    @Override
     public String formatMoney(String moneyString) {
 
         String returnString;
@@ -131,7 +142,7 @@ public class StringManipulatorImpl implements StringManipulator {
             returnString = returnString.split("-")[1];
         }
 
-        if(moneyString.split("\\.").length>1 && !moneyString.split("\\.")[1].equals("00")) {
+        if( (moneyString.split("\\.").length>1 && !moneyString.split("\\.")[1].equals("00")) || (moneyString.split("\\,").length>1 && !moneyString.split("\\,")[1].equals("00")) ) {
             returnString += ","+moneyString.split("\\.")[1];
         }
 

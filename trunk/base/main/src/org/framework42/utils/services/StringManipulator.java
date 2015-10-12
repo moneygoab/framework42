@@ -2,6 +2,8 @@ package org.framework42.utils.services;
 
 import org.framework42.utils.model.Fill;
 
+import java.math.BigDecimal;
+
 public interface StringManipulator {
 
     public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront);
@@ -13,6 +15,8 @@ public interface StringManipulator {
     public String formatGovernmentId(String governmentId);
 
     public String formatInterest(String interest);
+
+    public String formatMoney(BigDecimal money);
 
     public String formatMoney(String moneyString);
 
