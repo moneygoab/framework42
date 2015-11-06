@@ -1,5 +1,7 @@
 package org.framework42.creditcheck.model;
 
+import org.framework42.BaseServiceBinder;
+
 public enum ApplicationChannel {
 
     NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5), COMPRICER(6), CREDIT_FINDER(11), FREEDOM_FINANCE(12), LENDO(15), MYLOAN(14), ADVISA(13), CONSECTOR(16), EMAIL(7),
