@@ -43,6 +43,8 @@ public class HttpServer {
 
             ServerSocket serverSocket = new ServerSocket(environment.getPort());
 
+            logger.info("Http server "+environment.getServerName()+" running.");
+
             while(SERVER_RUNNING) {
 
                 new ClientSocketThread(serverSocket.accept(), environment).run();
