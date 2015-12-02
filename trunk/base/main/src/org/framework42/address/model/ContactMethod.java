@@ -2,7 +2,7 @@ package org.framework42.address.model;
 
 public enum ContactMethod {
 
-    HOME_PHONE(1), MOBILE_PHONE(2), WORK_PHONE(3), EMAIL(4), EMPLOYER_PHONE(5);
+    HOME_PHONE(1), MOBILE_PHONE(2), WORK_PHONE(3), EMAIL(4), EMPLOYER_PHONE(5), FAX(6), WEP_PAGE(7), INSTANT_MESSAGING(8), SOCIAL_MEDIA(9);
 
     private final int id;
 
