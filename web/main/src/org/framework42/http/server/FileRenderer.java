@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public enum ImageRenderer {
+public enum FileRenderer {
 
     INSTANCE;
 
-    public void renderImage(OutputStream outImg, String url) throws IOException {
+    public void renderFile(OutputStream outImg, String url) throws IOException {
 
         byte[] imgbuf = new byte[10240];
         int len;

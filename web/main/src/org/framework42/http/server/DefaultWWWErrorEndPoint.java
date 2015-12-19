@@ -33,4 +33,8 @@ public class DefaultWWWErrorEndPoint extends WWWEndPoint {
         return sb.toString();
     }
 
+    @Override
+    protected ResponseData createResponseData() {
+        return new ResponseDataImpl();
+    }
 }

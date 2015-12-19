@@ -18,7 +18,7 @@ public enum RequestReader {
     RequestReader() {
     }
 
-    public RequestData readHeaders(InputStream inputStream, int bufferSize) throws HttpRequestLineException, IOException {
+    public RequestData readInData(InputStream inputStream, int bufferSize) throws HttpRequestLineException, IOException {
 
         byte[] buffer = new byte[bufferSize];
 
