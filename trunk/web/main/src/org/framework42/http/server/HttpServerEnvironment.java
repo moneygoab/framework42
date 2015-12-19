@@ -4,6 +4,7 @@ import org.framework42.http.StatusCode;
 import org.framework42.http.server.exceptions.URLNotFoundException;
 
 import java.util.List;
+import java.util.Locale;
 
 public class HttpServerEnvironment {
 
@@ -19,7 +20,9 @@ public class HttpServerEnvironment {
 
     private final ServerEndPoint defaultErrorEndPoint;
 
-    public HttpServerEnvironment(String serverName, int port, int bufferSize, List<ServerEndPoint> endPointList, List<ServerEndPoint> errorEndPointList, ServerEndPoint defaultErrorEndPoint) {
+    private final List<Locale> availableLanguages;
+
+    public HttpServerEnvironment(String serverName, int port, int bufferSize, List<ServerEndPoint> endPointList, List<ServerEndPoint> errorEndPointList, ServerEndPoint defaultErrorEndPoint, List<Locale> availableLanguages) {
 
         this.serverName = serverName;
         this.port = port;
@@ -27,6 +30,7 @@ public class HttpServerEnvironment {
         this.endPointList = endPointList;
         this.errorEndPointList = errorEndPointList;
         this.defaultErrorEndPoint = defaultErrorEndPoint;
+        this.availableLanguages = availableLanguages;
     }
 
     public String getServerName() {
@@ -79,4 +83,7 @@ public class HttpServerEnvironment {
         return defaultErrorEndPoint;
     }
 
+    public List<Locale> getAvailableLanguages() {
+        return availableLanguages;
+    }
 }

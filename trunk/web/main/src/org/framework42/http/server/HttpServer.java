@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,13 +23,21 @@ public class HttpServer {
 
         List<ServerEndPoint> endPointList = new ArrayList<>();
 
-        endPointList.add(new TestEndPoint(Arrays.asList("/"), new ArrayList<LogicWorker>()));
+        List<LogicWorker> logicList = new ArrayList<>();
+        logicList.add(new TestLogicWorker());
+
+        endPointList.add(new TestEndPoint(Arrays.asList("/"), logicList));
         endPointList.add(new TestEndPoint(Arrays.asList("/test"), new ArrayList<LogicWorker>()));
         endPointList.add(new TestEndPoint(Arrays.asList("/all/*"), new ArrayList<LogicWorker>()));
 
         List<ServerEndPoint> errorEndPointList = new ArrayList<>();
 
         errorEndPointList.add(new DefaultWWWErrorEndPoint(Arrays.asList(StatusCode.NOT_FOUND_404.getName()), "Page not found!", "Could not find a page with the provided url!"));
+
+        List<Locale> localesList = new ArrayList<>();
+
+        localesList.add(new Locale("sv", "SE"));
+        localesList.add(Locale.ENGLISH);
 
         new HttpServer(
                 new HttpServerEnvironment(
@@ -37,7 +46,8 @@ public class HttpServer {
                         8192,
                         endPointList,
                         errorEndPointList,
-                        new DefaultWWWErrorEndPoint(Arrays.asList("/error"), "An error occurred!", "Unfortunately an error has occurred that we couldn't handle.")
+                        new DefaultWWWErrorEndPoint(Arrays.asList("/error"), "An error occurred!", "Unfortunately an error has occurred that we couldn't handle."),
+                        localesList
                 )
         );
     }

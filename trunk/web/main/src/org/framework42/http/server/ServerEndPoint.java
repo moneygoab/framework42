@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ServerEndPoint {
+public abstract class ServerEndPoint <R extends ResponseData> {
 
     protected final static SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMMM YYYY HH:mm:ss");
 
@@ -50,11 +50,11 @@ public abstract class ServerEndPoint {
         return preRenderLogicList;
     }
 
-    public byte[] renderEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, ResponseData resp) {
+    public byte[] renderEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, R resp) {
 
         StringBuilder sb = new StringBuilder();
 
-        String responseData = renderSpecificEndPointResponse(req, resp);
+        String responseData = renderSpecificEndPointResponse(serverEnv, req, resp);
 
                 sb.append("HTTP/1.1 ");
         sb.append(resp.getResponseCode().getId());
@@ -78,6 +78,8 @@ public abstract class ServerEndPoint {
         return sb.toString().getBytes();
     }
 
-    protected abstract String renderSpecificEndPointResponse(RequestData req, ResponseData resp);
+    protected abstract String renderSpecificEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, R resp);
+
+    protected abstract R createResponseData();
 
 }

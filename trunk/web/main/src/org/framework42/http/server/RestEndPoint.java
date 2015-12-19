@@ -17,11 +17,11 @@ public abstract class RestEndPoint extends ServerEndPoint {
         super(path, catchAllBelow, preRenderLogicList);
     }
 
-    public byte[] renderEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, ResponseData resp) {
+    public byte[] renderEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, ResponseDataImpl resp) {
 
         StringBuilder sb = new StringBuilder();
 
-        String responseData = renderSpecificEndPointResponse(req, resp);
+        String responseData = renderSpecificEndPointResponse(serverEnv, req, resp);
 
         switch (req.getMethod()) {
 
@@ -78,42 +78,42 @@ public abstract class RestEndPoint extends ServerEndPoint {
         return sb.toString();
     }
 
-    protected String renderEndPointGetResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointGetResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointHeadResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointHeadResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointPostResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointPostResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointPutResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointPutResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointDeleteResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointDeleteResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointConnectResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointConnectResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointOptionsResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointOptionsResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }
 
-    protected String renderEndPointTraceResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseData resp) {
+    protected String renderEndPointTraceResponse(HttpServerEnvironment serverEnvironment, RequestData req, ResponseDataImpl resp) {
 
         return renderGeneralNotImplementedResponse(serverEnvironment);
     }

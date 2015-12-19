@@ -36,30 +36,40 @@ public class ClientSocketThread implements Runnable {
 
             try {
 
-                RequestData req = RequestReader.INSTANCE.readHeaders(socket.getInputStream(), serverEnv.getBufferSize());
-
-                ResponseData resp = new ResponseData();
+                RequestData req = RequestReader.INSTANCE.readInData(socket.getInputStream(), serverEnv.getBufferSize());
 
                 if(req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("image")) {
 
-                    ImageRenderer.INSTANCE.renderImage(socket.getOutputStream(), req.getUrl());
+                    FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl());
+
+                } else if(req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("text/css")) {
+
+                    FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl());
 
                 } else {
 
                     ServerEndPoint endPoint = serverEnv.findEndPointByUrl(req.getUrl());
+
+                    ResponseData resp = endPoint.createResponseData();
+
+                    List<LogicWorker> logicWorkerList = endPoint.getPreRenderLogicList();
+                    for(LogicWorker logicWorker: logicWorkerList) {
+
+                        logicWorker.performLogic(serverEnv, req, resp);
+                    }
 
                     out.write(endPoint.renderEndPointResponse(serverEnv, req, resp));
                 }
 
             } catch (HttpRequestLineException e) {
 
-                out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.BAD_REQUEST_400).renderEndPointResponse(serverEnv, errorRequest, new ResponseData(StatusCode.BAD_REQUEST_400)));
+                out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.BAD_REQUEST_400).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.BAD_REQUEST_400)));
 
                 logger.log(Level.INFO, e.getMessage());
 
             }  catch (URLNotFoundException e) {
 
-                out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseData(StatusCode.NOT_FOUND_404)));
+                out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
 
                 logger.log(Level.INFO, e.getMessage());
             }

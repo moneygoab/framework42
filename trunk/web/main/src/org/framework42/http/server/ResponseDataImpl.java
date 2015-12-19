@@ -2,16 +2,16 @@ package org.framework42.http.server;
 
 import org.framework42.http.StatusCode;
 
-public class ResponseData {
+public class ResponseDataImpl implements ResponseData {
 
     private StatusCode responseCode;
 
-    public ResponseData() {
+    public ResponseDataImpl() {
 
         this.responseCode = StatusCode.OK_200;
     }
 
-    public ResponseData(StatusCode responseCode) {
+    public ResponseDataImpl(StatusCode responseCode) {
 
         this.responseCode = responseCode;
     }
