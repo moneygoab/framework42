@@ -4,27 +4,35 @@ import org.framework42.utils.DateUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.framework42.http.StatusCode.*;
+public abstract class ServerEndPoint {
 
-public abstract class ServerEndPoint<R extends RequestData> {
-
-    private final static SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMMM YYYY HH:mm:ss");
+    protected final static SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMMM YYYY HH:mm:ss");
 
     private final List<String> path;
 
     private final boolean catchAllBelow;
 
-    private final List<LogicWorker> preRenderLogicList;
+    protected final List<LogicWorker> preRenderLogicList;
+
+    protected ServerEndPoint(List<String> path) {
+
+        this.path = path;
+        this.catchAllBelow = false;
+        this.preRenderLogicList = new ArrayList<>();
+    }
 
     protected ServerEndPoint(List<String> path, List<LogicWorker> preRenderLogicList) {
+
         this.path = path;
         this.catchAllBelow = false;
         this.preRenderLogicList = preRenderLogicList;
     }
 
     protected ServerEndPoint(List<String> path, boolean catchAllBelow, List<LogicWorker> preRenderLogicList) {
+
         this.path = path;
         this.catchAllBelow = catchAllBelow;
         this.preRenderLogicList = preRenderLogicList;
@@ -42,58 +50,34 @@ public abstract class ServerEndPoint<R extends RequestData> {
         return preRenderLogicList;
     }
 
-    public abstract String renderEndPointResponse(R req, RequestData data);
-
-    protected String renderGeneralNotImplementedResponse(HttpServerEnvironment serverEnvironment) {
+    public byte[] renderEndPointResponse(HttpServerEnvironment serverEnv, RequestData req, ResponseData resp) {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("HTTP/1.1 "+ NOT_IMPLEMENTED_501.getId()+" "+NOT_IMPLEMENTED_501.getName()+"\r\n");
-        sb.append("Date: "+dateFormat.format(DateUtil.stepBack(new Date(), 3600000))+" GMT\r\n");
-        sb.append("Server: "+serverEnvironment.getServerName()+"\r\n");
+        String responseData = renderSpecificEndPointResponse(req, resp);
+
+                sb.append("HTTP/1.1 ");
+        sb.append(resp.getResponseCode().getId());
+        sb.append(" ");
+        sb.append(resp.getResponseCode().getName());
+        sb.append("\r\n");
+
+        sb.append("Date: ");
+        sb.append(dateFormat.format(DateUtil.stepBack(new Date(), 3600000)));
+        sb.append(" GMT\r\n");
+
+        sb.append("Server: ");
+        sb.append(serverEnv.getServerName());
+        sb.append("\r\n");
+
         sb.append("Connection: close\r\n");
+        sb.append("\r\n");
+        sb.append(responseData);
+        sb.append("\r\n");
 
-        return sb.toString();
+        return sb.toString().getBytes();
     }
 
-    protected String renderEndPointGetResponse(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String renderEndPointHeadResponse(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processPost(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processPut(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processDelete(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processConnect(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processOptions(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
-
-    private String processTrace(HttpServerEnvironment serverEnvironment) {
-
-        return renderGeneralNotImplementedResponse(serverEnvironment);
-    }
+    protected abstract String renderSpecificEndPointResponse(RequestData req, ResponseData resp);
 
 }
