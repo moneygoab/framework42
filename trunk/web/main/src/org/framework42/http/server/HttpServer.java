@@ -1,5 +1,7 @@
 package org.framework42.http.server;
 
+import org.framework42.http.StatusCode;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -18,17 +20,24 @@ public class HttpServer {
 
     public static void main(String[] args) {
 
-        List<ServerEndPoint> endPointList = new ArrayList<ServerEndPoint>();
+        List<ServerEndPoint> endPointList = new ArrayList<>();
 
         endPointList.add(new TestEndPoint(Arrays.asList("/"), new ArrayList<LogicWorker>()));
         endPointList.add(new TestEndPoint(Arrays.asList("/test"), new ArrayList<LogicWorker>()));
         endPointList.add(new TestEndPoint(Arrays.asList("/all/*"), new ArrayList<LogicWorker>()));
 
+        List<ServerEndPoint> errorEndPointList = new ArrayList<>();
+
+        errorEndPointList.add(new DefaultWWWErrorEndPoint(Arrays.asList(StatusCode.NOT_FOUND_404.getName()), "Page not found!", "Could not find a page with the provided url!"));
+
         new HttpServer(
                 new HttpServerEnvironment(
                         "#42",
                         8000,
-                        endPointList
+                        8192,
+                        endPointList,
+                        errorEndPointList,
+                        new DefaultWWWErrorEndPoint(Arrays.asList("/error"), "An error occurred!", "Unfortunately an error has occurred that we couldn't handle.")
                 )
         );
     }
@@ -43,11 +52,18 @@ public class HttpServer {
 
             ServerSocket serverSocket = new ServerSocket(environment.getPort());
 
-            logger.info("Http server "+environment.getServerName()+" running.");
+            logger.info("Http server "+environment.getServerName()+" running on port "+environment.getPort()+".");
 
             while(SERVER_RUNNING) {
 
-                new ClientSocketThread(serverSocket.accept(), environment).run();
+                try {
+
+                    new ClientSocketThread(serverSocket.accept(), environment).run();
+
+                } catch(IOException e) {
+
+                    logger.log(Level.SEVERE, e.getMessage());
+                }
             }
 
         } catch(IOException e) {

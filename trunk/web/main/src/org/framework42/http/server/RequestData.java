@@ -1,5 +1,7 @@
 package org.framework42.http.server;
 
+import org.framework42.http.RequestMethod;
+
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -7,14 +9,28 @@ public class RequestData {
 
     private final Logger logger = Logger.getLogger("org.framework42.http");
 
+    private final RequestMethod method;
+
+    private final String url;
+
     private final Map<String,String> headerMap;
 
     private final Map<String,String> requestMap;
 
-    public RequestData(Map<String, String> headerMap, Map<String,String> requestMap) {
+    public RequestData(RequestMethod method, String url, Map<String, String> headerMap, Map<String,String> requestMap) {
 
+        this.method = method;
+        this.url = url;
         this.headerMap = headerMap;
         this.requestMap = requestMap;
+    }
+
+    public RequestMethod getMethod() {
+        return method;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public Map<String, String> getHeaderMap() {

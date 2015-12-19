@@ -4,6 +4,10 @@ import java.util.List;
 
 public abstract class WWWEndPoint extends ServerEndPoint {
 
+    protected WWWEndPoint(List<String> path) {
+        super(path);
+    }
+
     protected WWWEndPoint(List<String> path, List<LogicWorker> preRenderLogicList) {
         super(path, preRenderLogicList);
     }
@@ -12,7 +16,18 @@ public abstract class WWWEndPoint extends ServerEndPoint {
         super(path, catchAllBelow, preRenderLogicList);
     }
 
-    protected abstract void renderHead();
+    @Override
+    protected String renderSpecificEndPointResponse(RequestData req, ResponseData resp) {
 
-    protected abstract void renderBody();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(renderHead(req, resp));
+        sb.append(renderBody(req, resp));
+
+        return sb.toString();
+    }
+
+    protected abstract String renderHead(RequestData req, ResponseData resp);
+
+    protected abstract String renderBody(RequestData req, ResponseData resp);
 }
