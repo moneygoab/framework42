@@ -40,22 +40,29 @@ public enum RequestReader {
             bufferLength += read;
 
             splitByte = findHeaderEnd(buffer, bufferLength);
+        }
+
+        if(bufferLength>0) {
 
             logger.log(Level.FINE, new String(Arrays.copyOf(buffer, bufferLength)));
+
+            String headerString = new String(Arrays.copyOf(buffer, bufferLength));
+
+            List<String> requestDataLines = new ArrayList<>();
+
+            for (String s : headerString.split("\r\n")) {
+
+                requestDataLines.add(s);
+            }
+
+            String[] requestLine = requestDataLines.get(0).split("\\ ");
+
+            return new RequestData(parseRequestMethod(requestLine), parseRequestURL(requestLine), parseRequestMap(requestDataLines), parseParameterMap(requestLine[1]));
+
+        } else{
+
+            throw new HttpRequestLineException("Request line wrongly formatted");
         }
-
-        String headerString = new String(Arrays.copyOf(buffer, bufferLength));
-
-        List<String> requestDataLines = new ArrayList<>();
-
-        for(String s: headerString.split("\r\n")) {
-
-            requestDataLines.add(s);
-        }
-
-        String[] requestLine = requestDataLines.get(0).split("\\ ");
-
-        return new RequestData(parseRequestMethod(requestLine), parseRequestURL(requestLine), parseRequestMap(requestDataLines), parseParameterMap(requestLine[1]));
     }
 
     private RequestMethod parseRequestMethod(String[] requestLine) throws HttpRequestLineException {

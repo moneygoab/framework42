@@ -1,7 +1,7 @@
 package org.framework42.web.components.standardhtml;
 
-import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.EventComponentBuilder;
+import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.pages.WebPage;
 import org.framework42.web.utils.Util;
 

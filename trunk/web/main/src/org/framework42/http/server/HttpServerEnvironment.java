@@ -3,6 +3,7 @@ package org.framework42.http.server;
 import org.framework42.http.StatusCode;
 import org.framework42.http.server.exceptions.URLNotFoundException;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +15,8 @@ public class HttpServerEnvironment {
 
     private final int bufferSize;
 
+    private final File dataFilesRoot;
+
     private final List<ServerEndPoint> endPointList;
 
     private final List<ServerEndPoint> errorEndPointList;
@@ -22,11 +25,12 @@ public class HttpServerEnvironment {
 
     private final List<Locale> availableLanguages;
 
-    public HttpServerEnvironment(String serverName, int port, int bufferSize, List<ServerEndPoint> endPointList, List<ServerEndPoint> errorEndPointList, ServerEndPoint defaultErrorEndPoint, List<Locale> availableLanguages) {
+    public HttpServerEnvironment(String serverName, int port, int bufferSize, File dataFilesRoot, List<ServerEndPoint> endPointList, List<ServerEndPoint> errorEndPointList, ServerEndPoint defaultErrorEndPoint, List<Locale> availableLanguages) {
 
         this.serverName = serverName;
         this.port = port;
         this.bufferSize = bufferSize;
+        this.dataFilesRoot = dataFilesRoot;
         this.endPointList = endPointList;
         this.errorEndPointList = errorEndPointList;
         this.defaultErrorEndPoint = defaultErrorEndPoint;
@@ -43,6 +47,10 @@ public class HttpServerEnvironment {
 
     public int getBufferSize() {
         return bufferSize;
+    }
+
+    public File getDataFilesRoot() {
+        return dataFilesRoot;
     }
 
     public ServerEndPoint findEndPointByUrl(String url) throws URLNotFoundException {

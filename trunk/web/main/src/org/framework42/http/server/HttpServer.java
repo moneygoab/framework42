@@ -2,6 +2,7 @@ package org.framework42.http.server;
 
 import org.framework42.http.StatusCode;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class HttpServer {
                         "#42",
                         8000,
                         8192,
+                        new File("/home/fredrik/Downloads/"),
                         endPointList,
                         errorEndPointList,
                         new DefaultWWWErrorEndPoint(Arrays.asList("/error"), "An error occurred!", "Unfortunately an error has occurred that we couldn't handle."),
