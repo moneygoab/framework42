@@ -1,5 +1,6 @@
 package org.framework42.http.server;
 
+import org.framework42.exceptions.NotAuthorizedException;
 import org.framework42.http.StatusCode;
 import org.framework42.http.server.exceptions.HttpRequestLineException;
 import org.framework42.http.server.exceptions.URLNotFoundException;
@@ -38,28 +39,59 @@ public class ClientSocketThread implements Runnable {
 
                 RequestData req = RequestReader.INSTANCE.readInData(socket.getInputStream(), serverEnv.getBufferSize());
 
-                if(req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("image")) {
+                try {
 
-                    FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl());
+                    if (req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("image")) {
 
-                } else if(req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("text/css")) {
+                        FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl(), serverEnv.getDataFilesRoot());
 
-                    FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl());
+                    } else if (req.getHeaderMap().containsKey("accept") && req.getHeaderMap().get("accept").startsWith("text/css")) {
 
-                } else {
+                        FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl(), serverEnv.getDataFilesRoot());
 
-                    ServerEndPoint endPoint = serverEnv.findEndPointByUrl(req.getUrl());
+                    } else {
 
-                    ResponseData resp = endPoint.createResponseData();
+                        ServerEndPoint endPoint = serverEnv.findEndPointByUrl(req.getUrl());
 
-                    List<LogicWorker> logicWorkerList = endPoint.getPreRenderLogicList();
-                    for(LogicWorker logicWorker: logicWorkerList) {
+                        ResponseData resp = endPoint.createResponseData();
 
-                        logicWorker.performLogic(serverEnv, req, resp);
+                        List<LogicWorker> logicWorkerList = endPoint.getPreRenderLogicList();
+                        for (LogicWorker logicWorker : logicWorkerList) {
+
+                            logicWorker.performLogic(serverEnv, req, resp);
+                        }
+
+                        out.write(endPoint.renderEndPointResponse(serverEnv, req, resp));
                     }
 
-                    out.write(endPoint.renderEndPointResponse(serverEnv, req, resp));
+                } catch (URLNotFoundException e) {
+
+                    try {
+
+                        FileRenderer.INSTANCE.renderFile(socket.getOutputStream(), req.getUrl(), serverEnv.getDataFilesRoot());
+
+                    } catch (NotAuthorizedException ex) {
+
+                        out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
+
+                        logger.log(Level.SEVERE, e.getMessage());
+
+                    } catch (Exception ex) {
+
+                        out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
+
+                        logger.log(Level.INFO, e.getMessage());
+                    }
+
+                } catch (NotAuthorizedException e) {
+
+                    out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
+
+                    logger.log(Level.SEVERE, e.getMessage());
                 }
+
+                out.flush();
+                out.close();
 
             } catch (HttpRequestLineException e) {
 
@@ -67,15 +99,7 @@ public class ClientSocketThread implements Runnable {
 
                 logger.log(Level.INFO, e.getMessage());
 
-            }  catch (URLNotFoundException e) {
-
-                out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
-
-                logger.log(Level.INFO, e.getMessage());
             }
-
-            out.flush();
-            out.close();
 
         } catch (IOException e) {
 

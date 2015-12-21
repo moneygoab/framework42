@@ -41,6 +41,15 @@ public class Head extends HtmlComponentImpl {
         }
 
         @Override
+        public void add(HeadComponent... component) {
+
+            for(HeadComponent comp: component) {
+
+                components.add(comp);
+            }
+        }
+
+        @Override
         public Head build() {
             return new Head(components);
         }

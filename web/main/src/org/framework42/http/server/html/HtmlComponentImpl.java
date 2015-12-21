@@ -21,6 +21,8 @@ public abstract class HtmlComponentImpl implements HtmlComponent {
 
     public String getHtml(HtmlComponentImpl parent, boolean onSameRow) {
 
+        htmlBuilder = new StringBuilder();
+
         tabs = parent.tabs+tabOffset;
         if(!onSameRow){
             htmlBuilder.append(Util.tab(tabs));
