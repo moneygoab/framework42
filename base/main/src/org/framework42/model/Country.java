@@ -16,6 +16,7 @@ public enum Country {
 
     AUSTRIA("de", "AT", "AUT", 40, "EUR"),
     POLAND("pl", "PL", "POL", 48, "PLN"),
+    PORTUGAL("pt", "PT", "PRT", 620, "EUR"),
     SERBIA("sr", "RS", "SRB", 891, "RSD"),
 
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
@@ -166,6 +167,14 @@ public enum Country {
                 ) {
 
             return POLAND;
+
+        } else if("Portugal".equalsIgnoreCase(country) ||
+                "PR".equalsIgnoreCase(country) ||
+                "PRT".equalsIgnoreCase(country) ||
+                "Portuguesa".equalsIgnoreCase(country)
+                ) {
+
+            return PORTUGAL;
 
         } else if("Filippinerna".equalsIgnoreCase(country) ||
                 "PH".equalsIgnoreCase(country) ||
