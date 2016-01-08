@@ -27,7 +27,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
         double nominalInterestValue = nominalInterest.doubleValue() / 100;
         double nominalMonthInterestValue = nominalInterestValue / monthsInYear;
 
-        double[] amountPayedInMonth = new double[120];
+        double[] amountPayedInMonth = new double[monthsOfPayback+1];
 
         double annuityAmount = annuityCalculator.getMinimumToPayNotRounded(loanAmount, nominalInterest, monthsOfPayback);
 
@@ -65,7 +65,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
         double guess = calculateGuess(loanAmount, monthsOfPayback, startFee, totalInterestAmount);
 
-        double[] ivar = new double[120];
+        double[] ivar = new double[monthsOfPayback+1];
 
         //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
         while(sum == 0 || (sum-bigPaybackSum > 0.0000005d || sum-bigPaybackSum < -0.0000005d) ) {
