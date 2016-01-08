@@ -52,7 +52,7 @@ public class EffectiveAPRCalculatorImpl extends ProxyService<EffectiveAPRCalcula
 
         BigDecimal amor = BigDecimal.ZERO;
         BigDecimal totrkost = BigDecimal.ZERO;
-        BigDecimal[] payment = new BigDecimal[120];
+        BigDecimal[] payment = new BigDecimal[monthsOfPayback+1];
 //        ivar = new Array(120)
 ///Annuiteten
         //int N = monthsOfPayback;
@@ -151,7 +151,7 @@ public class EffectiveAPRCalculatorImpl extends ProxyService<EffectiveAPRCalcula
         BigDecimal egiss = totrkost.add(avgift);
         egiss = (egiss.multiply(monthsInYear)).divide( (loanAmount.divide(two)).multiply(monthsOfPayback) );
 
-        BigDecimal[] ivar = new BigDecimal[120];
+        BigDecimal[] ivar = new BigDecimal[monthsOfPayback.intValue()+1];
 
         egiss = egiss.divide(new BigDecimal(12-1));
         BigDecimal gissning = BigDecimal.ONE.add(egiss);
