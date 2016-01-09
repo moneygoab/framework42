@@ -31,6 +31,9 @@ public class ClientSocketThread implements Runnable {
     @Override
     public void run() {
 
+        logger.log(Level.INFO, "Call: "+Thread.currentThread().getName()+" count: "+Thread.activeCount());
+
+
         try {
 
             OutputStream out = socket.getOutputStream();
@@ -38,6 +41,8 @@ public class ClientSocketThread implements Runnable {
             try {
 
                 RequestData req = RequestReader.INSTANCE.readInData(socket.getInputStream(), serverEnv.getBufferSize());
+
+                logger.log(Level.INFO, req.getMethod().name());
 
                 try {
 
@@ -90,16 +95,15 @@ public class ClientSocketThread implements Runnable {
                     logger.log(Level.SEVERE, e.getMessage());
                 }
 
-                out.flush();
-                out.close();
-
             } catch (HttpRequestLineException e) {
 
                 out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.BAD_REQUEST_400).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.BAD_REQUEST_400)));
 
                 logger.log(Level.INFO, e.getMessage());
-
             }
+
+            out.flush();
+            out.close();
 
         } catch (IOException e) {
 

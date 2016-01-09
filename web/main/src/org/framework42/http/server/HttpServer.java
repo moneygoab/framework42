@@ -70,7 +70,7 @@ public class HttpServer {
 
                 try {
 
-                    new ClientSocketThread(serverSocket.accept(), environment).run();
+                    new Thread(new ClientSocketThread(serverSocket.accept(), environment)).start();
 
                 } catch(IOException e) {
 
