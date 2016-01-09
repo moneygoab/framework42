@@ -61,7 +61,7 @@ public enum RequestReader {
 
         } else{
 
-            throw new HttpRequestLineException("Request line wrongly formatted");
+            throw new HttpRequestLineException("Request line wrongly formatted, empty request.");
         }
     }
 
@@ -72,7 +72,7 @@ public enum RequestReader {
             return RequestMethod.findByName(requestLine[0]);
         }
 
-        throw new HttpRequestLineException("Request line wrongly formatted");
+        throw new HttpRequestLineException("Request line wrongly formatted, not containing 3 parts.");
     }
 
     private String parseRequestURL(String[] requestLines) {
