@@ -67,8 +67,10 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
         double[] ivar = new double[monthsOfPayback+1];
 
+        int tries = 0;
+
         //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
-        while(sum == 0 || (sum-bigPaybackSum > 0.0000005d || sum-bigPaybackSum < -0.0000005d) ) {
+        while( (sum == 0 || (sum-bigPaybackSum > 0.0000005d || sum-bigPaybackSum < -0.0000005d)) && tries < 200+monthsOfPayback*2  ) {
             //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
             sum = 0;
             for(int i=1;i<=monthsOfPayback;i++){
@@ -84,6 +86,8 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
                 minAPR = guess;
                 guess = (guess+maxAPR)/2;
             }
+
+            tries++;
         }
         //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
 
