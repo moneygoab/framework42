@@ -4,6 +4,7 @@ import org.framework42.services.AnnuityCalculator;
 import org.framework42.services.EffectiveAPRCalculator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
@@ -43,7 +44,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
         //Start fee payed in first month
         amountPayedInMonth[1] += startFee.intValue();
 
-        return (float) effectiveAPR(loanAmount, nominalMonthInterestValue, monthsOfPayback, amountPayedInMonth, startFee.intValue(), totalInterestAmount);
+        return new BigDecimal(effectiveAPR(loanAmount, nominalMonthInterestValue, monthsOfPayback, amountPayedInMonth, startFee.intValue(), totalInterestAmount)).setScale(2, RoundingMode.UP).floatValue();
 
     }
 
