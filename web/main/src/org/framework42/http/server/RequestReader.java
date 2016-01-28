@@ -44,7 +44,7 @@ public enum RequestReader {
 
         if(bufferLength>0) {
 
-            logger.log(Level.FINE, new String(Arrays.copyOf(buffer, bufferLength)));
+            logger.log(Level.FINER, new String(Arrays.copyOf(buffer, bufferLength)));
 
             String headerString = new String(Arrays.copyOf(buffer, bufferLength));
 
