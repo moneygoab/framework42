@@ -93,6 +93,12 @@ public class ClientSocketThread implements Runnable {
                     out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
 
                     logger.log(Level.SEVERE, e.getMessage());
+
+                } catch (IOException e) {
+
+                    out.write(serverEnv.findErrorEndPointByStatusCode(StatusCode.NOT_FOUND_404).renderEndPointResponse(serverEnv, errorRequest, new ResponseDataImpl(StatusCode.NOT_FOUND_404)));
+
+                    logger.log(Level.SEVERE, e.getMessage());
                 }
 
             } catch (HttpRequestLineException e) {

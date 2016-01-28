@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +60,10 @@ public class HttpServer {
 
         this.environment = environment;
 
-        logger.setLevel(Level.ALL);
+        Handler systemOut = new ConsoleHandler();
+        systemOut.setLevel( Level.INFO );
+        Logger.getLogger("org.nummer42").addHandler( systemOut );
+        Logger.getLogger("org.nummer42").setLevel(Level.INFO);
 
         try {
 
