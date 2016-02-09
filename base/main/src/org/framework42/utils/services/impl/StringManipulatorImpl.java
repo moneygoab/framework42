@@ -125,7 +125,7 @@ public class StringManipulatorImpl implements StringManipulator {
     @Override
     public String formatMoney(BigDecimal money) {
 
-        String moneyString = money.setScale(2, RoundingMode.UP).toString().replaceAll("\\.", ",");
+        String moneyString = money.setScale(2, RoundingMode.UP).toString();
 
         return formatMoney(moneyString);
     }
