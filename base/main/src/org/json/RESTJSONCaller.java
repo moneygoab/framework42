@@ -231,8 +231,13 @@ public enum RESTJSONCaller {
 
     public RESTJSONResponse makePostCallWithBasicAuth(String targetURL, String postData, String contentType,String username,String password, boolean trustedSSL) throws IOException,NoSuchAlgorithmException,KeyManagementException{
 
-
+        SSLSocketFactory defaultSSLSocketFactory =  null;
+        HostnameVerifier defaultHostnameVerifier = null;
         if(!trustedSSL){
+
+            defaultSSLSocketFactory =  HttpsURLConnection.getDefaultSSLSocketFactory();
+            defaultHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+
             TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                     return null;
@@ -258,13 +263,21 @@ public enum RESTJSONCaller {
 
             // Install the all-trusting host verifier
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
         }
 
         String auth = username + ":" +password;
 
         String base64Encode = Base64.encode(auth.getBytes());
 
-        return makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
+        RESTJSONResponse response = makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
+
+        if(!trustedSSL){
+            HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSocketFactory);
+            HttpsURLConnection.setDefaultHostnameVerifier(defaultHostnameVerifier);
+        }
+
+        return response;
     }
 
     public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
