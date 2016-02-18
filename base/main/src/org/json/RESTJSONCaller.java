@@ -1,12 +1,16 @@
 package org.json;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.apache.log4j.Logger;
 
+import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 
 public enum RESTJSONCaller {
 
@@ -225,11 +229,51 @@ public enum RESTJSONCaller {
         return makePostCall("X-Consumer-Key", consumerKey, targetURL, "", "application/json");
     }
 
+    public RESTJSONResponse makePostCallWithBasicAuth(String targetURL, String postData, String contentType,String username,String password, boolean trustedSSL) throws IOException,NoSuchAlgorithmException,KeyManagementException{
+
+
+        if(!trustedSSL){
+            TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }
+            };
+
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        }
+
+        String auth = username + ":" +password;
+
+        String base64Encode = Base64.encode(auth.getBytes());
+
+        return makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
+    }
+
     public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
 
         URL url;
         HttpURLConnection connection = null;
         try {
+
+
             //Create connection
             url = new URL(targetURL);
             connection = (HttpURLConnection)url.openConnection();
