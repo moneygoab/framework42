@@ -18,7 +18,6 @@ import java.util.Date;
 
 public class CreditCheckServiceUC implements CreditCheckService {
 
-    @Override
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) throws CreditCheckException {
 
         UcOrders orders = new UCOrderService().getUcOrders2();

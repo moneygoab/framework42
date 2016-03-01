@@ -23,7 +23,6 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
         super("org.framework42.creditcheck.services");
     }
 
-    @Override
     public AddressCheckResponse getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException {
 
         UcOrders orders = new UCOrderService().getUcOrders2();
