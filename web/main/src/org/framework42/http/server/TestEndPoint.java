@@ -18,10 +18,12 @@ public class TestEndPoint extends WWWEndPoint<TestResponseData> {
 
         Head.Builder head = new Head.Builder();
 
-        head.add(new Title("Test titel"));
-        head.add(new Meta(MetaName.CHARSET, "UTF-8"));
-        head.add(new Meta(MetaName.AUTHOR, "Fredrik Gustavsson"));
-        head.add(new Link.Builder("test.css", Rel.STYLESHEET).mimeType(MimeType.CSS).build());
+        head.add(
+                new Title("Test titel"),
+                new Meta(MetaName.CHARSET, "UTF-8"),
+                new Meta(MetaName.AUTHOR, "Fredrik Gustavsson"),
+                new Link.Builder("test.css", Rel.STYLESHEET).mimeType(MimeType.CSS).build()
+        );
 
         return head.build().getHtml(new ComponentGroup(head.build()));
     }
@@ -33,9 +35,12 @@ public class TestEndPoint extends WWWEndPoint<TestResponseData> {
 
         Body.Builder body = new Body.Builder();
 
-        body.add(new H.Builder(H.H1, "Test ext").id("test_id").build());
-        body.add(new A.Builder("Test2", "Test länk").onClick("return confirm('Gå till länken?');").build(), BR.I1);
-        body.add(new Img("img.png", "En bild"));
+        body.add(
+                new H.Builder(H.H1, "Test ext").id("test_id").build(),
+                new A.Builder("Test2", "Test länk").onClick("return confirm('Gå till länken?');").build(),
+                BR.I1,
+                new Img("img.png", "En bild")
+        );
 
         return body.build().getHtml(new ComponentGroup(body.build()));
     }

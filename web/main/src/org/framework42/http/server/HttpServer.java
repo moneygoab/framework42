@@ -46,7 +46,7 @@ public class HttpServer {
                 new HttpServerEnvironment(
                         "#42",
                         8000,
-                        8192,
+                        9216,
                         new File("/home/fredrik/Downloads/"),
                         endPointList,
                         errorEndPointList,

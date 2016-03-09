@@ -36,7 +36,12 @@ public class Modulus10CalculatorImpl implements Modulus10Calculator {
 
         } else {
 
-            checksum = 10 - Integer.parseInt((sum-100 + "").substring(1));
+            if((sum - 100 + "").length()<=1) {
+
+                return -1;
+            }
+
+            checksum = 10 - Integer.parseInt((sum - 100 + "").substring(1));
 
             if(checksum>9) {
                 checksum = 0;
