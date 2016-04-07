@@ -1,6 +1,12 @@
 package org.json;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import javax.net.ssl.*;
@@ -26,6 +32,19 @@ public enum RESTJSONCaller {
 
         return makeGetCall("X-Consumer-Key", consumerKey, targetURL, "");
     }
+
+    public RESTJSONResponse makePATCHCall(String headerName,String headerValue,String url,String jsonData,String contentType)  throws IOException{
+
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPatch httpPatch = new HttpPatch(url);
+        httpPatch.addHeader(headerName,headerValue);
+        httpPatch.addHeader("Content-Type",contentType);
+        StringEntity se =new StringEntity(jsonData);
+        httpPatch.setEntity(se);
+        CloseableHttpResponse response = httpClient.execute(httpPatch);
+        return new RESTJSONResponse(response.getStatusLine().getStatusCode(),new JSONObject(EntityUtils.toString(response.getEntity())));
+    }
+
 
     public RESTJSONResponse makeGetCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters) throws IOException {
 
@@ -279,6 +298,58 @@ public enum RESTJSONCaller {
 
         return response;
     }
+
+    public RESTJSONResponse makePATCHCallWithBasicAuth(String targetURL, String postData, String contentType,String username,String password, boolean trustedSSL) throws IOException,NoSuchAlgorithmException,KeyManagementException{
+
+        SSLSocketFactory defaultSSLSocketFactory =  null;
+        HostnameVerifier defaultHostnameVerifier = null;
+        if(!trustedSSL){
+
+            defaultSSLSocketFactory =  HttpsURLConnection.getDefaultSSLSocketFactory();
+            defaultHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+
+            TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }
+            };
+
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+        }
+
+        String auth = username + ":" +password;
+
+        String base64Encode = Base64.encode(auth.getBytes());
+
+        RESTJSONResponse response = makePATCHCall("Authorization","Basic " + base64Encode,targetURL,postData,contentType);
+
+        if(!trustedSSL){
+            HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSocketFactory);
+            HttpsURLConnection.setDefaultHostnameVerifier(defaultHostnameVerifier);
+        }
+
+        return response;
+    }
+
 
     public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
 
