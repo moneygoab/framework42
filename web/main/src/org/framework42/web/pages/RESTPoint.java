@@ -332,6 +332,7 @@ public abstract class RESTPoint extends HttpServlet {
         }
         validTypes = validTypes.substring(0, validTypes.length()-2);
 
+        logger.debug("Content-Type with value " + contentType + " isn't supported. Please use one of the valid types (" + validTypes + ").");
         resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError("41501", "Content-Type with value " + contentType + " isn't supported. Please use one of the valid types (" + validTypes + ").", "General technical problem.", responseType));
 
         return false;
