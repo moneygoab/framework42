@@ -114,8 +114,11 @@ public abstract class RESTPoint extends HttpServlet {
         try {
 
             APIResponseType responseType = getResponseType(req.getHeader("Content-Type"), resp);
+            if(req.getHeader("Content-Type")==null) {
+                responseType = getResponseType(req.getContentType(), resp);
+            }
 
-            if(validateContentType(resp, responseType, validPostContentTypes, req.getContentType())) {
+            if(validateContentType(resp, responseType, validPostContentTypes, responseType.getMimeType())) {
 
                 RESTConsumer consumer = processCall(req, resp, responseType);
 
