@@ -5,7 +5,6 @@ import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
 import org.framework42.web.components.standardhtml.Break;
 import org.framework42.web.components.standardhtml.Label;
-import org.framework42.web.components.standardhtml.Link;
 import org.framework42.web.components.standardhtml.LinkTarget;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
@@ -46,13 +45,15 @@ public class MenuItemText extends MenuItem {
         // Background pic and width
         htmlBuilder.append("style=\"");
         htmlBuilder.append("z-index: 10;");
-        htmlBuilder.append("background-image: url('");
-        if(builder.chosen) {
-            htmlBuilder.append(builder.backgroundPictureChosen);
-        } else {
-            htmlBuilder.append(builder.backgroundPicture);
+        if(!builder.backgroundPictureChosen.equals("") || !builder.backgroundPicture.equals("") ){
+            htmlBuilder.append("background-image: url('");
+            if(builder.chosen) {
+                htmlBuilder.append(builder.backgroundPictureChosen);
+            } else {
+                htmlBuilder.append(builder.backgroundPicture);
+            }
+            htmlBuilder.append("');");
         }
-        htmlBuilder.append("');");
         if(builder.width>0) {
             htmlBuilder.append("padding-right: ");
             htmlBuilder.append(builder.width);
