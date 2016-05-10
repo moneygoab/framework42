@@ -291,12 +291,24 @@ public enum RESTJSONCaller {
         return response;
     }
 
+    public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, ByteArrayOutputStream stream) throws IOException {
+
+        return postCall(consumerKeyParameterName,consumerKey,targetURL,null,stream,null,null);
+    }
+
 
     public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
         return makePostCall(consumerKeyParameterName,consumerKey,targetURL,postData,contentType,null);
     }
 
     public RESTJSONResponse makePostCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType, HashMap<String,String> headers) throws IOException {
+        return postCall(consumerKeyParameterName,consumerKey,targetURL,postData,null,contentType,headers);
+
+    }
+
+
+
+    private RESTJSONResponse postCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData,ByteArrayOutputStream stream, String contentType, HashMap<String,String> headers) throws IOException{
 
         URL url;
         HttpURLConnection connection = null;
@@ -309,25 +321,38 @@ public enum RESTJSONCaller {
             connection.setRequestMethod("POST");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
             connection.setRequestProperty("Content-Type", contentType);
-            connection.setRequestProperty("Accept-Charset", "UTF-8");
-            connection.setRequestProperty("Content-Length", ""+Integer.toString(postData.getBytes().length));
+            DataOutputStream wr;
 
-            if(headers != null){
-                for(Map.Entry<String,String> entry : headers.entrySet()){
-                    connection.setRequestProperty(entry.getKey(),entry.getValue());
+            if(stream == null){
+                connection.setRequestProperty("Accept-Charset", "UTF-8");
+                connection.setRequestProperty("Content-Length", ""+Integer.toString(postData.getBytes().length));
+
+                if(headers != null){
+                    for(Map.Entry<String,String> entry : headers.entrySet()){
+                        connection.setRequestProperty(entry.getKey(),entry.getValue());
+                    }
                 }
+                connection.setUseCaches (false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                wr = new DataOutputStream(connection.getOutputStream());
+                //Send request
+                byte[] postBytes = postData.getBytes("UTF-8");
+                wr.write(postBytes, 0, postBytes.length);
+
+            }else{
+
+                connection.setRequestProperty("Content-Length", ""+Integer.toString(stream.toByteArray().length));
+                connection.setUseCaches (false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                //Send request
+
+                wr = new DataOutputStream(connection.getOutputStream());
+                wr.write(stream.toByteArray(), 0, stream.toByteArray().length);
+
             }
 
-            connection.setUseCaches (false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            //Send request
-            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            byte[] postBytes = postData.getBytes("UTF-8");
-            wr.write(postBytes, 0, postBytes.length);
-            //wr.writeBytes(postData);
-            //wr.writeUTF(postData);
             wr.flush();
             wr.close();
 
