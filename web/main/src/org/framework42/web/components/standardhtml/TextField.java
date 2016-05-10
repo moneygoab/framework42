@@ -26,7 +26,7 @@ public class TextField extends HtmlComponent implements HtmlComponentInput {
         this.builder = new Builder(id, name, value);
     }
 
-    private TextField(Builder builder) {
+    protected TextField(Builder builder) {
         this.builder = builder;
     }
 
