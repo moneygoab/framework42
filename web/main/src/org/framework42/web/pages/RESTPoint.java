@@ -61,12 +61,12 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch (StopServletExecutionException e) {
 
-            logger.info(e.getMessage());
+            logger.info("RESTPoint.doGet - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
 
         } catch(Exception e) {
 
             //resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.doGet - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -97,7 +97,7 @@ public abstract class RESTPoint extends HttpServlet {
         } catch(Exception e) {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.doOptions - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -135,7 +135,7 @@ public abstract class RESTPoint extends HttpServlet {
         } catch(Exception e) {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.doPost - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -167,7 +167,7 @@ public abstract class RESTPoint extends HttpServlet {
         } catch(Exception e) {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.doPut - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -199,7 +199,7 @@ public abstract class RESTPoint extends HttpServlet {
         } catch(Exception e) {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.doDelete - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -245,7 +245,7 @@ public abstract class RESTPoint extends HttpServlet {
 
         } catch(IOException e) {
 
-            logger.fatal(e.getMessage());
+            logger.fatal("RESTPoint.processCall - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
         }
 
         return consumer;
@@ -304,7 +304,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             } else {
 
-                logger.debug("Requested response type " + responseParameter + " don't exist!");
+                logger.debug("RESTPoint.getResponseType - Requested response type " + responseParameter + " don't exist!");
                 resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, RESTErrorMaker.INSTANCE.addError(RESTErrorCode.INVALID_CONTENT_TYPE, defaultResponseType));
             }
 
