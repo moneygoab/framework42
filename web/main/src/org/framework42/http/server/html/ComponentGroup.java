@@ -1,5 +1,7 @@
 package org.framework42.http.server.html;
 
+import org.json.RESTJSONResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class ComponentGroup extends HtmlComponentImpl {
         list.add(component);
 
         components = list;
+
     }
 
     public ComponentGroup(List<HtmlComponent> components) {
