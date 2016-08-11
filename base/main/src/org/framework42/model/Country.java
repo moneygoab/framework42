@@ -110,119 +110,104 @@ public enum Country {
 
         notNull(country, "Country can't be null!");
 
+        for(Country c: Country.values()) {
+
+            if(c.getAlpha2Code().equalsIgnoreCase(country)) {
+
+                return c;
+
+            } else if(c.getAlpha3Code().equalsIgnoreCase(country)) {
+
+                return c;
+            }
+        }
+
         if("Sverige".equalsIgnoreCase(country) ||
                 "Svergie".equalsIgnoreCase(country) ||
                 "Sve".equalsIgnoreCase(country) ||
-                "SWE".equalsIgnoreCase(country) ||
-                "SE".equalsIgnoreCase(country) ||
                 "Sweden".equalsIgnoreCase(country)
                 ){
 
             return SWEDEN;
 
         } else if("Norge".equalsIgnoreCase(country) ||
-                "NOR".equalsIgnoreCase(country) ||
-                "NO".equalsIgnoreCase(country) ||
                 "Norway".equalsIgnoreCase(country)
                 ){
 
             return NORWAY;
 
         } else if("Danmark".equalsIgnoreCase(country) ||
-                "DNK".equalsIgnoreCase(country) ||
-                "DK".equalsIgnoreCase(country) ||
                 "Denmark".equalsIgnoreCase(country)
                 ){
 
             return DENMARK;
 
         } else if("Finland".equalsIgnoreCase(country) ||
-                "FIN".equalsIgnoreCase(country) ||
-                "FI".equalsIgnoreCase(country) ||
                 "Suomi".equalsIgnoreCase(country)
                 ){
 
             return FINLAND;
 
         } else if("Island".equalsIgnoreCase(country) ||
-                "ISL".equalsIgnoreCase(country) ||
-                "IS".equalsIgnoreCase(country) ||
                 "Ísland".equalsIgnoreCase(country)
                 ){
 
             return ICELAND;
 
         } else if("Österrike".equalsIgnoreCase(country) ||
-                "AT".equalsIgnoreCase(country) ||
-                "AUT".equalsIgnoreCase(country) ||
                 "Österreich".equalsIgnoreCase(country)
                 ) {
 
             return AUSTRIA;
 
         } else if("Polen".equalsIgnoreCase(country) ||
-                "PL".equalsIgnoreCase(country) ||
-                "POL".equalsIgnoreCase(country) ||
                 "Polska".equalsIgnoreCase(country)
                 ) {
 
             return POLAND;
 
         } else if("Portugal".equalsIgnoreCase(country) ||
-                "PR".equalsIgnoreCase(country) ||
-                "PRT".equalsIgnoreCase(country) ||
                 "Portuguesa".equalsIgnoreCase(country)
                 ) {
 
             return PORTUGAL;
 
         } else if("Filippinerna".equalsIgnoreCase(country) ||
-                "PH".equalsIgnoreCase(country) ||
-                "PHL".equalsIgnoreCase(country) ||
                 "fil".equalsIgnoreCase(country)
                 ) {
 
             return PHILIPPINES;
 
         } else if("Storbritannien".equalsIgnoreCase(country) ||
-                "GBR".equalsIgnoreCase(country) ||
-                "GB".equalsIgnoreCase(country)) {
+                "Great Brittan".equalsIgnoreCase(country)
+                ) {
 
             return UNITED_KINGDOMS;
 
         } else if("Israel".equalsIgnoreCase(country) ||
-                "IL".equalsIgnoreCase(country) ||
-                "ISR".equalsIgnoreCase(country) ||
                 "he".equalsIgnoreCase(country)
                 ) {
 
             return ISRAEL;
 
         } else if("USA".equalsIgnoreCase(country) ||
-                "US".equalsIgnoreCase(country) ||
-                "USA".equalsIgnoreCase(country)
+                "Amerika".equalsIgnoreCase(country)
                 ) {
 
             return USA;
 
-        } else if("Turkiet".equalsIgnoreCase(country) ||
-                "TR".equalsIgnoreCase(country) ||
-                "TUR".equalsIgnoreCase(country)
+        } else if("Turkiet".equalsIgnoreCase(country)
                 ) {
 
             return TURKEY;
 
-        } else if("Ghana".equalsIgnoreCase(country) ||
-                "GH".equalsIgnoreCase(country) ||
-                "GHA".equalsIgnoreCase(country)
+        } else if("Ghana".equalsIgnoreCase(country)
                 ) {
 
             return GHANA;
 
         } else if("Serbien".equalsIgnoreCase(country) ||
-                "Serbia".equalsIgnoreCase(country) ||
-                "RS".equalsIgnoreCase(country) ||
-                "SRB".equalsIgnoreCase(country)
+                "Serbia".equalsIgnoreCase(country)
                 ) {
 
             return GHANA;
