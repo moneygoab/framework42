@@ -19,9 +19,25 @@ import java.io.InputStream;
 
 public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, TinyMCEImageHandlerPageModel> {
 
+    private final String systemPath;
+    private final String serverPath;
+
+
     public TinyMCEImageHandlerFormListener() {
         super("upload_image", "org.framework42.web");
+        systemPath="/var/lib/tomcat6/webapps/poeter/";
+        serverPath ="media/img/user/blogg/";
+
     }
+
+
+    public TinyMCEImageHandlerFormListener(String systemPath,String serverPath){
+        super("upload_image", "org.framework42.web");
+        this.systemPath = systemPath;
+        this.serverPath = serverPath;
+    }
+
+
 
     @Override
     protected void handleFormEvent(HttpServletRequest req, HttpServletResponse resp, UserSession session, TinyMCEImageHandlerPageModel pageModel) throws NotAuthorizedException, ManageableException, StopServletExecutionException {
@@ -32,16 +48,16 @@ public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, T
 
                 String fileName = session.getUser().getId()+System.currentTimeMillis()+".jpg";
 
-                if(!new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()).exists()) {
+                if(!new File(systemPath+serverPath+session.getUser().getId()).exists()) {
                 //if(!new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").exists()) {
 
-                        boolean created = new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()+"/").mkdir();
+                        boolean created = new File(systemPath+serverPath+session.getUser().getId()+"/").mkdir();
                         //boolean created = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").mkdir();
                         if(!created) {logger.error("Couldn't create blog image directory for user "+session.getUser().getId()+"!");}
                 }
 
                 //File uploadedFile = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
-                File uploadedFile = new File("/var/lib/tomcat6/webapps/poeter/media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
+                File uploadedFile = new File(systemPath+serverPath+session.getUser().getId()+"/"+fileName);
                 try {
 
                     byte[] imageData = fileItem.get();
@@ -72,7 +88,7 @@ public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, T
                     ImageIO.write(image, "jpeg", uploadedFile);
 
                     pageModel.setImageUploaded(true);
-                    pageModel.setFileUrl("media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
+                    pageModel.setFileUrl(serverPath+session.getUser().getId()+"/"+fileName);
 
                 } catch (IllegalArgumentException e) {
 
