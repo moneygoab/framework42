@@ -53,7 +53,8 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
 
         } else {
 
-            recommendedAmount = application.getAppliedAmount();
+            //recommendedAmount = application.getAppliedAmount();
+            recommendedAmount = new MoneyImpl( new BigDecimal( (((application.getAppliedAmount().getAmount().intValue() + 999) / 1000 ) * 1000) ), application.getAppliedAmount().getCurrency());
         }
 
         CreditBureauApplicationResponse creditBureauResponse = new SimpleCreditBureauApplicationResponse(

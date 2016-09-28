@@ -7,7 +7,7 @@ import java.util.List;
 
 public enum CreditBureau {
 
-    UC(1, Country.SWEDEN), EMULATOR_SWEDEN(2, Country.SWEDEN), INTERNAL(3, Country.SWEDEN), UC_MICRO(4, Country.SWEDEN);
+    UC(1, Country.SWEDEN), EMULATOR_SWEDEN(2, Country.SWEDEN), INTERNAL(3, Country.SWEDEN), UC_MICRO(4, Country.SWEDEN), UC_TEST(5, Country.SWEDEN);
 
 
     private final int id;

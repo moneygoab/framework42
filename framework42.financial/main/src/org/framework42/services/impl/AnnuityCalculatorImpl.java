@@ -70,6 +70,12 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
             if ((initialAmount.doubleValue() * stuff) - rounded > 0) {
                 rounded++;
             }
+
+            if(rounded<0) {
+
+                rounded = 0;
+            }
+
             //return initialAmount.multiply( stuff ).intValue();
             return rounded;
         }
@@ -87,8 +93,15 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
         //BigDecimal stuff = topCalc.divide(bottomCalc);
         double stuff = topCalc.doubleValue()/bottomCalc.doubleValue();
 
+        double returnValue = initialAmount.doubleValue()* stuff;
+
+        if(returnValue<0) {
+
+            returnValue = 0;
+        }
+
         //return initialAmount.multiply( stuff ).intValue();
-        return initialAmount.doubleValue()* stuff;
+        return returnValue;
     }
 
 }
