@@ -14,6 +14,7 @@ public enum MimeType {
 
     // Application
     PDF(MimeCategory.APPLICATION, "pdf"),
+    XLS(MimeCategory.APPLICATION, "xls"),
 
     // Texts
     CSS(MimeCategory.TEXT, "css"),
@@ -33,6 +34,7 @@ public enum MimeType {
         this.category = category;
         this.mimeType = mimeType;
     }
+
 
     public MimeCategory getCategory() {
         return category;
