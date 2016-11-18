@@ -689,6 +689,10 @@ public enum RESTJSONCaller {
     }
 
     public RESTJSONResponse makeDeleteCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters) throws IOException {
+            return makeDeleteCall(consumerKeyParameterName,consumerKey,targetURL,urlParameters,null);
+    }
+
+        public RESTJSONResponse makeDeleteCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters,HashMap<String,String> headers) throws IOException {
 
         URL url;
         HttpURLConnection connection = null;
@@ -702,7 +706,11 @@ public enum RESTJSONCaller {
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("DELETE");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
-
+            if(headers != null){
+                for(Map.Entry<String,String> entry : headers.entrySet()){
+                    connection.setRequestProperty(entry.getKey(),entry.getValue());
+                }
+            }
             connection.setUseCaches (false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
