@@ -495,105 +495,20 @@ public enum RESTJSONCaller {
     }
 
     public RESTJSONResponse makePutCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters) throws IOException {
+        return  makePutCall(consumerKeyParameterName,consumerKey,targetURL,"",urlParameters,"",new HashMap<String, String>());
 
-        URL url;
-        HttpURLConnection connection = null;
-        try {
-            if(urlParameters.length()>0) {
-                urlParameters = "?"+urlParameters;
-            }
-
-            //Create connection
-            url = new URL(targetURL+urlParameters);
-            connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("PUT");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
-
-            connection.setUseCaches (false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-
-            //Put Response
-            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_NO_CONTENT) {
-
-                InputStream is = connection.getInputStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
-
-                if(response.length()>0) {
-
-                    if(response.toString().startsWith("[")) {
-
-                        JSONArray arr = new JSONArray(response.toString());
-
-                        JSONObject obj = arr.getJSONObject(0);
-
-                        return new RESTJSONResponse(connection.getResponseCode(), obj);
-
-                    } else {
-                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
-                    }
-
-                } else {
-
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
-                }
-
-            } else {
-
-                InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
-
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
-                } catch(JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), obj);
-                }
-            }
-
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
-            JSONObject errorObj = new JSONObject();
-            errorObj.put("error_message", e.toString());
-            return new RESTJSONResponse(connection.getResponseCode(), errorObj);
-
-        } finally {
-
-            if(connection != null) {
-                connection.disconnect();
-            }
-        }
     }
 
-    public RESTJSONResponse makePutCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData, String contentType) throws IOException {
+    public RESTJSONResponse makePutCall(String consumerKeyParameterName, String consumerKey, String targetURL, String postData,  String urlParameters, String contentType,HashMap<String,String> headers) throws IOException {
 
         URL url;
         HttpURLConnection connection = null;
         try {
-            //Create connection
-            url = new URL(targetURL);
+            if(urlParameters!=null && urlParameters.length()>0) {
+                url = new URL(targetURL+"?"+ urlParameters);
+            } else {
+                url = new URL(targetURL);
+            }
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
@@ -601,6 +516,11 @@ public enum RESTJSONCaller {
             connection.setRequestProperty("Accept-Charset", "UTF-8");
             connection.setRequestProperty("Content-Length", ""+Integer.toString(postData.getBytes().length));
 
+            if(headers != null){
+                for(Map.Entry<String,String> entry : headers.entrySet()){
+                    connection.setRequestProperty(entry.getKey(),entry.getValue());
+                }
+            }
             connection.setUseCaches (false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -689,6 +609,10 @@ public enum RESTJSONCaller {
     }
 
     public RESTJSONResponse makeDeleteCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters) throws IOException {
+            return makeDeleteCall(consumerKeyParameterName,consumerKey,targetURL,urlParameters,null);
+    }
+
+        public RESTJSONResponse makeDeleteCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters,HashMap<String,String> headers) throws IOException {
 
         URL url;
         HttpURLConnection connection = null;
@@ -702,7 +626,11 @@ public enum RESTJSONCaller {
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("DELETE");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
-
+            if(headers != null){
+                for(Map.Entry<String,String> entry : headers.entrySet()){
+                    connection.setRequestProperty(entry.getKey(),entry.getValue());
+                }
+            }
             connection.setUseCaches (false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
