@@ -37,6 +37,8 @@ public abstract class PageModel implements PageModelInterface {
 
     protected Map<String, String> environmentInformation;
 
+    protected long createdTimeStamp;
+
     /**
      * The constructor
      * */
@@ -50,6 +52,7 @@ public abstract class PageModel implements PageModelInterface {
         pageKeywordsKey = "page_keywords";
         pageDescriptionKey = "page_description";
         pageCharacterSet = "utf-8";
+        createdTimeStamp = System.currentTimeMillis();
     }
 
     public boolean isError() {
@@ -228,5 +231,9 @@ public abstract class PageModel implements PageModelInterface {
 
     public Map<String, String> getEnvironmentInformation() {
         return environmentInformation;
+    }
+
+    public long getCreatedTimeStamp() {
+        return createdTimeStamp;
     }
 }
