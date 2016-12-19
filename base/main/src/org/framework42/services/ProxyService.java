@@ -2,6 +2,7 @@ package org.framework42.services;
 
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public abstract class ProxyService<T> {
@@ -33,5 +34,7 @@ public abstract class ProxyService<T> {
 
         return new ServiceHandler<T>((T) this);
     }
+
+
 
 }

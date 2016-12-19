@@ -3,6 +3,7 @@ package org.framework42.utils;
 import org.framework42.annotations.AllowNull;
 import org.framework42.annotations.GreaterThenZero;
 import org.framework42.annotations.NotZero;
+import org.framework42.annotationsinterface.ExecutorObject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -19,7 +20,7 @@ public abstract class AbstractNullChecker {
             int i = 1;
             for(Object argument: argumentList) {
 
-                if(shouldCheckNull(method.getParameterAnnotations()[i-1])) {
+                if(shouldCheckNull(method.getParameterAnnotations()[i-1]) && !(argument instanceof ExecutorObject)) {
 
                     notNull(argument, generateErrorMessage(method, i));
                 }
