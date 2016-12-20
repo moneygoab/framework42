@@ -3,6 +3,7 @@ package org.framework42.utils;
 import org.framework42.annotations.AllowNull;
 import org.framework42.annotations.GreaterThenZero;
 import org.framework42.annotations.NotZero;
+import org.framework42.annotationsinterface.ExecutorObject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

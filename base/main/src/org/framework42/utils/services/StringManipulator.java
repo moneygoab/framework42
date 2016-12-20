@@ -3,6 +3,7 @@ package org.framework42.utils.services;
 import org.framework42.utils.model.Fill;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 public interface StringManipulator {
 
@@ -23,5 +24,9 @@ public interface StringManipulator {
     public String formatMoney(int moneyValue);
 
     public String formatPercent(float value);
+
+    public String[] breakoutUrls(String text);
+
+    public String replaceUrls(String text,Map<String,String> urls);
 
 }

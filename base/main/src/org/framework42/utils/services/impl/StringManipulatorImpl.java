@@ -5,6 +5,10 @@ import org.framework42.utils.services.StringManipulator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class StringManipulatorImpl implements StringManipulator {
 
@@ -183,5 +187,28 @@ public class StringManipulatorImpl implements StringManipulator {
 
         return (d+"").replaceAll("\\.", ",")+" %";
     }
+
+    @Override
+    public String[] breakoutUrls(String breakoutText) {
+        String[] texts = breakoutText.split("\\s+");
+        ArrayList<String> urls = new ArrayList<>();
+
+        for(String text:texts){
+            if(text.startsWith("http")){
+                urls.add(text);
+            }
+        }
+
+        return urls.toArray(new String[urls.size()]);
+    }
+
+    @Override
+    public String replaceUrls(String text,Map<String, String> urls) {
+        for(Map.Entry<String,String> url:urls.entrySet()){
+            text = text.replace(url.getKey(),url.getValue());
+        }
+        return text;
+    }
+
 }
 
