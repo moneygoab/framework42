@@ -2,21 +2,33 @@ package org.framework42.creditcheck.services.impl;
 
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.*;
-import org.framework42.creditcheck.model.impl.ApplicantImpl;
-import org.framework42.creditcheck.model.impl.CoApplicantApplicationResponseImpl;
-import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
-import org.framework42.creditcheck.model.impl.MainApplicantExtraApplicationResponseImpl;
+import org.framework42.creditcheck.model.impl.*;
 import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
+import org.framework42.services.impl.MoneyImpl;
 import uc_webservice.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 
 public class CreditCheckServiceUC implements CreditCheckService {
+
+    public static void main(String[] args) throws Exception {
+
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC_TEST, "Test", "U9951", "T6T", "UC", "3", "TES");
+
+        Applicant mainApplicant = new ApplicantImpl("6001207585", new Date().getDate(), new ArrayList());
+
+        CreditBureauApplication application = new CreditBureauApplicationImpl(0, ApplicationType.NEW, ApplicationStatus.INFORMATION_GATHERING_PROCESS, new Date(), new MoneyImpl(new BigDecimal("30000"), Currency.getInstance("SEK")), ApplicationChannel.LETTER, mainApplicant, null, 0);
+
+        application = new CreditCheckServiceUC().makeApplication(context, application);
+
+        System.out.println(application.getId());
+    }
 
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) throws CreditCheckException {
 

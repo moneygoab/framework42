@@ -103,6 +103,8 @@ public class CreditCheckServiceSuper implements CreditCheckService {
                         new MoneyImpl(new BigDecimal(internalCreditCheck.getDeclaredIncome()), Currency.getInstance("SEK")),
                         internalCreditCheck.getDebtCollectionInfo().getNumberOfACollections()+internalCreditCheck.getDebtCollectionInfo().getNumberOfECollections(),
                         new MoneyImpl(new BigDecimal(internalCreditCheck.getDebtCollectionInfo().getSumOfACollections()+internalCreditCheck.getDebtCollectionInfo().getSumOfECollections()), Currency.getInstance("SEK")),
+                        0,
+                        new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
                         reasonCodes
                 ),
                 application.getExtendedApplicationId()
