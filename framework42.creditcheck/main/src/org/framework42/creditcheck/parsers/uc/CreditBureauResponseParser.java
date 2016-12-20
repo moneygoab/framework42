@@ -140,6 +140,42 @@ public enum CreditBureauResponseParser {
             logger.debug("First credit check for customer "+governmentId);
         }
 
+        int numberOfPreviousLoans = 0;
+
+        Money sumOfPreviousLoans = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+
+        try {
+            Group loansGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W450", 0);
+
+            if(loansGroup != null) {
+                for(Term term: loansGroup.getTerm()) {
+
+                    if("W45025".equals(term.getId())) {
+
+                        try {
+
+                        sumOfPreviousLoans = new MoneyImpl(new BigDecimal(term.getValue()), Currency.getInstance(new Locale("sv", "SE")));
+                        } catch (Exception e) {logger.debug("CreditBureauResponseParser.W45025 - "+e.getMessage());}
+
+                    } if("W45008".equals(term.getId())) {
+
+                        try {
+
+                            numberOfPreviousLoans = Integer.parseInt(term.getValue());
+                        } catch (NumberFormatException e) {logger.debug("CreditBureauResponseParser.W45008 - "+e.getMessage());}
+                    }
+                }
+            } else {
+                logger.debug("First credit check for customer "+governmentId);
+            }
+        } catch(IllegalArgumentException e) {
+            logger.debug("First credit check for customer "+governmentId);
+        }
+
+        //
+
+        //
+
         /*
         String reasonCodes = "";
 
@@ -168,6 +204,8 @@ public enum CreditBureauResponseParser {
                 declaredIncome,
                 numberOfDebtCollections,
                 sumOfDebtCollections,
+                numberOfPreviousLoans,
+                sumOfPreviousLoans,
                 reasonCodes
         );
     }

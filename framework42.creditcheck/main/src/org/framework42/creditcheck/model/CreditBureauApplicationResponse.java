@@ -20,6 +20,10 @@ public interface CreditBureauApplicationResponse {
 
     public Money getSumOfDebtCollections();
 
+    public int getNumberOfPreviousLoans();
+
+    public Money getSumOfPreviousLoans();
+
     public String getReasonCodes();
 
 }

@@ -29,6 +29,10 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final Money sumOfDebtCollections;
 
+    protected final int numberOfPreviousLoans;
+
+    protected final Money sumOfPreviousLoans;
+
     protected final String reasonCodes;
 
     public SimpleCreditBureauApplicationResponse() {
@@ -41,11 +45,13 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
         this.numberOfDebtCollections = 0;
         this.sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+        this.numberOfPreviousLoans = 0;
+        this.sumOfPreviousLoans = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
         this.reasonCodes = "";
     }
 
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml, String coApplicantCreditBureauDecisionAsHtml,
-                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, String reasonCodes) {
+                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, int numberOfPreviousLoans, Money sumOfPreviousLoans, String reasonCodes) {
 
         this.creditBureauDecision = notNull(creditBureauDecision, "Credit bureau decision can't be null!");
         this.recommendedAmount = notNull(recommendedAmount, "Recommended amount can't be null!");
@@ -55,6 +61,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.declaredIncome = notNull(declaredIncome, "Declared income can't be null!");
         this.numberOfDebtCollections = notNegative(numberOfDebtCollections, "Number of debt collections can't be of negative value!");
         this.sumOfDebtCollections = notNull(sumOfDebtCollections, "Sum of debt collections can't be null!");
+        this.numberOfPreviousLoans = notNegative(numberOfPreviousLoans, "Number of previous loans can't be of negative value!");
+        this.sumOfPreviousLoans = notNull(sumOfPreviousLoans, "Sum of previous loans can't be null!");
         this.reasonCodes = notNull(reasonCodes, "Reason codes can't be null!");
     }
 
@@ -96,6 +104,16 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     @Override
     public Money getSumOfDebtCollections() {
         return sumOfDebtCollections;
+    }
+
+    @Override
+    public int getNumberOfPreviousLoans() {
+        return numberOfPreviousLoans;
+    }
+
+    @Override
+    public Money getSumOfPreviousLoans() {
+        return sumOfPreviousLoans;
     }
 
     @Override

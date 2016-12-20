@@ -138,6 +138,10 @@ public enum CreditBureauResponseParserTest {
             logger.debug("First credit check for customer "+governmentId);
         }
 
+        int numberOfPreviousLoans = 0;
+
+        Money sumOfPreviousLoans = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+
         /*
         String reasonCodes = "";
 
@@ -166,6 +170,8 @@ public enum CreditBureauResponseParserTest {
                 declaredIncome,
                 numberOfDebtCollections,
                 sumOfDebtCollections,
+                numberOfPreviousLoans,
+                sumOfPreviousLoans,
                 reasonCodes
         );
     }
