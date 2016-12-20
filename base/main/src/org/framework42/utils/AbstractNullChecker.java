@@ -20,7 +20,7 @@ public abstract class AbstractNullChecker {
             int i = 1;
             for(Object argument: argumentList) {
 
-                if(shouldCheckNull(method.getParameterAnnotations()[i-1]) && !(argument instanceof ExecutorObject)) {
+                if(shouldCheckNull(method.getParameterAnnotations()[i-1])) {
 
                     notNull(argument, generateErrorMessage(method, i));
                 }

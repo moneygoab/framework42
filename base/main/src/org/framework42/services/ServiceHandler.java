@@ -61,14 +61,15 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
                 for (Executor executor : ((Executors) annotation).value()) {
 
                     ExecutorObject executorObject = null;
-                    if (executor.parameters()) {
-                        for (Object object : argumentList) {
-                            if (object instanceof ExecutorObject) {
-                                executorObject = (ExecutorObject) object;
-                                break;
-                            }
-                        }
 
+                    for (Object object : argumentList) {
+                        if (object instanceof ExecutorObject) {
+                            executorObject = (ExecutorObject) object;
+                            break;
+                        }
+                    }
+
+                    if (executor.parameters()) {
                         if (executorObject == null) {
                             String message = generateExecutorErrorMessage(method);
                             logger.fatal(message);
