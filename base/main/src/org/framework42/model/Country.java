@@ -14,12 +14,20 @@ public enum Country {
     FINLAND("fi","FI", "FIN", 246, "EUR"),
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
+    ESTONIA("et", "EE", "EST", 233, "EUR"),
+    LATVIA("lv", "LV", "LVA", 428, "EUR"),
+    LITHUANIA("lt", "LT", "LTU", 440, "EUR"),
     AUSTRIA("de", "AT", "AUT", 40, "EUR"),
+    GERMANY("de", "DE", "DEU", 276, "EUR"),
     POLAND("pl", "PL", "POL", 48, "PLN"),
     PORTUGAL("pt", "PT", "PRT", 620, "EUR"),
     SERBIA("sr", "RS", "SRB", 891, "RSD"),
+    RUSSIA("ru", "RU", "RUS", 643, "RUB"),
 
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
+    IRAQ("ar", "IQ", "IRQ", 368, "IQD"),
+    SYRIA("ar", "SY", "SYR", 760, "SYP"),
+    IRAN("fa", "IR", "IRN", 364, "IRR"),
 
     GHANA("en", "GH", "GHA", 288, "GHS"),
 
@@ -154,6 +162,22 @@ public enum Country {
 
             return ICELAND;
 
+        } else if("Estland".equalsIgnoreCase(country)) {
+
+            return ESTONIA;
+
+        } else if("Lettland".equalsIgnoreCase(country)) {
+
+            return LATVIA;
+
+        }else if("Litauen".equalsIgnoreCase(country)) {
+
+            return LITHUANIA;
+
+        } else if("Tyskland".equalsIgnoreCase(country)) {
+
+            return GERMANY;
+
         } else if("Österrike".equalsIgnoreCase(country) ||
                 "Österreich".equalsIgnoreCase(country)
                 ) {
@@ -171,6 +195,30 @@ public enum Country {
                 ) {
 
             return PORTUGAL;
+
+        } else if("Ryssland".equalsIgnoreCase(country) ||
+                "Russia".equalsIgnoreCase(country)
+                ) {
+
+            return RUSSIA;
+
+        } else if("Irak".equalsIgnoreCase(country) ||
+                "Iraq".equalsIgnoreCase(country)
+                ) {
+
+            return IRAQ;
+
+        } else if("Iran".equalsIgnoreCase(country) ||
+                "Iran".equalsIgnoreCase(country)
+                ) {
+
+            return IRAN;
+
+        } else if("Syrien".equalsIgnoreCase(country) ||
+                "Syria".equalsIgnoreCase(country)
+                ) {
+
+            return SYRIA;
 
         } else if("Filippinerna".equalsIgnoreCase(country) ||
                 "fil".equalsIgnoreCase(country)
