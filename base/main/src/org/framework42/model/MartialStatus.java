@@ -2,7 +2,7 @@ package org.framework42.model;
 
 public enum MartialStatus {
 
-    SINGLE(1), MARRIED(2), DIVORCED(3), WIDOWED(4), UNKNOWN(0);
+    SINGLE(1), MARRIED(2), DIVORCED(3), WIDOWED(4),COHABITATION(5), UNKNOWN(0);
 
     private final int id;
 
