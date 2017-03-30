@@ -11,15 +11,15 @@ public class DateField extends TextField {
 
     private final String id;
     private final String format;
-    public DateField(String idAndName, String simpleFormat){
-        super(idAndName);
+    public DateField(String idAndName, String simpleFormat,String value){
+        super(idAndName,value);
         this.id = idAndName;
         this.format = simpleFormat;
     }
 
 
-    public DateField(String idAndName){
-        this(idAndName,"yy-mm-dd");
+    public DateField(String idAndName,String value){
+        this(idAndName,"yy-mm-dd",value);
     }
 
 
