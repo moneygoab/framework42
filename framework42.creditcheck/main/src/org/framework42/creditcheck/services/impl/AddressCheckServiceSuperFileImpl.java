@@ -27,7 +27,7 @@ public class AddressCheckServiceSuperFileImpl extends ProxyService<AddressCheckS
 
         } catch (RuntimeException e) {
 
-            throw new AddressCheckException(e.getMessage());
+            throw new AddressCheckException(e.getMessage(), true);
         }
 
     }

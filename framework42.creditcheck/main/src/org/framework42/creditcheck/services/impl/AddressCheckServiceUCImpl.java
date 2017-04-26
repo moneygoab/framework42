@@ -10,6 +10,8 @@ import org.framework42.address.model.TrustedAddress;
 import org.framework42.services.ProxyService;
 import uc_webservice.*;
 
+import java.io.IOException;
+
 public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceUCImpl> implements AddressCheckService {
 
     public static void main(String[] args) throws AddressCheckException {
@@ -27,16 +29,25 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
 
         UcOrders orders = new UCOrderService().getUcOrders2();
 
-        UcReply ucReply = orders.identityCheck(createIdentityCheck(context, governmentId));
+        UcReply ucReply;
+
+        try {
+
+            ucReply = orders.identityCheck(createIdentityCheck(context, governmentId));
+
+        } catch (Exception e) {
+
+            throw new AddressCheckException("Error in communication with address provider UC! "+e.getMessage(), true);
+        }
 
         if("error".equalsIgnoreCase(ucReply.getStatus().getResult())) {
 
             if("101".equalsIgnoreCase(ucReply.getStatus().getMessage().getId())) {
 
-                throw new AddressCheckException("Government ID not valid!"+ucReply.getStatus().getMessage().getId()+" - "+ucReply.getStatus().getMessage().getValue());
+                throw new AddressCheckException("Government ID not valid!"+ucReply.getStatus().getMessage().getId()+" - "+ucReply.getStatus().getMessage().getValue(), false);
             }
 
-            throw new AddressCheckException("Error in communication with address provider! "+ucReply.getStatus().getMessage().getId()+" - "+ucReply.getStatus().getMessage().getValue());
+            throw new AddressCheckException("Error in communication with address provider! "+ucReply.getStatus().getMessage().getId()+" - "+ucReply.getStatus().getMessage().getValue(), true);
 
         } else {
 
