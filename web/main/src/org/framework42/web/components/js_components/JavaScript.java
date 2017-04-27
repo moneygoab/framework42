@@ -23,6 +23,11 @@ public class JavaScript extends HtmlComponent {
         this.builder = builder;
     }
 
+    public JavaScript(String script){
+        builder= null;
+        scriptFile = script;
+    }
+
     public JavaScript(String path,Map<String,String> populate)throws IOException {
         builder= null;
         byte[] encode = Files.readAllBytes(Paths.get(path));
