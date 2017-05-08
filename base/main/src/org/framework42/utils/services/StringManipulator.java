@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface StringManipulator {
 
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront);
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront,boolean shouldCut);
 
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType);
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType,boolean shouldCut);
 
     public String divideInGroups(String originalString, int groupSize, String inBetweenString);
 

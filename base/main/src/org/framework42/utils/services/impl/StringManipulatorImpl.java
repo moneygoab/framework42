@@ -13,7 +13,7 @@ import java.util.Set;
 public class StringManipulatorImpl implements StringManipulator {
 
     @Override
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront) {
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront, boolean shouldCut) {
 
         if(fillCharacter==null||fillCharacter.length()==0) {
             throw new IllegalArgumentException("Parameter fill character is invalid value is '"+fillCharacter+"'");
@@ -33,11 +33,15 @@ public class StringManipulatorImpl implements StringManipulator {
             }
         }
 
+        if(shouldCut && newString.length() > finalLength){
+            newString = newString.substring(0,finalLength);
+        }
+
         return newString;
     }
 
     @Override
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType) {
+    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType, boolean shouldCut) {
 
         if(fillCharacter==null||fillCharacter.length()==0) {
             throw new IllegalArgumentException("Parameter fill character is invalid value is '"+fillCharacter+"'");
@@ -57,8 +61,14 @@ public class StringManipulatorImpl implements StringManipulator {
             }
         }
 
+        if(shouldCut && newString.length() > finalLength){
+            newString = newString.substring(0,finalLength);
+        }
+
+
         return newString;
     }
+
 
     @Override
     public String divideInGroups(String originalString, int groupSize, String inBetweenString) {
