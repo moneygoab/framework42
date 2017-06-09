@@ -8,34 +8,79 @@ public enum Country {
 
     UNKNOWN("UNKNOWN", "UNKNOWN", "UNKNOWN", 0, ""),
 
+    //NORDICS
     DENMARK("da", "DK", "DNK", 208, "DKK"),
     NORWAY("no", "NO", "NOR", 578, "NOK"),
     SWEDEN("sv", "SE", "SWE", 752, "SEK"),
     FINLAND("fi","FI", "FIN", 246, "EUR"),
     ICELAND("is","IS", "ISL", 354, "ISK"),
 
-    ESTONIA("et", "EE", "EST", 233, "EUR"),
-    LATVIA("lv", "LV", "LVA", 428, "EUR"),
-    LITHUANIA("lt", "LT", "LTU", 440, "EUR"),
+    //EUROPE
+    ALBANIA("sq", "AL", "ALB", 8, "ALL"),
+    ANDORRA("ca", "AD", "AND", 20, "EUR"),
+    ARMENIA("hy", "AR", "ARM", 51, "AMD"),
     AUSTRIA("de", "AT", "AUT", 40, "EUR"),
+    AZERBAIJAN("az", "AZ", "AZE", 31, "AZN"),
+    BELARUS("be", "BY", "BLR", 112, "BYN"),
+    BELGIUM("nl", "BE", "BEL", 56, "EUR"),
+    BOSNIA_AND_HERZEGOVINA("bs", "BA", "BIH", 70, "BAM"),
+    BULGARIA("bg", "BG", "BGR", 100, "BGN"),
+    CROATIA("hr", "HR", "HRV", 191, "HRK"),
+    CYPRUS("el", "CY", "CYP", 196, "EUR"),
+    CZECH_REPUBLIC("cs", "CZ", "CZE", 203, "CZK"),
+    ESTONIA("et", "EE", "EST", 233, "EUR"),
+    FRANCE("fr", "FR", "FRA", 250,"EUR"),
+    GEORGIA("ka", "GE", "GEO", 268, "GEL"),
     GERMANY("de", "DE", "DEU", 276, "EUR"),
+    GREECE("el", "GR", "GRC", 300, "EUR"),
+    HUNGARY("hu", "HU", "HUN", 348, "HUF"),
+    IRELAND("en", "IE", "IRL", 372, "EUR"),
+    ITALY("it", "IT", "ITA", 380, "EUR"),
+    KAZAKHSTAN("ru", "KA", "KAZ", 398, "KZT"),
+    LATVIA("lv", "LV", "LVA", 428, "EUR"),
+    LIECHTENSTEIN("de", "LI", "LIE", 438, "CHF"),
+    LITHUANIA("lt", "LT", "LTU", 440, "EUR"),
+    LUXEMBOURG("lb", "LU", "LUX", 442, "EUR"),
+    MACEDONIA("mk", "MK", "MKD", 807, "MKD"),
+    MALTA("mt", "MT", "MLT", 470, "EUR"),
+    MOLDOVA("ro", "MD", "MDA", 498, "MDL"),
+    MONACO("fr", "MC", "MCO", 492, "EUR"),
+    MONTENEGRO("sr", "ME", "MNE", 499, "EUR"),
+    NETHERLANDS("nl", "NL", "NLD", 528, "EUR"),
     POLAND("pl", "PL", "POL", 48, "PLN"),
     PORTUGAL("pt", "PT", "PRT", 620, "EUR"),
-    SERBIA("sr", "RS", "SRB", 891, "RSD"),
+    ROMANIA("ro", "RO", "ROU", 642, "RON"),
     RUSSIA("ru", "RU", "RUS", 643, "RUB"),
+    SAN_MARINO("it", "SM", "SMR", 674, "EUR"),
+    SERBIA("sr", "RS", "SRB", 891, "RSD"),
+    SLOVAKIA("sk", "SK", "SVK", 703, "EUR"),
+    SLOVENIA("sl", "SI", "SVN", 705, "EUR"),
+    SPAIN("es", "ES", "ESP", 724, "EUR"),
+    SWITZERLAND("de", "CH", "CHE", 756, "CHF"),
+    TURKEY("tr", "TR", "TUR", 792, "TRY"),
+    UKRAINE("uk", "UA", "UKR", 804, "UAH"),
+    UNITED_KINGDOMS("en", "GB", "GBR", 826, "GBP"),
+    VATICAN_CITY("it", "VA", "VAT", 336, "EUR"),
 
+    //MIDDLE EAST
     ISRAEL("he", "IL", "ISR", 973, "ILS"),
     IRAQ("ar", "IQ", "IRQ", 368, "IQD"),
     SYRIA("ar", "SY", "SYR", 760, "SYP"),
     IRAN("fa", "IR", "IRN", 364, "IRR"),
 
+    //AFRICA
     GHANA("en", "GH", "GHA", 288, "GHS"),
 
+    //ASIA
+    CHINA("zh", "CN", "CHN", 156, "CNY"),
+    JAPAN("ja", "JP", "JPN", 392 , "JPY"),
+    INDIA("en", "IN", "IND", 356, "INR"),
     PHILIPPINES("fil", "PH", "PHL", 608, "PHP"),
-    TURKEY("tr", "TR", "TUR", 792, "TRY"),
 
-    UNITED_KINGDOMS("uk", "GB", "GBR", 826, "GBP"),
-
+    //AMERICA
+    BRAZIL("pt", "BR", "BRA", 76, "BRL"),
+    CANADA("en", "CA", "CAN", 124 , "CAD"),
+    MEXICO("es", "MX", "MEX", 484, "MXN"),
     USA("us","US", "USA", 840, "USD"),
     ;
 

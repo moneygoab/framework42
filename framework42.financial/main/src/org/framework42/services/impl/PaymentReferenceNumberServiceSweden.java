@@ -59,7 +59,7 @@ public class PaymentReferenceNumberServiceSweden implements PaymentReferenceNumb
                     random += ""+(int)(Math.random()*10f);
                 }
 
-                random = stringManipulator.fillWithCharacter(random, "0", length-2, true);
+                random = stringManipulator.fillWithCharacter(random, "0", length-2, true, true);
 
                 String lengthDigit = (random.length()+2)+"";
 
