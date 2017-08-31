@@ -79,6 +79,7 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
                 ApplicationStatus.APPROVAL_PROCESS,
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
+                application.getPreviousDebt(),
                 application.getApplicationChannel(),
                 ApplicantParserTest.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParserTest.INSTANCE.createCoApplicant(reply, application),

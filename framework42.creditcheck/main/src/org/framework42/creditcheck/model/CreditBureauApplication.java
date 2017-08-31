@@ -6,24 +6,26 @@ import java.util.Date;
 
 public interface CreditBureauApplication {
 
-    public int getId();
+    int getId();
 
-    public ApplicationType getType();
+    ApplicationType getType();
 
-    public ApplicationStatus getStatus();
+    ApplicationStatus getStatus();
 
-    public Date getApplicationDate();
+    Date getApplicationDate();
 
-    public Money getAppliedAmount();
+    Money getAppliedAmount();
 
-    public ApplicationChannel getApplicationChannel();
+    Money getPreviousDebt();
+    
+    ApplicationChannel getApplicationChannel();
 
-    public Applicant getMainApplicant();
+    Applicant getMainApplicant();
 
-    public Applicant getCoApplicant();
+    Applicant getCoApplicant();
 
-    public CreditBureauApplicationResponse getCreditBureauResponse();
+    CreditBureauApplicationResponse getCreditBureauResponse();
 
-    public int getExtendedApplicationId();
+    int getExtendedApplicationId();
 
 }
