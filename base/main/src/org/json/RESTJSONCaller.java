@@ -294,7 +294,7 @@ public enum RESTJSONCaller {
 
         String base64Encode = Base64.encode(auth.getBytes());
         RESTJSONResponse response;
-        if(stream != null){
+        if(stream == null){
              response = makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
         }else{
             response = postCall("Authorization","Basic " + base64Encode,targetURL,"",stream,contentType,null);
