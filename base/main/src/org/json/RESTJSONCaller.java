@@ -375,7 +375,7 @@ public enum RESTJSONCaller {
             wr.close();
 
             //Get Response
-            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED) {
+            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED || connection.getResponseCode()==HttpURLConnection.HTTP_ACCEPTED) {
 
                 InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is));
