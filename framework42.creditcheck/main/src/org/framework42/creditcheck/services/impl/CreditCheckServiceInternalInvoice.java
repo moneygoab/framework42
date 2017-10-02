@@ -28,6 +28,7 @@ public class CreditCheckServiceInternalInvoice implements CreditCheckService {
                     ApplicationStatus.APPROVAL_PROCESS,
                     application.getApplicationDate(),
                     application.getAppliedAmount(),
+                    application.getPreviousDebt(),
                     application.getApplicationChannel(),
                     new ApplicantImpl(
                             0,
