@@ -244,7 +244,16 @@ public enum RESTJSONCaller {
         return makePostCall("X-Consumer-Key", consumerKey, targetURL, "", "application/json");
     }
 
+
+    public RESTJSONResponse makePostCallWithBasicAuth(String targetURL, ByteArrayOutputStream stream, String contentType,String username,String password, boolean trustedSSL)throws IOException,NoSuchAlgorithmException,KeyManagementException{
+        return makePostCallWithBasicAuth(targetURL,"",stream,contentType,username,password,trustedSSL);
+    }
+
     public RESTJSONResponse makePostCallWithBasicAuth(String targetURL, String postData, String contentType,String username,String password, boolean trustedSSL) throws IOException,NoSuchAlgorithmException,KeyManagementException{
+        return makePostCallWithBasicAuth(targetURL,postData,null,contentType,username,password,trustedSSL);
+    }
+
+    public RESTJSONResponse makePostCallWithBasicAuth(String targetURL, String postData,ByteArrayOutputStream stream, String contentType,String username,String password, boolean trustedSSL) throws IOException,NoSuchAlgorithmException,KeyManagementException{
 
         SSLSocketFactory defaultSSLSocketFactory =  null;
         HostnameVerifier defaultHostnameVerifier = null;
@@ -284,8 +293,13 @@ public enum RESTJSONCaller {
         String auth = username + ":" +password;
 
         String base64Encode = Base64.encode(auth.getBytes());
+        RESTJSONResponse response;
+        if(stream == null){
+             response = makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
+        }else{
+            response = postCall("Authorization","Basic " + base64Encode,targetURL,"",stream,contentType,null);
+        }
 
-        RESTJSONResponse response = makePostCall("Authorization","Basic " + base64Encode,targetURL,postData, contentType);
 
         if(!trustedSSL){
             HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSocketFactory);
@@ -361,7 +375,7 @@ public enum RESTJSONCaller {
             wr.close();
 
             //Get Response
-            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED) {
+            if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED || connection.getResponseCode()==HttpURLConnection.HTTP_ACCEPTED) {
 
                 InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is));
