@@ -11,11 +11,14 @@ public class RESTConsumer {
 
     private final int consumerId;
 
+    private final int internalId;
+
     private final Map<Role,UserRole> roleMap;
 
-    public RESTConsumer(boolean authenticated, int consumerId, Map<Role, UserRole> roleMap) {
+    public RESTConsumer(boolean authenticated, int consumerId, int internalId, Map<Role, UserRole> roleMap) {
         this.authenticated = authenticated;
         this.consumerId = consumerId;
+        this.internalId = internalId;
         this.roleMap = roleMap;
     }
 
@@ -25,6 +28,10 @@ public class RESTConsumer {
 
     public int getConsumerId() {
         return consumerId;
+    }
+
+    public int getInternalId() {
+        return internalId;
     }
 
     public Map<Role, UserRole> getRoleMap() {
