@@ -53,6 +53,13 @@ public class CreditCheckServiceUC implements CreditCheckService {
             template.setIncome(income);
         }
 
+        TemplateParams ownParameters = new TemplateParams();
+        Templateparam totalDebt = new Templateparam();
+        totalDebt.setId(0);
+        totalDebt.setValue(application.getPreviousDebt().getAmount().add(application.getAppliedAmount().getAmount()).intValue()+"");
+        ownParameters.getTemplateparam().add(totalDebt);
+        template.setTemplateParams(ownParameters);
+
         ReportQuery reportQuery = new ReportQuery();
         reportQuery.setHtmlReply(true);
         reportQuery.setCreditSeeked(application.getAppliedAmount().getAmount().intValue());
