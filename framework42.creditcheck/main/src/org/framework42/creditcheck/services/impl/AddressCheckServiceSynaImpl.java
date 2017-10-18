@@ -37,7 +37,7 @@ public class AddressCheckServiceSynaImpl extends ProxyService<AddressCheckServic
 
     public static void main(String[] args) throws Exception {
 
-        new AddressCheckServiceSynaImpl().getAddress(new CreditBureauContextImpl(0, CreditBureau.SYNA, "Syna", "500317", "apigo", "Syna Adressfråga", "policy", "83.68.231.218"), "7511133510");
+        new AddressCheckServiceSynaImpl().getAddress(new CreditBureauContextImpl(0, CreditBureau.SYNA, "Syna", "500317", "apigo", "Syna Adressfråga", "policy", "83.68.231.218", false), "7511133510");
     }
 
     @Override

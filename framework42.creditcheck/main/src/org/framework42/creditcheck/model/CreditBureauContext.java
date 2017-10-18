@@ -2,20 +2,22 @@ package org.framework42.creditcheck.model;
 
 public interface CreditBureauContext {
 
-    public int getId();
+    int getId();
 
-    public CreditBureau getCreditBureau();
+    CreditBureau getCreditBureau();
 
-    public String getDescription();
+    String getDescription();
 
-    public String getUserId();
+    String getUserId();
 
-    public String getPassword();
+    String getPassword();
 
-    public String getName();
+    String getName();
 
-    public String getPolicyProduct();
+    String getPolicyProduct();
 
-    public String getPolicyRules();
+    String getPolicyRules();
+
+    boolean isSendNewTotalDebt();
 
 }
