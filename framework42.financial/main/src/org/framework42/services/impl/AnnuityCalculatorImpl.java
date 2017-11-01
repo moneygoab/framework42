@@ -84,24 +84,30 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
     @Override
     public double getMinimumToPayNotRounded(BigDecimal initialAmount, BigDecimal interest, int monthsToPayBack) {
 
-        BigDecimal monthlyInterest = interest.divide(new BigDecimal(1200), 10, RoundingMode.UP);
+        if(interest.compareTo(BigDecimal.ZERO)>0) {
 
-        BigDecimal topCalc = monthlyInterest.multiply( monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack));
+            BigDecimal monthlyInterest = interest.divide(new BigDecimal(1200), 10, RoundingMode.UP);
 
-        BigDecimal bottomCalc = monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack).subtract(new BigDecimal(1));
+            BigDecimal topCalc = monthlyInterest.multiply(monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack));
 
-        //BigDecimal stuff = topCalc.divide(bottomCalc);
-        double stuff = topCalc.doubleValue()/bottomCalc.doubleValue();
+            BigDecimal bottomCalc = monthlyInterest.add(new BigDecimal(1)).pow(monthsToPayBack).subtract(new BigDecimal(1));
 
-        double returnValue = initialAmount.doubleValue()* stuff;
+            //BigDecimal stuff = topCalc.divide(bottomCalc);
+            double stuff = topCalc.doubleValue() / bottomCalc.doubleValue();
 
-        if(returnValue<0) {
+            double returnValue = initialAmount.doubleValue() * stuff;
 
-            returnValue = 0;
+            if (returnValue < 0) {
+
+                returnValue = 0;
+            }
+            //return initialAmount.multiply( stuff ).intValue();
+            return returnValue;
+
+        } else {
+
+            return initialAmount.divide(new BigDecimal(monthsToPayBack), 2, RoundingMode.UP).doubleValue();
         }
-
-        //return initialAmount.multiply( stuff ).intValue();
-        return returnValue;
     }
 
 }

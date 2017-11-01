@@ -25,6 +25,12 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
         double kronor = loanAmount.intValue();
 
+        // Fix for no interest working
+        if(nominalInterest.compareTo(new BigDecimal(0.05))<=0) {
+
+            nominalInterest = new BigDecimal(0.05);
+        }
+
         double nominalInterestValue = nominalInterest.doubleValue() / 100;
         double nominalMonthInterestValue = nominalInterestValue / monthsInYear;
 
@@ -50,8 +56,8 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(30000), new BigDecimal(9.9), 72, new BigDecimal(0), new BigDecimal(20)));
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(5000), new BigDecimal(19.8), 72, new BigDecimal(0), new BigDecimal(20)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(0), 12, new BigDecimal(0), new BigDecimal(20)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(12), 12, new BigDecimal(0), new BigDecimal(20)));
 
     }
 
