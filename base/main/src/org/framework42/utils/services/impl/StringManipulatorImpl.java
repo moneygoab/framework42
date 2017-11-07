@@ -12,11 +12,6 @@ import java.util.Set;
 
 public class StringManipulatorImpl implements StringManipulator {
 
-    public static void main(String[] args) {
-
-        System.out.println(new StringManipulatorImpl().formatMoney(new BigDecimal("-1000006.55")));
-    }
-
     @Override
     public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront, boolean shouldCut) {
 
