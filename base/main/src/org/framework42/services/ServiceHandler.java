@@ -54,7 +54,7 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
         }
     }
 
-    private void execute(Method method, Object[] argumentList, ExecuteRunType execute) {
+    private void execute(Method method, Object[] argumentList, ExecuteRunType type) {
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation.annotationType() == Executors.class) {
 
@@ -79,9 +79,9 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
 
                     try {
                         if (executor.runType() == ExecuteRunType.BOTH) {
-                            execute(executor.id(), executorObject);
-                        } else if (executor.runType() == execute) {
-                            execute(executor.id(), executorObject);
+                            execute(executor.id(), executorObject, type);
+                        } else if (executor.runType() == type) {
+                            execute(executor.id(), executorObject, type);
                         }
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
                         logger.error("Invoke Execute error -- " + ex.getMessage());
@@ -92,10 +92,10 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
         }
     }
 
-    private void execute(int id, ExecutorObject object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void execute(int id, ExecutorObject object, ExecuteRunType type) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         try{
             ExecutorListener listener = (ExecutorListener)delegate;
-            listener.invokeMethod(id,object);
+            listener.invokeMethod(id,object,type);
         }catch (Exception ex){
             logger.error("Invoke Execute error Class not implementing ExecutorListener -- " + ex.getMessage());
         }
