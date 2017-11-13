@@ -2,7 +2,6 @@ package org.framework42.model.users;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +26,7 @@ public interface User extends Serializable {
     public boolean hasAnyUserRole(List<Role> role);
 
     public Map<UserSetting, String> getUserSettings();
+
+    public String getRequestId();
     
 }

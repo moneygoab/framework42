@@ -233,6 +233,8 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
                             }
                         }
                     }
+                }else{
+                    session = updateSession(session);
                 }
 
             } else {
@@ -265,6 +267,11 @@ public abstract class WebPage<T extends UserSession, R extends PageModel> extend
 
         return session;
 
+    }
+
+
+    protected  T updateSession(T session){
+        return session;
     }
 
     protected abstract T createUserSession(HttpServletRequest req, HttpServletResponse resp) throws StopServletExecutionException;

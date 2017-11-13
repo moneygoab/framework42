@@ -1,5 +1,6 @@
 package org.framework42.services.impl;
 
+import org.framework42.model.users.User;
 import org.framework42.services.AnnuityCalculator;
 import org.framework42.services.ProxyService;
 

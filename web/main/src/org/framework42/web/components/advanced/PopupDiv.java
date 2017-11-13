@@ -79,7 +79,6 @@ public class PopupDiv extends HtmlComponent{
         try{
             return IOUtils.toString(classLoader.getResourceAsStream("jquery.popupoverlay.js"),"UTF-8");
         }catch (IOException ex){
-
         }
 
         throw new RuntimeException("Could not load web lib javascript file -- jquery.popupoverlay.js");

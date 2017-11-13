@@ -2,6 +2,7 @@ package org.framework42.i18n;
 
 import org.apache.log4j.Logger;
 import org.framework42.database.DatabaseConnector;
+import org.framework42.model.users.User;
 import org.framework42.services.ProxyService;
 
 import java.util.List;

@@ -3,10 +3,7 @@ package org.framework42.model.users.impl;
 import org.framework42.model.users.*;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.framework42.utils.NullChecker.notNull;
 
@@ -24,6 +21,8 @@ public class BaseUser implements User, Serializable {
 
     protected Map<UserSetting, String> userSettings;
 
+    protected final String requestId;
+
     public BaseUser(Date dateCreated) {
         this.id = 0;
         this.dateCreated = notNull(dateCreated, "Date created can't be null!").getTime();
@@ -32,6 +31,7 @@ public class BaseUser implements User, Serializable {
         this.userRoles = new HashMap<Role, UserRole>();
         this.userRoles.put(Role.UNKNOWN_PERSON, new UserRoleImpl<Role,RoleStatus>(Role.UNKNOWN_PERSON, RoleStatus.ACTIVE, dateCreated));
         this.userSettings = new HashMap<UserSetting, String>();
+        this.requestId = UUID.randomUUID().toString();
     }
 
     public BaseUser(int id, Date dateCreated, String loginName, String displayName, Map<Role, UserRole> userRoles) {
@@ -41,6 +41,7 @@ public class BaseUser implements User, Serializable {
         this.displayName = notNull(displayName, "Display name can't be null!");
         this.userRoles = notNull(userRoles, "User roles can't be null or contain null parameters!");
         this.userSettings = new HashMap<UserSetting, String>();
+        this.requestId = UUID.randomUUID().toString();
     }
 
     @Override
@@ -161,5 +162,10 @@ public class BaseUser implements User, Serializable {
                ", userRoles=" + userRoles +
                ", userSettings=" + userSettings +
                '}';
+    }
+
+    @Override
+    public String getRequestId() {
+        return requestId;
     }
 }
