@@ -173,7 +173,7 @@ public class StringManipulatorImpl implements StringManipulator {
 
                 tempString = returnString.substring(startId, i) + " "+tempString;
             }
-            System.out.println(tempString);
+
             if(tempString.contains(" ,")) {
 
                 String tString = "";

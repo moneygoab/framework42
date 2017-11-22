@@ -879,7 +879,8 @@
 
   <wsdl:service name="UCOrderService">
     <wsdl:port name="ucOrders2" binding="tns:ucOrderBinding">
-      <soap:address location="http://www1.uc.se:80/UCSoapWeb/services/ucOrders2"/> 
+      <!--<soap:address location="http://www1.uc.se:80/UCSoapWeb/services/ucOrders2"/>-->
+      <soap:address location="https://www1.uc.se/UCSoapWeb/services/ucOrders2"/>
     </wsdl:port>
   </wsdl:service>
 

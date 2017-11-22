@@ -30,7 +30,7 @@ public class UCOrderService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/fredrik/IdeaProjects/framework42/framework42.creditcheck/main/src/uc_webservice_test/UCOrders_test.wsdl");
+            url = new URL("file:///usr/local/wsdl/UCOrders_test.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
