@@ -2,6 +2,7 @@ package org.framework42.annotationsinterface;
 
 
 import org.framework42.model.service.ExecuteRunType;
+import org.framework42.model.users.User;
 
 import java.lang.reflect.Method;
 
@@ -10,6 +11,6 @@ import java.lang.reflect.Method;
  */
 public interface ExecutorListener {
 
-    void invokeMethod(int id, ExecutorObject object, Method method, ExecuteRunType type);
+    void invokeMethod(int id, ExecutorObject object, ExecuteRunType type, User user, String uniqueMethodId, Method method);
 
 }

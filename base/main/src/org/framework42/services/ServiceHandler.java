@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class ServiceHandler<T> extends AbstractNullChecker implements InvocationHandler {
 
@@ -38,12 +39,12 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
 
             notNullChecks(method, argumentList);
             authorization(method, argumentList);
-
-            execute(method, argumentList, ExecuteRunType.BEFORE);
+            String uniqueMethodId = UUID.randomUUID().toString();
+            execute(method, argumentList, ExecuteRunType.BEFORE,uniqueMethodId);
 
             Object object = method.invoke(delegate, argumentList);
 
-            execute(method, argumentList, ExecuteRunType.AFTER);
+            execute(method, argumentList, ExecuteRunType.AFTER,uniqueMethodId);
 
             return object;
 
@@ -54,34 +55,39 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
         }
     }
 
-    private void execute(Method method, Object[] argumentList, ExecuteRunType type) {
+    private void execute(Method method, Object[] argumentList, ExecuteRunType type, String uniqueId) {
         for (Annotation annotation : method.getAnnotations()) {
             if (annotation.annotationType() == Executors.class) {
 
                 for (Executor executor : ((Executors) annotation).value()) {
 
                     ExecutorObject executorObject = null;
+                    User user = null;
+
 
                     for (Object object : argumentList) {
                         if (object instanceof ExecutorObject) {
                             executorObject = (ExecutorObject) object;
                             break;
+                        }else if (object instanceof User){
+                            user = (User)object;
                         }
                     }
 
                     if (executor.parameters()) {
-                        if (executorObject == null) {
+                        if (executorObject == null || user == null) {
                             String message = generateExecutorErrorMessage(method);
                             logger.fatal(message);
                             throw new IllegalArgumentException(message);
                         }
                     }
 
+
                     try {
                         if (executor.runType() == ExecuteRunType.BOTH) {
-                            execute(executor.id(), executorObject, method, type);
+                            execute(executor.id(), executorObject, type, user,uniqueId,method);
                         } else if (executor.runType() == type) {
-                            execute(executor.id(), executorObject, method, type);
+                            execute(executor.id(), executorObject, type, user,uniqueId,method);
                         }
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
                         logger.error("Invoke Execute error -- " + ex.getMessage());
@@ -92,10 +98,10 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
         }
     }
 
-    private void execute(int id, ExecutorObject object,Method method, ExecuteRunType type) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private void execute(int id, ExecutorObject object, ExecuteRunType type , User user, String uniqueId, Method method) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         try{
             ExecutorListener listener = (ExecutorListener)delegate;
-            listener.invokeMethod(id,object,method,type);
+            listener.invokeMethod(id,object,type, user, uniqueId, method);
         }catch (Exception ex){
             logger.error("Invoke Execute error Class not implementing ExecutorListener -- " + ex.getMessage());
         }
