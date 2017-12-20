@@ -49,7 +49,7 @@ public class PopupDiv extends HtmlComponent{
         components.add(html);
 
         Div.Builder popupDiv = new Div.Builder(builder.id);
-        popupDiv.style("padding:10px;min-width:"+(builder.width - 20)+"px;max-width:"+builder.width+"px;min-height:"+builder.height+"px;box-shadow: 0 0 10px rgba(0,0,0,0.3);border: 1px solid #e3e3e3;background-color: #f5f5f5; border-radius: 8px;");
+        popupDiv.style("padding:10px;min-width:"+(builder.width_mini)+"px;max-width:"+builder.width_max+"px;min-height:"+builder.height+"px;box-shadow: 0 0 10px rgba(0,0,0,0.3);border: 1px solid #e3e3e3;background-color: #f5f5f5; border-radius: 8px;");
         popupDiv.add(builder.content);
         popupDiv.add(Break.I2,new SubmitButton.Builder(""+builder.id+"_close","X").className(""+builder.id+"_close")
                 .style("right:5px;width:20px;height:20px; position: absolute;top: 5px;padding: 0;border: none;background: #65c829;").build());
@@ -96,7 +96,9 @@ public class PopupDiv extends HtmlComponent{
 
         private int offsetTop = 0;
 
-        private int width = 320;
+        private int width_mini = 300;
+
+        private int width_max = 320;
 
         private int height = 150;
 
@@ -146,8 +148,9 @@ public class PopupDiv extends HtmlComponent{
             return this;
         }
 
-        public Builder setWidth(int width) {
-            this.width = width;
+        public Builder setWidth(int width_mini,int  width_max) {
+            this.width_mini = width_mini;
+            this.width_max = width_max;
             return this;
         }
 
