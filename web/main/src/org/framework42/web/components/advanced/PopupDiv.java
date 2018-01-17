@@ -53,7 +53,7 @@ public class PopupDiv extends HtmlComponent{
         popupDiv.add(builder.content);
         popupDiv.add(Break.I2,new SubmitButton.Builder(""+builder.id+"_close","X").className(""+builder.id+"_close")
                 .style("right:5px;width:20px;height:20px; position: absolute;top: 5px;padding: 0;border: none;background: #65c829;").build());
-        components.add(Break.I1,popupDiv.build());
+        components.add(popupDiv.build());
         JavaScript.Builder jsBuild = new JavaScript.Builder();
 
         jsBuild.addScriptLine("$(document).ready(function() {");
