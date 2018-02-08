@@ -2,7 +2,7 @@ package org.framework42.creditcheck.model;
 
 import org.framework42.services.Money;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface CreditBureauApplication {
 
@@ -12,7 +12,7 @@ public interface CreditBureauApplication {
 
     ApplicationStatus getStatus();
 
-    Date getApplicationDate();
+    LocalDateTime getApplicationDate();
 
     Money getAppliedAmount();
 

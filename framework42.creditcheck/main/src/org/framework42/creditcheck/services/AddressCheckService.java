@@ -6,6 +6,6 @@ import org.framework42.creditcheck.model.CreditBureauContext;
 
 public interface AddressCheckService {
 
-    public AddressCheckResponse getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException;
+    AddressCheckResponse getAddress(CreditBureauContext context, String governmentId) throws AddressCheckException;
 
 }

@@ -4,26 +4,26 @@ import org.framework42.services.Money;
 
 public interface CreditBureauApplicationResponse {
 
-    public Money getRecommendedAmount();
+    Money getRecommendedAmount();
 
-    public CreditDecision getCreditBureauDecision();
+    CreditDecision getCreditBureauDecision();
 
-    public String getCreditBureauDecisionAsHtml();
+    String getCreditBureauDecisionAsHtml();
 
-    public String getCoApplicantCreditBureauDecisionAsHtml();
+    String getCoApplicantCreditBureauDecisionAsHtml();
 
-    public int getNumberOfCreditChecks();
+    int getNumberOfCreditChecks();
 
-    public Money getDeclaredIncome();
+    Money getDeclaredIncome();
 
-    public int getNumberOfDebtCollections();
+    int getNumberOfDebtCollections();
 
-    public Money getSumOfDebtCollections();
+    Money getSumOfDebtCollections();
 
-    public int getNumberOfPreviousLoans();
+    int getNumberOfPreviousLoans();
 
-    public Money getSumOfPreviousLoans();
+    Money getSumOfPreviousLoans();
 
-    public String getReasonCodes();
+    String getReasonCodes();
 
 }

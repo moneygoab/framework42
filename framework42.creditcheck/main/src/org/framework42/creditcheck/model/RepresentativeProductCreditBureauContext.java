@@ -4,20 +4,20 @@ import java.util.Date;
 
 public interface RepresentativeProductCreditBureauContext {
 
-    public int getId();
+    int getId();
 
-    public CreditBureauContext getCreditBureauContext();
+    CreditBureauContext getCreditBureauContext();
 
-    public int getPriority();
+    int getPriority();
 
-    public CreditBureauStatus getStatus();
+    CreditBureauStatus getStatus();
 
-    public int getMinimumAmount();
+    int getMinimumAmount();
 
-    public int getMaximumAmount();
+    int getMaximumAmount();
 
-    public Date getValidFrom();
+    Date getValidFrom();
 
-    public Date getValidTo();
+    Date getValidTo();
 
 }

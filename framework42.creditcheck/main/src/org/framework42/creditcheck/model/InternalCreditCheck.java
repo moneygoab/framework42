@@ -6,38 +6,38 @@ import java.util.Date;
 
 public interface InternalCreditCheck {
 
-    public String getGovernmentId();
+    String getGovernmentId();
 
-    public Date getBirthDate();
+    Date getBirthDate();
 
-    public String getFirstName();
+    String getFirstName();
 
-    public String getLastName();
+    String getLastName();
 
-    public String getFullName();
+    String getFullName();
 
-    public String getAddressee();
+    String getAddressee();
 
-    public String getCareOf();
+    String getCareOf();
 
-    public String getAddress();
+    String getAddress();
 
-    public String getPostalCode();
+    String getPostalCode();
 
-    public String getCity();
+    String getCity();
 
-    public Country getCountry();
+    Country getCountry();
 
-    public int getScore();
+    int getScore();
 
-    public boolean isDebtCollected();
+    boolean isDebtCollected();
 
-    public DebtCollectionInfo getDebtCollectionInfo();
+    DebtCollectionInfo getDebtCollectionInfo();
 
-    public int getDeclaredIncome();
+    int getDeclaredIncome();
 
-    public int getNegativeCapital();
+    int getNegativeCapital();
 
-    public int getTaxationYear();
+    int getTaxationYear();
 
 }

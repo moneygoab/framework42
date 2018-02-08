@@ -2,12 +2,12 @@ package org.framework42.creditcheck.model;
 
 public interface MainApplicantExtraApplicationResponse {
 
-    public int getApplicationId();
+    int getApplicationId();
 
-    public Applicant getApplicant();
+    Applicant getApplicant();
 
-    public String getHtmlResponse();
+    String getHtmlResponse();
 
-    public CreditBureauApplicationResponse getCreditBureauApplicationResponse();
+    CreditBureauApplicationResponse getCreditBureauApplicationResponse();
 
 }

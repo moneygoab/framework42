@@ -4,6 +4,6 @@ import org.framework42.creditcheck.model.AddressCheckResponse;
 
 public interface InternalAddressCheckDAO {
 
-    public AddressCheckResponse getAddress(String governmentId);
+    AddressCheckResponse getAddress(String governmentId);
 
 }

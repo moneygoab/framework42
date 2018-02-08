@@ -3,6 +3,7 @@ package org.framework42.creditcheck.model.impl;
 import org.framework42.creditcheck.model.*;
 import org.framework42.services.Money;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
@@ -16,7 +17,7 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
     private final ApplicationStatus status;
 
-    private final long applicationDate;
+    private final LocalDateTime applicationDate;
 
     private final Money appliedAmount;
 
@@ -32,12 +33,12 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
 
     private final int extendedApplicationId;
 
-    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, Date applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, int extendedApplicationId) {
+    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.type = notNull(applicationType, "Application type can't be null!");
         this.status = notNull(status, "Status can't be null!");
-        this.applicationDate = notNull(applicationDate, "Application date can't be null!").getTime();
+        this.applicationDate = notNull(applicationDate, "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.previousDebt = notNull(previousDebt, "Previous debt can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
@@ -48,12 +49,12 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
         this.creditBureauResponse = null;
     }
 
-    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, Date applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse, int extendedApplicationId) {
+    public CreditBureauApplicationImpl(int id, ApplicationType applicationType, ApplicationStatus status, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.type = notNull(applicationType, "Application type can't be null!");
         this.status = notNull(status, "Status can't be null!");
-        this.applicationDate = notNull(applicationDate.getTime(), "Application date can't be null!");
+        this.applicationDate = notNull(applicationDate, "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.previousDebt = notNull(previousDebt, "Previous debt can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
@@ -80,8 +81,8 @@ public class CreditBureauApplicationImpl implements CreditBureauApplication {
     }
 
     @Override
-    public Date getApplicationDate() {
-        return new Date(applicationDate);
+    public LocalDateTime getApplicationDate() {
+        return applicationDate;
     }
 
     @Override
