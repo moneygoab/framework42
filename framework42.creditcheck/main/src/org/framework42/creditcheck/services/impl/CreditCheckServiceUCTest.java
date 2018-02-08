@@ -8,12 +8,11 @@ import org.framework42.creditcheck.model.impl.CreditBureauApplicationImpl;
 import org.framework42.creditcheck.model.impl.MainApplicantExtraApplicationResponseImpl;
 import org.framework42.creditcheck.parsers.uc.*;
 import org.framework42.creditcheck.services.CreditCheckService;
-import org.framework42.utils.DateUtil;
+import org.framework42.utils.LocalDateUtil;
 import uc_webservice_test.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CreditCheckServiceUCTest implements CreditCheckService {
 
@@ -179,10 +178,10 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
                 0,
                 governmentId,
                 new BigDecimal(risk),
-                DateUtil.getFromGovernmentId(),
+                LocalDateUtil.getFromGovernmentId(governmentId),
                 ApplicantParserTest.INSTANCE.createApplicantNames(applicantInformationGroup),
                 ApplicantParserTest.INSTANCE.createAddress(applicantInformationGroup),
-                new ArrayList<ApplicantContactMethod>(),
+                new ArrayList<>(),
                 income
         );
     }

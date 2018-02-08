@@ -4,7 +4,10 @@ import org.framework42.creditcheck.model.CreditBureauContext;
 import org.framework42.creditcheck.model.CreditBureauStatus;
 import org.framework42.creditcheck.model.RepresentativeProductCreditBureauContext;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import static org.framework42.utils.NotNegativeChecker.notNegative;
+import static org.framework42.utils.NullChecker.notNull;
 
 public class RepresentativeProductCreditBureauContextImpl implements RepresentativeProductCreditBureauContext {
 
@@ -20,20 +23,32 @@ public class RepresentativeProductCreditBureauContextImpl implements Representat
 
     private final int maximumAmount;
 
-    private final long fromDate;
+    private final LocalDateTime fromDate;
 
-    private final long toDate;
+    private final LocalDateTime toDate;
 
-    public RepresentativeProductCreditBureauContextImpl(int id, CreditBureauContext creditBureauContext, int priority, CreditBureauStatus status, int minimumAmount, int maximumAmount, Date fromDate, Date toDate) {
+    public RepresentativeProductCreditBureauContextImpl(CreditBureauContext creditBureauContext, int priority, CreditBureauStatus status, int minimumAmount, int maximumAmount, LocalDateTime fromDate, LocalDateTime toDate) {
 
-        this.id = id;
-        this.creditBureauContext = creditBureauContext;
-        this.priority = priority;
-        this.status = status;
-        this.minimumAmount = minimumAmount;
-        this.maximumAmount = maximumAmount;
-        this.fromDate = fromDate.getTime();
-        this.toDate = toDate.getTime();
+        this.id = 0;
+        this.creditBureauContext = notNull(creditBureauContext);
+        this.priority = notNegative(priority);
+        this.status = notNull(status);
+        this.minimumAmount = notNegative(minimumAmount);
+        this.maximumAmount = notNegative(maximumAmount);
+        this.fromDate = notNull(fromDate);
+        this.toDate = notNull(toDate);
+    }
+
+    public RepresentativeProductCreditBureauContextImpl(int id, CreditBureauContext creditBureauContext, int priority, CreditBureauStatus status, int minimumAmount, int maximumAmount, LocalDateTime fromDate, LocalDateTime toDate) {
+
+        this.id = notNegative(id);
+        this.creditBureauContext = notNull(creditBureauContext);
+        this.priority = notNegative(priority);
+        this.status = notNull(status);
+        this.minimumAmount = notNegative(minimumAmount);
+        this.maximumAmount = notNegative(maximumAmount);
+        this.fromDate = notNull(fromDate);
+        this.toDate = notNull(toDate);
     }
 
     @Override
@@ -73,14 +88,14 @@ public class RepresentativeProductCreditBureauContextImpl implements Representat
     }
 
     @Override
-    public Date getValidFrom() {
+    public LocalDateTime getValidFrom() {
 
-        return new Date(fromDate);
+        return fromDate;
     }
 
     @Override
-    public Date getValidTo() {
+    public LocalDateTime getValidTo() {
 
-        return new Date(toDate);
+        return toDate;
     }
 }

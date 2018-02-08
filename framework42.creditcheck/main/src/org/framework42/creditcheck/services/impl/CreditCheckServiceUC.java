@@ -7,6 +7,7 @@ import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
+import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
 
 import java.math.BigDecimal;
@@ -177,7 +178,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 0,
                 governmentId,
                 new BigDecimal(risk),
-                new Date(),
+                LocalDateUtil.getFromGovernmentId(governmentId),
                 ApplicantParser.INSTANCE.createApplicantNames(applicantInformationGroup),
                 ApplicantParser.INSTANCE.createAddress(applicantInformationGroup),
                 new ArrayList<ApplicantContactMethod>(),

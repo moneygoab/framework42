@@ -4,7 +4,6 @@ import org.framework42.creditcheck.model.*;
 import org.framework42.services.Money;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;

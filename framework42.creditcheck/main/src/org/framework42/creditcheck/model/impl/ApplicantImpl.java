@@ -9,7 +9,6 @@ import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;

@@ -2,13 +2,13 @@ package org.framework42.creditcheck.model;
 
 import org.framework42.model.Country;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface InternalCreditCheck {
 
     String getGovernmentId();
 
-    Date getBirthDate();
+    LocalDate getBirthDate();
 
     String getFirstName();
 

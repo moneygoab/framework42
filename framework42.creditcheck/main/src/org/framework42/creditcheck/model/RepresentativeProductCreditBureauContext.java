@@ -1,6 +1,6 @@
 package org.framework42.creditcheck.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface RepresentativeProductCreditBureauContext {
 
@@ -16,8 +16,8 @@ public interface RepresentativeProductCreditBureauContext {
 
     int getMaximumAmount();
 
-    Date getValidFrom();
+    LocalDateTime getValidFrom();
 
-    Date getValidTo();
+    LocalDateTime getValidTo();
 
 }

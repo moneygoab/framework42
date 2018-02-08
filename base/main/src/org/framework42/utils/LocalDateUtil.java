@@ -1,15 +1,10 @@
 package org.framework42.utils;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import static java.util.Calendar.YEAR;
-import static java.util.Calendar.getInstance;
+import java.time.LocalDate;
 
 public class LocalDateUtil {
 
-    public static Date getFromGovernmentId(String governmentId) {
+    public static LocalDate getFromGovernmentId(String governmentId) {
 
         if(governmentId==null || governmentId.length()<1) {
 
@@ -20,7 +15,7 @@ public class LocalDateUtil {
         int month = Integer.parseInt(governmentId.substring(2, 4));
         int day = Integer.parseInt(governmentId.substring(4, 6));
 
-        if( (2000+year) <= getInstance().get(YEAR)) {
+        if( (2000+year) <= LocalDate.now().getYear()) {
 
             year += 2000;
 
@@ -29,9 +24,7 @@ public class LocalDateUtil {
             year += 1900;
         }
 
-        Calendar cal = new GregorianCalendar(year, month-1, day);
-
-        return cal.getTime();
+        return LocalDate.of(year, month, day);
     }
 
 }
