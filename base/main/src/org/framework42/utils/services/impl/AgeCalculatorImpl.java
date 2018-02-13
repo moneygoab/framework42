@@ -31,5 +31,5 @@ public enum AgeCalculatorImpl implements AgeCalculator {
         return now.get(GregorianCalendar.YEAR);
 
     }
-    
+
 }
