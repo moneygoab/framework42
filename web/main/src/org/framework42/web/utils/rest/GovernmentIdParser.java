@@ -24,6 +24,16 @@ public enum GovernmentIdParser {
             throw new IllegalArgumentException();
         }
 
+        try {
+            Long.parseLong(governmentId);
+
+        } catch (NumberFormatException e) {
+
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ErrorMakerOld.INSTANCE.addError(resp, "40005", "Parameter "+parameterName+" should be 10 digits long in the format YYMMDDNNNN.", "Government id is wrong, please try again.", responseType);
+            throw new IllegalArgumentException("Parameter "+parameterName+" should be 10 digits long in the format YYMMDDNNNN.");
+        }
+
         if(governmentId.length()!=10) {
 
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
