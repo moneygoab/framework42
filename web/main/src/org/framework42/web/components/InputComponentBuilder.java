@@ -18,6 +18,8 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
     protected String disabled = null;
 
+    protected boolean required = false;
+
     protected String className = null;
 
     protected String id = null;
@@ -116,6 +118,9 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
             html.append(title);
             html.append("\"");
         }
+        if(required){
+            html.append(" required ");
+        }
 
         return html.toString();
 
@@ -183,6 +188,11 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
     public InputComponentBuilder<T> placeholder(String placeholder){
         this.placeholder = placeholder;
+        return this;
+    }
+
+    public InputComponentBuilder<T> required(boolean required){
+        this.required = required;
         return this;
     }
 
