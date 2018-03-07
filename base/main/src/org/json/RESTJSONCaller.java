@@ -579,25 +579,33 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
-                } catch(JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
+                if(is==null) {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+
+                } else {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    logger.debug(response.toString());
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), obj);
+                    }
                 }
             }
 
