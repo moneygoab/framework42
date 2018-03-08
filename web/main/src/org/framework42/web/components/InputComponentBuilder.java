@@ -16,6 +16,10 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
 
     protected String onSelect = null;
 
+    protected String onInput = null;
+
+    protected String pattern = null;
+
     protected String disabled = null;
 
     protected boolean required = false;
@@ -118,6 +122,19 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
             html.append(title);
             html.append("\"");
         }
+
+        if(pattern!= null){
+            html.append(" pattern=\"");
+            html.append(pattern);
+            html.append("\"");
+        }
+
+        if(onInput!= null){
+            html.append(" oninput=\"");
+            html.append(onInput);
+            html.append("\"");
+        }
+
         if(required){
             html.append(" required ");
         }
@@ -156,6 +173,18 @@ public abstract class InputComponentBuilder<T> extends EventComponentBuilder<T> 
         this.onSelect = onSelectEvent;
         return this;
     }
+
+    public InputComponentBuilder<T> onInput(String onInputEvent){
+        this.onInput = onInputEvent;
+        return this;
+    }
+
+
+    public InputComponentBuilder<T> pattern(String pattern){
+        this.pattern = pattern;
+        return this;
+    }
+
 
     public InputComponentBuilder<T> disabled(boolean disabled){
         if(disabled){
