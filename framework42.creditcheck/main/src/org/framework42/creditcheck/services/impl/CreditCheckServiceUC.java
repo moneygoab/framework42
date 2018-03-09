@@ -12,7 +12,6 @@ import uc_webservice.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CreditCheckServiceUC implements CreditCheckService {
 
