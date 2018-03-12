@@ -45,13 +45,13 @@ public class PopupDiv extends HtmlComponent{
         JavaScript js = new JavaScript(getDependency());
         components.add(js);
 
-        RawHtml html = new RawHtml("<button id='"+builder.id+"_id' class='"+builder.id+"_open' onclick=\""+builder.onclick+"\"  style='background:none!important; color:inherit; border:none; padding:0!important; font: inherit;border-bottom:1px solid #444; cursor: pointer;'>"+builder.text+"</button>");
+        RawHtml html = new RawHtml("<button id='"+builder.id+"_id' class='"+builder.id+"_open "+ builder.className + "' onclick=\""+builder.onclick+"\"  " + (builder.className.isEmpty()?"style='background:none!important; color:inherit; border:none; padding:0!important; font: inherit;border-bottom:1px solid #444; cursor: pointer;'":"") + " >" +builder.text+"</button>");
         components.add(html);
 
         Div.Builder popupDiv = new Div.Builder(builder.id);
         popupDiv.style("padding:10px;min-width:"+(builder.width_mini)+"px;max-width:"+builder.width_max+"px;min-height:"+builder.height+"px;box-shadow: 0 0 10px rgba(0,0,0,0.3);border: 1px solid #e3e3e3;background-color: #f5f5f5; border-radius: 8px;");
         popupDiv.add(builder.content);
-        popupDiv.add(Break.I2,new SubmitButton.Builder(""+builder.id+"_close","X").className(""+builder.id+"_close")
+        popupDiv.add(new SubmitButton.Builder(""+builder.id+"_close","X").className(""+builder.id+"_close")
                 .style("right:5px;width:20px;height:20px; position: absolute;top: 5px;padding: 0;border: none;background: #65c829;").build());
         components.add(popupDiv.build());
         JavaScript.Builder jsBuild = new JavaScript.Builder();
@@ -102,6 +102,8 @@ public class PopupDiv extends HtmlComponent{
 
         private int height = 150;
 
+        private String className = "";
+
         private String horizontal = "center";
 
         private String vertical = "center";
@@ -145,6 +147,11 @@ public class PopupDiv extends HtmlComponent{
 
         public Builder setVertical(String vertical) {
             this.vertical = vertical;
+            return this;
+        }
+
+        public Builder setClass(String className) {
+            this.className = className;
             return this;
         }
 
