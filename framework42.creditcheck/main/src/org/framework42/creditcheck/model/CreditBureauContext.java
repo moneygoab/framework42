@@ -20,4 +20,6 @@ public interface CreditBureauContext {
 
     boolean isSendNewTotalDebt();
 
+    boolean isSendNewTotalDebtCoApplicant();
+
 }

@@ -2,16 +2,16 @@ package org.framework42.creditcheck.model;
 
 public interface DebtCollectionInfo {
 
-    public int getNumberOfACollections();
+    int getNumberOfACollections();
 
-    public int getSumOfACollections();
+    int getSumOfACollections();
 
-    public int getNumberOfECollections();
+    int getNumberOfECollections();
 
-    public int getSumOfECollections();
+    int getSumOfECollections();
 
-    public int getSumOfCollections();
+    int getSumOfCollections();
 
-    public boolean isDebtCollected();
+    boolean isDebtCollected();
 
 }

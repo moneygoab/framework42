@@ -15,11 +15,11 @@ import org.framework42.address.model.PostalCodeFormat;
 import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 import org.framework42.address.model.impl.PostalCodeImpl;
 import org.framework42.services.impl.MoneyImpl;
+import org.framework42.utils.LocalDateUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.Date;
 
 public class CreditCheckServiceSuper implements CreditCheckService {
 
@@ -69,12 +69,13 @@ public class CreditCheckServiceSuper implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 new ApplicantImpl(
                         application.getMainApplicant().getId(),
                         application.getMainApplicant().getGovernmentId(),
                         BigDecimal.ZERO,
-                        new Date(),
+                        LocalDateUtil.getFromGovernmentId(application.getMainApplicant().getGovernmentId()),
                         new ApplicantNamesImpl(
                                 internalCreditCheck.getFirstName(),
                                 internalCreditCheck.getLastName(),

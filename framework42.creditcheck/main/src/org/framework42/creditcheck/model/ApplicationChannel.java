@@ -1,5 +1,7 @@
 package org.framework42.creditcheck.model;
 
+import java.time.LocalDateTime;
+
 public enum ApplicationChannel {
 
     NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5),
@@ -30,6 +32,11 @@ public enum ApplicationChannel {
 
         throw new IllegalArgumentException("No application channel with id "+id+" exists!");
 
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(LocalDateTime.now().compareTo(LocalDateTime.now().plusMinutes(1)));
     }
 
 }

@@ -1,23 +1,23 @@
 package org.framework42.creditcheck.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface RepresentativeProductCreditBureauContext {
 
-    public int getId();
+    int getId();
 
-    public CreditBureauContext getCreditBureauContext();
+    CreditBureauContext getCreditBureauContext();
 
-    public int getPriority();
+    int getPriority();
 
-    public CreditBureauStatus getStatus();
+    CreditBureauStatus getStatus();
 
-    public int getMinimumAmount();
+    int getMinimumAmount();
 
-    public int getMaximumAmount();
+    int getMaximumAmount();
 
-    public Date getValidFrom();
+    LocalDateTime getValidFrom();
 
-    public Date getValidTo();
+    LocalDateTime getValidTo();
 
 }

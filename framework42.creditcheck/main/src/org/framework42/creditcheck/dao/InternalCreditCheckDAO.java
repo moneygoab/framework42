@@ -5,6 +5,6 @@ import org.framework42.creditcheck.model.InternalCreditCheck;
 
 public interface InternalCreditCheckDAO {
 
-    public InternalCreditCheck makeCreditCheck(String governmentId) throws CreditCheckException;
+    InternalCreditCheck makeCreditCheck(String governmentId) throws CreditCheckException;
 
 }

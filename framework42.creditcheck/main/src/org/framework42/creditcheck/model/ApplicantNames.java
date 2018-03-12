@@ -2,10 +2,10 @@ package org.framework42.creditcheck.model;
 
 public interface ApplicantNames {
 
-    public String getFirstName();
+    String getFirstName();
 
-    public String getSurname();
+    String getSurname();
 
-    public String getFullName();
+    String getFullName();
 
 }

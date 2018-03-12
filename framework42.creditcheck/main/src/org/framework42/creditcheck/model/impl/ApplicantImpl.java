@@ -8,7 +8,7 @@ import org.framework42.creditcheck.model.ApplicantNames;
 import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
@@ -22,7 +22,7 @@ public class ApplicantImpl implements Applicant {
 
     private final BigDecimal riskLevel;
 
-    private final long birthDate;
+    private final LocalDate birthDate;
 
     private final ApplicantNames applicantNames;
 
@@ -32,7 +32,7 @@ public class ApplicantImpl implements Applicant {
 
     private final int annualIncome;
 
-    public ApplicantImpl(String governmentId, long birthDate, List<ApplicantContactMethod> contactMethods) {
+    public ApplicantImpl(String governmentId, LocalDate birthDate, List<ApplicantContactMethod> contactMethods) {
 
         this.id = 0;
         this.governmentId = governmentId;
@@ -44,12 +44,12 @@ public class ApplicantImpl implements Applicant {
         this.annualIncome = 0;
     }
 
-    public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, Date birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome) {
+    public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, LocalDate birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.governmentId = notNull(governmentId, "Government id can't be null!");
         this.riskLevel = notNull(riskLevel, "Risk level can't be null!");
-        this.birthDate = notNull(birthDate, "Birth date can't be null!").getTime();
+        this.birthDate = notNull(birthDate, "Birth date can't be null!");
         this.applicantNames= notNull(applicantNames, "Applicant names can't be null!");
 
         this.applicantAddress = notNull(applicantAddress, "Applicant address can't be null!");
@@ -76,8 +76,8 @@ public class ApplicantImpl implements Applicant {
     }
 
     @Override
-    public Date getBirthDate() {
-        return new Date(birthDate);
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     @Override

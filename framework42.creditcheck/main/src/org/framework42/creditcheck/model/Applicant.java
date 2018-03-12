@@ -4,27 +4,27 @@ import org.framework42.address.model.ContactMethod;
 import org.framework42.address.model.TrustedAddress;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface Applicant {
 
-    public int getId();
+    int getId();
 
-    public String getGovernmentId();
+    String getGovernmentId();
 
-    public BigDecimal getRiskLevel();
+    BigDecimal getRiskLevel();
 
-    public Date getBirthDate();
+    LocalDate getBirthDate();
 
-    public ApplicantNames getApplicantNames();
+    ApplicantNames getApplicantNames();
 
-    public TrustedAddress getAddress();
+    TrustedAddress getAddress();
 
-    public List<ApplicantContactMethod> getContactMethods();
+    List<ApplicantContactMethod> getContactMethods();
 
-    public ApplicantContactMethod getContactMethodOfType(ContactMethod contactMethod);
+    ApplicantContactMethod getContactMethodOfType(ContactMethod contactMethod);
 
-    public int getAnnualIncome();
+    int getAnnualIncome();
 
 }

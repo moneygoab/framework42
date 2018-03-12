@@ -4,14 +4,14 @@ import org.framework42.address.model.TrustedAddress;
 
 public interface AddressCheckResponse {
 
-    public AddressStatus getStatus();
+    AddressStatus getStatus();
 
-    public String getFirstName();
+    String getFirstName();
 
-    public String getSurname();
+    String getSurname();
 
-    public String getFullName();
+    String getFullName();
 
-    public TrustedAddress getAddress();
+    TrustedAddress getAddress();
 
 }

@@ -19,6 +19,7 @@ import org.framework42.address.model.impl.*;
 import org.framework42.model.users.Gender;
 import org.framework42.services.Money;
 import org.framework42.services.impl.MoneyImpl;
+import org.framework42.utils.LocalDateUtil;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -78,6 +79,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 createApplicant(application.getMainApplicant()),
                 createApplicant(application.getCoApplicant()),
@@ -174,7 +176,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                             0,
                             governmentId,
                             BigDecimal.ZERO,
-                            new Date(),
+                            LocalDateUtil.getFromGovernmentId(governmentId),
                             new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
                             new SimpleSecureAddressImpl(
                                     0,
@@ -228,7 +230,7 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                         0,
                         governmentId,
                         BigDecimal.ZERO,
-                        new Date(),
+                        LocalDateUtil.getFromGovernmentId(governmentId),
                         new ApplicantNamesImpl(firstName, surname, firstName + " " + surname),
                         new SimpleSecureAddressImpl(
                                 0,

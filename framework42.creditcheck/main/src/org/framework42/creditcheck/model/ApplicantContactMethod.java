@@ -5,12 +5,12 @@ import org.framework42.address.model.InformationProvider;
 
 public interface ApplicantContactMethod {
 
-    public int getId();
+    int getId();
 
-    public ContactMethod getContactMethod();
+    ContactMethod getContactMethod();
 
-    public InformationProvider getInformationProvider();
+    InformationProvider getInformationProvider();
 
-    public String getAddress();
+    String getAddress();
 
 }

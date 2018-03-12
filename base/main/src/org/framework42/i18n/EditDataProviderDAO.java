@@ -6,18 +6,18 @@ import java.util.Map;
 
 public interface EditDataProviderDAO {
 
-    public Map<Locale, List<I18NEditObject>> findAll();
+    Map<Locale, List<I18NEditObject>> findAll();
 
-    public Map<Locale, List<I18NEditObject>> findAllOfTypeAndGroup(I18NType type, int groupId);
+    Map<Locale, List<I18NEditObject>> findAllOfTypeAndGroup(I18NType type, int groupId);
 
-    public Map<Locale, List<I18NEditObject>> findByKey(String key);
+    Map<Locale, List<I18NEditObject>> findByKey(String key);
 
-    public void add(List<I18NEditObject> valuesToAdd);
+    void add(List<I18NEditObject> valuesToAdd);
 
-    public void update(String language, String key, String value);
+    void update(String language, String key, String value);
 
-    public void update(List<I18NEditObject> valuesToUpdate);
+    void update(List<I18NEditObject> valuesToUpdate);
 
-    public void delete(List<I18NEditObject> valuesToDelete);
+    void delete(List<I18NEditObject> valuesToDelete);
 
 }

@@ -7,6 +7,7 @@ import org.framework42.creditcheck.model.*;
 import org.framework42.creditcheck.model.impl.*;
 import org.framework42.creditcheck.services.CreditCheckService;
 import org.framework42.services.impl.MoneyImpl;
+import org.framework42.utils.LocalDateUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
@@ -29,12 +30,13 @@ public class CreditCheckServiceInternalInvoice implements CreditCheckService {
                     application.getApplicationDate(),
                     application.getAppliedAmount(),
                     application.getPreviousDebt(),
+                    application.getPreviousDebtCoApplicant(),
                     application.getApplicationChannel(),
                     new ApplicantImpl(
                             0,
                             application.getMainApplicant().getGovernmentId(),
                             new BigDecimal(0.1),
-                            new Date(),
+                            LocalDateUtil.getFromGovernmentId(application.getMainApplicant().getGovernmentId()),
                             new ApplicantNamesImpl(addressResponse.getFirstName(), addressResponse.getSurname(), addressResponse.getFullName()),
                             new SimpleSecureAddressImpl(0, addressResponse.getAddress().getAddressee(), addressResponse.getAddress().getCareOf(), addressResponse.getAddress().getStreetAddress(), addressResponse.getAddress().getPostalCode(), addressResponse.getAddress().getCity(), addressResponse.getAddress().getCountry(), addressResponse.getAddress().getProvider()),
                             application.getMainApplicant().getContactMethods(),

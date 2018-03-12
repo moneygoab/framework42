@@ -4,13 +4,13 @@ import org.framework42.creditcheck.model.DebtCollectionInfo;
 import org.framework42.creditcheck.model.InternalCreditCheck;
 import org.framework42.model.Country;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class InternalCreditCheckImpl implements InternalCreditCheck {
 
     private final String governmentId;
 
-    private final long birthDate;
+    private final LocalDate birthDate;
 
     private final String firstName;
 
@@ -40,9 +40,10 @@ public class InternalCreditCheckImpl implements InternalCreditCheck {
 
     private final int taxationYear;
 
-    public InternalCreditCheckImpl(String governmentId, Date birthDate, String firstName, String lastName, String fullName, String addressee, String careOf, String address, String postalCode, String city, Country country, int score, DebtCollectionInfo debtCollectionInfo, int declaredIncome, int negativeCapital, int taxationYear) {
+    public InternalCreditCheckImpl(String governmentId, LocalDate birthDate, String firstName, String lastName, String fullName, String addressee, String careOf, String address, String postalCode, String city, Country country, int score, DebtCollectionInfo debtCollectionInfo, int declaredIncome, int negativeCapital, int taxationYear) {
+
         this.governmentId = governmentId;
-        this.birthDate = birthDate.getTime();
+        this.birthDate = birthDate;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
@@ -65,8 +66,8 @@ public class InternalCreditCheckImpl implements InternalCreditCheck {
     }
 
     @Override
-    public Date getBirthDate() {
-        return new Date(birthDate);
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
     @Override

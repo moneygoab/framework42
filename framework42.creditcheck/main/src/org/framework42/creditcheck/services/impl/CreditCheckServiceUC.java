@@ -7,12 +7,11 @@ import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
-import org.framework42.utils.DateUtil;
+import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CreditCheckServiceUC implements CreditCheckService {
 
@@ -61,6 +60,12 @@ public class CreditCheckServiceUC implements CreditCheckService {
             totalDebt.setId(0);
             totalDebt.setValue(application.getPreviousDebt().getAmount().add(application.getAppliedAmount().getAmount()).intValue() + "");
             ownParameters.getTemplateparam().add(totalDebt);
+
+            Templateparam totalCoDebt = new Templateparam();
+            totalCoDebt.setId(1);
+            totalCoDebt.setValue(application.getPreviousDebtCoApplicant().getAmount().intValue() + "");
+            ownParameters.getTemplateparam().add(totalCoDebt);
+
             template.setTemplateParams(ownParameters);
         }
 
@@ -90,6 +95,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 ApplicantParser.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
@@ -178,7 +184,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 0,
                 governmentId,
                 new BigDecimal(risk),
-                DateUtil.getFromGovernmentId(governmentId),
+                LocalDateUtil.getFromGovernmentId(governmentId),
                 ApplicantParser.INSTANCE.createApplicantNames(applicantInformationGroup),
                 ApplicantParser.INSTANCE.createAddress(applicantInformationGroup),
                 new ArrayList<ApplicantContactMethod>(),

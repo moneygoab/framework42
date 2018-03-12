@@ -2,10 +2,10 @@ package org.framework42.creditcheck.model;
 
 public interface CoApplicantApplicationResponse {
 
-    public int getApplicationId();
+    int getApplicationId();
 
-    public Applicant getCoApplicant();
+    Applicant getCoApplicant();
 
-    public String getHtmlResponse();
+    String getHtmlResponse();
 
 }
