@@ -18,6 +18,8 @@ public interface CreditBureauApplication {
 
     Money getPreviousDebt();
 
+    Money getPreviousDebtCoApplicant();
+
     ApplicationChannel getApplicationChannel();
 
     Applicant getMainApplicant();

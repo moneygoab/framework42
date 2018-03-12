@@ -61,6 +61,12 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
             totalDebt.setId(0);
             totalDebt.setValue(application.getPreviousDebt().getAmount().add(application.getAppliedAmount().getAmount()).intValue() + "");
             ownParameters.getTemplateparam().add(totalDebt);
+
+            uc_webservice_test.Templateparam totalCoDebt = new uc_webservice_test.Templateparam();
+            totalCoDebt.setId(1);
+            totalCoDebt.setValue(application.getPreviousDebtCoApplicant().getAmount().intValue() + "");
+            ownParameters.getTemplateparam().add(totalCoDebt);
+
             template.setTemplateParams(ownParameters);
         }
 
@@ -90,6 +96,7 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 ApplicantParserTest.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParserTest.INSTANCE.createCoApplicant(reply, application),

@@ -69,6 +69,7 @@ public class CreditCheckServiceSuper implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 new ApplicantImpl(
                         application.getMainApplicant().getId(),

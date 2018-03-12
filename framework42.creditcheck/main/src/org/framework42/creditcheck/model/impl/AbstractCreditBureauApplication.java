@@ -22,6 +22,8 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
 
     protected final Money previousDebt;
 
+    protected final Money previousDebtCoApplicant;
+
     protected final ApplicationChannel applicationChannel;
 
     protected final Applicant mainApplicant;
@@ -32,7 +34,7 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
 
     private final int extendedApplicationId;
 
-    public AbstractCreditBureauApplication(int id, ApplicationType type, ApplicationStatus applicationStatus, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, int extendedApplicationId) {
+    public AbstractCreditBureauApplication(int id, ApplicationType type, ApplicationStatus applicationStatus, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, Money previousDebtCoApplicant, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.type = notNull(type, "Application type can't be null!");
@@ -40,6 +42,7 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
         this.applicationDate = notNull(applicationDate, "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.previousDebt = notNull(previousDebt, "Previous debt can't be null!");
+        this.previousDebtCoApplicant = notNull(previousDebtCoApplicant, "Previous debt co applicant can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't ve null!");
         this.coApplicant = coApplicant;
@@ -48,7 +51,7 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
         this.creditBureauResponse = null;
     }
 
-    public AbstractCreditBureauApplication(int id, ApplicationType type, ApplicationStatus status, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse, int extendedApplicationId) {
+    public AbstractCreditBureauApplication(int id, ApplicationType type, ApplicationStatus status, LocalDateTime applicationDate, Money appliedAmount, Money previousDebt, Money previousDebtCoApplicant, ApplicationChannel applicationChannel, Applicant mainApplicant, Applicant coApplicant, CreditBureauApplicationResponse creditBureauResponse, int extendedApplicationId) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.type = notNull(type, "Application type can't be null!");
@@ -56,6 +59,7 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
         this.applicationDate = notNull(applicationDate, "Application date can't be null!");
         this.appliedAmount = notNull(appliedAmount, "Applied amount can't be null!");
         this.previousDebt = notNull(previousDebt, "Previous debt can't be null!");
+        this.previousDebtCoApplicant = notNull(previousDebtCoApplicant, "Previous debt co applicant can't be null!");
         this.applicationChannel = notNull(applicationChannel, "Application channel can't be null!");
         this.mainApplicant = notNull(mainApplicant, "Main applicant can't be null!");
         this.coApplicant = coApplicant;
@@ -92,6 +96,11 @@ public class AbstractCreditBureauApplication implements CreditBureauApplication 
     @Override
     public Money getPreviousDebt() {
         return previousDebt;
+    }
+
+    @Override
+    public Money getPreviousDebtCoApplicant() {
+        return previousDebtCoApplicant;
     }
 
     @Override

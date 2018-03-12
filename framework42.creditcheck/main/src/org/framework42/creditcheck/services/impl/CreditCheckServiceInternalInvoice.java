@@ -30,6 +30,7 @@ public class CreditCheckServiceInternalInvoice implements CreditCheckService {
                     application.getApplicationDate(),
                     application.getAppliedAmount(),
                     application.getPreviousDebt(),
+                    application.getPreviousDebtCoApplicant(),
                     application.getApplicationChannel(),
                     new ApplicantImpl(
                             0,

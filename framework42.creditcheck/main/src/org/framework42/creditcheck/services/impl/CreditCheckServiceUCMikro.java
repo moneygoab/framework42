@@ -56,6 +56,12 @@ public class CreditCheckServiceUCMikro implements CreditCheckService {
             totalDebt.setId(0);
             totalDebt.setValue(application.getPreviousDebt().getAmount().add(application.getAppliedAmount().getAmount()).intValue() + "");
             ownParameters.getTemplateparam().add(totalDebt);
+
+            Templateparam totalCoDebt = new Templateparam();
+            totalCoDebt.setId(1);
+            totalCoDebt.setValue(application.getPreviousDebtCoApplicant().getAmount().intValue() + "");
+            ownParameters.getTemplateparam().add(totalCoDebt);
+
             template.setTemplateParams(ownParameters);
         }
 
@@ -85,6 +91,7 @@ public class CreditCheckServiceUCMikro implements CreditCheckService {
                 application.getApplicationDate(),
                 application.getAppliedAmount(),
                 application.getPreviousDebt(),
+                application.getPreviousDebtCoApplicant(),
                 application.getApplicationChannel(),
                 ApplicantParser.INSTANCE.createMainApplicant(reply, application),
                 ApplicantParser.INSTANCE.createCoApplicant(reply, application),
