@@ -74,7 +74,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 if(response.length()>0) {
 
@@ -107,7 +111,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 try {
                     return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
@@ -170,7 +178,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 if(response.length()>0) {
 
@@ -206,7 +218,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 try {
 
@@ -387,7 +403,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 if(response.length()>0) {
 
@@ -410,7 +430,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 try {
                     return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
@@ -561,7 +585,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 if(response.length()>0) {
 
@@ -595,7 +623,11 @@ public enum RESTJSONCaller {
                     }
                     rd.close();
                     logger.debug(connection.getResponseCode());
-                    logger.debug(response.toString());
+                    if(response.length()<1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
 
                     try {
                         return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
@@ -670,7 +702,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 if(response.length()>0) {
 
@@ -703,7 +739,11 @@ public enum RESTJSONCaller {
                 }
                 rd.close();
                 logger.debug(connection.getResponseCode());
-                logger.debug(response.toString());
+                if(response.length()<1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
 
                 try {
                     return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
