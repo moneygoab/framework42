@@ -65,11 +65,6 @@ public enum ApplicationConfigHandler {
 
     }
 
-    public static void main(String[] args) {
-
-        ApplicationConfigHandler.INSTANCE.load("https://settings.moneygo.se/v1/settings", "X-Moneygo-Consumer-Key", "guss2");
-    }
-
     public Properties load(String settingsServerUrl, String consumerKeyParameterName, String consumerKey) {
 
         Properties properties = new Properties();
