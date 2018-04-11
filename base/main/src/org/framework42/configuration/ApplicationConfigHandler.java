@@ -1,15 +1,13 @@
 package org.framework42.configuration;
 
 import org.apache.log4j.Logger;
-import org.json.RESTJSONCaller;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 /**
@@ -75,7 +73,6 @@ public enum ApplicationConfigHandler {
             HttpURLConnection connection = null;
             try {
                 url = new URL(settingsServerUrl);
-
                 connection = (HttpURLConnection)url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty(consumerKeyParameterName, consumerKey);
@@ -91,8 +88,17 @@ public enum ApplicationConfigHandler {
                     properties.loadFromXML(connection.getInputStream());
 
                 } else {
+                    InputStream is = connection.getErrorStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
 
-                    String errorMess = "Problem loading settings file from server "+settingsServerUrl+"Got HTTP response "+connection.getResponseCode();
+                    String errorMess = connection.getResponseCode() + " - " +  response.toString();
 
                     logger.fatal(errorMess);
                     throw new RuntimeException(errorMess);
