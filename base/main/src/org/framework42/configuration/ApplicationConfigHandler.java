@@ -26,14 +26,13 @@ public enum ApplicationConfigHandler {
      * */
     public Properties load(String settingsFileName) {
 
-        String url = getClass().getClassLoader().getResource("").getPath();
-        url = url.replaceAll("%20", " ");
+        InputStream fileStream = getClass().getClassLoader().getResourceAsStream(settingsFileName);
 
         Properties properties = new Properties();
 
         try {
 
-            properties.loadFromXML(new FileInputStream(url + settingsFileName));
+            properties.loadFromXML(fileStream);
 
         } catch(Exception ex) {
             try{

@@ -2,6 +2,8 @@ package org.framework42.configuration;
 
 import org.apache.log4j.PropertyConfigurator;
 
+import java.util.Properties;
+
 public enum LoggingConfigHandler {
 
     INSTANCE;
@@ -12,10 +14,9 @@ public enum LoggingConfigHandler {
     public void load(String nameOfConfigFile) {
 
         try{
-
-            String baseUrl = getClass().getClassLoader().getResource("").getPath();
-            baseUrl = baseUrl.replaceAll("%20", " ");
-            PropertyConfigurator.configure(baseUrl+nameOfConfigFile);
+            Properties props = new Properties();
+            props.load(getClass().getClassLoader().getResourceAsStream(nameOfConfigFile));
+            PropertyConfigurator.configure(props);
         } catch(Exception e) {
 
             try{
