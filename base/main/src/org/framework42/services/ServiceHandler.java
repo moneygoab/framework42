@@ -103,7 +103,6 @@ public class ServiceHandler<T> extends AbstractNullChecker implements Invocation
             ExecutorListener listener = (ExecutorListener)delegate;
             listener.invokeMethod(id,object,type, user, uniqueId, method);
         }catch (Exception ex){
-            logger.error("Invoke Execute error Class not implementing ExecutorListener -- " + ex.getMessage());
         }
     }
 
