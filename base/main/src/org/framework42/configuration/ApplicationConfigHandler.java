@@ -1,18 +1,19 @@
 package org.framework42.configuration;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import org.json.JSONArray;
+import org.json.RESTJSONArrayResponse;
+import org.json.RESTJSONCaller;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.Properties;
 
 /**
  * Class that handles loading the application configurations from disc.
- * */
+ */
 public enum ApplicationConfigHandler {
 
     INSTANCE;
@@ -21,9 +22,10 @@ public enum ApplicationConfigHandler {
 
     /**
      * Loads the config file for the application with the sent in filename
-     * @param settingsFileName      The filename of the configuration
+     *
+     * @param settingsFileName The filename of the configuration
      * @return The properties as a java Properties object.
-     * */
+     */
     public Properties load(String settingsFileName) {
 
         InputStream fileStream = getClass().getClassLoader().getResourceAsStream(settingsFileName);
@@ -34,28 +36,50 @@ public enum ApplicationConfigHandler {
 
             properties.loadFromXML(fileStream);
 
-        } catch(Exception ex) {
-            try{
+        } catch (Exception ex) {
+            try {
 
-                properties.loadFromXML(new FileInputStream(System.getProperty("java.io.tmpdir")+System.getProperty("file.separator")+settingsFileName));
+                properties.loadFromXML(new FileInputStream(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + settingsFileName));
 
             } catch (Exception e) {
 
-                String errorMess = "Problem loading settings file "+settingsFileName+": ";
+                String errorMess = "Problem loading settings file " + settingsFileName + ": ";
 
-                logger.fatal(errorMess+"\n"+e+"\n"+ex);
-                throw new RuntimeException(errorMess+"\n"+e+"\n"+ex);
+                logger.fatal(errorMess + "\n" + e + "\n" + ex);
+                throw new RuntimeException(errorMess + "\n" + e + "\n" + ex);
 
             }
         }
 
-        if("true".equalsIgnoreCase(properties.getProperty("load_config_from_server"))) {
+        if ("true".equalsIgnoreCase(properties.getProperty("load_config_from_server"))) {
 
             try {
 
                 properties = load(properties.getProperty("settings_server_url"), properties.getProperty("setting_consumer_key_parameter_name"), properties.getProperty("setting_consumer_key"));
 
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
+
+        } else if (properties.containsKey("settings_server_url") && properties.containsKey("setting_control")) {
+
+            Enumeration props = properties.propertyNames();
+
+            JSONArray settings = new JSONArray();
+
+            while (props.hasMoreElements()) {
+                settings.put((String) props.nextElement());
+            }
+
+            try {
+                RESTJSONArrayResponse response = RESTJSONCaller.INSTANCE.makePostArrayCall("", "", properties.getProperty("settings_server_url") + "/" + properties.getProperty("setting_control") + "/control", settings.toString(), "application/json");
+
+                if (response.getArray().length() > 0) {
+                    throw new RuntimeException("---!!!Properties are missing parameters!!!--- " + response.getArray().toString(2));
+                }
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         return properties;
@@ -72,17 +96,17 @@ public enum ApplicationConfigHandler {
             HttpURLConnection connection = null;
             try {
                 url = new URL(settingsServerUrl);
-                connection = (HttpURLConnection)url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty(consumerKeyParameterName, consumerKey);
                 connection.setRequestProperty("Content-Type", "application/xml");
 
-                connection.setUseCaches (false);
+                connection.setUseCaches(false);
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
                 //Get Response
-                if(connection.getResponseCode()==HttpURLConnection.HTTP_OK || connection.getResponseCode()==HttpURLConnection.HTTP_CREATED) {
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK || connection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
 
                     properties.loadFromXML(connection.getInputStream());
 
@@ -97,7 +121,7 @@ public enum ApplicationConfigHandler {
                     }
                     rd.close();
 
-                    String errorMess = connection.getResponseCode() + " - " +  response.toString();
+                    String errorMess = connection.getResponseCode() + " - " + response.toString();
 
                     logger.fatal(errorMess);
                     throw new RuntimeException(errorMess);
@@ -105,17 +129,17 @@ public enum ApplicationConfigHandler {
 
             } finally {
 
-                if(connection != null) {
+                if (connection != null) {
                     connection.disconnect();
                 }
             }
 
-        } catch(Exception ex) {
+        } catch (Exception ex) {
 
-                String errorMess = "Problem loading settings file from server "+settingsServerUrl;
+            String errorMess = "Problem loading settings file from server " + settingsServerUrl;
 
-                logger.fatal(errorMess+"\n"+ex+"\n"+ex);
-                throw new RuntimeException(errorMess+"\n"+ex+"\n"+ex);
+            logger.fatal(errorMess + "\n" + ex + "\n" + ex);
+            throw new RuntimeException(errorMess + "\n" + ex + "\n" + ex);
         }
 
         return properties;
