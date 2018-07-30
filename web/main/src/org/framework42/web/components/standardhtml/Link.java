@@ -13,17 +13,15 @@ public class Link extends HtmlComponent {
 
     protected Builder builder;
 
-    private final static Map<String,String> emptyParameters = new HashMap<String, String>();
-
     public Link(String name, String href, String textLabel) {
 
-        this.builder = new Builder(name, href, emptyParameters, textLabel);
+        this.builder = new Builder(name, href, new HashMap<>(), textLabel);
 
     }
 
     public Link(String name, String href, HtmlComponent linkedComponent) {
 
-        this.builder = new Builder(name, href, emptyParameters, linkedComponent);
+        this.builder = new Builder(name, href, new HashMap<>(), linkedComponent);
 
     }
 
@@ -116,11 +114,11 @@ public class Link extends HtmlComponent {
         private String rel = null;
 
         public Builder(String name, String href, String linkText) {
-            this(name, href, emptyParameters, new Label(linkText));
+            this(name, href, new HashMap<>(), new Label(linkText));
         }
 
         public Builder(String name, String href, HtmlComponent linkedComponent) {
-            this(name, href, emptyParameters, linkedComponent);
+            this(name, href, new HashMap<>(), linkedComponent);
         }
 
         public Builder(String name, String href, Map<String, String> parameters, String linkText) {
