@@ -20,6 +20,12 @@ public class Span extends HtmlComponent {
 
         htmlBuilder.append("<span");
 
+        if(builder.onload != null) {
+            htmlBuilder.append(" onload=\"");
+            htmlBuilder.append(builder.onload);
+            htmlBuilder.append("\"");
+        }
+
         if(builder.className != null) {
             htmlBuilder.append(" class=\"");
             htmlBuilder.append(builder.className);
@@ -57,6 +63,8 @@ public class Span extends HtmlComponent {
 
         private String style = null;
 
+        private String onload = null;
+
         public Builder(HtmlComponent htmlComponent) {
             this.htmlComponent = htmlComponent;
 
@@ -77,6 +85,12 @@ public class Span extends HtmlComponent {
             return this;
         }
 
+        public Builder onLoad(String onload){
+            this.onload = onload;
+            return this;
+        }
+
+
         @Override
         public Span build() {
             return new Span(this);
@@ -84,3 +98,4 @@ public class Span extends HtmlComponent {
     }
 
 }
+

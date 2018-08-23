@@ -34,7 +34,6 @@ public enum DatabaseConnector {
     public void setUpEnvironment(ConnectionPoolDataSource dataSource, int maxConnections) {
 
         notNull(dataSource, "Data source can't be null!");
-
         poolManager = new MiniConnectionPoolManager(dataSource, maxConnections);
 
     }

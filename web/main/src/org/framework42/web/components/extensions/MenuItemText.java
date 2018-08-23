@@ -3,9 +3,7 @@ package org.framework42.web.components.extensions;
 import org.framework42.i18n.I18N;
 import org.framework42.web.components.EventComponentBuilder;
 import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.standardhtml.Break;
-import org.framework42.web.components.standardhtml.Label;
-import org.framework42.web.components.standardhtml.LinkTarget;
+import org.framework42.web.components.standardhtml.*;
 import org.framework42.web.pagemodel.BasePageAction;
 import org.framework42.web.pagemodel.PageAction;
 import org.framework42.web.pages.ChildPage;
@@ -118,7 +116,11 @@ public class MenuItemText extends MenuItem {
 
         htmlBuilder.append(">");
 
-        htmlBuilder.append(builder.text.getHtml(page, parent, true));
+        if(builder.text == null){
+            htmlBuilder.append(builder.linkContent.getHtml(page, parent, true));
+        }else{
+            htmlBuilder.append(builder.text.getHtml(page, parent, true));
+        }
 
         htmlBuilder.append("</a>");
 
@@ -152,11 +154,15 @@ public class MenuItemText extends MenuItem {
 
         private Label text;
 
+        private Div linkContent;
+
         private Map<String, String> linkParameters;
 
         private PageAction linkPageAction;
 
         private LinkTarget target = null;
+
+
 
         public Builder(String id, Label text, String pageURL, Locale locale) {
             this.pageURL = pageURL;
@@ -185,6 +191,23 @@ public class MenuItemText extends MenuItem {
 
             this.linkPageAction = BasePageAction.NONE;
 
+            this.active = true;
+            this.chosen = false;
+            this.notLink = false;
+            this.level = 1;
+            this.backgroundPicture = "";
+            this.backgroundPictureChosen = "";
+            this.backgroundPictureMouseOver = "";
+        }
+
+        public Builder(String id, Div content, String pageURL, Map<String, String> linkParameters, Locale locale) {
+            this.pageURL = pageURL;
+            this.id = id;
+            this.locale = locale;
+            this.text = null;
+            this.linkContent = content;
+            this.linkParameters = linkParameters;
+            this.linkPageAction = BasePageAction.NONE;
             this.active = true;
             this.chosen = false;
             this.notLink = false;
