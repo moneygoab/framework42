@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class LocalDateTimeUtil {
 
-    public Date getAsDate(LocalDateTime dateTime) {
+    public static Date getAsDate(LocalDateTime dateTime) {
 
         return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public LocalDateTime getFromDate(Date date) {
+    public static LocalDateTime getFromDate(Date date) {
 
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
