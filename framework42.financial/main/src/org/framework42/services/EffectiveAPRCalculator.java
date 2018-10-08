@@ -4,6 +4,6 @@ import java.math.BigDecimal;
 
 public interface EffectiveAPRCalculator {
 
-    public float calculate(BigDecimal loanAmount, BigDecimal nominalInterest, int monthsOfPayback, BigDecimal startFee, BigDecimal monthFee);
+    float calculate(BigDecimal loanAmount, BigDecimal nominalInterest, int monthsOfPayback, BigDecimal startFee, BigDecimal monthFee);
 
 }

@@ -85,7 +85,7 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
     @Override
     public double getMinimumToPayNotRounded(BigDecimal initialAmount, BigDecimal interest, int monthsToPayBack) {
 
-        if(interest.compareTo(BigDecimal.ZERO)>0) {
+        if(interest.compareTo(new BigDecimal("0.001"))>0) {
 
             BigDecimal monthlyInterest = interest.divide(new BigDecimal(1200), 10, RoundingMode.UP);
 
