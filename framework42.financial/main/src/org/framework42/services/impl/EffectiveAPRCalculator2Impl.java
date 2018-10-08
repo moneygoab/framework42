@@ -13,8 +13,8 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
     private final AnnuityCalculator annuityCalculator;
 
     /*
-    www.sevenday.se and www.nordea.se has calculators to compare result with.
-    **/
+    https://www.konsumenternas.se/lana/olika-lan/om-konsumtionslan/lanekalkyl has calculator to compare result with.
+    */
     public EffectiveAPRCalculator2Impl() {
 
         annuityCalculator = new AnnuityCalculatorImpl();
@@ -23,13 +23,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
     @Override
     public float calculate(BigDecimal loanAmount, BigDecimal nominalInterest, int monthsOfPayback, BigDecimal startFee, BigDecimal monthFee) {
 
-        double kronor = loanAmount.intValue();
-
-        // Fix for no interest working
-        if(nominalInterest.compareTo(new BigDecimal(0.05))<=0) {
-
-            nominalInterest = new BigDecimal(0.05);
-        }
+        double balance = loanAmount.intValue();
 
         double nominalInterestValue = nominalInterest.doubleValue() / 100;
         double nominalMonthInterestValue = nominalInterestValue / monthsInYear;
@@ -40,71 +34,70 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
         double amortisationAmount = loanAmount.intValue() / monthsOfPayback;
 
+        int totalAdminFee = 0;
+
         double totalInterestAmount = 0;
         for (int i=1;i<=monthsOfPayback;i++){
-            totalInterestAmount += nominalMonthInterestValue * kronor;
-            amountPayedInMonth[i] = annuityAmount+monthFee.intValue();
-            kronor = kronor - amortisationAmount;
+            totalInterestAmount += nominalMonthInterestValue * balance;
+            amountPayedInMonth[i] = annuityAmount + monthFee.setScale(0, RoundingMode.UP).intValue();
+            balance = balance - amortisationAmount;
+            totalAdminFee += monthFee.intValue();
         }
 
-        //Start fee payed in first month
-        amountPayedInMonth[1] += startFee.intValue();
+        //Start fee payed in first month assumption made by the law
+        amountPayedInMonth[1] = amountPayedInMonth[1]+startFee.setScale(2, RoundingMode.UP).intValue();
 
-        return new BigDecimal(effectiveAPR(loanAmount, nominalMonthInterestValue, monthsOfPayback, amountPayedInMonth, startFee.intValue(), totalInterestAmount)).setScale(2, RoundingMode.UP).floatValue();
+        return new BigDecimal(effectiveAPR(loanAmount, nominalMonthInterestValue, monthsOfPayback, amountPayedInMonth, startFee.intValue(), totalAdminFee, totalInterestAmount)).setScale(2, RoundingMode.UP).floatValue();
 
     }
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(0), 12, new BigDecimal(0), new BigDecimal(20)));
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(10000), new BigDecimal(12), 12, new BigDecimal(0), new BigDecimal(20)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(5000), new BigDecimal(0), 12, new BigDecimal(0), new BigDecimal(42)));
 
     }
 
 
-    public double effectiveAPR(BigDecimal loanAmount, double nominalMonthInterestValue, int monthsOfPayback, double[] amountPayedInMonth, int startFee, double totalInterestAmount) {
+    public double effectiveAPR(BigDecimal loanAmount, double nominalMonthInterestValue, int monthsOfPayback, double[] amountPayedInMonth, int startFee, int totalAdminFee, double totalInterestAmount) {
 
         double effectiveAPRWithout = ( (Math.pow( 1 + nominalMonthInterestValue, monthsInYear) ) -1 );
-        double bigPaybackSum = loanAmount.intValue() * 1000;
+        double bigPaybackSum = (loanAmount.intValue()) * 10000;
         double sum = 0;
-        double maxAPR = 1+effectiveAPRWithout/25;
+        double maxAPR = 1+effectiveAPRWithout/monthsInYear;
         double minAPR = 1+(effectiveAPRWithout/monthsInYear*100);
 
-        double guess = calculateGuess(loanAmount, monthsOfPayback, startFee, totalInterestAmount);
-
-        double[] ivar = new double[monthsOfPayback+1];
+        double guess = calculateGuess(loanAmount, monthsOfPayback, startFee, totalAdminFee, totalInterestAmount);
+        //System.out.println((Math.round(((Math.pow(guess, monthsInYear)) -1)*10000)) / 100d);
 
         int tries = 0;
 
-        //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
         while( (sum == 0 || (sum-bigPaybackSum > 0.0000005d || sum-bigPaybackSum < -0.0000005d)) && tries < 200+monthsOfPayback*2  ) {
-            //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
             sum = 0;
             for(int i=1;i<=monthsOfPayback;i++){
-                ivar[i] = Math.pow(guess,i);
-                sum += amountPayedInMonth[i]/ivar[i]; /* dela alla pays med ivar */
+                double iVar = Math.pow(guess,i);
+                sum += amountPayedInMonth[i]/iVar; /* dela alla pays med ivar */
             }
-            sum *=1000;
-            if (sum > bigPaybackSum){
+            sum *=10000;
+            if (sum < bigPaybackSum){
                 maxAPR = guess;
                 guess = (minAPR+guess)/2;
             }
-            if (sum < bigPaybackSum){
+            if (sum > bigPaybackSum){
                 minAPR = guess;
-                guess = (guess+maxAPR)/2;
+                guess = (maxAPR+guess)/2;
             }
-
             tries++;
         }
+        //System.out.println(tries);
         //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
 
         return (Math.round(((Math.pow(guess, monthsInYear)) -1)*10000)) / 100d;
     }
 
-    private double calculateGuess(BigDecimal loanAmount, int monthsOfPayback, int startFee, double totalInterestAmount) {
+    private double calculateGuess(BigDecimal loanAmount, int monthsOfPayback, int startFee, int totalAdminFee, double totalInterestAmount) {
 
-        double guess = totalInterestAmount + startFee;
-        guess = (guess*monthsInYear) / ( (loanAmount.intValue()/2) * monthsOfPayback );
+        double guess = totalInterestAmount + startFee + totalAdminFee;
+        guess = ((guess*monthsInYear)) / ( (loanAmount.intValue()/2) * monthsOfPayback );
         guess = guess/(monthsInYear-1);
         guess = 1+guess;
 
