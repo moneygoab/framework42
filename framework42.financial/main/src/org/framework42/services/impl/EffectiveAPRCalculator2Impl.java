@@ -53,7 +53,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(5000), new BigDecimal(0), 12, new BigDecimal(0), new BigDecimal(42)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(5000), new BigDecimal(0), 72, new BigDecimal(300), new BigDecimal(30)));
 
     }
 
@@ -78,11 +78,11 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
                 sum += amountPayedInMonth[i]/iVar; /* dela alla pays med ivar */
             }
             sum *=10000;
-            if (sum < bigPaybackSum){
+            if (sum > bigPaybackSum){
                 maxAPR = guess;
                 guess = (minAPR+guess)/2;
             }
-            if (sum > bigPaybackSum){
+            if (sum < bigPaybackSum){
                 minAPR = guess;
                 guess = (maxAPR+guess)/2;
             }
