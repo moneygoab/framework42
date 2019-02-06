@@ -1,11 +1,13 @@
 package org.json;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -14,10 +16,11 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum RESTJSONCaller {
@@ -85,15 +88,15 @@ public enum RESTJSONCaller {
 
                         JSONObject obj = arr.getJSONObject(0);
 
-                        return new RESTJSONResponse(connection.getResponseCode(), obj);
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
 
                     } else {
-                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                     }
 
                 } else {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
 
             } else {
@@ -115,13 +118,13 @@ public enum RESTJSONCaller {
                 }
 
                 try {
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                 } catch (JSONException e) {
                     JSONObject obj = new JSONObject();
                     obj.put("status_code", connection.getResponseCode());
                     obj.put("error_message", response.toString());
 
-                    return new RESTJSONResponse(connection.getResponseCode(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
                 }
             }
 
@@ -527,11 +530,11 @@ public enum RESTJSONCaller {
 
                 if (response.length() > 0) {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
 
                 } else {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
 
             } else {
@@ -553,13 +556,13 @@ public enum RESTJSONCaller {
                 }
 
                 try {
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                 } catch (JSONException e) {
                     JSONObject obj = new JSONObject();
                     obj.put("status_code", connection.getResponseCode());
                     obj.put("error_message", response.toString());
 
-                    return new RESTJSONResponse(connection.getResponseCode(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
                 }
             }
 
@@ -569,7 +572,121 @@ public enum RESTJSONCaller {
             JSONObject obj = new JSONObject();
             obj.put("status_code", connection.getResponseCode());
             obj.put("error_message", e.getMessage());
-            return new RESTJSONResponse(connection.getResponseCode(), obj);
+            return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+
+        } finally {
+
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+
+    public RESTJSONResponse makeSecurePostCall(String targetURL, String postData, String contentType, FileInputStream keyStoreFile, String keystorePassword, HashMap<String, String> headers) throws IOException {
+        URL url;
+        HttpsURLConnection connection = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance("pkcs12");
+            keyStore.load(keyStoreFile, keystorePassword.toCharArray());
+
+            final SSLContext sslContext = SSLContexts.custom()
+                    .loadTrustMaterial(keyStore, null)
+                    .loadKeyMaterial(keyStore, keystorePassword.toCharArray())
+                    .build();
+
+
+            //Create connection
+            url = new URL(targetURL);
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setSSLSocketFactory(sslContext.getSocketFactory());
+            connection.setRequestMethod("POST");
+            DataOutputStream wr;
+            connection.setRequestProperty("Content-Type", contentType);
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            connection.setRequestProperty("Content-Length", "" + Integer.toString(postData.getBytes().length));
+
+            if (headers != null) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+            connection.setUseCaches(false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            wr = new DataOutputStream(connection.getOutputStream());
+            //Send request
+            byte[] postBytes = postData.getBytes("UTF-8");
+            wr.write(postBytes, 0, postBytes.length);
+
+
+            wr.flush();
+            wr.close();
+
+
+            //Get Response
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK || connection.getResponseCode() == HttpURLConnection.HTTP_CREATED || connection.getResponseCode() == HttpURLConnection.HTTP_ACCEPTED) {
+
+                InputStream is = connection.getInputStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                if (response.length() < 1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
+
+                if (response.length() > 0) {
+
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+
+                } else {
+
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
+                }
+
+            } else {
+
+                InputStream is = connection.getErrorStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                if (response.length() < 1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
+
+                try {
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                } catch (JSONException e) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("status_code", connection.getResponseCode());
+                    obj.put("error_message", response.toString());
+
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                }
+            }
+
+        } catch (MalformedURLException | NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException | KeyManagementException | CertificateException e) {
+
+            e.printStackTrace();
+            JSONObject obj = new JSONObject();
+            obj.put("status_code", connection.getResponseCode());
+            obj.put("error_message", e.getMessage());
+            return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
 
         } finally {
 
@@ -641,7 +758,7 @@ public enum RESTJSONCaller {
         StringEntity se = new StringEntity(jsonData);
         httpPatch.setEntity(se);
         CloseableHttpResponse response = httpClient.execute(httpPatch);
-        return new RESTJSONResponse(response.getStatusLine().getStatusCode(), new JSONObject(EntityUtils.toString(response.getEntity())));
+        return new RESTJSONResponse(response.getStatusLine().getStatusCode(), new HashMap<>(), new JSONObject(EntityUtils.toString(response.getEntity())));
     }
 
     public RESTJSONResponse makePutCall(String consumerKey, String targetURL) throws IOException {
@@ -710,16 +827,16 @@ public enum RESTJSONCaller {
 
                 if (response.length() > 0) {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
 
                 } else {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
 
             } else if (connection.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
 
-                return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
 
             } else {
 
@@ -727,7 +844,7 @@ public enum RESTJSONCaller {
 
                 if (is == null) {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
 
                 } else {
 
@@ -747,13 +864,13 @@ public enum RESTJSONCaller {
                     }
 
                     try {
-                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                     } catch (JSONException e) {
                         JSONObject obj = new JSONObject();
                         obj.put("status_code", connection.getResponseCode());
                         obj.put("error_message", response.toString());
 
-                        return new RESTJSONResponse(connection.getResponseCode(), obj);
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
                     }
                 }
             }
@@ -764,7 +881,7 @@ public enum RESTJSONCaller {
             JSONObject obj = new JSONObject();
             obj.put("status_code", connection.getResponseCode());
             obj.put("error_message", e.getMessage());
-            return new RESTJSONResponse(connection.getResponseCode(), obj);
+            return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
 
         } finally {
 
@@ -833,15 +950,15 @@ public enum RESTJSONCaller {
 
                         JSONObject obj = arr.getJSONObject(0);
 
-                        return new RESTJSONResponse(connection.getResponseCode(), obj);
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
 
                     } else {
-                        return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                     }
 
                 } else {
 
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject());
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
 
             } else {
@@ -863,13 +980,13 @@ public enum RESTJSONCaller {
                 }
 
                 try {
-                    return new RESTJSONResponse(connection.getResponseCode(), new JSONObject(response.toString()));
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
                 } catch (JSONException e) {
                     JSONObject obj = new JSONObject();
                     obj.put("status_code", connection.getResponseCode());
                     obj.put("error_message", response.toString());
 
-                    return new RESTJSONResponse(connection.getResponseCode(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
                 }
             }
 
@@ -878,7 +995,7 @@ public enum RESTJSONCaller {
             e.printStackTrace();
             JSONObject errorObj = new JSONObject();
             errorObj.put("error_message", e.toString());
-            return new RESTJSONResponse(connection.getResponseCode(), errorObj);
+            return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), errorObj);
 
         } finally {
 
@@ -887,5 +1004,6 @@ public enum RESTJSONCaller {
             }
         }
     }
+
 
 }
