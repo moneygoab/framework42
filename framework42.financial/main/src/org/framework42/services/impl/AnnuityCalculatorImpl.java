@@ -53,6 +53,11 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
                 rounded ++;
             }
 
+            if(rounded<0) {
+
+                rounded = 0;
+            }
+
             return rounded;
 
         } else {
@@ -107,7 +112,14 @@ public class AnnuityCalculatorImpl extends ProxyService<AnnuityCalculatorImpl> i
 
         } else {
 
-            return initialAmount.divide(new BigDecimal(monthsToPayBack), 2, RoundingMode.UP).doubleValue();
+            double returnValue = initialAmount.divide(new BigDecimal(monthsToPayBack), 2, RoundingMode.UP).doubleValue();
+
+            if (returnValue < 0) {
+
+                returnValue = 0;
+            }
+
+            return returnValue;
         }
     }
 
