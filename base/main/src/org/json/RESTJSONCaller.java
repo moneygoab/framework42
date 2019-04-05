@@ -51,7 +51,9 @@ public enum RESTJSONCaller {
             }
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
             if (headers != null) {
                 for (Map.Entry<String, String> entry : headers.entrySet()) {
                     connection.setRequestProperty(entry.getKey(), entry.getValue());
@@ -159,7 +161,9 @@ public enum RESTJSONCaller {
             }
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
 
             connection.setUseCaches(false);
             connection.setDoInput(true);
@@ -265,7 +269,9 @@ public enum RESTJSONCaller {
             url = new URL(targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
             connection.setRequestProperty("Content-Type", contentType);
             DataOutputStream wr;
 
@@ -472,7 +478,9 @@ public enum RESTJSONCaller {
             url = new URL(targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
             connection.setRequestProperty("Content-Type", contentType);
             DataOutputStream wr;
 
@@ -753,7 +761,9 @@ public enum RESTJSONCaller {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPatch httpPatch = new HttpPatch(url);
-        httpPatch.addHeader(headerName, headerValue);
+        if(headerName!=null&&headerName.length()>0) {
+            httpPatch.addHeader(headerName, headerValue);
+        }
         httpPatch.addHeader("Content-Type", contentType);
         StringEntity se = new StringEntity(jsonData);
         httpPatch.setEntity(se);
@@ -783,7 +793,9 @@ public enum RESTJSONCaller {
             }
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
             connection.setRequestProperty("Content-Type", contentType);
             connection.setRequestProperty("Accept-Charset", "UTF-8");
             connection.setRequestProperty("Content-Length", "" + Integer.toString(postData.getBytes().length));
@@ -913,7 +925,9 @@ public enum RESTJSONCaller {
             url = new URL(targetURL + urlParameters);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("DELETE");
-            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
+                connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            }
             if (headers != null) {
                 for (Map.Entry<String, String> entry : headers.entrySet()) {
                     connection.setRequestProperty(entry.getKey(), entry.getValue());
