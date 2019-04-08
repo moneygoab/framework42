@@ -57,6 +57,7 @@ public enum ApplicationConfigHandler {
 
                 properties = load(properties.getProperty("settings_server_url"), properties.getProperty("setting_consumer_key_parameter_name"), properties.getProperty("setting_consumer_key"));
 
+
             } catch (Exception e) {
             }
 

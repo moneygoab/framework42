@@ -141,12 +141,129 @@ public enum RESTJSONCaller {
         }
     }
 
-    public RESTJSONArrayResponse makeGetArrayCall(String consumerKey, String targetURL) throws IOException {
 
-        return makeGetArrayCall("X-Consumer-Key", consumerKey, targetURL, "");
+    public RESTJSONResponse makeSecureGetCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters,FileInputStream keyStoreFile, String keystorePassword, HashMap<String, String> headers) throws IOException {
+
+        URL url;
+        HttpsURLConnection connection = null;
+        try {
+            //Create connection
+            if (urlParameters != null && urlParameters.length() > 0) {
+                url = new URL(targetURL + "?" + urlParameters);
+            } else {
+                url = new URL(targetURL);
+            }
+            KeyStore keyStore = KeyStore.getInstance("pkcs12");
+            keyStore.load(keyStoreFile, keystorePassword.toCharArray());
+
+            final SSLContext sslContext = SSLContexts.custom()
+                    .loadTrustMaterial(keyStore, null)
+                    .loadKeyMaterial(keyStore, keystorePassword.toCharArray())
+                    .build();
+
+
+            //Create connection
+            url = new URL(targetURL);
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setSSLSocketFactory(sslContext.getSocketFactory());
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty(consumerKeyParameterName, consumerKey);
+            if (headers != null) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+            connection.setUseCaches(false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            //Get Response
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK || connection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
+
+                InputStream is = connection.getInputStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                if (response.length() < 1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
+
+                if (response.length() > 0) {
+
+                    if (response.toString().startsWith("[")) {
+
+                        JSONArray arr = new JSONArray(response.toString());
+
+                        JSONObject obj = arr.getJSONObject(0);
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+
+                    } else {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    }
+
+                } else {
+
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
+                }
+
+            } else {
+
+                InputStream is = connection.getErrorStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while ((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\n');
+                }
+                rd.close();
+                logger.debug(connection.getResponseCode());
+                if (response.length() < 1024) {
+                    logger.debug(response.toString());
+                } else {
+                    logger.debug("Response larger then 1024 bytes, wont print");
+                }
+
+                try {
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                } catch (JSONException e) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("status_code", connection.getResponseCode());
+                    obj.put("error_message", response.toString());
+
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                }
+            }
+
+        } catch (MalformedURLException | NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException | KeyManagementException | CertificateException e) {
+
+            e.printStackTrace();
+            return null;
+
+        } finally {
+
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
     }
 
-    public RESTJSONArrayResponse makeGetArrayCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters) throws IOException {
+
+    public RESTJSONArrayResponse makeGetArrayCall(String consumerKey, String targetURL) throws IOException {
+
+        return makeGetArrayCall("X-Consumer-Key", consumerKey, targetURL, "",null);
+    }
+
+    public RESTJSONArrayResponse makeGetArrayCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters, HashMap<String, String> headers) throws IOException {
 
         URL url;
         HttpURLConnection connection = null;
@@ -160,7 +277,11 @@ public enum RESTJSONCaller {
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty(consumerKeyParameterName, consumerKey);
-
+            if (headers != null) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -695,6 +816,8 @@ public enum RESTJSONCaller {
             }
         }
     }
+
+
 
     public RESTJSONResponse makePATCHCallWithBasicAuth(String targetURL, String postData, String contentType, String username, String password, boolean trustedSSL) throws IOException, NoSuchAlgorithmException, KeyManagementException {
 
