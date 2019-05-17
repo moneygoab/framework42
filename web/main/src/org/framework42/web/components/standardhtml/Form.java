@@ -49,6 +49,12 @@ public class Form extends HtmlComponent {
             htmlBuilder.append("\"");
         }
 
+        if (this.builder.className != null) {
+            this.htmlBuilder.append(" class=\"");
+            this.htmlBuilder.append(this.builder.className);
+            this.htmlBuilder.append("\"");
+        }
+
         if(builder.onReset!=null){
             htmlBuilder.append(" onreset=\"");
             htmlBuilder.append(builder.onReset);
@@ -182,6 +188,8 @@ public class Form extends HtmlComponent {
 
         private String id = null;
 
+        private String className = null;
+
         private String onReset = null;
 
         private String onSubmit = null;
@@ -221,6 +229,11 @@ public class Form extends HtmlComponent {
 
         public Builder id(String id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder className(String className) {
+            this.className = className;
             return this;
         }
 
