@@ -2,7 +2,7 @@ package org.framework42.model;
 
 public enum AddressType {
 
-    TEMPORARY(10), PERMANENT(50), UNKNOWN(0);
+    TEMPORARY(10), PERMANENT(50), UNKNOWN(0), COMPANY_DELIVERY(60);
 
     private final int id;
 
