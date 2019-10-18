@@ -1,5 +1,6 @@
 package org.framework42.creditcheck.services.impl;
 
+import org.apache.log4j.Logger;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.CreditBureau;
 import org.framework42.creditcheck.model.CreditBureauCompanyApplicationResponse;
@@ -80,18 +81,25 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
     private CreditDecision parseCreditDecision(UcReply ucReply) {
 
-        Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(ucReply, "W131", 0);
+        CreditDecision creditDecision = CreditDecision.REVIEW_REQUIRED;
 
-        CreditDecision creditDecision = CreditDecision.NOT_DECIDED_YET;
+        try {
 
-        if(decisionGroup != null) {
-            for (Term term : decisionGroup.getTerm()) {
+            Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(ucReply, "W131", 0);
 
-                if ("W13105".equals(term.getId())) {
+            if (decisionGroup != null) {
+                for (Term term : decisionGroup.getTerm()) {
 
-                    creditDecision = CreditDecision.getByUCCode(term.getValue());
+                    if ("W13105".equals(term.getId())) {
+
+                        creditDecision = CreditDecision.getByUCCode(term.getValue());
+                    }
                 }
             }
+
+        } catch (IllegalArgumentException e) {
+
+            Logger.getLogger("org.nummer42.creditcheck").error("No credit decision in UC response, check if correct Uc template is set. Defaults to Review Required.");
         }
 
         return creditDecision;
