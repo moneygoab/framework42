@@ -10,15 +10,18 @@ import org.framework42.creditcheck.model.impl.CreditBureauCompanyApplicationResp
 import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.services.CreditCheckCompanyService;
+import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
+
+import java.time.DateTimeException;
 
 public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService {
 
     public static void main(String[] args) throws Exception {
 
-        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "T0", "UC", "410", "K4F", false, false);
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false);
 
-        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5591314447");
+        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5592235252");
 
         System.out.println(resp.getCreditCheckAsHtml());
     }
@@ -31,9 +34,22 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
         UcOrders orders = new UCOrderService().getUcOrders2();
 
-        CompanyReport report = createBusinessReport(context, governmentId, createUcCustomer(context));
+        UcReply reply = null;
 
-        UcReply reply = orders.companyReport(report);
+        try {
+
+            LocalDateUtil.getFromGovernmentId(governmentId);
+
+            BusinessReport report = createBusinessReport(context, governmentId, createUcCustomer(context));
+
+            reply = orders.businessReport(report);
+
+        } catch (DateTimeException e) {
+
+            CompanyReport report = createCompanyReport(context, governmentId, createUcCustomer(context));
+
+            reply = orders.companyReport(report);
+        }
 
         return parseResponse(reply, governmentId);
     }
@@ -47,7 +63,28 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
         return ucCustomer;
     }
 
-    private CompanyReport createBusinessReport(CreditBureauContext context, String governmentId, Customer ucCustomer){
+    private BusinessReport createBusinessReport(CreditBureauContext context, String governmentId, Customer ucCustomer) {
+
+        Template template = new Template();
+        template.setId(context.getPolicyRules());
+
+
+        ReportQuery reportQuery = new ReportQuery();
+        reportQuery.setHtmlReply(true);
+        //reportQuery.setCreditSeeked(application.getAppliedAmount().getAmount().intValue());
+        reportQuery.setObject(governmentId);
+        reportQuery.setTemplate(template);
+        reportQuery.setXmlReply(true);
+
+        BusinessReport businessReport = new BusinessReport();
+        businessReport.setCustomer(ucCustomer);
+        businessReport.setBusinessReportQuery(reportQuery);
+        businessReport.setProduct(context.getPolicyProduct());
+
+        return businessReport;
+    }
+
+    private CompanyReport createCompanyReport(CreditBureauContext context, String governmentId, Customer ucCustomer){
 
         Template template = new Template();
         template.setId(context.getPolicyRules());
