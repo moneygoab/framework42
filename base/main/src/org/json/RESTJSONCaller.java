@@ -29,13 +29,8 @@ public enum RESTJSONCaller {
 
     private final Logger logger = Logger.getLogger("org.json");
 
-    private RESTJSONCaller() {
+    RESTJSONCaller() {
 
-    }
-
-    public RESTJSONResponse makeGetCall(String consumerKey, String targetURL) throws IOException {
-
-        return makeGetCall("X-Consumer-Key", consumerKey, targetURL, "", null);
     }
 
     public RESTJSONResponse makeGetCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters, HashMap<String, String> headers) throws IOException {
