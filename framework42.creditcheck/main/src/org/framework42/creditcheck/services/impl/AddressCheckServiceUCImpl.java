@@ -51,52 +51,62 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
 
         } else {
 
-            Report report = ucReply.getUcReport().get(0).getXmlReply().getReports().get(0).getReport().get(0);
+            try {
 
-            TrustedAddress address = ApplicantParser.INSTANCE.createAddress(report.getGroup().get(0));
+                Report report = ucReply.getUcReport().get(0).getXmlReply().getReports().get(0).getReport().get(0);
 
-            AddressStatus status = AddressStatus.OK;
+                TrustedAddress address = ApplicantParser.INSTANCE.createAddress(report.getGroup().get(0));
 
-            for(Term term: report.getGroup().get(0).getTerm()) {
+                AddressStatus status = AddressStatus.OK;
 
-                if("W08020".equalsIgnoreCase(term.getId())) {
+                for (Term term : report.getGroup().get(0).getTerm()) {
 
-                    if("03".equalsIgnoreCase(term.getValue())) {
+                    if ("W08020".equalsIgnoreCase(term.getId())) {
 
-                        status = AddressStatus.EMIGRATED;
-                        
-                    } else if("05".equalsIgnoreCase(term.getValue())) {
+                        if ("03".equalsIgnoreCase(term.getValue())) {
 
-                        status = AddressStatus.DECEASED;
+                            status = AddressStatus.EMIGRATED;
 
-                    } else if("06".equalsIgnoreCase(term.getValue())) {
+                        } else if ("05".equalsIgnoreCase(term.getValue())) {
 
-                        status = AddressStatus.OTHER;
+                            status = AddressStatus.DECEASED;
 
-                    } else if("08".equalsIgnoreCase(term.getValue())) {
+                        } else if ("06".equalsIgnoreCase(term.getValue())) {
 
-                        status = AddressStatus.OTHER;
+                            status = AddressStatus.OTHER;
 
-                    } else if("09".equalsIgnoreCase(term.getValue())) {
+                        } else if ("08".equalsIgnoreCase(term.getValue())) {
 
-                        status = AddressStatus.OTHER;
+                            status = AddressStatus.OTHER;
 
-                    } else if("11".equalsIgnoreCase(term.getValue())) {
+                        } else if ("09".equalsIgnoreCase(term.getValue())) {
 
-                        status = AddressStatus.LOST_ID;
+                            status = AddressStatus.OTHER;
 
+                        } else if ("11".equalsIgnoreCase(term.getValue())) {
+
+                            status = AddressStatus.LOST_ID;
+
+                        }
                     }
-                }
 
                 /*if("W08020".equalsIgnoreCase(term.getId()) && !"11".equalsIgnoreCase(term.getValue())) {
 
                         throw new AddressCheckException("Government ID locked in some way.");
                 }*/
+                }
+
+                ApplicantNames names = ApplicantParser.INSTANCE.createApplicantNamesAutomaticCorrection(report.getGroup().get(0));
+
+                return new AddressCheckResponseImpl(status, names.getFirstName(), names.getSurname(), names.getFullName(), address);
+
+            } catch (Exception e) {
+
+                logger.error("Fatal problem parsing UC response in AddressCheckServiceUCImpl!");
+                logger.error(e);
+
+                throw new AddressCheckException("Fatal problem parsing UC response in AddressCheckServiceUCImpl!", true);
             }
-
-            ApplicantNames names = ApplicantParser.INSTANCE.createApplicantNamesAutomaticCorrection(report.getGroup().get(0));
-
-            return new AddressCheckResponseImpl(status, names.getFirstName(), names.getSurname(), names.getFullName(), address);
         }
 
     }
