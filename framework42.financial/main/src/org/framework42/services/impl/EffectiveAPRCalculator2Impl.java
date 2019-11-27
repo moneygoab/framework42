@@ -53,7 +53,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
 
     public static void main(String[] args) {
 
-        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(30000), new BigDecimal(11.7), 72, new BigDecimal(0), new BigDecimal(20)));
+        System.out.println(new EffectiveAPRCalculator2Impl().calculate(new BigDecimal(250000), new BigDecimal(18.5), 144, new BigDecimal(0), new BigDecimal(20)));
 
     }
 
@@ -61,10 +61,10 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
     public double effectiveAPR(BigDecimal loanAmount, double nominalMonthInterestValue, int monthsOfPayback, double[] amountPayedInMonth, int startFee, int totalAdminFee, double totalInterestAmount) {
 
         double effectiveAPRWithout = ( (Math.pow( 1 + nominalMonthInterestValue, monthsInYear) ) -1 );
-        double bigPaybackSum = (loanAmount.intValue()) * 10000;
+        double bigPaybackSum = (loanAmount.intValue()) * 10000d;
         double sum = 0;
         double maxAPR = 1+effectiveAPRWithout/monthsInYear;
-        double minAPR = 1+(effectiveAPRWithout/monthsInYear*100);
+        double minAPR = 1+(effectiveAPRWithout/monthsInYear*100d);
 
         double guess = calculateGuess(loanAmount, monthsOfPayback, startFee, totalAdminFee, totalInterestAmount);
         //System.out.println((Math.round(((Math.pow(guess, monthsInYear)) -1)*10000)) / 100d);
@@ -77,7 +77,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
                 double iVar = Math.pow(guess,i);
                 sum += amountPayedInMonth[i]/iVar; /* dela alla pays med ivar */
             }
-            sum *=10000;
+            sum *=10000d;
             if (sum > bigPaybackSum){
                 maxAPR = guess;
                 guess = (minAPR+guess)/2;
@@ -91,7 +91,7 @@ public class EffectiveAPRCalculator2Impl implements EffectiveAPRCalculator {
         //System.out.println(tries);
         //System.out.println(sum +":"+ bigPaybackSum+":"+(sum-bigPaybackSum));
 
-        return (Math.round(((Math.pow(guess, monthsInYear)) -1)*10000)) / 100d;
+        return (Math.round(((Math.pow(guess, monthsInYear)) -1)*10000d)) / 100d;
     }
 
     private double calculateGuess(BigDecimal loanAmount, int monthsOfPayback, int startFee, int totalAdminFee, double totalInterestAmount) {
