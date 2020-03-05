@@ -39,6 +39,23 @@ public class CreditCheckEngagementsImpl implements CreditCheckEngagements {
 
     private final int amountApprovedAtMoneyGo;
 
+    public CreditCheckEngagementsImpl(LocalDate month, int amountBlanco, int amountInstallment, int amountAccountCredit, int totalUsed, int totalApproved, int numberOfEngagements, int numberOfCreditors, int amountUsedAtMoneyGo, int amountApprovedAtMoneyGo) {
+        this.id = 0;
+        this.customerId = 0;
+        this.applicationType = ApplicationProductCategory.LOAN;
+        this.applicationId = 0;
+        this.month = notNull(month);
+        this.amountBlanco = notNegative(amountBlanco);
+        this.amountInstallment = notNegative(amountInstallment);
+        this.amountAccountCredit = notNegative(amountAccountCredit);
+        this.totalUsed = notNegative(totalUsed);
+        this.totalApproved = notNegative(totalApproved);
+        this.numberOfEngagements = notNegative(numberOfEngagements);
+        this.numberOfCreditors = notNegative(numberOfCreditors);
+        this.amountUsedAtMoneyGo = notNegative(amountUsedAtMoneyGo);
+        this.amountApprovedAtMoneyGo = notNegative(amountApprovedAtMoneyGo);
+    }
+
     public CreditCheckEngagementsImpl(int customerId, ApplicationProductCategory applicationType, int applicationId, LocalDate month, int amountBlanco, int amountInstallment, int amountAccountCredit, int totalUsed, int totalApproved, int numberOfEngagements, int numberOfCreditors, int amountUsedAtMoneyGo, int amountApprovedAtMoneyGo) {
         this.id = 0;
         this.customerId = notNegative(customerId);

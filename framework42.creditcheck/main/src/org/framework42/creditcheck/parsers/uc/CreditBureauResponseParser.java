@@ -1,9 +1,11 @@
 package org.framework42.creditcheck.parsers.uc;
 
 import org.apache.log4j.Logger;
+import org.framework42.creditcheck.model.ApplicationProductCategory;
 import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
 import org.framework42.creditcheck.model.CreditCheckEngagements;
 import org.framework42.creditcheck.model.CreditDecision;
+import org.framework42.creditcheck.model.impl.CreditCheckEngagementsImpl;
 import org.framework42.creditcheck.model.impl.SimpleCreditBureauApplicationResponse;
 import org.framework42.services.Money;
 import org.framework42.services.impl.MoneyImpl;
@@ -12,6 +14,8 @@ import uc_webservice.Term;
 import uc_webservice.UcReply;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -145,10 +149,13 @@ public enum CreditBureauResponseParser {
 
         Money sumOfPreviousLoans = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
 
+        List<CreditCheckEngagements> creditCheckEngagements = new ArrayList<>();
+
         try {
             Group loansGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W450", 0);
 
             if(loansGroup != null) {
+
                 for(Term term: loansGroup.getTerm()) {
 
                     if("W45025".equals(term.getId())) {
@@ -166,14 +173,70 @@ public enum CreditBureauResponseParser {
                         } catch (NumberFormatException e) {logger.debug("CreditBureauResponseParser.W45008 - "+e.getMessage());}
                     }
                 }
+
             } else {
                 logger.debug("First credit check for customer "+governmentId);
             }
-        } catch(IllegalArgumentException e) {
+
+            for(Group pg: BaseParser.INSTANCE.findResponseGroupList(reply, "W450", 0)) {
+
+                LocalDate month = LocalDate.now();
+
+                int amountBlanco = 0;
+                int amountInstallment = 0;
+                int amountAccountCredit = 0;
+                int totalUsed = 0;
+                int totalApproved = 0;
+                int numberOfEngagements = 0;
+                int numberOfCreditors = 0;
+                int amountUsedAtMoneyGo = 0;
+                int amountApprovedAtMoneyGo = 0;
+
+                for(Term term: pg.getTerm()) {
+
+                    switch(term.getId()) {
+
+                        case "W45001":
+                            month = LocalDate.parse(term.getValue(), DateTimeFormatter.ofPattern("yyyyMMdd"));
+                            break;
+                        case "W45025":
+                            amountBlanco = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45023":
+                            amountInstallment = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45024":
+                            amountAccountCredit = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45002":
+                            totalUsed = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45022":
+                            totalApproved = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45008":
+                            numberOfEngagements = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45009":
+                            numberOfCreditors = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45010":
+                            amountUsedAtMoneyGo = Integer.parseInt(term.getValue());
+                            break;
+                        case "W45012":
+                            amountApprovedAtMoneyGo = Integer.parseInt(term.getValue());
+                            break;
+                    }
+                }
+
+                creditCheckEngagements.add(new CreditCheckEngagementsImpl(month, amountBlanco, amountInstallment, amountAccountCredit, totalUsed, totalApproved, numberOfEngagements, numberOfCreditors, amountUsedAtMoneyGo, amountApprovedAtMoneyGo));
+            }
+
+        } catch(Exception e) {
             logger.debug("First credit check for customer "+governmentId);
         }
 
-        List<CreditCheckEngagements> creditCheckEngagements = new ArrayList<>();
+
 
         //
 

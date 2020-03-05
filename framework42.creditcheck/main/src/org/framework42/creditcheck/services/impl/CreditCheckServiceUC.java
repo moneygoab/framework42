@@ -7,13 +7,29 @@ import org.framework42.creditcheck.parsers.uc.ApplicantParser;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
+import org.framework42.services.impl.MoneyImpl;
+import org.framework42.utils.LocalDateTimeUtil;
 import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Currency;
 
 public class CreditCheckServiceUC implements CreditCheckService {
+
+    public static void main(String[] args) throws Exception {
+
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "K4M22", "X0", "UC", "3", "MPL", false, false);
+
+        Applicant applicant = new ApplicantImpl("6602090455", LocalDateUtil.getFromGovernmentId("6602090455"), new ArrayList<>());
+
+        CreditBureauApplication application = new CreditBureauApplicationImpl(0, ApplicationType.NEW, ApplicationStatus.APPROVAL_PROCESS, LocalDateTime.now(), new MoneyImpl(new BigDecimal("100000"), Currency.getInstance("SEK")), new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")), new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")), ApplicationChannel.INTERNET, applicant, null, 0);
+
+        new CreditCheckServiceUC().makeApplication(context, application);
+    }
 
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) throws CreditCheckException {
 
