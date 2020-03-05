@@ -19,6 +19,7 @@ import org.framework42.utils.LocalDateUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
 
 public class CreditCheckServiceSuper implements CreditCheckService {
@@ -107,7 +108,8 @@ public class CreditCheckServiceSuper implements CreditCheckService {
                         new MoneyImpl(new BigDecimal(internalCreditCheck.getDebtCollectionInfo().getSumOfACollections()+internalCreditCheck.getDebtCollectionInfo().getSumOfECollections()), Currency.getInstance("SEK")),
                         0,
                         new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
-                        reasonCodes
+                        reasonCodes,
+                        new ArrayList<>()
                 ),
                 application.getExtendedApplicationId()
         );

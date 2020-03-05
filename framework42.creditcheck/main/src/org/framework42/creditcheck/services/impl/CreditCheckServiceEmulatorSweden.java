@@ -69,7 +69,8 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                 new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE"))),
                 0,
                 new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE"))),
-                ""
+                "",
+                new ArrayList<>()
         );
 
         return new CreditBureauApplicationImpl(
@@ -203,7 +204,8 @@ public class CreditCheckServiceEmulatorSweden implements CreditCheckService {
                             new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
                             0,
                             new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE"))),
-                            ""
+                            "",
+                            new ArrayList<>()
                             )
             );
 

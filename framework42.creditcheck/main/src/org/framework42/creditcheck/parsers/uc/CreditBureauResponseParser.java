@@ -2,6 +2,7 @@ package org.framework42.creditcheck.parsers.uc;
 
 import org.apache.log4j.Logger;
 import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
+import org.framework42.creditcheck.model.CreditCheckEngagements;
 import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.creditcheck.model.impl.SimpleCreditBureauApplicationResponse;
 import org.framework42.services.Money;
@@ -172,6 +173,8 @@ public enum CreditBureauResponseParser {
             logger.debug("First credit check for customer "+governmentId);
         }
 
+        List<CreditCheckEngagements> creditCheckEngagements = new ArrayList<>();
+
         //
 
         //
@@ -206,7 +209,8 @@ public enum CreditBureauResponseParser {
                 sumOfDebtCollections,
                 numberOfPreviousLoans,
                 sumOfPreviousLoans,
-                reasonCodes
+                reasonCodes,
+                creditCheckEngagements
         );
     }
 
