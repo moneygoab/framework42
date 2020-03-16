@@ -1,5 +1,7 @@
 package org.framework42.web.components;
 
+import java.util.HashMap;
+
 public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
 
     protected String onClick = null;
@@ -23,6 +25,8 @@ public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
     protected String onKeyPress = null;
 
     protected String onKeyUp = null;
+
+    protected HashMap<String,String> custom = null;
 
     /**
      * This method should be called from the html generation in the extending class constructor.
@@ -73,9 +77,15 @@ public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
         }
 
         if(onKeyUp != null){
-            html.append(" onkeyup=\""+onKeyUp+"\"");
+            html.append(" onkeyup=\"").append(onKeyUp).append("\"");
         }
 
+
+        if(custom != null){
+            for(HashMap.Entry<String,String> entry: custom.entrySet()){
+                html.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
+            }
+        }
 
         return html.toString();
 
@@ -136,4 +146,14 @@ public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
         return this;
     }
 
+    public void onCustom(String key, String value) {
+        if(custom == null){
+            custom = new HashMap<>();
+        }
+        custom.put(key,value);
+    }
+
+    public void onCustom(HashMap<String, String> custom) {
+        this.custom = custom;
+    }
 }

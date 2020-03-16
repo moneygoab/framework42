@@ -278,7 +278,7 @@ public enum RESTJSONCaller {
             }
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            
+
             if(consumerKeyParameterName!=null&& consumerKeyParameterName.length()>0) {
                 connection.setRequestProperty(consumerKeyParameterName, consumerKey);
             }
