@@ -2,7 +2,7 @@ package org.framework42.model;
 
 public enum APIResponseType {
 
-    NONE(0, ""), CSV(1, "text/csv"), XML(2, "application/xml"), JSON(3, "application/json"), HTML(4, "");
+    NONE(0, ""), CSV(1, "text/csv"), XML(2, "application/xml"), JSON(3, "application/json"), HTML(4, ""), PDF(5, "application/pdf");
 
     private final int id;
 

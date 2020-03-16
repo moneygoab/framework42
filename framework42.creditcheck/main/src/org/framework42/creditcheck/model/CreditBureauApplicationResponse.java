@@ -2,6 +2,8 @@ package org.framework42.creditcheck.model;
 
 import org.framework42.services.Money;
 
+import java.util.List;
+
 public interface CreditBureauApplicationResponse {
 
     Money getRecommendedAmount();
@@ -25,5 +27,7 @@ public interface CreditBureauApplicationResponse {
     Money getSumOfPreviousLoans();
 
     String getReasonCodes();
+
+    List<CreditCheckEngagements> getCreditCheckEngagements();
 
 }

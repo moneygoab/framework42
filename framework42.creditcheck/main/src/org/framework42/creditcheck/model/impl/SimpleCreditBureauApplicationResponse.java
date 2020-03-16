@@ -1,12 +1,15 @@
 package org.framework42.creditcheck.model.impl;
 
 import org.framework42.creditcheck.model.CreditBureauApplicationResponse;
+import org.framework42.creditcheck.model.CreditCheckEngagements;
 import org.framework42.creditcheck.model.CreditDecision;
 import org.framework42.services.Money;
 import org.framework42.services.impl.MoneyImpl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 
 import static org.framework42.utils.NotNegativeChecker.notNegative;
 import static org.framework42.utils.NullChecker.notNull;
@@ -35,6 +38,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final String reasonCodes;
 
+    protected final List<CreditCheckEngagements> creditCheckEngagements;
+
     public SimpleCreditBureauApplicationResponse() {
 
         this.creditBureauDecision = CreditDecision.NOT_DECIDED_YET;
@@ -48,10 +53,11 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.numberOfPreviousLoans = 0;
         this.sumOfPreviousLoans = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
         this.reasonCodes = "";
+        this.creditCheckEngagements = new ArrayList<>();
     }
 
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml, String coApplicantCreditBureauDecisionAsHtml,
-                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, int numberOfPreviousLoans, Money sumOfPreviousLoans, String reasonCodes) {
+                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, int numberOfPreviousLoans, Money sumOfPreviousLoans, String reasonCodes, List<CreditCheckEngagements> creditCheckEngagements) {
 
         this.creditBureauDecision = notNull(creditBureauDecision, "Credit bureau decision can't be null!");
         this.recommendedAmount = notNull(recommendedAmount, "Recommended amount can't be null!");
@@ -64,6 +70,7 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.numberOfPreviousLoans = notNegative(numberOfPreviousLoans, "Number of previous loans can't be of negative value!");
         this.sumOfPreviousLoans = notNull(sumOfPreviousLoans, "Sum of previous loans can't be null!");
         this.reasonCodes = notNull(reasonCodes, "Reason codes can't be null!");
+        this.creditCheckEngagements = notNull(creditCheckEngagements, "Credit Check Engagements cant be null!");
     }
 
     @Override
@@ -121,4 +128,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         return reasonCodes;
     }
 
+    @Override
+    public List<CreditCheckEngagements> getCreditCheckEngagements() {
+        return creditCheckEngagements;
+    }
 }

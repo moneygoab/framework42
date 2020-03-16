@@ -6,6 +6,7 @@ import uc_webservice.Group;
 import uc_webservice.Message;
 import uc_webservice.UcReply;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public enum BaseParser {
@@ -26,6 +27,22 @@ public enum BaseParser {
         }
 
         throw new IllegalArgumentException("No decision group found in uc reply (id: "+groupId+")");
+    }
+
+    public List<Group> findResponseGroupList(UcReply reply, String groupId, int reportLevel) {
+
+        List<Group> responseGroups = new ArrayList<>();
+
+        List<Group> groups = reply.getUcReport().get(reportLevel).getXmlReply().getReports().get(0).getReport().get(0).getGroup();
+
+        for(Group g: groups) {
+
+            if(groupId.equals(g.getId())) {
+                responseGroups.add(g);
+            }
+        }
+
+        return responseGroups;
     }
 
     public void validateReplyAndStatus(UcReply reply, String governmentId) throws CreditCheckException {
