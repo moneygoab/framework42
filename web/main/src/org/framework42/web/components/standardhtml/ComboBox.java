@@ -116,9 +116,6 @@ public class ComboBox extends HtmlComponent implements HtmlComponentInput {
         @Override
         public ComboBox build() {
 
-            if(this.onBlur==null) {
-                this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
-            }
 
             return new ComboBox(this);
         }

@@ -110,9 +110,7 @@ public class PasswordField extends HtmlComponent implements HtmlComponentInput {
         @Override
         public PasswordField build() {
 
-            if(this.onBlur==null) {
-                this.onBlur = "javascript:validateFormComponent('"+id+"', '"+parameter.getParameterType()+"', "+parameter.isRequired()+");";
-            }
+
 
             return new PasswordField(this);
         }

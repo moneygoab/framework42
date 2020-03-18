@@ -29,7 +29,8 @@ public class Form extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append(createValidation().getHtml(page, parent, false));
+
+
 
         htmlBuilder.append(Util.tab(tabs));
         htmlBuilder.append("<form name=\"");
@@ -107,74 +108,6 @@ public class Form extends HtmlComponent {
 
     }
 
-    private JavaScript createValidation() {
-
-        List<HtmlComponentInput> componentList = builder.getInputComponents();
-
-        JavaScript.Builder javaScript = new JavaScript.Builder();
-
-        javaScript.addScriptLine("var oldStyle = {};");
-
-        if(componentList.size()>0) {
-
-            javaScript.addScriptLine("function validateFormComponent(componentId, parameterType, isRequired) {");
-            javaScript.addScriptLine("\t");
-            javaScript.addScriptLine("\t if(parameterType == 'STRING') {");
-            javaScript.addScriptLine("\t\t var whiteString = document.getElementById(componentId).value.replace(/^\\s+|\\s+$/g, '') ;");
-            javaScript.addScriptLine("\t\t if((document.getElementById(componentId).value == '' || whiteString.length == 0) && isRequired) {");
-            javaScript.addScriptLine("\t\t\t");
-            javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
-            javaScript.addScriptLine("\t\t\t return false;");
-            javaScript.addScriptLine("\t\t }");
-            javaScript.addScriptLine("\t } else if(parameterType == 'COMBO_BOX') {");
-            javaScript.addScriptLine("\t\t ");
-            javaScript.addScriptLine("\t\t if(document.getElementById(componentId).value == '0' && isRequired) {");
-            javaScript.addScriptLine("\t\t\t");
-            javaScript.addScriptLine("\t\t\t setFormComponentLook(componentId);");
-            javaScript.addScriptLine("\t\t\t return false;");
-            javaScript.addScriptLine("\t\t }");
-            javaScript.addScriptLine("\t }");
-            javaScript.addScriptLine("\t");
-            javaScript.addScriptLine("\t if(oldStyle[componentId] != null && oldStyle[componentId].background != null) {");
-            javaScript.addScriptLine("\t\t document.getElementById(componentId).style.background = oldStyle[componentId].background;");
-            javaScript.addScriptLine("\t }");
-            //javaScript.addScriptLine("\t }");
-            javaScript.addScriptLine("\t");
-            javaScript.addScriptLine("\t return true;");
-
-            javaScript.addScriptLine("}");
-            javaScript.addScriptLine("");
-            javaScript.addScriptLine("function setFormComponentLook(componentId) {");
-            javaScript.addScriptLine("\t if(oldStyle[componentId] == null) {");
-            javaScript.addScriptLine("\t\t oldBackground = document.getElementById(componentId).style.background;");
-            javaScript.addScriptLine("\t\t oldStyle[componentId] = {background:oldBackground};");
-            javaScript.addScriptLine("\t }");
-            javaScript.addScriptLine("\t document.getElementById(componentId).style.background = '"+builder.errorBackgroundColor+"';");
-            javaScript.addScriptLine("}");
-            javaScript.addScriptLine("");
-            javaScript.addScriptLine("function validateForm() {");
-            javaScript.addScriptLine("\t numberOfUnvalidated = 0;");
-            for(HtmlComponentInput component: componentList) {
-
-                if(component.getId()!=null) {
-                    Parameter param = component.getParameter();
-                    javaScript.addScriptLine("\t if(!validateFormComponent('"+component.getId()+"', '"+param.getParameterType().name()+"', "+param.isRequired()+")) {");
-                    javaScript.addScriptLine("\t\t numberOfUnvalidated++;");
-                    javaScript.addScriptLine("\t }");
-                    javaScript.addScriptLine("\t");
-                }
-            }
-            javaScript.addScriptLine("\t if(numberOfUnvalidated>0) {");
-            javaScript.addScriptLine("\t\t return false;");
-            javaScript.addScriptLine("\t } else {");
-            javaScript.addScriptLine("\t\t return true;");
-            javaScript.addScriptLine("\t }");
-            javaScript.addScriptLine("}");
-
-        }
-
-        return javaScript.build();
-    }
 
     public static class Builder extends EventComponentBuilder<Form> implements HtmlComponentStorage<HtmlComponent> {
 
@@ -279,6 +212,7 @@ public class Form extends HtmlComponent {
 
             return this;
         }
+
 
         public Builder errorBackgroundColor(String errorBackgroundColor) {
 
