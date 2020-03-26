@@ -146,14 +146,16 @@ public abstract class EventComponentBuilder<T> implements ComponentBuilder<T> {
         return this;
     }
 
-    public void onCustom(String key, String value) {
+    public EventComponentBuilder<T> onCustom(String key, String value) {
         if(custom == null){
             custom = new HashMap<>();
         }
         custom.put(key,value);
+        return this;
     }
 
-    public void onCustom(HashMap<String, String> custom) {
+    public EventComponentBuilder<T> onCustom(HashMap<String, String> custom) {
         this.custom = custom;
+        return this;
     }
 }
