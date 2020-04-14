@@ -1,23 +1,21 @@
 package org.framework42.web.components.advanced;
 
 import org.apache.commons.io.IOUtils;
-import org.framework42.web.components.ComponentBuilder;
-import org.framework42.web.components.ComponentGroup;
-import org.framework42.web.components.HtmlComponent;
-import org.framework42.web.components.RawHtml;
+import org.framework42.web.components.*;
 import org.framework42.web.components.js_components.JavaScript;
 import org.framework42.web.components.standardhtml.Break;
 import org.framework42.web.components.standardhtml.Div;
 import org.framework42.web.components.standardhtml.SubmitButton;
 import org.framework42.web.pages.WebPage;
-import java.io.IOException;
 
+import java.io.IOException;
+import java.util.HashMap;
 
 
 /**
  * Created by ling on 2017-04-26.
  */
-public class PopupDiv extends HtmlComponent{
+public class PopupDiv extends HtmlComponent {
 
     public static final String VERTICAL_POSITION_TOP = "top";
     public static final String VERTICAL_POSITION_BOTTOM = "bottom";
@@ -26,46 +24,53 @@ public class PopupDiv extends HtmlComponent{
 
     private Builder builder;
 
-    public PopupDiv(Builder builder){
+    public PopupDiv(Builder builder) {
         this.builder = builder;
     }
 
-    public PopupDiv(String text,HtmlComponent content) {
+    public PopupDiv(String text, HtmlComponent content) {
         Builder builder = new Builder();
-        builder.content= content;
+        builder.content = content;
         builder.text = text;
         this.builder = builder;
     }
 
     @Override
-    protected void generateHtmlSpecific(WebPage webPage, HtmlComponent htmlComponent, boolean b){
+    protected void generateHtmlSpecific(WebPage webPage, HtmlComponent htmlComponent, boolean b) {
 
         ComponentGroup.Builder components = new ComponentGroup.Builder();
 
         JavaScript js = new JavaScript(getDependency());
         components.add(js);
 
-        RawHtml html = new RawHtml("<button id='"+builder.id+"_id' class='"+builder.id+"_open "+ builder.className + "' onclick=\""+builder.onclick+"\"  " + (builder.className.isEmpty()?"style='background:none!important; color:inherit; border:none; padding:0!important; font: inherit;border-bottom:1px solid #444; cursor: pointer;'":"") + " >" +builder.text+"</button>");
+        StringBuilder customHtml = new StringBuilder();
+
+        for (HashMap.Entry<String, String> entry : builder.custom.entrySet()) {
+            customHtml.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
+        }
+
+        RawHtml html = new RawHtml("<button id='" + builder.id + "_id' class='" + builder.id + "_open " + builder.className + "' onclick=\"" + builder.onclick + "\"  " + (builder.className.isEmpty() ? "style='background:none!important; color:inherit; border:none; padding:0!important; font: inherit;border-bottom:1px solid #444; cursor: pointer;'" : "") + " " + customHtml.toString() + " >" + builder.text + "</button>");
+
         components.add(html);
 
         Div.Builder popupDiv = new Div.Builder(builder.id);
-        popupDiv.style("padding:10px;min-width:"+(builder.width_mini)+"px;max-width:"+builder.width_max+"px;min-height:"+builder.height+"px;box-shadow: 0 0 10px rgba(0,0,0,0.3);border: 1px solid #e3e3e3;background-color: #f5f5f5; border-radius: 8px;");
+        popupDiv.style("padding:10px;min-width:" + (builder.width_mini) + "px;max-width:" + builder.width_max + "px;min-height:" + builder.height + "px;box-shadow: 0 0 10px rgba(0,0,0,0.3);border: 1px solid #e3e3e3;background-color: #f5f5f5; border-radius: 8px;");
         popupDiv.add(builder.content);
-        popupDiv.add(new SubmitButton.Builder(""+builder.id+"_close","X").className(""+builder.id+"_close")
+        popupDiv.add(new SubmitButton.Builder("" + builder.id + "_close", "X").className("" + builder.id + "_close")
                 .style("right:5px;width:20px;height:20px; position: absolute;top: 5px;padding: 0;border: none;background: #65c829;").build());
         components.add(popupDiv.build());
         JavaScript.Builder jsBuild = new JavaScript.Builder();
 
         jsBuild.addScriptLine("$(document).ready(function() {");
 
-        jsBuild.addScriptLine("$('#"+builder.id+"').popup({" +
-                "offsetleft:"+builder.offsetLeft+"," +
-                "offsettop:"+builder.offsetTop+"," +
-                "vertical:'"+builder.vertical+"'," +
-                "horizontal:'"+builder.horizontal+"'," +
+        jsBuild.addScriptLine("$('#" + builder.id + "').popup({" +
+                "offsetleft:" + builder.offsetLeft + "," +
+                "offsettop:" + builder.offsetTop + "," +
+                "vertical:'" + builder.vertical + "'," +
+                "horizontal:'" + builder.horizontal + "'," +
                 "backgroundactive:true," +
                 "type:'tooltip'," +
-                "tooltipanchor: $('#"+builder.id+"_id')});");
+                "tooltipanchor: $('#" + builder.id + "_id')});");
         jsBuild.addScriptLine(" });");
 
         components.add(jsBuild.build());
@@ -76,9 +81,9 @@ public class PopupDiv extends HtmlComponent{
 
     private String getDependency() {
         ClassLoader classLoader = getClass().getClassLoader();
-        try{
-            return IOUtils.toString(classLoader.getResourceAsStream("jquery.popupoverlay.js"),"UTF-8");
-        }catch (IOException ex){
+        try {
+            return IOUtils.toString(classLoader.getResourceAsStream("jquery.popupoverlay.js"), "UTF-8");
+        } catch (IOException ex) {
         } catch (NullPointerException ex) {
 
             logger.error("PopupDiv.getDependency() didn't find jquery.popupoverlay.js" + ex);
@@ -113,6 +118,8 @@ public class PopupDiv extends HtmlComponent{
         private String vertical = "center";
 
         private String id = "my_popup";
+
+        private HashMap<String, String> custom = new HashMap<>();
 
         public Builder setId(String id) {
             this.id = id;
@@ -159,7 +166,7 @@ public class PopupDiv extends HtmlComponent{
             return this;
         }
 
-        public Builder setWidth(int width_mini,int  width_max) {
+        public Builder setWidth(int width_mini, int width_max) {
             this.width_mini = width_mini;
             this.width_max = width_max;
             return this;
@@ -169,6 +176,20 @@ public class PopupDiv extends HtmlComponent{
             this.height = height;
             return this;
         }
+
+        public Builder onCustom(String key, String value) {
+            if (custom == null) {
+                custom = new HashMap<>();
+            }
+            custom.put(key, value);
+            return this;
+        }
+
+        public Builder onCustom(HashMap<String, String> custom) {
+            this.custom = custom;
+            return this;
+        }
+
 
         @Override
         public PopupDiv build() {
