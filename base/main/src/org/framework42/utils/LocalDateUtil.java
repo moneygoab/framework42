@@ -1,6 +1,9 @@
 package org.framework42.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class LocalDateUtil {
 
@@ -25,6 +28,26 @@ public class LocalDateUtil {
         }
 
         return LocalDate.of(year, month, day);
+    }
+
+    public static Date getAsDate(LocalDate date) {
+
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static LocalDateTime getFromDate(Date date) {
+
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
+    public static LocalDate toBeginningOfMonth(LocalDate date) {
+
+        return date.withDayOfMonth(1);
+    }
+
+    public static LocalDate toEndOfMonth(LocalDate date) {
+
+        return date.withDayOfMonth(date.lengthOfMonth());
     }
 
 }
