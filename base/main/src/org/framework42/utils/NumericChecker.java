@@ -16,4 +16,18 @@ public class NumericChecker {
         }
     }
 
+    public static boolean isDecimalNumeric(String toCheckString) {
+
+        try {
+
+            Double.parseDouble(toCheckString);
+
+            return true;
+
+        } catch(NumberFormatException e) {
+
+            return false;
+        }
+    }
+
 }
