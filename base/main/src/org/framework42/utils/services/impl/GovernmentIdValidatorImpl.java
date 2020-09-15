@@ -45,4 +45,10 @@ public enum GovernmentIdValidatorImpl implements GovernmentIdValidator {
         }
 
     }
+
+    @Override
+    public boolean isPrivatePerson(String governmentId) {
+        return Integer.parseInt(governmentId.substring(2,4))<=12;
+    }
+
 }
