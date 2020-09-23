@@ -104,8 +104,8 @@ public class MenuItemText extends MenuItem {
         htmlBuilder.append("\"");
 
         if(!builder.active) {
-            //htmlBuilder.append(" onMouseOver=\"changeMenuBackground('"+getId+"','"+backgroundPictureMouseOver+"');\"");
-            //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+getId+"');\"");
+            //htmlBuilder.append(" onMouseOver=\"changeMenuBackground('"+getLevel+"','"+backgroundPictureMouseOver+"');\"");
+            //htmlBuilder.append(" onMouseOut=\"removeMenuBackground('"+getLevel+"');\"");
         }
 
         if(builder.target != null) {

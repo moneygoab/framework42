@@ -34,7 +34,7 @@ public enum InformationProvider {
 
         }
 
-        throw new IllegalArgumentException("No information provider with getId "+id+" exists!");
+        throw new IllegalArgumentException("No information provider with getLevel "+id+" exists!");
 
     }
     

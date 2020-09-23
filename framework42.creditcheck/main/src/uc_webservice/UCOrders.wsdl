@@ -403,7 +403,7 @@
           <xsd:enumeration value="Juridisk person" />
           <xsd:enumeration value="AB" />
           <xsd:enumeration value="HKB" />
-          <xsd:enumeration value="FÃ¶retag" />
+          <xsd:enumeration value="Företag" />
           <xsd:enumeration value="Enskild firma" />
         </xsd:restriction>
       </xsd:simpleType>
@@ -490,7 +490,7 @@
           <xsd:element name="templateParams" type="ucOrderRequest:templateParams" minOccurs="0" maxOccurs="1" />
 
         </xsd:sequence>
-        <xsd:attribute name="id" type="xsd:string" use="required" />
+        <xsd:attribute name="level" type="xsd:string" use="required" />
       </xsd:complexType>
 
       <xsd:complexType name="templateParams">
@@ -500,7 +500,7 @@
       </xsd:complexType>
 
       <xsd:complexType name="templateparam">
-        <xsd:attribute name="id" type="ucOrderRequest:templateEntries" use="required" />
+        <xsd:attribute name="level" type="ucOrderRequest:templateEntries" use="required" />
         <xsd:attribute name="value" type="ucOrderRequest:templateValue" use="required" />
       </xsd:complexType>
 
@@ -647,7 +647,7 @@
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="id" type="xsd:string" use="required" />
+              <xsd:attribute name="level" type="xsd:string" use="required" />
             </xsd:extension>
 
           </xsd:simpleContent>
@@ -680,7 +680,7 @@
             <xsd:element maxOccurs="unbounded" minOccurs="1" ref="ucOrderReply:group" />
           </xsd:sequence>
 
-          <xsd:attribute name="id" type="xsd:string" use="required" />
+          <xsd:attribute name="level" type="xsd:string" use="required" />
           <xsd:attribute name="name" type="xsd:string" use="required" />
           <xsd:attribute name="styp" type="xsd:string" use="required" />
           <xsd:attribute name="index" type="xsd:string" use="required" />
@@ -703,7 +703,7 @@
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="0" ref="ucOrderReply:term" />
           </xsd:sequence>
-          <xsd:attribute name="id" type="xsd:string" use="required" />
+          <xsd:attribute name="level" type="xsd:string" use="required" />
           <xsd:attribute name="index" type="xsd:string" use="required" />
           <xsd:attribute name="key" type="xsd:string" use="optional" />
           <xsd:attribute name="name" type="xsd:string" use="required" />
@@ -715,7 +715,7 @@
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="id" type="xsd:string" use="required" />
+              <xsd:attribute name="level" type="xsd:string" use="required" />
             </xsd:extension>
           </xsd:simpleContent>
 

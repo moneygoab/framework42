@@ -18,7 +18,7 @@ public class Feedback extends HtmlComponent {
     @Override
     protected void generateHtmlSpecific(WebPage page, HtmlComponent parent, boolean onSameRow) {
 
-        htmlBuilder.append("<span getId=\"");
+        htmlBuilder.append("<span getLevel=\"");
         htmlBuilder.append(builder.id);
         htmlBuilder.append("\" style=\"");
         htmlBuilder.append(builder.style);

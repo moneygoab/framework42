@@ -49,14 +49,14 @@ public class TinyMCEImageHandlerFormListener extends FormListener<UserSession, T
                 String fileName = session.getUser().getId()+System.currentTimeMillis()+".jpg";
 
                 if(!new File(systemPath+serverPath+session.getUser().getId()).exists()) {
-                //if(!new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").exists()) {
+                //if(!new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getLevel()+"/").exists()) {
 
                         boolean created = new File(systemPath+serverPath+session.getUser().getId()+"/").mkdir();
-                        //boolean created = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/").mkdir();
+                        //boolean created = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getLevel()+"/").mkdir();
                         if(!created) {logger.error("Couldn't create blog image directory for user "+session.getUser().getId()+"!");}
                 }
 
-                //File uploadedFile = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getId()+"/"+fileName);
+                //File uploadedFile = new File("/home/fredrik/Documents/dev/PoeterV3_Project/out/artifacts/poeter_web_Web_exploded/media/img/user/blogg/"+session.getUser().getLevel()+"/"+fileName);
                 File uploadedFile = new File(systemPath+serverPath+session.getUser().getId()+"/"+fileName);
                 try {
 

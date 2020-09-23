@@ -92,7 +92,7 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
                         }
                     }
 
-                /*if("W08020".equalsIgnoreCase(term.getId()) && !"11".equalsIgnoreCase(term.getValue())) {
+                /*if("W08020".equalsIgnoreCase(term.getLevel()) && !"11".equalsIgnoreCase(term.getValue())) {
 
                         throw new AddressCheckException("Government ID locked in some way.");
                 }*/

@@ -24,7 +24,7 @@ public enum ContactMethod {
 
         }
 
-        throw new IllegalArgumentException("No contact method with getId "+id+" exists!");
+        throw new IllegalArgumentException("No contact method with getLevel "+id+" exists!");
         
     }
 

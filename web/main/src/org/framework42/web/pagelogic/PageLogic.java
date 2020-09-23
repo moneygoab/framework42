@@ -29,7 +29,7 @@ public abstract class PageLogic<T extends UserSession, R extends PageModel> {
 
     /**
      * The constructor
-     * @param loggerId      The logger getId, used to make it possible to define different log levels in the application.
+     * @param loggerId      The logger getLevel, used to make it possible to define different log levels in the application.
      * */
     protected PageLogic(String loggerId) {
 

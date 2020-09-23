@@ -493,7 +493,7 @@
           <xsd:element name="coObjectIncome" type="ucOrderRequest:income" minOccurs="0" maxOccurs="1"/>
           <xsd:element name="templateParams" type="ucOrderRequest:templateParams" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
-        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="level" type="xsd:string" use="required"/>
       </xsd:complexType>
 
       <xsd:complexType name="templateParams">
@@ -503,7 +503,7 @@
       </xsd:complexType>
 
       <xsd:complexType name="templateparam">
-        <xsd:attribute name="id" type="ucOrderRequest:templateEntries" use="required"/>
+        <xsd:attribute name="level" type="ucOrderRequest:templateEntries" use="required"/>
         <xsd:attribute name="value" type="ucOrderRequest:templateValue" use="required"/>
       </xsd:complexType>
 
@@ -646,7 +646,7 @@
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="id" type="xsd:string" use="required"/>
+              <xsd:attribute name="level" type="xsd:string" use="required"/>
             </xsd:extension>
           </xsd:simpleContent>
         </xsd:complexType>
@@ -675,7 +675,7 @@
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="1" ref="ucOrderReply:group"/>
           </xsd:sequence>
-          <xsd:attribute name="id" type="xsd:string" use="required"/>
+          <xsd:attribute name="level" type="xsd:string" use="required"/>
           <xsd:attribute name="name" type="xsd:string" use="required"/>
           <xsd:attribute name="styp" type="xsd:string" use="required"/>
           <xsd:attribute name="index" type="xsd:string" use="required"/>
@@ -697,7 +697,7 @@
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="0" ref="ucOrderReply:term"/>
           </xsd:sequence>
-          <xsd:attribute name="id" type="xsd:string" use="required"/>
+          <xsd:attribute name="level" type="xsd:string" use="required"/>
           <xsd:attribute name="index" type="xsd:string" use="required"/>
           <xsd:attribute name="key" type="xsd:string" use="optional"/>
           <xsd:attribute name="name" type="xsd:string" use="required"/>
@@ -708,7 +708,7 @@
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="id" type="xsd:string" use="required"/>
+              <xsd:attribute name="level" type="xsd:string" use="required"/>
             </xsd:extension>
           </xsd:simpleContent>
         </xsd:complexType>

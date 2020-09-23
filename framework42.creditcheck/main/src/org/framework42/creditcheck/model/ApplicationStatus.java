@@ -24,7 +24,7 @@ public enum ApplicationStatus {
             }
         }
 
-        throw new IllegalArgumentException("No applications status with getId "+id+" exists!");
+        throw new IllegalArgumentException("No applications status with getLevel "+id+" exists!");
     }
 
 }

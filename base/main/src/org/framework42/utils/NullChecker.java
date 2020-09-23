@@ -41,7 +41,7 @@ public class NullChecker {
      * by the caller.
      * @param variable                      The variable to do a null check on.
      * @param errorMessage                  A provided error message, that will make more sense then the default one.
-     * @param loggerId                      The getId of the logger to use instead of the default logger.
+     * @param loggerId                      The getLevel of the logger to use instead of the default logger.
      * @return T                            Returns the variable sent in if it's not null.
      * @throws IllegalArgumentException     Thrown if the tested variable is null.
      * */

@@ -141,7 +141,7 @@ public enum Country {
 
         }
 
-        throw new IllegalArgumentException("No country with getId "+id+" exists!");
+        throw new IllegalArgumentException("No country with getLevel "+id+" exists!");
     }
 
     public static Country findFromCountryCode(String countryCode) {

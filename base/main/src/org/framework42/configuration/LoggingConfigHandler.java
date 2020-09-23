@@ -26,9 +26,7 @@ public enum LoggingConfigHandler {
 
                 throw new RuntimeException("Problem loading logging settings file for application: " + e + "\n" + ex);
             }
-
         }
-
     }
 
 }

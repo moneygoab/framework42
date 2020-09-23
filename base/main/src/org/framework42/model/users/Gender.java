@@ -37,7 +37,7 @@ public enum Gender implements Serializable {
 
         }
 
-        throw new IllegalArgumentException("No gender exists with getId " + genderId);
+        throw new IllegalArgumentException("No gender exists with getLevel " + genderId);
 
     }
 
@@ -59,7 +59,7 @@ public enum Gender implements Serializable {
     @Override
     public String toString() {
         return "Gender{" +
-                "getId=" + id +
+                "getLevel=" + id +
                 ", guiTextID='" + guiTextID + '\'' +
                 '}';
     }
