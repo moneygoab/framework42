@@ -10,7 +10,6 @@ public class FirstNamesContainerSweden implements FirstNamesContainer {
 
     private final List<String> maleFirstNamesList = Arrays.asList(
             "Achmed",
-            "Adolf",
             "Albert",
             "Anton",
             "Anders",

@@ -37,6 +37,7 @@ public enum ApplicationConfigHandler {
             properties.loadFromXML(fileStream);
 
         } catch (Exception ex) {
+
             try {
 
                 properties.loadFromXML(new FileInputStream(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + settingsFileName));

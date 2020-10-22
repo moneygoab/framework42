@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 
 public class Log {
 
+    public static String logPath = null;
+
     public static DebugLevel currentDebugLevel = DebugLevel.INFO;
 
     public static LogAppender logTo = LogAppender.FILE;
@@ -102,7 +104,11 @@ public class Log {
 
                 } else if (logTo == LogAppender.FILE) {
 
-                    FileWriter writer = new FileWriter(new File(".").getCanonicalPath() + "/log-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".txt", true);
+                    String path = new File(".").getCanonicalPath();
+
+                    if(logPath!=null) {path=logPath;}
+
+                    FileWriter writer = new FileWriter( path+ "/log-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".txt", true);
 
                     writer.write(sb.toString());
                     writer.close();

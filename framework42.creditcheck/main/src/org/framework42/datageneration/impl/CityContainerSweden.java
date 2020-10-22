@@ -5,7 +5,7 @@ import org.framework42.datageneration.CityContainer;
 import java.util.Arrays;
 import java.util.List;
 
-public class CityContainerSweden implements CityContainer {
+public class    CityContainerSweden implements CityContainer {
 
     private List<String> cityList = Arrays.asList(
             "Arboga",
