@@ -2,6 +2,8 @@ package org.framework42.utils;
 
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
+
 public class GreaterThenZeroChecker {
 
     private final static Logger logger = Logger.getLogger("org.framework42");
@@ -107,6 +109,33 @@ public class GreaterThenZeroChecker {
     public static double greaterThenZero(double variable, String errorMessage, Logger logger) {
 
         if(variable <= 0) {
+            logger.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        return variable;
+    }
+
+    public static BigDecimal greaterThenZero(BigDecimal variable) {
+
+        return greaterThenZero(variable, "Int can't be zero", logger);
+    }
+
+    public static BigDecimal greaterThenZero(BigDecimal variable, String errorMessage) {
+
+        return greaterThenZero(variable, errorMessage, logger);
+    }
+
+    public static BigDecimal greaterThenZero(BigDecimal variable, String errorMessage, String loggerId) {
+
+        Logger logger = Logger.getLogger(loggerId);
+
+        return greaterThenZero(variable, errorMessage, logger);
+    }
+
+    public static BigDecimal greaterThenZero(BigDecimal variable, String errorMessage, Logger logger) {
+
+        if(variable.compareTo(BigDecimal.ZERO) <= 0) {
             logger.error(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }

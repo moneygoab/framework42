@@ -28,11 +28,15 @@ public enum ApplicationConfigHandler {
      */
     public Properties load(String settingsFileName) {
 
+        logger.info("Trying to load config file with name "+settingsFileName);
+
         InputStream fileStream = getClass().getClassLoader().getResourceAsStream(settingsFileName);
 
         Properties properties = new Properties();
 
         try {
+
+            logger.info("Trying to load from "+getClass().getClassLoader().getResource(""));
 
             properties.loadFromXML(fileStream);
 
@@ -40,15 +44,26 @@ public enum ApplicationConfigHandler {
 
             try {
 
+                logger.info("Trying to load from "+new FileInputStream(System.getProperty("java.io.tmpdir")));
+
                 properties.loadFromXML(new FileInputStream(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + settingsFileName));
 
             } catch (Exception e) {
 
-                String errorMess = "Problem loading settings file " + settingsFileName + ": ";
+                try {
 
-                logger.fatal(errorMess + "\n" + e + "\n" + ex);
-                throw new RuntimeException(errorMess + "\n" + e + "\n" + ex);
+                    logger.info("Trying to load from /usr/local/settings/");
 
+                    properties.loadFromXML(new FileInputStream("/usr/local/settings/" + System.getProperty("file.separator") + settingsFileName));
+
+                } catch (Exception e2) {
+
+                    String errorMess = "Problem loading settings file " + settingsFileName + " prefered from " + getClass().getClassLoader().getResource("").getPath() + ": ";
+
+                    logger.fatal(errorMess + "\n" + e2 + "\n" + e + "\n" + ex);
+                    throw new RuntimeException(errorMess + "\n" + e2+ "\n" + e+ "\n" + ex);
+
+                }
             }
         }
 
