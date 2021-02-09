@@ -20,6 +20,11 @@
     <modules>
         <module>base</module>
         <module>web</module>
+        <module>framework42.address</module>
+        <module>framework42.creditcheck</module>
+        <module>framework42.financial</module>
+        <module>framework42.ticket_system</module>
+        <module>framework42.useragent_detection</module>
         <module>examples_base</module>
     </modules>
 
