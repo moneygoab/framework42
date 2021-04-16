@@ -8,11 +8,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Log {
 
-    public static String logPath = null;
+    static String logPath = null;
 
-    public static DebugLevel currentDebugLevel = DebugLevel.INFO;
+    static DebugLevel currentDebugLevel = DebugLevel.INFO;
 
-    public static LogAppender logTo = LogAppender.FILE;
+    static LogAppender logTo = LogAppender.FILE;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -58,7 +58,7 @@ public class Log {
 
     private static void write(DebugLevel debugLevel, Exception exception) {
 
-        if(currentDebugLevel.getLevel()<=DebugLevel.FATAL.getLevel()) {
+        if(currentDebugLevel.getLevel()<=debugLevel.getLevel()) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -78,7 +78,7 @@ public class Log {
 
     private static synchronized void write(DebugLevel debugLevel, String message) {
 
-        if(currentDebugLevel.getLevel()<=DebugLevel.FATAL.getLevel()) {
+        if(currentDebugLevel.getLevel()<=debugLevel.getLevel()) {
 
             try {
 
