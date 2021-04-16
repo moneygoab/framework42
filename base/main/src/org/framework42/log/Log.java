@@ -8,11 +8,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Log {
 
-    static String logPath = null;
+    public static String logPath = null;
 
-    static DebugLevel currentDebugLevel = DebugLevel.INFO;
+    public static DebugLevel currentDebugLevel = DebugLevel.INFO;
 
-    static LogAppender logTo = LogAppender.FILE;
+    public static LogAppender logTo = LogAppender.FILE;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
