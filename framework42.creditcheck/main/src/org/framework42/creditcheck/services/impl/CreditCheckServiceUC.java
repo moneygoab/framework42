@@ -8,12 +8,10 @@ import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.parsers.uc.CreditBureauResponseParser;
 import org.framework42.creditcheck.services.CreditCheckService;
 import org.framework42.services.impl.MoneyImpl;
-import org.framework42.utils.LocalDateTimeUtil;
 import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Currency;

@@ -2,6 +2,7 @@ package org.framework42.database;
 
 import br.com.gennex.connectionpool.MiniConnectionPoolManager;
 import org.apache.log4j.Logger;
+import org.framework42.log.Log;
 
 import javax.sql.ConnectionPoolDataSource;
 import java.sql.Connection;
@@ -73,10 +74,12 @@ public enum DatabaseConnector {
             return con;
 
         } catch(SQLException e) {
-            logger.fatal("Could not get connection from pool "+e);
+            Log.error(e);
+            logger.fatal(e);
             throw new RuntimeException("Could not get connection from pool "+e);
         } catch(NullPointerException e) {
-            logger.fatal("Pool manager not created, you must call setUpEnvironment before use! "+e);
+            Log.error(e);
+            logger.fatal(e);
             throw new RuntimeException("Pool manager not created, you must call setUpEnvironment before use! "+e);
         }
 

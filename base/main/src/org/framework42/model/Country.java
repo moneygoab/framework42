@@ -235,6 +235,10 @@ public enum Country {
 
             return POLAND;
 
+        } else if("Ungern".equalsIgnoreCase(country)) {
+
+            return HUNGARY;
+
         } else if("Portugal".equalsIgnoreCase(country) ||
                 "Portuguesa".equalsIgnoreCase(country)
                 ) {
