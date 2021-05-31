@@ -7,26 +7,28 @@ import java.util.Map;
 
 public interface StringManipulator {
 
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront,boolean shouldCut);
+    String fillWithCharacter(String originalString, String fillCharacter, int finalLength, boolean fillInFront,boolean shouldCut);
 
-    public String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType,boolean shouldCut);
+    String fillWithCharacter(String originalString, String fillCharacter, int finalLength, Fill fillType,boolean shouldCut);
 
-    public String divideInGroups(String originalString, int groupSize, String inBetweenString);
+    String divideInGroups(String originalString, int groupSize, String inBetweenString);
 
-    public String formatGovernmentId(String governmentId);
+    String formatGovernmentId(String governmentId);
 
-    public String formatInterest(String interest);
+    String formatInterest(String interest);
 
-    public String formatMoney(BigDecimal money);
+    String formatMoney(BigDecimal money);
 
-    public String formatMoney(String moneyString);
+    String formatMoney(String moneyString);
 
-    public String formatMoney(int moneyValue);
+    String formatMoney(int moneyValue);
 
-    public String formatPercent(float value);
+    String formatMoney(long moneyValue);
 
-    public String[] breakoutUrls(String text);
+    String formatPercent(float value);
 
-    public String replaceUrls(String text,Map<String,String> urls);
+    String[] breakoutUrls(String text);
+
+    String replaceUrls(String text,Map<String,String> urls);
 
 }

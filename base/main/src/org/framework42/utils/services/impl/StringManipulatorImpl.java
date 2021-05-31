@@ -205,6 +205,12 @@ public class StringManipulatorImpl implements StringManipulator {
     }
 
     @Override
+    public String formatMoney(long moneyValue) {
+
+        return formatMoney(moneyValue+"");
+    }
+
+    @Override
     public String formatPercent(float value) {
 
         Double d = Math.round(value*100.0) / 100.0;

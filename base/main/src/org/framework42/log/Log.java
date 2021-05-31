@@ -64,6 +64,9 @@ public class Log {
 
             sb.append(exception.getClass().getName());
             sb.append("\n");
+            sb.append("Message: ");
+            sb.append(exception.getMessage());
+            sb.append("\n");
 
             for (StackTraceElement element : exception.getStackTrace()) {
 
