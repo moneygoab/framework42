@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public enum ApplicationChannel {
 
     NONE(0), INTERNET(1), PHONE(2), LETTER(3), DIRECT_MARKETING(4), TELEPHONE_MARKETING(5),
-    COMPRICER(6), CREDIT_FINDER(11,true), FREEDOM_FINANCE(12,true), LENDO(15,true), MYLOAN(14,true), ADVISA(13,true), CONSECTOR(16,true),
-    SAMBLA(17,true), ZENSUM(19,true), ENKLARE(20, true), DIREKTO(21, true), REDUCERA(22, true),LIKVIDUM(23,true), KOLL(24,true),
+    COMPRICER(6), CREDIT_FINDER(11), FREEDOM_FINANCE(12), LENDO(15), MYLOAN(14), ADVISA(13), CONSECTOR(16),
+    SAMBLA(17), ZENSUM(19), ENKLARE(20), DIREKTO(21), REDUCERA(22),LIKVIDUM(23), KOLL(24),
     EMAIL(7), AFFILIATE_EUROADS(8), AFFILIATE_ADTRACTION(9), AFFILIATE_GOOGLE_ADWORDS(10), AFFILIATE_EMERCE(18), PARTNER(50);
 
     private final int id;
@@ -14,7 +14,7 @@ public enum ApplicationChannel {
 
     ApplicationChannel(int id) {
         this.id = id;
-        esigning = false;
+        esigning = true;
     }
 
     ApplicationChannel(int id, boolean esigning) {

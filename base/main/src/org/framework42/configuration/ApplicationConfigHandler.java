@@ -153,7 +153,7 @@ public enum ApplicationConfigHandler {
 
         } catch (Exception ex) {
 
-            String errorMess = "Problem loading settings file from server " + settingsServerUrl;
+            String errorMess = "Problem loading settings file from server " + settingsServerUrl+ "consumerKeyParameterName: "+consumerKeyParameterName+" consumerKey: "+consumerKey;
 
             logger.fatal(errorMess + "\n" + ex + "\n" + ex);
             throw new RuntimeException(errorMess + "\n" + ex + "\n" + ex);
