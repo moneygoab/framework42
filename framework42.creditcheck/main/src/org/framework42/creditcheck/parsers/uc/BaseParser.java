@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import uc_webservice.Group;
 import uc_webservice.Message;
+import uc_webservice.Term;
 import uc_webservice.UcReply;
 
 import java.util.ArrayList;
@@ -14,6 +15,24 @@ public enum BaseParser {
     INSTANCE;
 
     private final Logger logger = Logger.getLogger("org.nummer42.creditcheck");
+
+    public String getValueOfTerm(List<Term> termList, String termValue) {
+
+        for(Term term: termList) {
+
+            if(termValue.equalsIgnoreCase(term.getId())) {
+
+                return term.getValue();
+            }
+        }
+
+        throw new IllegalArgumentException("No term found with id "+termValue);
+    }
+
+    public String getValueOfTerm(UcReply reply, String groupId, String termValue) {
+
+        return getValueOfTerm(findResponseGroup(reply, groupId, 0).getTerm(), termValue);
+    }
 
     public Group findResponseGroup(UcReply reply, String groupId, int reportLevel) {
 

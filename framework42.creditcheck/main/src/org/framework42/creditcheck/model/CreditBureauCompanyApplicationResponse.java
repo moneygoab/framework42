@@ -4,6 +4,8 @@ public interface CreditBureauCompanyApplicationResponse {
 
     String getGovernmentId();
 
+    String getName();
+
     String getCreditCheckAsHtml();
 
     CreditDecision getCreditDecision();

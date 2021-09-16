@@ -1,6 +1,11 @@
 package org.framework42.creditcheck.services.impl;
 
 import org.apache.log4j.Logger;
+import org.framework42.address.model.AddressType;
+import org.framework42.address.model.InformationProvider;
+import org.framework42.address.model.PostalCodeFormat;
+import org.framework42.address.model.impl.PostalCodeImpl;
+import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 import org.framework42.creditcheck.exceptions.CreditCheckException;
 import org.framework42.creditcheck.model.CreditBureau;
 import org.framework42.creditcheck.model.CreditBureauCompanyApplicationResponse;
@@ -10,6 +15,7 @@ import org.framework42.creditcheck.model.impl.CreditBureauCompanyApplicationResp
 import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.services.CreditCheckCompanyService;
+import org.framework42.model.Country;
 import org.framework42.utils.LocalDateUtil;
 import uc_webservice.*;
 
@@ -109,10 +115,23 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
         BaseParser.INSTANCE.validateReplyAndStatus(reply, governmentId);
 
+        Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W010", 0);
+
         return new CreditBureauCompanyApplicationResponseImpl(
                 governmentId,
+                BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01080"),
                 reply.getUcReport().get(0).getHtmlReply(),
-                parseCreditDecision(reply)
+                parseCreditDecision(reply),
+                new SimpleSecureAddressImpl(
+                        0,
+                        BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01080"),
+                        "",
+                        BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01081"),
+                        new PostalCodeImpl(PostalCodeFormat.getByCountry(Country.SWEDEN), BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01003")),
+                        BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01082"),
+                        Country.SWEDEN,
+                        InformationProvider.POPULATION_REGISTERS
+                )
         );
     }
 
