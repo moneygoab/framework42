@@ -1,6 +1,7 @@
 package org.framework42.creditcheck.model.impl;
 
 import org.framework42.address.model.Address;
+import org.framework42.address.model.TrustedAddress;
 import org.framework42.address.model.impl.SimpleSecureAddressImpl;
 import org.framework42.creditcheck.model.CreditBureauCompanyApplicationResponse;
 import org.framework42.creditcheck.model.CreditDecision;
@@ -17,7 +18,7 @@ public class CreditBureauCompanyApplicationResponseImpl implements CreditBureauC
 
     private final CreditDecision creditDecision;
 
-    private final Address address;
+    private final TrustedAddress address;
 
     public CreditBureauCompanyApplicationResponseImpl(String governmentId, String creditCheckAsHtml, CreditDecision creditDecision) {
 
@@ -28,7 +29,7 @@ public class CreditBureauCompanyApplicationResponseImpl implements CreditBureauC
         this.address = new SimpleSecureAddressImpl();
     }
 
-    public CreditBureauCompanyApplicationResponseImpl(String governmentId, String name, String creditCheckAsHtml, CreditDecision creditDecision, Address address) {
+    public CreditBureauCompanyApplicationResponseImpl(String governmentId, String name, String creditCheckAsHtml, CreditDecision creditDecision, TrustedAddress address) {
 
         this.governmentId = notNull(governmentId);
         this.name = notNull(name);
@@ -55,5 +56,10 @@ public class CreditBureauCompanyApplicationResponseImpl implements CreditBureauC
     @Override
     public CreditDecision getCreditDecision() {
         return creditDecision;
+    }
+
+    @Override
+    public TrustedAddress getAddress() {
+        return address;
     }
 }
