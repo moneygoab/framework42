@@ -94,6 +94,23 @@ public enum CreditBureauResponseParserTest {
             }
         }
 
+        Money declaredIncomePrevious = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+
+        if(incomeGroup != null) {
+            for(Term term: incomeGroup.getTerm()) {
+
+                if("W49122".equals(term.getId())) {
+
+                    String val = term.getValue();
+                    if(val.equalsIgnoreCase("<1")) {
+                        val = "0";
+                    }
+
+                    declaredIncomePrevious = new MoneyImpl(new BigDecimal(Integer.parseInt(val)*1000), Currency.getInstance(new Locale("sv", "SE")));
+                }
+            }
+        }
+
         int numberOfDebtCollections = 0;
 
         Money sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
@@ -171,6 +188,7 @@ public enum CreditBureauResponseParserTest {
                 coApplicantHtmlReply,
                 numberOfCreditChecks,
                 declaredIncome,
+                declaredIncomePrevious,
                 numberOfDebtCollections,
                 sumOfDebtCollections,
                 numberOfPreviousLoans,

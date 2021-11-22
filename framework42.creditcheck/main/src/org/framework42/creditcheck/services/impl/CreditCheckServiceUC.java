@@ -22,7 +22,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
 
         CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "K4M22", "X0", "UC", "3", "MPL", false, false);
 
-        Applicant applicant = new ApplicantImpl("6602090455", LocalDateUtil.getFromGovernmentId("6602090455"), new ArrayList<>());
+        Applicant applicant = new ApplicantImpl("8008251392", LocalDateUtil.getFromGovernmentId("8008251392"), new ArrayList<>());
 
         CreditBureauApplication application = new CreditBureauApplicationImpl(0, ApplicationType.NEW, ApplicationStatus.APPROVAL_PROCESS, LocalDateTime.now(), new MoneyImpl(new BigDecimal("100000"), Currency.getInstance("SEK")), new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")), new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")), ApplicationChannel.INTERNET, applicant, null, 0);
 
