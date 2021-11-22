@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 
 public class CreditCheckServiceUC implements CreditCheckService {
 
@@ -178,8 +179,11 @@ public class CreditCheckServiceUC implements CreditCheckService {
         }
 
         Group incomeGroup = null;
+        List<Group> incomeGroupList = new ArrayList<>();
         try {
             incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W495", 0);
+
+            incomeGroupList = BaseParser.INSTANCE.findResponseGroupList(reply, "W495", 0);
         } catch(IllegalArgumentException e) {  }
 
         int income = 0;
@@ -195,6 +199,19 @@ public class CreditCheckServiceUC implements CreditCheckService {
             }
         }
 
+        int incomePrevious = 0;
+        if(incomeGroupList.size()>1) {
+
+            for(Term term: incomeGroupList.get(1).getTerm()) {
+
+                if("W49522".equals(term.getId())) {
+
+                    incomePrevious = Integer.parseInt(term.getValue());
+
+                }
+            }
+        }
+
         Group applicantInformationGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W080", 0);
 
         return new ApplicantImpl(
@@ -204,8 +221,9 @@ public class CreditCheckServiceUC implements CreditCheckService {
                 LocalDateUtil.getFromGovernmentId(governmentId),
                 ApplicantParser.INSTANCE.createApplicantNames(applicantInformationGroup),
                 ApplicantParser.INSTANCE.createAddress(applicantInformationGroup),
-                new ArrayList<ApplicantContactMethod>(),
-                income
+                new ArrayList<>(),
+                income,
+                incomePrevious
         );
     }
 

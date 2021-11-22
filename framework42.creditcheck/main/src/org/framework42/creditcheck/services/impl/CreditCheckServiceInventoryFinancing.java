@@ -57,6 +57,7 @@ public class CreditCheckServiceInventoryFinancing implements CreditCheckService 
                         application.getMainApplicant().getApplicantNames(),
                         application.getMainApplicant().getAddress(),
                         application.getMainApplicant().getContactMethods(),
+                        0,
                         0
                 ),
                 application.getCoApplicant(),

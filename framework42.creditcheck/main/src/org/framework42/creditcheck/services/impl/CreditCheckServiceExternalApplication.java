@@ -103,6 +103,7 @@ public class CreditCheckServiceExternalApplication implements CreditCheckService
                         InformationProvider.POPULATION_REGISTERS
                 ),
                 applicant.getContactMethods(),
+                0,
                 0
         );
     }

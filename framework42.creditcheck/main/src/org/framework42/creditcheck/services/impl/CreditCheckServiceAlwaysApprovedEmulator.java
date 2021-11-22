@@ -130,6 +130,7 @@ public class CreditCheckServiceAlwaysApprovedEmulator implements CreditCheckServ
                         InformationProvider.POPULATION_REGISTERS
                 ),
                 applicant.getContactMethods(),
+                (int)(Math.random()*300000)+100000,
                 (int)(Math.random()*300000)+100000
         );
     }
@@ -178,6 +179,7 @@ public class CreditCheckServiceAlwaysApprovedEmulator implements CreditCheckServ
                                     InformationProvider.POPULATION_REGISTERS
                             ),
                             new ArrayList<ApplicantContactMethod>(),
+                            (int) (Math.random() * 300000) + 100000,
                             (int) (Math.random() * 300000) + 100000
                     ),
                     "Created by emulator credit check bureau, no html view available.",
@@ -234,6 +236,7 @@ public class CreditCheckServiceAlwaysApprovedEmulator implements CreditCheckServ
                                 InformationProvider.POPULATION_REGISTERS
                         ),
                         new ArrayList<ApplicantContactMethod>(),
+                        (int)(Math.random()*300000)+100000,
                         (int)(Math.random()*300000)+100000
                 ),
                 "Created by emulator credit check bureau, no html view available."

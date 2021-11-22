@@ -27,4 +27,6 @@ public interface Applicant {
 
     int getAnnualIncome();
 
+    int getAnnualIncomePrevious();
+
 }

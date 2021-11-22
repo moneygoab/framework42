@@ -32,6 +32,8 @@ public class ApplicantImpl implements Applicant {
 
     private final int annualIncome;
 
+    private final int annualIncomePrevious;
+
     public ApplicantImpl(String governmentId, LocalDate birthDate, List<ApplicantContactMethod> contactMethods) {
 
         this.id = 0;
@@ -42,9 +44,10 @@ public class ApplicantImpl implements Applicant {
         this.applicantAddress = new SimpleSecureAddressImpl();
         this.contactMethods = contactMethods;
         this.annualIncome = 0;
+        this.annualIncomePrevious = 0;
     }
 
-    public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, LocalDate birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome) {
+    public ApplicantImpl(int id, String governmentId, BigDecimal riskLevel, LocalDate birthDate, ApplicantNames applicantNames, TrustedAddress applicantAddress, List<ApplicantContactMethod> contactMethods, int annualIncome, int annualIncomePrevious) {
 
         this.id = notNegative(id, "Id can't be of negative value!");
         this.governmentId = notNull(governmentId, "Government id can't be null!");
@@ -57,6 +60,7 @@ public class ApplicantImpl implements Applicant {
         this.contactMethods = notNull(contactMethods, "Contact methods can't be null!");
 
         this.annualIncome = notNegative(annualIncome, "Annual income can't be less then zero!");
+        this.annualIncomePrevious = notNegative(annualIncomePrevious, "Annual income previous can't be less then zero!");
     }
 
     @Override
@@ -93,6 +97,11 @@ public class ApplicantImpl implements Applicant {
     @Override
     public int getAnnualIncome() {
         return annualIncome;
+    }
+
+    @Override
+    public int getAnnualIncomePrevious() {
+        return annualIncomePrevious;
     }
 
     @Override
