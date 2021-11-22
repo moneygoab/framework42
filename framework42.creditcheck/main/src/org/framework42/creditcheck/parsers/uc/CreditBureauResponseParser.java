@@ -78,8 +78,10 @@ public enum CreditBureauResponseParser {
         }
 
         Group incomeGroup = null;
+        List<Group> incomeGroupList = new ArrayList<>();
         try {
             incomeGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W491", 0);
+            incomeGroupList = BaseParser.INSTANCE.findResponseGroupList(reply, "W491", 0);
         } catch(IllegalArgumentException e) {
             logger.debug("No income group found (W491) assuming 0 income.");
         }
@@ -99,6 +101,23 @@ public enum CreditBureauResponseParser {
                 }
             }
         }
+
+        Money declaredIncomePrevious = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance(new Locale("sv", "SE")));
+        if(incomeGroupList.size()> 1) {
+            for(Term term: incomeGroupList.get(1).getTerm()) {
+
+                if("W49122".equals(term.getId())) {
+
+                    String val = term.getValue();
+                    if(val.equalsIgnoreCase("<1")) {
+                        val = "0";
+                    }
+
+                    declaredIncomePrevious = new MoneyImpl(new BigDecimal(Integer.parseInt(val)*1000), Currency.getInstance(new Locale("sv", "SE")));
+                }
+            }
+        }
+
 
         int numberOfDebtCollections = 0;
 
@@ -268,6 +287,7 @@ public enum CreditBureauResponseParser {
                 coApplicantHtmlReply,
                 numberOfCreditChecks,
                 declaredIncome,
+                declaredIncomePrevious,
                 numberOfDebtCollections,
                 sumOfDebtCollections,
                 numberOfPreviousLoans,

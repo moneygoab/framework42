@@ -67,6 +67,7 @@ public class CreditCheckServiceInventoryFinancing implements CreditCheckService 
                         "",
                         0,
                         new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
+                        new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
                         0,
                         new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK")),
                         0,

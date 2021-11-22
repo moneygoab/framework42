@@ -28,6 +28,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
 
     protected final Money declaredIncome;
 
+    protected final Money declaredIncomePrevious;
+
     protected final int numberOfDebtCollections;
 
     protected final Money sumOfDebtCollections;
@@ -48,6 +50,7 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.coApplicantCreditBureauDecisionAsHtml = "";
         this.numberOfCreditChecks = 0;
         this.declaredIncome = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
+        this.declaredIncomePrevious = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
         this.numberOfDebtCollections = 0;
         this.sumOfDebtCollections = new MoneyImpl(BigDecimal.ZERO, Currency.getInstance("SEK"));
         this.numberOfPreviousLoans = 0;
@@ -57,7 +60,8 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     }
 
     public SimpleCreditBureauApplicationResponse(CreditDecision creditBureauDecision, Money recommendedAmount, String creditBureauDecisionAsHtml, String coApplicantCreditBureauDecisionAsHtml,
-                                                 int numberOfCreditChecks, Money declaredIncome, int numberOfDebtCollections, Money sumOfDebtCollections, int numberOfPreviousLoans, Money sumOfPreviousLoans, String reasonCodes, List<CreditCheckEngagements> creditCheckEngagements) {
+                                                 int numberOfCreditChecks, Money declaredIncome, Money declaredIncomePrevious, int numberOfDebtCollections, Money sumOfDebtCollections,
+                                                 int numberOfPreviousLoans, Money sumOfPreviousLoans, String reasonCodes, List<CreditCheckEngagements> creditCheckEngagements) {
 
         this.creditBureauDecision = notNull(creditBureauDecision, "Credit bureau decision can't be null!");
         this.recommendedAmount = notNull(recommendedAmount, "Recommended amount can't be null!");
@@ -65,6 +69,7 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
         this.coApplicantCreditBureauDecisionAsHtml = notNull(coApplicantCreditBureauDecisionAsHtml, "Co-applicant decision as HTML can't be null!");
         this.numberOfCreditChecks = notNegative(numberOfCreditChecks, "Number of credit checks can't be of negative value!");
         this.declaredIncome = notNull(declaredIncome, "Declared income can't be null!");
+        this.declaredIncomePrevious = notNull(declaredIncomePrevious, "Declared income can't be null!");
         this.numberOfDebtCollections = notNegative(numberOfDebtCollections, "Number of debt collections can't be of negative value!");
         this.sumOfDebtCollections = notNull(sumOfDebtCollections, "Sum of debt collections can't be null!");
         this.numberOfPreviousLoans = notNegative(numberOfPreviousLoans, "Number of previous loans can't be of negative value!");
