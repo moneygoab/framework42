@@ -109,6 +109,11 @@ public class SimpleCreditBureauApplicationResponse implements CreditBureauApplic
     }
 
     @Override
+    public Money getDeclaredIncomePrevious() {
+        return declaredIncomePrevious;
+    }
+
+    @Override
     public int getNumberOfDebtCollections() {
         return numberOfDebtCollections;
     }

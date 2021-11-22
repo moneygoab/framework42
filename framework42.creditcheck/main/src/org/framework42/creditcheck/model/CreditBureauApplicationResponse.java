@@ -18,6 +18,8 @@ public interface CreditBureauApplicationResponse {
 
     Money getDeclaredIncome();
 
+    Money getDeclaredIncomePrevious();
+
     int getNumberOfDebtCollections();
 
     Money getSumOfDebtCollections();
