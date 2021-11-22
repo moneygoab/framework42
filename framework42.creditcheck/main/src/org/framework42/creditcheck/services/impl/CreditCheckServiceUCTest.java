@@ -13,6 +13,7 @@ import uc_webservice_test.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreditCheckServiceUCTest implements CreditCheckService {
 
@@ -165,8 +166,10 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
         }
 
         Group incomeGroup = null;
+        List<Group> incomeGroupList = new ArrayList<>();
         try {
             incomeGroup = BaseParserTest.INSTANCE.findResponseGroup(reply, "W495", 0);
+            incomeGroupList = BaseParserTest.INSTANCE.findResponseGroupList(reply, "W495", 0);
         } catch(IllegalArgumentException e) {  }
 
         int income = 0;
@@ -182,6 +185,18 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
             }
         }
 
+        int incomePrevious = 0;
+        if(incomeGroupList.size()>1) {
+
+            for(Term term: incomeGroupList.get(1).getTerm()) {
+
+                if("W49522".equals(term.getId())) {
+
+                    incomePrevious = Integer.parseInt(term.getValue());
+                }
+            }
+        }
+
         Group applicantInformationGroup = BaseParserTest.INSTANCE.findResponseGroup(reply, "W080", 0);
 
         return new ApplicantImpl(
@@ -192,7 +207,8 @@ public class CreditCheckServiceUCTest implements CreditCheckService {
                 ApplicantParserTest.INSTANCE.createApplicantNames(applicantInformationGroup),
                 ApplicantParserTest.INSTANCE.createAddress(applicantInformationGroup),
                 new ArrayList<>(),
-                income
+                income,
+                incomePrevious
         );
     }
 

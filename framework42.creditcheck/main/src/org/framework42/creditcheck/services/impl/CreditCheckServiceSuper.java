@@ -93,7 +93,8 @@ public class CreditCheckServiceSuper implements CreditCheckService {
                                 InformationProvider.POPULATION_REGISTERS
                         ),
                         application.getMainApplicant().getContactMethods(),
-                        internalCreditCheck.getDeclaredIncome()
+                        internalCreditCheck.getDeclaredIncome(),
+                        0
                 ),
                 application.getCoApplicant(),
                 new SimpleCreditBureauApplicationResponse(

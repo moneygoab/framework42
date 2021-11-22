@@ -17,8 +17,10 @@ import org.framework42.address.model.impl.SimpleSecureAddressImpl;;
 import uc_webservice_test.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public enum ApplicantParserTest {
 
@@ -45,8 +47,10 @@ public enum ApplicantParserTest {
         }
 
         Group incomeGroup = null;
+        List<Group> incomeGroupList = new ArrayList<>();
         try {
             incomeGroup = BaseParserTest.INSTANCE.findResponseGroup(reply, "W495", 0);
+            incomeGroupList = BaseParserTest.INSTANCE.findResponseGroupList(reply, "W495", 0);
         } catch(IllegalArgumentException e) { logger.debug("No income group found for applicant "+application.getMainApplicant().getGovernmentId()+", assuming zero income."); }
 
         int income = 0;
@@ -57,7 +61,18 @@ public enum ApplicantParserTest {
                 if("W49522".equals(term.getId())) {
 
                     income = Integer.parseInt(term.getValue());
+                }
+            }
+        }
 
+        int incomePrevious = 0;
+        if(incomeGroupList.size()>1) {
+
+            for(Term term: incomeGroupList.get(1).getTerm()) {
+
+                if("W49522".equals(term.getId())) {
+
+                    incomePrevious = Integer.parseInt(term.getValue());
                 }
             }
         }
@@ -70,7 +85,8 @@ public enum ApplicantParserTest {
                 createApplicantNamesAutomaticCorrection(applicantInformationGroup),
                 createAddress(applicantInformationGroup),
                 application.getMainApplicant().getContactMethods(),
-                income
+                income,
+                incomePrevious
         );
     }
 
@@ -94,8 +110,12 @@ public enum ApplicantParserTest {
             }
 
             Group incomeGroup = null;
+            List<Group> incomeGroupList = new ArrayList<>();
             try {
-                BaseParserTest.INSTANCE.findResponseGroup(reply, "W495", 1);
+
+                incomeGroup = BaseParserTest.INSTANCE.findResponseGroup(reply, "W495", 1);
+                incomeGroupList = BaseParserTest.INSTANCE.findResponseGroupList(reply, "W495", 0);
+
             } catch(IllegalArgumentException e) { logger.debug("No income group found for co-applicant "+application.getCoApplicant().getGovernmentId()+", assuming zero income."); }
 
             int income = 0;
@@ -111,6 +131,18 @@ public enum ApplicantParserTest {
                 }
             }
 
+            int incomePrevious = 0;
+            if(incomeGroupList.size()>1) {
+
+                for(Term term: incomeGroupList.get(1).getTerm()) {
+
+                    if("W49522".equals(term.getId())) {
+
+                        incomePrevious = Integer.parseInt(term.getValue());
+                    }
+                }
+            }
+
             return new ApplicantImpl(
                     application.getCoApplicant().getId(),
                     application.getCoApplicant().getGovernmentId(),
@@ -119,7 +151,8 @@ public enum ApplicantParserTest {
                     createApplicantNamesAutomaticCorrection(applicantInformationGroup),
                     createAddress(applicantInformationGroup),
                     application.getCoApplicant().getContactMethods(),
-                    income
+                    income,
+                    incomePrevious
             );
 
         } catch(IllegalAccessError e) {

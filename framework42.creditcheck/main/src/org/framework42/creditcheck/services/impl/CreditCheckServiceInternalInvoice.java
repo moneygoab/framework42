@@ -13,7 +13,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.Date;
 
 public class CreditCheckServiceInternalInvoice implements CreditCheckService {
 
@@ -41,7 +40,9 @@ public class CreditCheckServiceInternalInvoice implements CreditCheckService {
                             new ApplicantNamesImpl(addressResponse.getFirstName(), addressResponse.getSurname(), addressResponse.getFullName()),
                             new SimpleSecureAddressImpl(0, addressResponse.getAddress().getAddressee(), addressResponse.getAddress().getCareOf(), addressResponse.getAddress().getStreetAddress(), addressResponse.getAddress().getPostalCode(), addressResponse.getAddress().getCity(), addressResponse.getAddress().getCountry(), addressResponse.getAddress().getProvider()),
                             application.getMainApplicant().getContactMethods(),
-                            application.getMainApplicant().getAnnualIncome()),
+                            application.getMainApplicant().getAnnualIncome(),
+                            application.getMainApplicant().getAnnualIncomePrevious()
+                    ),
                     null,
                     new SimpleCreditBureauApplicationResponse(
                             CreditDecision.APPROVED,
