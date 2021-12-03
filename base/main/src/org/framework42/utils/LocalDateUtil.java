@@ -26,6 +26,12 @@ public class LocalDateUtil {
             year += 1900;
         }
 
+        if(month>12||day>31) {
+
+            month = 1;
+            day = 1;
+        }
+
         return LocalDate.of(year, month, day);
     }
 
