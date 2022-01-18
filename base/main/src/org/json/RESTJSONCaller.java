@@ -1,7 +1,8 @@
 package org.json;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.entity.StringEntity;
@@ -554,7 +555,7 @@ public enum RESTJSONCaller {
 
         String auth = username + ":" + password;
 
-        String base64Encode = Base64.encode(auth.getBytes());
+        String base64Encode = Base64.encodeBase64String(auth.getBytes());
         RESTJSONResponse response;
         if (stream == null) {
             response = makePostCall("Authorization", "Basic " + base64Encode, targetURL, postData, contentType);
@@ -865,7 +866,7 @@ public enum RESTJSONCaller {
 
         String auth = username + ":" + password;
 
-        String base64Encode = Base64.encode(auth.getBytes());
+        String base64Encode = Base64.encodeBase64String(auth.getBytes());
 
         RESTJSONResponse response = makePATCHCall("Authorization", "Basic " + base64Encode, targetURL, postData, contentType);
 

@@ -24,7 +24,8 @@ public enum MimeType {
     RITCH_TEXT(MimeCategory.TEXT, "richtext"),
     CSV(MimeCategory.TEXT, "csv"),
     V_CARD(MimeCategory.TEXT, "x-vcard"),
-    XML(MimeCategory.TEXT, "xml");
+    XML(MimeCategory.TEXT, "xml"),
+    XLSX(MimeCategory.TEXT,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
     private MimeCategory category;
 
