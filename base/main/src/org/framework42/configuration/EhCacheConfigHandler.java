@@ -1,7 +1,8 @@
 package org.framework42.configuration;
 
-import net.sf.ehcache.CacheManager;
 import org.apache.log4j.Logger;
+
+import net.sf.ehcache.CacheManager;
 
 import javax.naming.ConfigurationException;
 
@@ -34,7 +35,7 @@ public enum EhCacheConfigHandler {
 
             try{
                 cacheManager = new CacheManager("/tmp/ehcache.xml");
-            } catch(Exception ex) {
+            } catch(Exception ex) { 
                 String mess = "Could not load EhCache configuration, you must place the ehcache.xml file in [classpath]/resources";
                 logger.fatal(mess);
                 throw new ConfigurationException(mess);
