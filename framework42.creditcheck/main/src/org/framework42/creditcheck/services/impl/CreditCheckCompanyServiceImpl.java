@@ -17,6 +17,7 @@ import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.services.CreditCheckCompanyService;
 import org.framework42.model.Country;
 import org.framework42.utils.LocalDateUtil;
+import org.framework42.utils.services.impl.GovernmentIdValidatorImpl;
 import uc_webservice.*;
 
 import java.time.DateTimeException;
@@ -44,9 +45,7 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
         boolean realCompany = true;
 
-        try {
-
-            LocalDateUtil.getFromGovernmentId(governmentId);
+        if(GovernmentIdValidatorImpl.INSTANCE.isPrivatePerson(governmentId)) {
 
             BusinessReport report = createBusinessReport(context, governmentId, createUcCustomer(context));
 
@@ -54,7 +53,7 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
             realCompany = false;
 
-        } catch (DateTimeException e) {
+        } else {
 
             CompanyReport report = createCompanyReport(context, governmentId, createUcCustomer(context));
 

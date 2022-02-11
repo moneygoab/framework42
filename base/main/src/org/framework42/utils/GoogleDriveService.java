@@ -37,10 +37,9 @@ public class GoogleDriveService {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        GoogleDriveService service = new GoogleDriveService("/home/ling/","/home/ling/credentials.json");
+        GoogleDriveService service = new GoogleDriveService("/home/fredrik/","/home/fredrik/Downloads/client_secret_752418483976-6lja79ob44msu5kriom816d4i7sg7vk4.apps.googleusercontent.com.json");
         String folderId = service.createFolder("testFolder");
-        byte[] data = Files.readAllBytes(Paths.get("/home/ling/test.xlsx"));
-        service.createFile(folderId, data,MimeType.XLSX, "test.xlsx");
+
     }
 
 
