@@ -26,7 +26,7 @@ public enum ProviderGetter {
 
         RESTJSONResponse resp = RESTJSONCaller.INSTANCE.makeGetCall("", "", baseURL+"/kreditz/api/v2/providers", "market="+market.getAlpha2Code(), headers);
 
-        if(resp.getStatus()==200 && resp.getObject().has("status") && "true".equalsIgnoreCase(resp.getObject().getString("status"))) {
+        if(resp.getStatus()==200 && resp.getObject().has("status") && resp.getObject().getBoolean("status")) {
 
             JSONArray array = resp.getObject().getJSONArray("data");
 

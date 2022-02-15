@@ -10,7 +10,7 @@
     <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Address framework</name>
+    <groupName>Address framework</groupName>
 
     <build>
         <sourceDirectory>main/src</sourceDirectory>

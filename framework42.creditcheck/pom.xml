@@ -10,7 +10,7 @@
     <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Credit check</name>
+    <groupName>Credit check</groupName>
 
     <build>
         <sourceDirectory>main/src</sourceDirectory>

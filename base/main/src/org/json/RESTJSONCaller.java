@@ -1,7 +1,5 @@
 package org.json;
 
-
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPatch;
@@ -21,7 +19,6 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public enum RESTJSONCaller {
@@ -139,7 +136,6 @@ public enum RESTJSONCaller {
         }
     }
 
-
     public RESTJSONResponse makeSecureGetCall(String consumerKeyParameterName, String consumerKey, String targetURL, String urlParameters,FileInputStream keyStoreFile, String keystorePassword, HashMap<String, String> headers) throws IOException {
 
         URL url;
@@ -254,7 +250,6 @@ public enum RESTJSONCaller {
             }
         }
     }
-
 
     public RESTJSONArrayResponse makeGetArrayCall(String consumerKey, String targetURL) throws IOException {
 
@@ -822,8 +817,6 @@ public enum RESTJSONCaller {
             }
         }
     }
-
-
 
     public RESTJSONResponse makePATCHCallWithBasicAuth(String targetURL, String postData, String contentType, String username, String password, boolean trustedSSL) throws IOException, NoSuchAlgorithmException, KeyManagementException {
 

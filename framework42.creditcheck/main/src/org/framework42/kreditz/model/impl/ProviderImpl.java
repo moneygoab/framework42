@@ -2,18 +2,15 @@ package org.framework42.kreditz.model.impl;
 
 import org.framework42.kreditz.model.CredentialType;
 import org.framework42.kreditz.model.Provider;
-import org.framework42.model.Country;
 import org.json.JSONObject;
 
 public class ProviderImpl implements Provider {
 
     private final int id;
 
-    private final Country market;
-
     private final CredentialType credentialType;
 
-    private final String name;
+    private final String groupName;
 
     private final String displayName;
 
@@ -24,19 +21,17 @@ public class ProviderImpl implements Provider {
     public ProviderImpl(JSONObject obj) {
 
         this.id = obj.getInt("id");
-        this.market = Country.parseFromString(obj.getString("market"));
-        this.credentialType = CredentialType.valueOf(obj.getString("credentials_type"));
-        this.name = obj.getString("name");
+        this.credentialType = obj.has("credentials_type") ? CredentialType.valueOf(obj.getString("credentials_type")) : CredentialType.MOBILE_BANKID;
+        this.groupName = obj.has("group_name") && !"null".equalsIgnoreCase(obj.get("group_name").toString()) ? obj.getString("group_name") : null;
         this.displayName = obj.getString("display_name");
-        this.type = obj.getString("type");
+        this.type = obj.has("type") ? obj.getString("type") : null;
         this.iconURL = obj.getJSONObject("icon").getString("url");
     }
 
-    public ProviderImpl(int id, Country market, CredentialType credentialType, String name, String displayName, String type, String iconURL) {
+    public ProviderImpl(int id, CredentialType credentialType, String groupName, String displayName, String type, String iconURL) {
         this.id = id;
-        this.market = market;
         this.credentialType = credentialType;
-        this.name = name;
+        this.groupName = groupName;
         this.displayName = displayName;
         this.type = type;
         this.iconURL = iconURL;
@@ -48,18 +43,13 @@ public class ProviderImpl implements Provider {
     }
 
     @Override
-    public Country getMarket() {
-        return market;
-    }
-
-    @Override
     public CredentialType getCredentialType() {
         return credentialType;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getGroupName() {
+        return groupName;
     }
 
     @Override

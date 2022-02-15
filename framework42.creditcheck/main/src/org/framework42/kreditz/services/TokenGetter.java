@@ -23,7 +23,7 @@ public enum TokenGetter {
 
         RESTJSONResponse resp = RESTJSONCaller.INSTANCE.makePostCall("", "", baseURL+"/kreditz/api/v2/authorizations/access_token", payload.toString(2), "application/json");
 
-        if(resp.getStatus()==200 && resp.getObject().has("status") && "true".equalsIgnoreCase(resp.getObject().getString("status"))) {
+        if(resp.getStatus()==200 && resp.getObject().has("status") && resp.getObject().getBoolean("status")) {
 
             return new TokenImpl(
                     resp.getObject().getJSONObject("data").getString("access_token"),

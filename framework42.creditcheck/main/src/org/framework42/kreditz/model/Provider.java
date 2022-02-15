@@ -6,11 +6,9 @@ public interface Provider {
 
     int getId();
 
-    Country getMarket();
-
     CredentialType getCredentialType();
 
-    String getName();
+    String getGroupName();
 
     String getDisplayName();
 
