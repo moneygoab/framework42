@@ -25,9 +25,9 @@ public class Test {
 
         String clientSecret = "65f72c6c4036e120512fafa76b4bccb8";
 
-        String accessToken = "Dmt9w6nQSfW2nBiHNhE2beiVte6fVXmWgoNnwgf6mpdVrWdxTS7Hd3wZkZczQTy8U1DdsyacMSL1utmUDZKQHLWPzcBBbtVdVAvPJGXArBzdjKwT1oexLB11A6sCieSj556XsM9HfBciVmUFChwsb3xRENXbswZMoe6Wx6UbY2QDzJSFowQoirob4JYG57emfi3tiFzTTDut2A7jVjNpWnk94s5Js8rmfPAfHR6qG1WCM3KtN56ime3sda";
+        String accessToken = "C5ysKgdK1sbvb1DpMUiEGkvdAUUdHJtUGMJPtkUKxETu5esAN8v2s6KiQfy4ZKe4AfEpTygRp5uN6c38cJ91jtPQv57CiJ2CHAAREMW2vKZfpVggW6aAdceKFGxttvnTi3vhGCaP6Tpc63H4oCqPZ3CZvkW5AEuB24mbJTMd4vp7zivtgPGx5VM2PL41kypw5J6KoP2VFPETSDvLovJxruJ6QSstTgKcQFBKNXFD5aww2nJu1Ahf3aRtai";
 
-        String validTo = "2022-02-16T10:15:03";
+        String validTo = "2022-02-24T09:53:14";
 
 //        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
 
@@ -38,9 +38,9 @@ public class Test {
 
         //System.out.println(providerList.size());
 
-        //String redirecURL = "https://www.moneygo.se";
+  //      String redirecURL = "https://www.moneygo.se";
 
-        //ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", new Locale("sv", "SE"), 19, redirecURL);
+    //    ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL);
 
         RequestPoller.I.poll(baseURL, accessToken, "202202151116");
     }

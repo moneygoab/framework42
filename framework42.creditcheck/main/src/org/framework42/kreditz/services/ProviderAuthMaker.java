@@ -14,7 +14,7 @@ public enum ProviderAuthMaker {
 
     I;
 
-    public void getProviderLink(String baseURL, String accessToken, Country market, String caseId, String longGovernmentId, Locale locale, int providerId, String redirectURL) throws IOException {
+    public void getProviderLink(String baseURL, String accessToken, Country market, String caseId, String longGovernmentId, String name, String email, Locale locale, int providerId, String redirectURL) throws IOException {
 
         HashMap<String,String> headers = new HashMap<>();
 
@@ -31,22 +31,22 @@ public enum ProviderAuthMaker {
         URIBuilder uriBuilder = new URIBuilder();
 
         uriBuilder.setScheme("https");
-        uriBuilder.setHost(baseURL+"/kreditz/api/v2/authorizations/providers_link");
+        uriBuilder.setHost(baseURL.replaceAll("https://", "")+"/kreditz/api/v2/authorizations/providers_link");
 
         uriBuilder.addParameter("market", market.getAlpha2Code())
-        .addParameter("case_id", caseId)
-        .addParameter("ssn_number", longGovernmentId)
-        .addParameter("locale", locale.toString())
-        .addParameter("type", "PRIVATE")
-        .addParameter("provider_id", providerId+"")
-        .addParameter("redirect_uri", redirectURL)
+                .addParameter("case_id", caseId)
+                .addParameter("ssn_number", longGovernmentId)
+                .addParameter("name", name)
+                .addParameter("email", email)
+                .addParameter("locale", locale.toString())
+                .addParameter("type", "PRIVATE")
+                .addParameter("provider_id", providerId+"")
+                .addParameter("redirect_uri", redirectURL)
         ;
 
         try {
 
             RESTJSONResponse resp = RESTJSONCaller.INSTANCE.makeGetCall("", "", uriBuilder.build().toString(), "", headers);
-
-
 
             if (resp.getStatus() == 200 && resp.getObject().has("status") && resp.getObject().getBoolean("status")) {
 
