@@ -8,6 +8,7 @@ import org.framework42.kreditz.services.ProviderGetter;
 import org.framework42.kreditz.services.RequestPoller;
 import org.framework42.kreditz.services.TokenGetter;
 import org.framework42.model.Country;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -42,7 +43,7 @@ public class Test {
 
     //    ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL);
 
-        RequestPoller.I.poll(baseURL, accessToken, "202202151116");
+        //RequestPoller.I.poll(baseURL, accessToken, "202202151116");
     }
 
     //https://vista.kreditz.com/banking_authentication/9b0a0c13-edfa-48b5-81a2-b4d0f2115813?locale=sv_SE&redirect_uri=https%3A%2F%2Fwww.moneygo.se&version=166834703641a4cf8a4f25c4d24da2

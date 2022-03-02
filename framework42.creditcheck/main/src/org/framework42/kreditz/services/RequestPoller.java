@@ -36,14 +36,12 @@ public enum RequestPoller {
 
         if(resp.getStatus()==200 && sucess) {
 
-            System.out.println(resp.getObject().toString(2));
+            return resp.getObject().getJSONObject("data");
 
         } else {
 
             throw new IOException(resp.getObject().toString(2));
         }
-
-        return resp.getObject();
     }
 
 }
