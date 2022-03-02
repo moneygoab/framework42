@@ -1,134 +1,134 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. --><wsdl:definitions xmlns:s1="http://www.uc.se/schemas/ucOrderReply/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.uc.se/schemas/ucOrderRequest/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://webservices.uc.se/UCOrders/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://webservices.uc.se/UCOrders/" name="UCOrders">
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. --><wsdl:definitions xmlns:s1="http://www.uc.se/schemas/ucOrderReply/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.uc.se/schemas/ucOrderRequest/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://webservices.uc.se/UCOrders/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://webservices.uc.se/UCOrders/" groupName="UCOrders">
 
   <!-- version 2.2.2 -->
   <wsdl:types>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ucOrderRequest="http://www.uc.se/schemas/ucOrderRequest/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.uc.se/schemas/ucOrderRequest/">
 
       <!-- main (root) elements that are used by the WSDL of the Web Service -->
-      <xsd:element name="businessReport">
+      <xsd:element groupName="businessReport">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="businessReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
+            <xsd:element groupName="businessReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="product" type="ucOrderRequest:businessProduct" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="product" type="ucOrderRequest:businessProduct" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="companyReport">
+      <xsd:element groupName="companyReport">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="companyReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
+            <xsd:element groupName="companyReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="product" type="ucOrderRequest:companyProduct" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="product" type="ucOrderRequest:companyProduct" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="individualReport">
+      <xsd:element groupName="individualReport">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="individualReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="repositoryaction" type="ucOrderRequest:repositoryaction" minOccurs="0" maxOccurs="1"/>
+            <xsd:element groupName="individualReportQuery" type="ucOrderRequest:reportQuery" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="product" type="ucOrderRequest:individualProduct" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="product" type="ucOrderRequest:individualProduct" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="identityCheck">
+      <xsd:element groupName="identityCheck">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="identifier" type="ucOrderRequest:objectRef" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
-          <xsd:attribute name="worksites" type="xsd:boolean" use="optional"/>
+          <xsd:attribute groupName="identifier" type="ucOrderRequest:objectRef" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="worksites" type="xsd:boolean" use="optional"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="identitySeekFys">
+      <xsd:element groupName="identitySeekFys">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="seekFysiker" type="ucOrderRequest:seekFysiker" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="seekFysiker" type="ucOrderRequest:seekFysiker" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="identifier" type="ucOrderRequest:objectRef" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="identifier" type="ucOrderRequest:objectRef" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="identitySeekJur">
+      <xsd:element groupName="identitySeekJur">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="seekJuridiker" type="ucOrderRequest:seekJuridiker" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="seekJuridiker" type="ucOrderRequest:seekJuridiker" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="identifier" type="ucOrderRequest:objectRef" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="identifier" type="ucOrderRequest:objectRef" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="retrieveLagomReport">
+      <xsd:element groupName="retrieveLagomReport">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="datastoreid" type="ucOrderRequest:lagomDatastoreId" use="required"/>
-          <xsd:attribute name="objectid" type="ucOrderRequest:objectRef" use="required"/>
-          <xsd:attribute name="sequenceNr" type="ucOrderRequest:lagomSequenceNr" use="required"/>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="datastoreid" type="ucOrderRequest:lagomDatastoreId" use="required"/>
+          <xsd:attribute groupName="objectid" type="ucOrderRequest:objectRef" use="required"/>
+          <xsd:attribute groupName="sequenceNr" type="ucOrderRequest:lagomSequenceNr" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="retrieveAnnualReport">
+      <xsd:element groupName="retrieveAnnualReport">
         <xsd:complexType>
           <xsd:sequence minOccurs="1">
-            <xsd:element name="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="retrieveAction" type="ucOrderRequest:retrieveAction" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="annualQuery" type="ucOrderRequest:annualQuery" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="customer" type="ucOrderRequest:customer" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="retrieveAction" type="ucOrderRequest:retrieveAction" minOccurs="1" maxOccurs="1"/>
+            <xsd:element groupName="annualQuery" type="ucOrderRequest:annualQuery" minOccurs="1" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="version" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
       
-  	  <xsd:element name="ping">
+  	  <xsd:element groupName="ping">
 		<xsd:complexType>
-			<xsd:attribute name="lang" type="ucOrderRequest:language" use="optional"/>
-        	<xsd:attribute name="version" type="xsd:string" use="optional"/>				
+			<xsd:attribute groupName="lang" type="ucOrderRequest:language" use="optional"/>
+        	<xsd:attribute groupName="version" type="xsd:string" use="optional"/>
 		</xsd:complexType>
  	 </xsd:element>
 
       <!-- Simple types for this schema -->
 
-      <xsd:simpleType name="amount">
+      <xsd:simpleType groupName="amount">
         <xsd:restriction base="xsd:int">
           <xsd:totalDigits value="18"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="income">
+      <xsd:simpleType groupName="income">
         <xsd:restriction base="ucOrderRequest:amount"/>
       </xsd:simpleType>
 
-      <xsd:simpleType name="creditseekAmount">
+      <xsd:simpleType groupName="creditseekAmount">
         <xsd:restriction base="ucOrderRequest:amount">
           <xsd:totalDigits value="8"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="objectRef1">
+      <xsd:simpleType groupName="objectRef1">
         <xsd:restriction base="xsd:int">
           <xsd:totalDigits value="18"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="objectRef">
+      <xsd:simpleType groupName="objectRef">
         <xsd:restriction base="xsd:string">
           <xsd:pattern value="\d{6}-\d{4}|\d{10}"/>
           <xsd:maxLength value="11"/>
@@ -136,141 +136,141 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="annualReportYear">
+      <xsd:simpleType groupName="annualReportYear">
         <xsd:restriction base="xsd:string">
           <xsd:pattern value="[0-9]{4}"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="userId">
+      <xsd:simpleType groupName="userId">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="5"/>
           <xsd:maxLength value="5"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="nameBase">
+      <xsd:simpleType groupName="nameBase">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="1"/>
           <xsd:maxLength value="80"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="templateName">
+      <xsd:simpleType groupName="templateName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="3"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="name">
+      <xsd:simpleType groupName="groupName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="48"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="seekName">
+      <xsd:simpleType groupName="seekName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="48"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="referenceName">
+      <xsd:simpleType groupName="referenceName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="32"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="orderedbyName">
+      <xsd:simpleType groupName="orderedbyName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="64"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="emailName">
+      <xsd:simpleType groupName="emailName">
         <xsd:restriction base="ucOrderRequest:nameBase">
           <xsd:maxLength value="64"/>
           <xsd:pattern value=".*@.*"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="password">
+      <xsd:simpleType groupName="password">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="2"/>
           <xsd:maxLength value="3"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="streetadress">
+      <xsd:simpleType groupName="streetadress">
         <xsd:restriction base="xsd:string">
           <xsd:maxLength value="30"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="zipcode">
+      <xsd:simpleType groupName="zipcode">
         <xsd:restriction base="xsd:string">
           <xsd:length value="5"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="city">
+      <xsd:simpleType groupName="city">
         <xsd:restriction base="xsd:string">
           <xsd:maxLength value="30"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="countrycode">
+      <xsd:simpleType groupName="countrycode">
         <xsd:restriction base="xsd:int">
           <xsd:totalDigits value="3"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="areacode">
+      <xsd:simpleType groupName="areacode">
         <xsd:restriction base="xsd:int">
           <xsd:totalDigits value="4"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="number">
+      <xsd:simpleType groupName="number">
         <xsd:restriction base="xsd:int">
           <xsd:totalDigits value="10"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="templateEntries">
+      <xsd:simpleType groupName="templateEntries">
         <xsd:restriction base="xsd:int">
           <xsd:minInclusive value="1"/>
           <xsd:maxInclusive value="20"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="creditCode">
+      <xsd:simpleType groupName="creditCode">
         <xsd:restriction base="xsd:string">
           <xsd:length value="2"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="bokslYear">
+      <xsd:simpleType groupName="bokslYear">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="2"/>
           <xsd:maxLength value="2"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="templateValue">
+      <xsd:simpleType groupName="templateValue">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="1"/>
           <xsd:maxLength value="14"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="lagomSequenceNr">
+      <xsd:simpleType groupName="lagomSequenceNr">
         <xsd:restriction base="xsd:int">
           <xsd:minInclusive value="1"/>
           <xsd:maxInclusive value="999"/>
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="lagomDatastoreId">
+      <xsd:simpleType groupName="lagomDatastoreId">
         <xsd:restriction base="xsd:string">
           <xsd:minLength value="3"/>
           <xsd:maxLength value="3"/>
@@ -279,7 +279,7 @@
 
       <!-- enumerations for this schema -->
 
-      <xsd:simpleType name="repositoryaction">
+      <xsd:simpleType groupName="repositoryaction">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="list"/>
           <xsd:enumeration value="new"/>
@@ -287,7 +287,7 @@
         </xsd:restriction>
       </xsd:simpleType>
       
-      <xsd:simpleType name="retrieveAction">
+      <xsd:simpleType groupName="retrieveAction">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="list"/>
           <xsd:enumeration value="latest"/>
@@ -297,7 +297,7 @@
         </xsd:restriction>
       </xsd:simpleType>
       
-      <xsd:simpleType name="override">
+      <xsd:simpleType groupName="override">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="0"/>
           <xsd:enumeration value="1"/>
@@ -306,7 +306,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="language">
+      <xsd:simpleType groupName="language">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="swe"/>
           <xsd:enumeration value="eng"/>
@@ -315,7 +315,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="transactionType">
+      <xsd:simpleType groupName="transactionType">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="1"/>
           <xsd:enumeration value="2"/>
@@ -325,7 +325,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="deliveryMedia">
+      <xsd:simpleType groupName="deliveryMedia">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="P"/>
           <xsd:enumeration value="F"/>
@@ -336,7 +336,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="businessProduct">
+      <xsd:simpleType groupName="businessProduct">
         <xsd:restriction base="xsd:token">
           <xsd:minLength value="1"/>
           <xsd:maxLength value="4"/>
@@ -351,7 +351,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="companyProduct">
+      <xsd:simpleType groupName="companyProduct">
         <xsd:restriction base="xsd:token">
           <xsd:minLength value="1"/>
           <xsd:maxLength value="4"/>
@@ -375,7 +375,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="individualProduct">
+      <xsd:simpleType groupName="individualProduct">
         <xsd:restriction base="xsd:token">
           <xsd:minLength value="1"/>
           <xsd:maxLength value="4"/>
@@ -401,7 +401,7 @@
         </xsd:restriction>
       </xsd:simpleType>
       
-      <xsd:simpleType name="seekCategoryFys">
+      <xsd:simpleType groupName="seekCategoryFys">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="Fysisk person"/>
           <xsd:enumeration value="Kvinna"/>
@@ -409,7 +409,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="seekCategoryJur">
+      <xsd:simpleType groupName="seekCategoryJur">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="Juridisk person"/>
           <xsd:enumeration value="AB"/>
@@ -419,7 +419,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="ledgerYear">
+      <xsd:simpleType groupName="ledgerYear">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="1"/>
           <xsd:enumeration value="2"/>
@@ -431,7 +431,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="amountType">
+      <xsd:simpleType groupName="amountType">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="H"/>
           <xsd:enumeration value="h"/>
@@ -442,7 +442,7 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <xsd:simpleType name="coverageType">
+      <xsd:simpleType groupName="coverageType">
         <xsd:restriction base="xsd:token">
           <xsd:enumeration value="next"/>
           <xsd:enumeration value="future"/>
@@ -452,207 +452,207 @@
 
       <!-- Complex types for this schema -->
 
-      <xsd:complexType name="bokslut">
-        <xsd:attribute name="year" type="ucOrderRequest:bokslYear" use="optional"/>
+      <xsd:complexType groupName="bokslut">
+        <xsd:attribute groupName="year" type="ucOrderRequest:bokslYear" use="optional"/>
       </xsd:complexType>
-      <xsd:complexType name="customer">
+      <xsd:complexType groupName="customer">
         <xsd:sequence>
-          <xsd:element name="userId" type="ucOrderRequest:userId" maxOccurs="1" minOccurs="1"/>
-          <xsd:element name="password" type="ucOrderRequest:password" maxOccurs="1" minOccurs="1"/>
-          <xsd:element name="name" type="ucOrderRequest:name" maxOccurs="1" minOccurs="0"/>
-          <xsd:element name="changePassword" type="xsd:boolean" maxOccurs="1" minOccurs="0"/>
+          <xsd:element groupName="userId" type="ucOrderRequest:userId" maxOccurs="1" minOccurs="1"/>
+          <xsd:element groupName="password" type="ucOrderRequest:password" maxOccurs="1" minOccurs="1"/>
+          <xsd:element groupName="groupName" type="ucOrderRequest:groupName" maxOccurs="1" minOccurs="0"/>
+          <xsd:element groupName="changePassword" type="xsd:boolean" maxOccurs="1" minOccurs="0"/>
         </xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="adress">
+      <xsd:complexType groupName="adress">
         <xsd:sequence>
-          <xsd:element name="streetadress" type="ucOrderRequest:streetadress" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="zipcode" type="ucOrderRequest:zipcode" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="city" type="ucOrderRequest:city" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="country" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="streetadress" type="ucOrderRequest:streetadress" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="zipcode" type="ucOrderRequest:zipcode" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="city" type="ucOrderRequest:city" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="country" type="xsd:string" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="telephone">
+      <xsd:complexType groupName="telephone">
         <xsd:sequence>
-          <xsd:element name="countrycode" type="ucOrderRequest:countrycode" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="areacode" type="ucOrderRequest:areacode" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="number" type="ucOrderRequest:number" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="countrycode" type="ucOrderRequest:countrycode" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="areacode" type="ucOrderRequest:areacode" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="number" type="ucOrderRequest:number" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="templateIncome">
-        <xsd:attribute name="type" type="ucOrderRequest:amountType" use="optional"/>
-        <xsd:attribute name="value" type="ucOrderRequest:income" use="required"/>
+      <xsd:complexType groupName="templateIncome">
+        <xsd:attribute groupName="type" type="ucOrderRequest:amountType" use="optional"/>
+        <xsd:attribute groupName="value" type="ucOrderRequest:income" use="required"/>
       </xsd:complexType>
 
-      <xsd:complexType name="template">
+      <xsd:complexType groupName="template">
         <xsd:sequence>
-          <xsd:element name="income" type="ucOrderRequest:templateIncome" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="coObject" type="ucOrderRequest:objectRef" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="coObjectIncome" type="ucOrderRequest:income" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="templateParams" type="ucOrderRequest:templateParams" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="income" type="ucOrderRequest:templateIncome" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="coObject" type="ucOrderRequest:objectRef" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="coObjectIncome" type="ucOrderRequest:income" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="templateParams" type="ucOrderRequest:templateParams" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
-        <xsd:attribute name="level" type="xsd:string" use="required"/>
+        <xsd:attribute groupName="level" type="xsd:string" use="required"/>
       </xsd:complexType>
 
-      <xsd:complexType name="templateParams">
+      <xsd:complexType groupName="templateParams">
         <xsd:sequence>
-          <xsd:element name="templateparam" type="ucOrderRequest:templateparam" minOccurs="0" maxOccurs="20"/>
-        </xsd:sequence>
-      </xsd:complexType>
-
-      <xsd:complexType name="templateparam">
-        <xsd:attribute name="level" type="ucOrderRequest:templateEntries" use="required"/>
-        <xsd:attribute name="value" type="ucOrderRequest:templateValue" use="required"/>
-      </xsd:complexType>
-
-      <xsd:complexType name="coObjectReference">
-        <xsd:sequence>
-          <xsd:element name="objectReference" type="ucOrderRequest:objectRef"/>
-          <xsd:element name="income" type="ucOrderRequest:income"/>
+          <xsd:element groupName="templateparam" type="ucOrderRequest:templateparam" minOccurs="0" maxOccurs="20"/>
         </xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="emailId">
+      <xsd:complexType groupName="templateparam">
+        <xsd:attribute groupName="level" type="ucOrderRequest:templateEntries" use="required"/>
+        <xsd:attribute groupName="value" type="ucOrderRequest:templateValue" use="required"/>
+      </xsd:complexType>
+
+      <xsd:complexType groupName="coObjectReference">
+        <xsd:sequence>
+          <xsd:element groupName="objectReference" type="ucOrderRequest:objectRef"/>
+          <xsd:element groupName="income" type="ucOrderRequest:income"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType groupName="emailId">
         <xsd:simpleContent>
           <xsd:extension base="xsd:string">
-            <xsd:attribute name="update" type="xsd:string" use="optional"/>
+            <xsd:attribute groupName="update" type="xsd:string" use="optional"/>
           </xsd:extension>
         </xsd:simpleContent>
       </xsd:complexType>
 
-      <xsd:complexType name="reportQuery">
+      <xsd:complexType groupName="reportQuery">
       	<xsd:sequence>
-      		<xsd:element name="object" type="ucOrderRequest:objectRef" minOccurs="1" maxOccurs="1"/>
-      		<xsd:element name="orderedBy" type="ucOrderRequest:name" minOccurs="0" maxOccurs="1"/>
-      		<xsd:element name="reference" type="ucOrderRequest:referenceName" minOccurs="0" maxOccurs="1"/>
-      		<xsd:element name="override" type="ucOrderRequest:override" minOccurs="0" maxOccurs="1"/>
-      		<xsd:element name="creditSeeked" type="ucOrderRequest:creditseekAmount" minOccurs="0" maxOccurs="1"/>
-      		<xsd:element name="template" type="ucOrderRequest:template" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="object" type="ucOrderRequest:objectRef" minOccurs="1" maxOccurs="1"/>
+      		<xsd:element groupName="orderedBy" type="ucOrderRequest:groupName" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="reference" type="ucOrderRequest:referenceName" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="override" type="ucOrderRequest:override" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="creditSeeked" type="ucOrderRequest:creditseekAmount" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="template" type="ucOrderRequest:template" minOccurs="0" maxOccurs="1"/>
       	</xsd:sequence>
-      	<xsd:attribute name="xmlReply" type="xsd:boolean" use="required"/>
-      	<xsd:attribute name="htmlReply" type="xsd:boolean" use="required"/>
-      	<xsd:attribute name="reviewReply" type="xsd:boolean" use="optional"/>
-      	<xsd:attribute name="pdfReply" type="xsd:boolean" use="optional"/>
-      	<xsd:attribute name="extendedDetails" type="xsd:boolean" use="optional"/>
-      	<xsd:attribute name="lang" type="ucOrderRequest:language" use="optional"/>
+      	<xsd:attribute groupName="xmlReply" type="xsd:boolean" use="required"/>
+      	<xsd:attribute groupName="htmlReply" type="xsd:boolean" use="required"/>
+      	<xsd:attribute groupName="reviewReply" type="xsd:boolean" use="optional"/>
+      	<xsd:attribute groupName="pdfReply" type="xsd:boolean" use="optional"/>
+      	<xsd:attribute groupName="extendedDetails" type="xsd:boolean" use="optional"/>
+      	<xsd:attribute groupName="lang" type="ucOrderRequest:language" use="optional"/>
       </xsd:complexType>
 
-      <xsd:complexType name="annualQuery">
+      <xsd:complexType groupName="annualQuery">
       	<xsd:sequence>
-      		<xsd:element name="object" type="ucOrderRequest:objectRef" minOccurs="1" maxOccurs="1"/>
-			<xsd:element name="reportYear" type="ucOrderRequest:annualReportYear" minOccurs="0" maxOccurs="1"/>
+      		<xsd:element groupName="object" type="ucOrderRequest:objectRef" minOccurs="1" maxOccurs="1"/>
+			<xsd:element groupName="reportYear" type="ucOrderRequest:annualReportYear" minOccurs="0" maxOccurs="1"/>
       	</xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="certificates">
-        <xsd:attribute name="order" type="xsd:string" use="optional"/>
+      <xsd:complexType groupName="certificates">
+        <xsd:attribute groupName="order" type="xsd:string" use="optional"/>
       </xsd:complexType>
 
-      <xsd:complexType name="credits">
-        <xsd:attribute name="order" type="xsd:string" use="optional"/>
-        <xsd:attribute name="stock" type="ucOrderRequest:creditCode" use="optional"/>
+      <xsd:complexType groupName="credits">
+        <xsd:attribute groupName="order" type="xsd:string" use="optional"/>
+        <xsd:attribute groupName="stock" type="ucOrderRequest:creditCode" use="optional"/>
       </xsd:complexType>
 
-      <xsd:complexType name="coverage">
+      <xsd:complexType groupName="coverage">
         <xsd:sequence>
-          <xsd:element name="certificates" type="ucOrderRequest:certificates"/>
-          <xsd:element name="credits" type="ucOrderRequest:credits"/>
+          <xsd:element groupName="certificates" type="ucOrderRequest:certificates"/>
+          <xsd:element groupName="credits" type="ucOrderRequest:credits"/>
         </xsd:sequence>
       </xsd:complexType>
 
-      <xsd:complexType name="accountsCoverage">
-        <xsd:attribute name="type" type="ucOrderRequest:coverageType" use="optional"/>
+      <xsd:complexType groupName="accountsCoverage">
+        <xsd:attribute groupName="type" type="ucOrderRequest:coverageType" use="optional"/>
       </xsd:complexType>
 
-      <xsd:complexType name="originalDocuments">
-        <xsd:attribute name="altCertificate" type="xsd:boolean" use="optional"/>
-        <xsd:attribute name="articlesOfAssociation" type="xsd:boolean" use="optional"/>
-        <xsd:attribute name="certificate" type="xsd:boolean" use="optional"/>
-        <xsd:attribute name="shareholdersMeetingProtocol" type="xsd:boolean" use="optional"/>
+      <xsd:complexType groupName="originalDocuments">
+        <xsd:attribute groupName="altCertificate" type="xsd:boolean" use="optional"/>
+        <xsd:attribute groupName="articlesOfAssociation" type="xsd:boolean" use="optional"/>
+        <xsd:attribute groupName="certificate" type="xsd:boolean" use="optional"/>
+        <xsd:attribute groupName="shareholdersMeetingProtocol" type="xsd:boolean" use="optional"/>
       </xsd:complexType>
-      <xsd:complexType name="seekFysiker">
+      <xsd:complexType groupName="seekFysiker">
         <xsd:sequence>
-          <xsd:element name="seekName" type="ucOrderRequest:seekName" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="adress" type="ucOrderRequest:adress" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="seekCategoryFys" type="ucOrderRequest:seekCategoryFys" minOccurs="1" maxOccurs="1"/>
+          <xsd:element groupName="seekName" type="ucOrderRequest:seekName" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="adress" type="ucOrderRequest:adress" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="seekCategoryFys" type="ucOrderRequest:seekCategoryFys" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
-        <xsd:attribute name="xmlReply" type="xsd:boolean" use="required"/>
-        <xsd:attribute name="htmlReply" type="xsd:boolean" use="required"/>
-        <xsd:attribute name="reviewReply" type="xsd:boolean" use="optional"/>
-      </xsd:complexType>
-
-      <xsd:complexType name="seekJuridiker">
-        <xsd:sequence>
-          <xsd:element name="seekName" type="ucOrderRequest:seekName" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="adress" type="ucOrderRequest:adress" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="telephone" type="ucOrderRequest:telephone" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="seekCategoryJur" type="ucOrderRequest:seekCategoryJur" minOccurs="1" maxOccurs="1"/>
-        </xsd:sequence>
-        <xsd:attribute name="xmlReply" type="xsd:boolean" use="required"/>
-        <xsd:attribute name="htmlReply" type="xsd:boolean" use="required"/>
-        <xsd:attribute name="reviewReply" type="xsd:boolean" use="optional"/>
+        <xsd:attribute groupName="xmlReply" type="xsd:boolean" use="required"/>
+        <xsd:attribute groupName="htmlReply" type="xsd:boolean" use="required"/>
+        <xsd:attribute groupName="reviewReply" type="xsd:boolean" use="optional"/>
       </xsd:complexType>
 
-      <xsd:complexType name="extras">
+      <xsd:complexType groupName="seekJuridiker">
         <xsd:sequence>
-          <xsd:element name="telefax" type="ucOrderRequest:telephone" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="emailId" type="ucOrderRequest:emailName" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="object" type="ucOrderRequest:objectRef" minOccurs="0" maxOccurs="1"/>
-          <xsd:element name="bokslut" type="ucOrderRequest:bokslut" minOccurs="1" maxOccurs="5"/>
-          <xsd:element name="coverage" type="ucOrderRequest:coverage"/>
-          <xsd:element name="originalDocuments" type="ucOrderRequest:originalDocuments"/>
-          <xsd:element name="accountsCoverage" type="ucOrderRequest:accountsCoverage"/>
+          <xsd:element groupName="seekName" type="ucOrderRequest:seekName" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="adress" type="ucOrderRequest:adress" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="telephone" type="ucOrderRequest:telephone" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="seekCategoryJur" type="ucOrderRequest:seekCategoryJur" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
-        <xsd:attribute name="deliveryForm" type="ucOrderRequest:deliveryMedia" use="optional"/>
+        <xsd:attribute groupName="xmlReply" type="xsd:boolean" use="required"/>
+        <xsd:attribute groupName="htmlReply" type="xsd:boolean" use="required"/>
+        <xsd:attribute groupName="reviewReply" type="xsd:boolean" use="optional"/>
+      </xsd:complexType>
+
+      <xsd:complexType groupName="extras">
+        <xsd:sequence>
+          <xsd:element groupName="telefax" type="ucOrderRequest:telephone" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="emailId" type="ucOrderRequest:emailName" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="object" type="ucOrderRequest:objectRef" minOccurs="0" maxOccurs="1"/>
+          <xsd:element groupName="bokslut" type="ucOrderRequest:bokslut" minOccurs="1" maxOccurs="5"/>
+          <xsd:element groupName="coverage" type="ucOrderRequest:coverage"/>
+          <xsd:element groupName="originalDocuments" type="ucOrderRequest:originalDocuments"/>
+          <xsd:element groupName="accountsCoverage" type="ucOrderRequest:accountsCoverage"/>
+        </xsd:sequence>
+        <xsd:attribute groupName="deliveryForm" type="ucOrderRequest:deliveryMedia" use="optional"/>
       </xsd:complexType>
 
     </xsd:schema>
 
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ucOrderReply="http://www.uc.se/schemas/ucOrderReply/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.uc.se/schemas/ucOrderReply/">
 
-      <xsd:element name="ucReply">
+      <xsd:element groupName="ucReply">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element ref="ucOrderReply:status" minOccurs="1" maxOccurs="1"/>
             <xsd:element ref="ucOrderReply:ucReport" minOccurs="0" maxOccurs="unbounded"/>
           </xsd:sequence>
-          <xsd:attribute name="version" type="xsd:string" use="optional"/>
+          <xsd:attribute groupName="version" type="xsd:string" use="optional"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="ucReport">
+      <xsd:element groupName="ucReport">
         <xsd:complexType>
           <xsd:sequence>
           	<xsd:element ref="ucOrderReply:xmlReply" minOccurs="0" maxOccurs="1"/>
           	<xsd:element ref="ucOrderReply:htmlReply" minOccurs="0" maxOccurs="1"/>
           	<xsd:element ref="ucOrderReply:reviewReply" minOccurs="0" maxOccurs="1"/>
-          	<xsd:element name="pdfReply" type="xsd:base64Binary" minOccurs="0" maxOccurs="1"/>
+          	<xsd:element groupName="pdfReply" type="xsd:base64Binary" minOccurs="0" maxOccurs="1"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="status">
+      <xsd:element groupName="status">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element ref="ucOrderReply:message" minOccurs="0" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="result" type="xsd:string"/>
+          <xsd:attribute groupName="result" type="xsd:string"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="message">
+      <xsd:element groupName="message">
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="level" type="xsd:string" use="required"/>
+              <xsd:attribute groupName="level" type="xsd:string" use="required"/>
             </xsd:extension>
           </xsd:simpleContent>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="xmlReply">
+      <xsd:element groupName="xmlReply">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element ref="ucOrderReply:reports" minOccurs="1" maxOccurs="unbounded"/>
@@ -661,30 +661,30 @@
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="reports">
+      <xsd:element groupName="reports">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element ref="ucOrderReply:report" minOccurs="1" maxOccurs="unbounded"/>
           </xsd:sequence>
-          <xsd:attribute name="lang" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="lang" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="report">
+      <xsd:element groupName="report">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="1" ref="ucOrderReply:group"/>
           </xsd:sequence>
-          <xsd:attribute name="level" type="xsd:string" use="required"/>
-          <xsd:attribute name="name" type="xsd:string" use="required"/>
-          <xsd:attribute name="styp" type="xsd:string" use="required"/>
-          <xsd:attribute name="index" type="xsd:string" use="required"/>
-          <xsd:attribute name="lagomid" type="xsd:string" use="optional"/>
-          <xsd:attribute name="lagomlopnr" type="xsd:string" use="optional"/>
+          <xsd:attribute groupName="level" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="groupName" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="styp" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="index" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="lagomid" type="xsd:string" use="optional"/>
+          <xsd:attribute groupName="lagomlopnr" type="xsd:string" use="optional"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="lagomlista">
+      <xsd:element groupName="lagomlista">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="1" ref="ucOrderReply:group"/>
@@ -692,109 +692,109 @@
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="group">
+      <xsd:element groupName="group">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element maxOccurs="unbounded" minOccurs="0" ref="ucOrderReply:term"/>
           </xsd:sequence>
-          <xsd:attribute name="level" type="xsd:string" use="required"/>
-          <xsd:attribute name="index" type="xsd:string" use="required"/>
-          <xsd:attribute name="key" type="xsd:string" use="optional"/>
-          <xsd:attribute name="name" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="level" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="index" type="xsd:string" use="required"/>
+          <xsd:attribute groupName="key" type="xsd:string" use="optional"/>
+          <xsd:attribute groupName="groupName" type="xsd:string" use="required"/>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="term">
+      <xsd:element groupName="term">
         <xsd:complexType>
           <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-              <xsd:attribute name="level" type="xsd:string" use="required"/>
+              <xsd:attribute groupName="level" type="xsd:string" use="required"/>
             </xsd:extension>
           </xsd:simpleContent>
         </xsd:complexType>
       </xsd:element>
 
-      <xsd:element name="htmlReply" type="xsd:string"/>
-      <xsd:element name="reviewReply" type="xsd:string"/>
+      <xsd:element groupName="htmlReply" type="xsd:string"/>
+      <xsd:element groupName="reviewReply" type="xsd:string"/>
 
     </xsd:schema>
 
   </wsdl:types>
 
-  <wsdl:message name="businessReport">
-    <wsdl:part name="businessReportRequest" element="s0:businessReport"/>
+  <wsdl:message groupName="businessReport">
+    <wsdl:part groupName="businessReportRequest" element="s0:businessReport"/>
   </wsdl:message>
-  <wsdl:message name="companyReport">
-    <wsdl:part name="companyReportRequest" element="s0:companyReport"/>
+  <wsdl:message groupName="companyReport">
+    <wsdl:part groupName="companyReportRequest" element="s0:companyReport"/>
   </wsdl:message>
-  <wsdl:message name="individualReport">
-    <wsdl:part name="individualReportRequest" element="s0:individualReport"/>
+  <wsdl:message groupName="individualReport">
+    <wsdl:part groupName="individualReportRequest" element="s0:individualReport"/>
   </wsdl:message>
-  <wsdl:message name="identityCheck">
-    <wsdl:part name="identityCheckRequest" element="s0:identityCheck"/>
+  <wsdl:message groupName="identityCheck">
+    <wsdl:part groupName="identityCheckRequest" element="s0:identityCheck"/>
   </wsdl:message>
-  <wsdl:message name="identitySeekFys">
-    <wsdl:part name="identitySeekFysRequest" element="s0:identitySeekFys"/>
+  <wsdl:message groupName="identitySeekFys">
+    <wsdl:part groupName="identitySeekFysRequest" element="s0:identitySeekFys"/>
   </wsdl:message>
-  <wsdl:message name="identitySeekJur">
-    <wsdl:part name="identitySeekJurRequest" element="s0:identitySeekJur"/>
+  <wsdl:message groupName="identitySeekJur">
+    <wsdl:part groupName="identitySeekJurRequest" element="s0:identitySeekJur"/>
   </wsdl:message>
-  <wsdl:message name="retrieveLagomReport">
-    <wsdl:part name="retrieveLagomReportRequest" element="s0:retrieveLagomReport"/>
+  <wsdl:message groupName="retrieveLagomReport">
+    <wsdl:part groupName="retrieveLagomReportRequest" element="s0:retrieveLagomReport"/>
   </wsdl:message>
-  <wsdl:message name="retrieveAnnualReport">
-    <wsdl:part name="retrieveAnnualReportRequest" element="s0:retrieveAnnualReport"/>
+  <wsdl:message groupName="retrieveAnnualReport">
+    <wsdl:part groupName="retrieveAnnualReportRequest" element="s0:retrieveAnnualReport"/>
   </wsdl:message>
-  <wsdl:message name="ping">
-	<wsdl:part name="pingRequest" element="s0:ping"/>
+  <wsdl:message groupName="ping">
+	<wsdl:part groupName="pingRequest" element="s0:ping"/>
   </wsdl:message>
-  <wsdl:message name="ucReportResponse">
-    <wsdl:part name="ucReportResponse" element="s1:ucReply"/>
+  <wsdl:message groupName="ucReportResponse">
+    <wsdl:part groupName="ucReportResponse" element="s1:ucReply"/>
   </wsdl:message>
   
-  <wsdl:portType name="ucOrders">
-    <wsdl:operation name="businessReport">
+  <wsdl:portType groupName="ucOrders">
+    <wsdl:operation groupName="businessReport">
       <wsdl:input message="tns:businessReport"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="companyReport">
+    <wsdl:operation groupName="companyReport">
       <wsdl:input message="tns:companyReport"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="individualReport">
+    <wsdl:operation groupName="individualReport">
       <wsdl:input message="tns:individualReport"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="identityCheck">
+    <wsdl:operation groupName="identityCheck">
       <wsdl:input message="tns:identityCheck"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="identitySeekFys">
+    <wsdl:operation groupName="identitySeekFys">
       <wsdl:input message="tns:identitySeekFys"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="identitySeekJur">
+    <wsdl:operation groupName="identitySeekJur">
       <wsdl:input message="tns:identitySeekJur"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="retrieveLagomReport">
+    <wsdl:operation groupName="retrieveLagomReport">
       <wsdl:input message="tns:retrieveLagomReport"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="retrieveAnnualReport">
+    <wsdl:operation groupName="retrieveAnnualReport">
       <wsdl:input message="tns:retrieveAnnualReport"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
-    <wsdl:operation name="ping">
+    <wsdl:operation groupName="ping">
       <wsdl:input message="tns:ping"/>
       <wsdl:output message="tns:ucReportResponse"/>
     </wsdl:operation>
     
   </wsdl:portType>
 
-  <wsdl:binding name="ucOrderBinding" type="tns:ucOrders">
+  <wsdl:binding groupName="ucOrderBinding" type="tns:ucOrders">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-    <wsdl:operation name="businessReport">
+    <wsdl:operation groupName="businessReport">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/businessReport" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -803,7 +803,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="companyReport">
+    <wsdl:operation groupName="companyReport">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/companyReport" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -812,7 +812,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="individualReport">
+    <wsdl:operation groupName="individualReport">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/individualReport" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -821,7 +821,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="identityCheck">
+    <wsdl:operation groupName="identityCheck">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/identityCheck" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -830,7 +830,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="identitySeekFys">
+    <wsdl:operation groupName="identitySeekFys">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/identitySeekFys" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -839,7 +839,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="identitySeekJur">
+    <wsdl:operation groupName="identitySeekJur">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/identitySeekJur" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -848,7 +848,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="retrieveLagomReport">
+    <wsdl:operation groupName="retrieveLagomReport">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/retrieveLagomReport" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -857,7 +857,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="retrieveAnnualReport">
+    <wsdl:operation groupName="retrieveAnnualReport">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/retrieveAnnualReport" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -866,7 +866,7 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ping">
+    <wsdl:operation groupName="ping">
       <soap:operation soapAction="http://www.uc.se/ws/ucOrders/ping" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -877,8 +877,8 @@
     </wsdl:operation>
   </wsdl:binding>
 
-  <wsdl:service name="UCOrderService">
-    <wsdl:port name="ucOrders2" binding="tns:ucOrderBinding">
+  <wsdl:service groupName="UCOrderService">
+    <wsdl:port groupName="ucOrders2" binding="tns:ucOrderBinding">
       <!--<soap:address location="http://www1.uc.se:80/UCSoapWeb/services/ucOrders2"/>-->
       <soap:address location="https://www1.uc.se/UCSoapWeb/services/ucOrders2"/>
     </wsdl:port>

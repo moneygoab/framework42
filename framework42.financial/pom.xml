@@ -10,7 +10,7 @@
     <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Financial framework</name>
+    <groupName>Financial framework</groupName>
 
     <build>
         <sourceDirectory>main/src</sourceDirectory>
