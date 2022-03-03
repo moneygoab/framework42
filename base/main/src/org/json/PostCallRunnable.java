@@ -93,23 +93,28 @@ public class PostCallRunnable implements Runnable {
 
             } else {
 
-                InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
-                } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
-
                 dao.add(new JSONRetryQueueDataImpl(targetURL, contentType, headers, postData));
+
+                InputStream is = connection.getErrorStream();
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                }
             }
 
         } catch (MalformedURLException e) {

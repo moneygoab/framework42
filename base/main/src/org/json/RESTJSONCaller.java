@@ -97,29 +97,37 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
             }
 
@@ -212,29 +220,37 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
             }
 
@@ -327,36 +343,44 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+
+                        JSONArray arr = new JSONArray();
+                        arr.put(new JSONObject(response.toString()));
+
+                        return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        JSONArray arr = new JSONArray();
+                        arr.put(obj);
+
+                        return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-
-                    JSONArray arr = new JSONArray();
-                    arr.put(new JSONObject(response.toString()));
-
-                    return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    JSONArray arr = new JSONArray();
-                    arr.put(obj);
-
-                    return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    return new RESTJSONArrayResponse(connection.getResponseCode(), new JSONArray());
                 }
             }
 
@@ -450,36 +474,44 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+
+                        JSONArray arr = new JSONArray();
+                        arr.put(new JSONObject(response.toString()));
+
+                        return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        JSONArray arr = new JSONArray();
+                        arr.put(obj);
+
+                        return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-
-                    JSONArray arr = new JSONArray();
-                    arr.put(new JSONObject(response.toString()));
-
-                    return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    JSONArray arr = new JSONArray();
-                    arr.put(obj);
-
-                    return new RESTJSONArrayResponse(connection.getResponseCode(), arr);
+                    return new RESTJSONArrayResponse(connection.getResponseCode(), new JSONArray());
                 }
             }
 
@@ -662,29 +694,37 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
             }
 
@@ -776,29 +816,37 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
             }
 
@@ -1092,29 +1140,37 @@ public enum RESTJSONCaller {
             } else {
 
                 InputStream is = connection.getErrorStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\n');
-                }
-                rd.close();
-                logger.debug(connection.getResponseCode());
-                if (response.length() < 1024) {
-                    logger.debug(response.toString());
+
+                if(is!=null) {
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\n');
+                    }
+                    rd.close();
+                    logger.debug(connection.getResponseCode());
+                    if (response.length() < 1024) {
+                        logger.debug(response.toString());
+                    } else {
+                        logger.debug("Response larger then 1024 bytes, wont print");
+                    }
+
+                    try {
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
+                    } catch (JSONException e) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("status_code", connection.getResponseCode());
+                        obj.put("error_message", response.toString());
+
+                        return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    }
+
                 } else {
-                    logger.debug("Response larger then 1024 bytes, wont print");
-                }
 
-                try {
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject(response.toString()));
-                } catch (JSONException e) {
-                    JSONObject obj = new JSONObject();
-                    obj.put("status_code", connection.getResponseCode());
-                    obj.put("error_message", response.toString());
-
-                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), obj);
+                    return new RESTJSONResponse(connection.getResponseCode(), connection.getHeaderFields(), new JSONObject());
                 }
             }
 
