@@ -12,8 +12,8 @@ public class DefaultUserSession<T extends UserSession> extends UserSession<User>
 
     @Override
     public User getUser() {
-        //TODO: Not return null
-        return null;
+
+        return user;
     }
 
     @Override
