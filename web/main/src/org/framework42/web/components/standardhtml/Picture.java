@@ -50,7 +50,7 @@ public class Picture extends HtmlComponent {
         }
     }
 
-    public final static class Builder extends EventComponentBuilder<Picture> {
+    public static class Builder extends EventComponentBuilder<Picture> {
 
         private final Image fallBackImage;
 
