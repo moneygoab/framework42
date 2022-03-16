@@ -30,18 +30,18 @@ public class Test {
 
         String validTo = "2022-03-16T15:12:10";
 
-        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
+//        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
 
-        System.out.println(token.getAccessToken());
+//        System.out.println(token.getAccessToken());
 
 
         //List<Provider> providerList = ProviderGetter.I.getProviderList(baseURL, accessToken, Country.SWEDEN);
 
         //System.out.println(providerList.size());
 
-  //      String redirecURL = "https://www.moneygo.se";
+        String redirecURL = "https://www.moneygo.se";
 
-    //    ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL);
+        System.out.println("Redir URL: "+ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL));
 
         //RequestPoller.I.poll(baseURL, accessToken, "202202151116");
     }

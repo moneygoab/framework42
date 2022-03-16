@@ -14,7 +14,7 @@ public enum ProviderAuthMaker {
 
     I;
 
-    public void getProviderLink(String baseURL, String accessToken, Country market, String caseId, String longGovernmentId, String name, String email, Locale locale, int providerId, String redirectURL) throws IOException {
+    public String getProviderLink(String baseURL, String accessToken, Country market, String caseId, String longGovernmentId, String name, String email, Locale locale, int providerId, String redirectURL) throws IOException {
 
         HashMap<String,String> headers = new HashMap<>();
 
@@ -48,9 +48,9 @@ public enum ProviderAuthMaker {
 
             RESTJSONResponse resp = RESTJSONCaller.INSTANCE.makeGetCall("", "", uriBuilder.build().toString(), "", headers);
 
-            if (resp.getStatus() == 200 && resp.getObject().has("status") && resp.getObject().getBoolean("status")) {
+            if (resp!=null && resp.getStatus() == 200 && resp.getObject().has("status") && resp.getObject().getBoolean("status")) {
 
-                System.out.println(resp.getObject().toString());
+                return resp.getObject().getJSONObject("data").getString("link");
 
             } else {
 
