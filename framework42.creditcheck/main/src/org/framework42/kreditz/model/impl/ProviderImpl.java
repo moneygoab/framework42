@@ -38,6 +38,11 @@ public class ProviderImpl implements Provider {
     }
 
     @Override
+    public int compareTo(Object o) {
+        return displayName.compareTo(((Provider)o).getDisplayName());
+    }
+
+    @Override
     public int getId() {
         return id;
     }

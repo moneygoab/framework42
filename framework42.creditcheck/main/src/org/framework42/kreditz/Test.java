@@ -26,13 +26,13 @@ public class Test {
 
         String clientSecret = "65f72c6c4036e120512fafa76b4bccb8";
 
-        String accessToken = "C5ysKgdK1sbvb1DpMUiEGkvdAUUdHJtUGMJPtkUKxETu5esAN8v2s6KiQfy4ZKe4AfEpTygRp5uN6c38cJ91jtPQv57CiJ2CHAAREMW2vKZfpVggW6aAdceKFGxttvnTi3vhGCaP6Tpc63H4oCqPZ3CZvkW5AEuB24mbJTMd4vp7zivtgPGx5VM2PL41kypw5J6KoP2VFPETSDvLovJxruJ6QSstTgKcQFBKNXFD5aww2nJu1Ahf3aRtai";
+        String accessToken = "Xr3hEBktMSZdbaNoTNyqL9cNAPJkTrsHWjwBJnNdjKsGDSEXb9R549wGfuUT1dSHXsUpdGz7VoAtQZtDyKq2F74AqfgYkP73aQATP3iPVJDJkkUSYdDFfRy7zPYmBBVcrtgD9v55w9q76Xtfd81riE1ASdR6M8ci76FQN7ua7YKdNKH5WZhYSAg1WRA7FAzmi37HcSFcawcNSHj4GZfEE3WmyuhBT2jSmXfrosUPr4i1T7Hrn7G6D1f4ey";
 
-        String validTo = "2022-02-24T09:53:14";
+        String validTo = "2022-03-16T15:12:10";
 
-//        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
+        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
 
-//        System.out.println(token.getAccessToken());
+        System.out.println(token.getAccessToken());
 
 
         //List<Provider> providerList = ProviderGetter.I.getProviderList(baseURL, accessToken, Country.SWEDEN);
