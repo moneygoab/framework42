@@ -26,22 +26,22 @@ public class Test {
 
         String clientSecret = "65f72c6c4036e120512fafa76b4bccb8";
 
-        String accessToken = "Xr3hEBktMSZdbaNoTNyqL9cNAPJkTrsHWjwBJnNdjKsGDSEXb9R549wGfuUT1dSHXsUpdGz7VoAtQZtDyKq2F74AqfgYkP73aQATP3iPVJDJkkUSYdDFfRy7zPYmBBVcrtgD9v55w9q76Xtfd81riE1ASdR6M8ci76FQN7ua7YKdNKH5WZhYSAg1WRA7FAzmi37HcSFcawcNSHj4GZfEE3WmyuhBT2jSmXfrosUPr4i1T7Hrn7G6D1f4ey";
+        String accessToken = "HBaS8SX4CVbKMC3eX5n82QZZeioxkCnvSZVgEDqQfpjuxbLSX2F3x8LxeDoCEabGH2vRbuKq2FB4Fxgit9ZHoGmXHnhqUKrog94BG82atRGc7CjdhHf5xnMqYAGYumZrTDwp4qzFfr8xdH3QNkPhAmRbYuijXTSrKnwvXr2f5rxykbuTYxrprUDPZcb6pftq1eo2679jgyAVBV9SJPXLGm9bHw9Ceg9tDD3CDWzuAv8CT2T6siVJuZN9Ui";
 
-        String validTo = "2022-03-16T15:12:10";
+        String validTo = "2022-03-19T09:31:28";
 
-//        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
+        Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
 
-//        System.out.println(token.getAccessToken());
+        System.out.println(token.getAccessToken());
 
 
         //List<Provider> providerList = ProviderGetter.I.getProviderList(baseURL, accessToken, Country.SWEDEN);
 
         //System.out.println(providerList.size());
 
-        String redirecURL = "https://www.moneygo.se";
+//        String redirecURL = "https://www.moneygo.se";
 
-        System.out.println("Redir URL: "+ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL));
+//        System.out.println("Redir URL: "+ProviderAuthMaker.I.getProviderLink(baseURL, accessToken, Country.SWEDEN, "202202151116", "197511133519", "Test Fredrik", "fredrik.gustavsson@moneygo.se", new Locale("sv", "SE"), 19, redirecURL));
 
         //RequestPoller.I.poll(baseURL, accessToken, "202202151116");
     }
