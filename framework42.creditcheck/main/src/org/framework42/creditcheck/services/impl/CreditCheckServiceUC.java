@@ -21,7 +21,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
 
     public static void main(String[] args) throws Exception {
 
-        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "K4M22", "X0", "UC", "3", "MPL", false, false);
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "K4M22", "X0", "UC", "3", "MPL", false, false, false);
 
         Applicant applicant = new ApplicantImpl("6602090455", LocalDateUtil.getFromGovernmentId("6602090455"), new ArrayList<>());
 
@@ -61,7 +61,7 @@ public class CreditCheckServiceUC implements CreditCheckService {
             template.setCoObject(application.getCoApplicant().getGovernmentId());
         }
 
-        if(application.getMainApplicant().getAnnualIncome() != 0) {
+        if(application.getMainApplicant().getAnnualIncome() != 0 && context.isSendAnnualIncome()) {
             TemplateIncome income = new TemplateIncome();
             income.setType("W13137");
             income.setValue(application.getMainApplicant().getAnnualIncome());

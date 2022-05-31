@@ -27,7 +27,9 @@ public class CreditBureauContextImpl implements CreditBureauContext {
 
     private final boolean sendNewTotalDebtCoApplicant;
 
-    public CreditBureauContextImpl(int id, CreditBureau creditBureau, String description, String userId, String password, String name, String policyProduct, String policyRules, boolean sendNewTotalDebt, boolean sendNewTotalDebtCoApplicant) {
+    private final boolean sendAnnualIncome;
+
+    public CreditBureauContextImpl(int id, CreditBureau creditBureau, String description, String userId, String password, String name, String policyProduct, String policyRules, boolean sendNewTotalDebt, boolean sendNewTotalDebtCoApplicant, boolean sendAnnualIncome) {
 
         this.id = id;
         this.creditBureau = notNull(creditBureau, "Credit bureau can't be null!");
@@ -39,6 +41,7 @@ public class CreditBureauContextImpl implements CreditBureauContext {
         this.policyRules = notNull(policyRules, "Policy rules can't be null!");
         this.sendNewTotalDebt = notNull(sendNewTotalDebt, "Send new total debt can't be null!");
         this.sendNewTotalDebtCoApplicant = notNull(sendNewTotalDebtCoApplicant, "Send new total debt co applicant can't be null!");
+        this.sendAnnualIncome = notNull(sendAnnualIncome, "Send annual income cant't be null!");
     }
 
     @Override
@@ -91,4 +94,8 @@ public class CreditBureauContextImpl implements CreditBureauContext {
         return sendNewTotalDebtCoApplicant;
     }
 
+    @Override
+    public boolean isSendAnnualIncome() {
+        return sendAnnualIncome;
+    }
 }

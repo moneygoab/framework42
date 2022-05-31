@@ -26,7 +26,7 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
     public static void main(String[] args) throws Exception {
 
-        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false);
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false, false);
 
         CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "8212119153");
 

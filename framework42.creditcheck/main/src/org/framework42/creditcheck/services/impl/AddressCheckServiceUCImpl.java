@@ -18,7 +18,7 @@ public class AddressCheckServiceUCImpl extends ProxyService<AddressCheckServiceU
 
         //CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false);
 
-        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "KOYT2", "X0", "UC", "3", "MGS", false, false);
+        CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "KOYT2", "X0", "UC", "3", "MGS", false, false, false);
 
         new AddressCheckServiceUCImpl().getAddress(context, "7511133519");
     }
