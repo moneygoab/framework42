@@ -12,6 +12,11 @@ public enum RequestPoller {
 
     I;
 
+    public static void main(String[] args) throws Exception {
+
+        System.out.println(RequestPoller.I.poll("https://vista.kreditz.com/core", "hRo4PnTuNdZh3QRQRi7H76Taxn4H3S6ZEuB3FLZ9y9HWifwsCu39F9anB8cwS12uQoZPCpTL3UbqFSnYka8eEDvfRc3YkzfTYKJApP7mJQ52MAjrQFCZ11SffJgbzYAk5r3qBDvKoAtgVh5TueUCE1gqRnBZVHhYR3o4JspqkKvvVpMBpxGMoqvGC8Zi8gdGVQsFkCKFeUZyuYi6A2LPcpVH1XaJhHuccDQhfi4MFfV66xGcCF71GnkW77", "769855626176f840052ecab8c64a91bfff83e7bc34cfa6357fb15d7c763c0d74_20220509112550").toString(2));
+    }
+
     public JSONObject poll(String baseURL, String accessToken, String caseId) throws IOException {
 
         HashMap<String,String> headers = new HashMap<>();

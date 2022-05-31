@@ -23,9 +23,9 @@ public class CreditCheckServiceExternalApplication implements CreditCheckService
 
     private final static AddressCheckService synaAddress = new AddressCheckServiceSynaImpl();
 
-    private final static CreditBureauContext ucContext = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "KOYT2", "X0", "UC", "3", "MGS", false, false);
+    private final static CreditBureauContext ucContext = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "KOYT2", "X0", "UC", "3", "MGS", false, false, false);
 
-    private final static CreditBureauContext synaContext = new CreditBureauContextImpl(0, CreditBureau.SYNA, "Syna", "500317", "apigo", "Syna Adressfråga", "policy", "46.21.111.160", false, false);
+    private final static CreditBureauContext synaContext = new CreditBureauContextImpl(0, CreditBureau.SYNA, "Syna", "500317", "apigo", "Syna Adressfråga", "policy", "46.21.111.160", false, false, false);
 
     @Override
     public CreditBureauApplication makeApplication(CreditBureauContext context, CreditBureauApplication application) throws CreditCheckException {
