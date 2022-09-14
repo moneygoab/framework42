@@ -70,7 +70,7 @@ public class CreditCheckServiceUCMikro implements CreditCheckService {
 
         ReportQuery reportQuery = new ReportQuery();
         reportQuery.setHtmlReply(true);
-        reportQuery.setCreditSeeked(application.getAppliedAmount().getAmount().intValue());
+        //reportQuery.setCreditSeeked(application.getAppliedAmount().getAmount().intValue());
         reportQuery.setObject(application.getMainApplicant().getGovernmentId());
         reportQuery.setTemplate(template);
         reportQuery.setXmlReply(true);
