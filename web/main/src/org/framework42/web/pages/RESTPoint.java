@@ -67,6 +67,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             //resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal("RESTPoint.doGet - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
+            logger.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -75,6 +76,8 @@ public abstract class RESTPoint extends HttpServlet {
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.debug("Receiving options call to: "+req.getRequestURI());
 
         resp.setCharacterEncoding("UTF-8");
 
@@ -98,6 +101,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal("RESTPoint.doOptions - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
+            logger.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -106,6 +110,8 @@ public abstract class RESTPoint extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.debug("Receiving post call to: "+req.getRequestURI());
 
         resp.setCharacterEncoding("UTF-8");
 
@@ -136,6 +142,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal("RESTPoint.doPost - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
+            logger.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -144,6 +151,8 @@ public abstract class RESTPoint extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.debug("Receiving put call to: "+req.getRequestURI());
 
         resp.setCharacterEncoding("UTF-8");
 
@@ -168,6 +177,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal("RESTPoint.doPut - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
+            logger.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -176,6 +186,8 @@ public abstract class RESTPoint extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.debug("Receiving delete call to: "+req.getRequestURI());
 
         resp.setCharacterEncoding("UTF-8");
 
@@ -200,6 +212,7 @@ public abstract class RESTPoint extends HttpServlet {
 
             resp.getOutputStream().println("Unhandled internal error, can't give proper error feedback.");
             logger.fatal("RESTPoint.doDelete - "+req.getRequestURI()+" - "+e.getClass().getName()+" - "+e.getMessage());
+            logger.error(e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unhandled internal error, can't give proper error feedback.");
         }
     }
@@ -343,35 +356,43 @@ public abstract class RESTPoint extends HttpServlet {
 
     private void logInData(HttpServletRequest req) {
 
-        if(logger.getLevel()== Level.DEBUG) {
+        try {
 
-            logger.debug("***********************************************");
-            logger.debug("Call from: " + req.getRemoteAddr() + ":" + req.getRemoteHost() + ":" + req.getRemotePort());
-            logger.debug("Call to: " + req.getRequestURI());
-            logger.debug("Call method: " + req.getMethod());
+            if (logger.getLevel() == Level.DEBUG) {
 
-            logger.debug("Headers");
-            logger.debug("-------------------");
+                logger.debug("***********************************************");
+                logger.debug("Call from: " + req.getRemoteAddr() + ":" + req.getRemoteHost() + ":" + req.getRemotePort());
+                logger.debug("Call to: " + req.getRequestURI());
+                logger.debug("Call method: " + req.getMethod());
 
-            Enumeration headerNames = req.getHeaderNames();
-            if (headerNames != null) {
-                while (headerNames.hasMoreElements()) {
+                logger.debug("Headers");
+                logger.debug("-------------------");
 
-                    String head = headerNames.nextElement().toString();
-                    logger.debug("'" + head + "':'" + req.getHeader(head) + "'");
+                Enumeration headerNames = req.getHeaderNames();
+                if (headerNames != null) {
+                    while (headerNames.hasMoreElements()) {
+
+                        String head = headerNames.nextElement().toString();
+                        logger.debug("'" + head + "':'" + req.getHeader(head) + "'");
+                    }
                 }
+
+                logger.debug("Query parameters");
+                logger.debug("-------------------");
+                if (req.getQueryString() == null || req.getQueryString().length() == 0) {
+                    logger.debug("No query parameters present.");
+                } else {
+                    logger.debug(req.getQueryString());
+                }
+
+                logger.debug("***********************************************");
+                logger.debug(" ");
             }
 
-            logger.debug("Query parameters");
-            logger.debug("-------------------");
-            if (req.getQueryString() == null || req.getQueryString().length() == 0) {
-                logger.debug("No query parameters present.");
-            } else {
-                logger.debug(req.getQueryString());
-            }
+        } catch (Exception e) {
 
-            logger.debug("***********************************************");
-            logger.debug(" ");
+            logger.debug("Problem with logging in data");
+            logger.debug(e);
         }
     }
 
