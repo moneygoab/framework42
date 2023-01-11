@@ -850,7 +850,7 @@ public enum RESTJSONCaller {
                 }
             }
 
-        } catch (MalformedURLException | NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException | KeyManagementException | CertificateException e) {
+        } catch (MalformedURLException | NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException | KeyManagementException | CertificateException | SSLHandshakeException e) {
 
             e.printStackTrace();
             JSONObject obj = new JSONObject();

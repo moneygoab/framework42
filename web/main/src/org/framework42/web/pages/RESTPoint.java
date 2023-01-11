@@ -231,6 +231,17 @@ public abstract class RESTPoint extends HttpServlet {
                 logger.debug("Error consumer key parameter missing "+consumerKeyParameterName);
                 throw new StopServletExecutionException();
 
+            } else if(consumerKeyParameterName==null) {
+
+                logger.debug("Not Consumer Key defined and are not needed");
+                consumer = getConsumer(test, req, "", APIRequestType.GET);
+
+                if (!consumer.isAuthenticated()) {
+
+                    resp.sendError(HttpServletResponse.SC_FORBIDDEN, RESTErrorMaker.INSTANCE.addError(INVALID_CONSUMER_KEY, responseType));
+                    throw new StopServletExecutionException();
+                }
+
             } else if (req.getHeader(consumerKeyParameterName) == null) {
 
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, RESTErrorMaker.INSTANCE.addError(MISSING_CONSUMER_KEY, responseType));

@@ -1,7 +1,6 @@
 package org.framework42.creditcheck.services.impl;
 
 import org.apache.log4j.Logger;
-import org.framework42.address.model.AddressType;
 import org.framework42.address.model.InformationProvider;
 import org.framework42.address.model.PostalCodeFormat;
 import org.framework42.address.model.impl.PostalCodeImpl;
@@ -16,7 +15,6 @@ import org.framework42.creditcheck.model.impl.CreditBureauContextImpl;
 import org.framework42.creditcheck.parsers.uc.BaseParser;
 import org.framework42.creditcheck.services.CreditCheckCompanyService;
 import org.framework42.model.Country;
-import org.framework42.utils.LocalDateUtil;
 import org.framework42.utils.services.impl.GovernmentIdValidatorImpl;
 import uc_webservice.*;
 
