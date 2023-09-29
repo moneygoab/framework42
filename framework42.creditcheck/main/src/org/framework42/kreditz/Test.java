@@ -3,10 +3,7 @@ package org.framework42.kreditz;
 import org.apache.http.client.utils.URIBuilder;
 import org.framework42.kreditz.model.Provider;
 import org.framework42.kreditz.model.Token;
-import org.framework42.kreditz.services.ProviderAuthMaker;
-import org.framework42.kreditz.services.ProviderGetter;
-import org.framework42.kreditz.services.RequestPoller;
-import org.framework42.kreditz.services.TokenGetter;
+import org.framework42.kreditz.services.*;
 import org.framework42.model.Country;
 import org.framework42.utils.services.impl.GovernmentIdValidatorImpl;
 import org.json.JSONObject;
@@ -35,7 +32,7 @@ public class Test {
 
         System.out.println(token.getAccessToken());
 
-        System.out.println(GovernmentIdValidatorImpl.INSTANCE.isPrivatePerson("5562588904"));
+        System.out.println(HealthChecker.I.doHealthCheck(baseURL, token.getAccessToken(), Country.SWEDEN));
 
 
         //List<Provider> providerList = ProviderGetter.I.getProviderList(baseURL, accessToken, Country.SWEDEN);
