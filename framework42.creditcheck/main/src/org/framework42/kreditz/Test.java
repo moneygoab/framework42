@@ -8,6 +8,7 @@ import org.framework42.kreditz.services.ProviderGetter;
 import org.framework42.kreditz.services.RequestPoller;
 import org.framework42.kreditz.services.TokenGetter;
 import org.framework42.model.Country;
+import org.framework42.utils.services.impl.GovernmentIdValidatorImpl;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class Test {
         Token token = TokenGetter.I.createAccessToken(baseURL, clientID, clientSecret);
 
         System.out.println(token.getAccessToken());
+
+        System.out.println(GovernmentIdValidatorImpl.INSTANCE.isPrivatePerson("5562588904"));
 
 
         //List<Provider> providerList = ProviderGetter.I.getProviderList(baseURL, accessToken, Country.SWEDEN);

@@ -18,15 +18,13 @@ import org.framework42.model.Country;
 import org.framework42.utils.services.impl.GovernmentIdValidatorImpl;
 import uc_webservice.*;
 
-import java.time.DateTimeException;
-
 public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService {
 
     public static void main(String[] args) throws Exception {
 
         CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false, false);
 
-        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "8212119153");
+        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5562588904");
 
         System.out.println(resp.getCreditCheckAsHtml());
     }
@@ -120,6 +118,17 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
             Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W010", 0);
 
+            String streetAddress = "";
+
+            try {
+
+                BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01081");
+
+            } catch (IllegalArgumentException e) {
+
+                Logger.getLogger("org.framework42.creditcheck").error(e);
+            }
+
             return new CreditBureauCompanyApplicationResponseImpl(
                     governmentId,
                     BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01080"),
@@ -129,7 +138,7 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
                             0,
                             BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01080"),
                             "",
-                            BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01081"),
+                            streetAddress,
                             new PostalCodeImpl(PostalCodeFormat.getByCountry(Country.SWEDEN), BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01003")),
                             BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01082"),
                             Country.SWEDEN,
