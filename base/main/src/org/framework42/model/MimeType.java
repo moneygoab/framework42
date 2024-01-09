@@ -25,6 +25,7 @@ public enum MimeType {
     CSV(MimeCategory.TEXT, "csv"),
     V_CARD(MimeCategory.TEXT, "x-vcard"),
     XML(MimeCategory.TEXT, "xml"),
+    NDA(MimeCategory.FILE, "nda"),
     XLSX(MimeCategory.TEXT,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
     private MimeCategory category;
@@ -47,6 +48,7 @@ public enum MimeType {
 
     @Override
     public String toString() {
-        return category + "/" + mimeType;
+
+        return category==MimeCategory.FILE? category+mimeType : category + "/" + mimeType;
     }
 }

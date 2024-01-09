@@ -24,7 +24,8 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
         CreditBureauContext context = new CreditBureauContextImpl(0, CreditBureau.UC, "UC", "D6AZ3", "X0", "UC", "410", "GOH", false, false, false);
 
-        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5562588904");
+        //CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5562588904");
+        CreditBureauCompanyApplicationResponse resp = new CreditCheckCompanyServiceImpl().makeApplication(context, "5594311606");
 
         System.out.println(resp.getCreditCheckAsHtml());
     }
@@ -118,15 +119,26 @@ public class CreditCheckCompanyServiceImpl implements CreditCheckCompanyService 
 
             Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W010", 0);
 
+            //Group decisionGroup = BaseParser.INSTANCE.findResponseGroup(reply, "W010", 0);
+
             String streetAddress = "";
 
             try {
 
-                BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01081");
+                streetAddress = BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01081");
 
             } catch (IllegalArgumentException e) {
 
                 Logger.getLogger("org.framework42.creditcheck").error(e);
+
+                try {
+
+                    streetAddress = BaseParser.INSTANCE.getValueOfTerm(decisionGroup.getTerm(), "W01018");
+
+                } catch (IllegalArgumentException ex) {
+
+                    Logger.getLogger("org.framework42.creditcheck").error(ex);
+                }
             }
 
             return new CreditBureauCompanyApplicationResponseImpl(
