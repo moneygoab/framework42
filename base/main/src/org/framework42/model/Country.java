@@ -67,9 +67,13 @@ public enum Country {
     IRAQ("ar", "IQ", "IRQ", 368, "IQD"),
     SYRIA("ar", "SY", "SYR", 760, "SYP"),
     IRAN("fa", "IR", "IRN", 364, "IRR"),
+    EGYPT("eg", "EG", "EGY", 818, "EGY"),
 
     //AFRICA
     GHANA("en", "GH", "GHA", 288, "GHS"),
+    LIBYA("ly", "LY", "LBY", 434, "LBY"),
+    TUNISIA("tn", "TN", "TUN", 788, "TUN"),
+    MAROCCO("ma", "MA", "MAR", 504, "MAR"),
 
     //ASIA
     CHINA("zh", "CN", "CHN", 156, "CNY"),
